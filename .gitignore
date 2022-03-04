@@ -1,0 +1,59 @@
+#======= theme's gitignore file===========
+#/node_modules
+#/public/hot
+#/public/storage
+#/public/js
+#/public/css
+#/public/images
+#/public/fonts
+#/public/vendors
+#/public/json 
+materialize-shell-scripts
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+supervisord.log
+supervisord.pid
+composer.lock
+package-lock.json
+#====================
+
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+
+# Laravel 5 & Lumen specific with changed public path
+public_html/storage
+public_html/hot
+
+storage/*.key
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+
+#=======Other gitignore files or directorys======
+/_DATA/
+/_old/
+*.zip
+*.pdf
+*.rar
+
+
+package-lock.json
+public/mix-manifest.json
+composer.lock
