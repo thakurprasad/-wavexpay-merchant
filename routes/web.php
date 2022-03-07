@@ -6,86 +6,51 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
- */
-
-// Page Route
-Route::middleware(['auth'])->group(function () {
-Route::get('/', [PageController::class, 'blankPage']);
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RefundController;
+use App\Http\Controllers\BatchController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SettlementController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentLinkController;
+use App\Http\Controllers\PaymentPageController;
+use App\Http\Controllers\ChargeBackController;
+use App\Http\Controllers\ReportController;
 
 
 
-Route::get('/page-blank', [PageController::class, 'blankPage']);
-Route::get('/page-collapse', [PageController::class, 'collapsePage']);
-
-Route::get('/page-blank', [PageController::class, 'blankPage']);
-Route::get('/page-collapse', [PageController::class, 'collapsePage']);
-Route::get('/merchant-profile', [PageController::class, 'merchantProfile']);
-
-    Route::get('/', [PageController::class, 'blankPage']);
-    Route::get('/page-blank', [PageController::class, 'blankPage']);
-    Route::get('/page-collapse', [PageController::class, 'collapsePage']);
-
-// locale route
-    Route::get('lang/{locale}', [LanguageController::class, 'swap']);
-});
 Auth::routes(['verify' => true]);
 
-
 Route::group(['middleware' => ['auth']], function() {
-    /**
-     * Role 
-     * GET: roles, roles/create, roles/{id}/edit
-     * */
-    Route::resource('roles', RoleController::class);
-    /*Route::group(['prefix'=>'/roles'], function() {
-        Route::get('/', [RoleController::class, 'index']);
-        Route::get('/create', [RoleController::class, 'create']);
-        Route::post('/add', [RoleController::class, 'add']);
-        Route::get('/edit/{id}', [RoleController::class, 'edit']);
-        Route::post('/update/{id}', [RoleController::class, 'update']);
-    });*/
+    Route::get('/my-account', [PageController::class, 'merchantProfile']);
+    Route::get('/', [PageController::class, 'blankPage']);
 
-    /**
-     * Users
-     * 
-     * */
-    Route::resource('users', UserController::class);
-    Route::get('users/list',  [UserController::class, 'index'] );
-    /* Route::group(['prefix'=>'/users'], function() {
-        Route::get('/index', [UserController::class, 'index']);
-        Route::get('/create', [UserController::class, 'create']);
-        Route::post('/add', [UserController::class, 'add']);
-        Route::get('/edit/{id}', [UserController::class, 'edit']);
-        Route::post('/update/{id}', [UserController::class, 'update']);
-    }); */
+    //transaction payment routes
+    Route::get('transactions/payments',  [PaymentController::class, 'index'] );
+    Route::post('transactions/searchpayments',  [PaymentController::class, 'searchPayment'])->name('searchpayments');
+
+    //transaction refund routes
+    Route::get('transactions/refunds',  [RefundController::class, 'index'] );
+    Route::post('transactions/searchrefunds',  [RefundController::class, 'searchrefunds'])->name('searchrefunds');
+
+    //transaction batch routes
+    Route::get('transactions/batch',  [BatchController::class, 'index'] );
+    Route::post('transactions/searchbatch',  [BatchController::class, 'searchBatch'])->name('searchbatch');
 
 
-    /**
-     * testing 
-     * */
-    // User Route
-        Route::get('/page-users-list', [UserController::class, 'usersList']);
-        Route::get('/page-users-view', [UserController::class, 'usersView']);
-        Route::get('/page-users-edit', [UserController::class, 'usersEdit']);
+    //transaction order routes
+    Route::get('transactions/orders',  [OrderController::class, 'index'] );
+    Route::post('transactions/searchorder',  [OrderController::class, 'searchOrder'])->name('searchorder');
 
-     /**
-      * Invoice 
-      * */   
-         
-    Route::get('/invoices/list', [PageController::class, 'invoiceList']);
-    Route::get('/invoices/view/{id}', [PageController::class, 'invoiceView']);
-    Route::get('/invoices/edit/{id}', [PageController::class, 'invoiceEdit']);
-    Route::get('/invoices/add', [PageController::class, 'invoiceAdd']);
+    //settlements routes
+    Route::get('settlements',  [SettlementController::class, 'index'] );
+    Route::post('searchsettlements',  [SettlementController::class, 'searchSettlement'])->name('searchsettlements');
 
+
+    Route::get('invoices',  [InvoiceController::class, 'index'] );
+    Route::get('payment-links',  [PaymentLinkController::class, 'index'] );
+    Route::get('payment-pages',  [PaymentPageController::class, 'index'] );
+    Route::get('chargeback',  [ChargeBackController::class, 'index'] );
+    Route::get('reports',  [ReportController::class, 'index'] );
 });
 

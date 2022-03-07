@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Http;
 
 class PageController extends Controller
 {
@@ -9,6 +10,10 @@ class PageController extends Controller
         $breadcrumbs = [
             ['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Pages"], ['name' => "Blank Page"],
         ];
+
+        /*$response = Http::get('https://jsonplaceholder.typicode.com/posts');
+        print_r($response->body());
+        exit;*/
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
         return view('pages.page-blank', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);

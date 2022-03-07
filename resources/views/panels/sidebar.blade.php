@@ -39,41 +39,41 @@
 
     <!-- New Menu Added By Subhasish On 03.03.2022 -->
     <li class="{{(request()->is('/')) ? 'active' : '' }} bold">
-      <a class="collapsible-header waves-effect waves-cyan " href="{{ url('/') }}">
+      <a class="{{(request()->is('/')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('/') }}">
         <i class="material-icons">Home</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Home') }}</span>
       </a>
     </li>
 
 
-    <li class="{{(request()->is('transactions/*')) ? 'active' : '' }} bold"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">Transaction</i><span class="menu-title" data-i18n="Dashboard">{{ __('Transactions') }}</span><span class="badge badge pill orange float-right mr-10">5</span></a>
+    <li class="{{(request()->is('transactions/*')) ? 'active' : '' }} bold"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">Transaction</i><span class="menu-title" data-i18n="Dashboard">{{ __('Transactions') }}</span><span class="badge badge pill orange float-right mr-10">4</span></a>
       <div class="collapsible-body">
         <ul class="collapsible collapsible-sub" data-collapsible="accordion">
-          <li class="{{(request()->is('transactions/payments')) ? 'active' : '' }}">
-            <a class="{{(request()->is('users/create')) ? 'active' : '' }}" href="{{ url('transactions/Payments') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Payments') }}</span></a>
+          <li class="{{(request()->is('transactions/payments')) ? 'active' : '' }} bold">
+            <a class="{{(request()->is('transactions/payments')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('transactions/payments') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Payments') }}</span></a>
           </li>
           <li class="{{(request()->is('transactions/refunds')) ? 'active' : '' }}">
-            <a class="{{(request()->is('transactions/refunds')) ? 'active' : '' }}" href="{{ url('transactions/refunds') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Refunds') }}</span></a>
+            <a class="{{(request()->is('transactions/refunds')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('transactions/refunds') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Refunds') }}</span></a>
           </li>  
           <li class="{{(request()->is('transactions/batch')) ? 'active' : '' }}">
-            <a class="{{(request()->is('transactions/batch')) ? 'active' : '' }}" href="{{ url('transactions/batch') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Batch') }}</span></a>
+            <a class="{{(request()->is('transactions/batch')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('transactions/batch') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Batch') }}</span></a>
           </li>
           <li class="{{(request()->is('transactions/orders')) ? 'active' : '' }}">
-            <a class="{{(request()->is('transactions/orders')) ? 'active' : '' }}" href="{{ url('transactions/orders') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Orders') }}</span></a>
+            <a class="{{(request()->is('transactions/orders')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('transactions/orders') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Orders') }}</span></a>
           </li>             
         </ul>
       </div>
     </li>
 
     <li class="{{(request()->is('settlements')) ? 'active' : '' }} bold">
-      <a class="collapsible-header waves-effect waves-cyan " href="{{ url('settlements') }}">
+      <a class="{{(request()->is('settlements')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('settlements') }}">
         <i class="material-icons">Settlements</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Settlements') }}</span>
       </a>
     </li>
 
     <li class="{{(request()->is('invoices')) ? 'active' : '' }} bold">
-      <a class="collapsible-header waves-effect waves-cyan " href="{{ url('invoices') }}">
+      <a class="{{(request()->is('invoices')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('invoices') }}">
         <i class="material-icons">Invoices</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Invoices') }}</span>
       </a>
@@ -81,35 +81,35 @@
 
 
     <li class="{{(request()->is('payment-links')) ? 'active' : '' }} bold">
-      <a class="collapsible-header waves-effect waves-cyan " href="{{ url('payment-links') }}">
+      <a class="{{(request()->is('payment-links')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('payment-links') }}">
         <i class="material-icons">Payment</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Payment Links') }}</span>
       </a>
     </li>
 
     <li class="{{(request()->is('payment-pages')) ? 'active' : '' }} bold">
-      <a class="collapsible-header waves-effect waves-cyan " href="{{ url('payment-pages') }}">
+      <a class="{{(request()->is('payment-pages')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('payment-pages') }}">
         <i class="material-icons">Payment</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Payment Pages') }}</span>
       </a>
     </li>
 
     <li class="{{(request()->is('chargeback')) ? 'active' : '' }} bold">
-      <a class="collapsible-header waves-effect waves-cyan " href="{{ url('chargeback') }}">
+      <a class="{{(request()->is('chargeback')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('chargeback') }}">
         <i class="material-icons">Chargeback</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Chargeback') }}</span>
       </a>
     </li>
 
     <li class="{{(request()->is('reports')) ? 'active' : '' }} bold">
-      <a class="collapsible-header waves-effect waves-cyan " href="{{ url('reports') }}">
+      <a class="{{(request()->is('reports')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('reports') }}">
         <i class="material-icons">Reports</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Reports') }}</span>
       </a>
     </li>
 
-    <li class="{{(request()->is('my-account')) ? 'active' : '' }} bold">
-      <a class="collapsible-header waves-effect waves-cyan " href="{{ url('my-account') }}">
+    <li class="{{(request()->is('my-account')) ? 'active'.$configData['activeMenuColor'] : '' }} bold">
+      <a class="{{(request()->is('my-account')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('my-account') }}">
         <i class="material-icons">Account</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('My Account') }}</span>
       </a>

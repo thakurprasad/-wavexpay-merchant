@@ -117,7 +117,7 @@
       <!-- profile-dropdown-->
       <ul class="dropdown-content" id="profile-dropdown">
         <li>
-          <a class="grey-text text-darken-1" href="{{ url('merchant-profile') }}">
+          <a class="grey-text text-darken-1" href="{{ url('my-account') }}">
             <i class="material-icons">person_outline</i>
             Profile
           </a>
