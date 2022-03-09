@@ -30,6 +30,7 @@
                 </div>
                 <table id="myTable">
                     <thead>
+                        
                         <tr>
                         <th scope="col">Settlement Id</th>
                         <th scope="col">Fees</th>
@@ -39,20 +40,39 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if(!empty($all_settlements->items))
+                        @foreach($all_settlements->items as $settlement)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>250</td>
-                            <td>123</td>
-                            <td>25th sept, 2022</td>
+                            <th scope="row">{{$settlement->id}}</th>
+                            <td>{{number_format($settlement->fees/100,2)}}</td>
+                            <td>{{number_format($settlement->tax/100,2)}}</td></td>
+                            <td>{{date('Y-m-d',$settlement->created_at)}}</td>
                             <td>
-                                <a class="waves-effect waves-light btn-small">Active</a>
+                                <a class="waves-effect waves-light btn-small">{{$settlement->status}}</a>
                                 <a class="waves-effect waves-light btn-flat">Breakup</a>
                             </td>
                         </tr>
+                        @endforeach
+                        @endif
                     </tbody>
                 </table>
             </p>
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('page-style')
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+@endsection
+@section('page-script')
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready( function () {
+    $('#myTable').DataTable({
+        "searching": false
+    });
+} );
+</script>
 @endsection

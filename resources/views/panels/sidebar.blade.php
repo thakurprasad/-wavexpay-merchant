@@ -108,6 +108,13 @@
       </a>
     </li>
 
+    <li class="{{(request()->is('customer')) ? 'active' : '' }} bold">
+      <a class="{{(request()->is('customer')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('customer') }}">
+        <i class="material-icons">Customer</i>
+        <span class="menu-title" data-i18n="Dashboard">{{ __('Customer') }}</span>
+      </a>
+    </li>
+
     <li class="{{(request()->is('my-account')) ? 'active'.$configData['activeMenuColor'] : '' }} bold">
       <a class="{{(request()->is('my-account')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('my-account') }}">
         <i class="material-icons">Account</i>

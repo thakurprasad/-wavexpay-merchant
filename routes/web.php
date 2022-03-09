@@ -16,6 +16,7 @@ use App\Http\Controllers\PaymentLinkController;
 use App\Http\Controllers\PaymentPageController;
 use App\Http\Controllers\ChargeBackController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CustomerController;
 
 
 
@@ -46,8 +47,16 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('settlements',  [SettlementController::class, 'index'] );
     Route::post('searchsettlements',  [SettlementController::class, 'searchSettlement'])->name('searchsettlements');
 
-
+    //invoice routes
     Route::get('invoices',  [InvoiceController::class, 'index'] );
+    Route::post('searchinvoice',  [InvoiceController::class, 'searchInvoice'])->name('searchinvoice');
+
+
+    Route::resource('customer', CustomerController::class);
+    /*Route::get('customer',  [CustomerController::class, 'index'] );
+    Route::post('create-customer',  [CustomerController::class, 'createCustomer'] );*/
+
+
     Route::get('payment-links',  [PaymentLinkController::class, 'index'] );
     Route::get('payment-pages',  [PaymentPageController::class, 'index'] );
     Route::get('chargeback',  [ChargeBackController::class, 'index'] );

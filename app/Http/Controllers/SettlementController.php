@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Razorpay\Api\Api;
 
 class SettlementController extends Controller
 {
@@ -12,7 +13,11 @@ class SettlementController extends Controller
         ];
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
-        return view('pages.settlement.index', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
+
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $all_settlements = $api->settlement->all();
+
+        return view('pages.settlement.index', compact('breadcrumbs','pageConfigs', 'all_settlements'));
     }
 
     public function searchSettlement(Request $request){

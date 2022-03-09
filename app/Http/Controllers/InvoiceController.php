@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Razorpay\Api\Api;
 
 class InvoiceController extends Controller
 {
@@ -12,6 +13,14 @@ class InvoiceController extends Controller
         ];
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
-        return view('pages.invoice.index', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
+
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $all_invoices = $api->invoice->all();
+        
+        return view('pages.invoice.index', compact('breadcrumbs','pageConfigs', 'all_invoices'));
+    }
+
+    public function searchInvoice(Request $request){
+        print_r($request->all());
     }
 }
