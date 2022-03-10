@@ -81,7 +81,7 @@
                 <span id="load_msg" style="display:none;">Please wait.....</span>
             </div>
             <div class="input-field col s3" id="customer_button">                          
-                <button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action">Create Customer
+                <button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action" onclick="create_customer()">Create 123 Customer
                 </button>
             </div>
         </form>
@@ -105,7 +105,7 @@ $(document).ready( function () {
     });
     $("#form-create-customer")[0].reset();
     $("#modal_heading").html('Create Customer');
-    $("#customer_button").html('<button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action">Create Customer</button>');
+    $("#customer_button").html('<button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action" onclick="create_customer()">Create 234 Customer </button>');
     $('.modal').modal();
 } );
 
@@ -164,7 +164,8 @@ function edit_customer_process() {
 }
 
 
-$("#create_customer_btn").on('click', function() {
+function create_customer() {
+    alert('okk');
     $("#load_msg").show();
     $.ajax({
         url: '{{url("customer")}}',
@@ -199,6 +200,6 @@ $("#create_customer_btn").on('click', function() {
             }
         }
     });
-});
+}
 </script>
 @endsection

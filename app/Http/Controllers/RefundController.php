@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Razorpay\Api\Api;
 
 class RefundController extends Controller
 {
@@ -12,7 +12,13 @@ class RefundController extends Controller
             ['link' => "javascript:void(0)", 'name' => "Transaction"], ['link' => "refunds", 'name' => "Refunds"]
         ];
         $pageConfigs = ['pageHeader' => true];
-        return view('pages.transaction.refunds', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
+
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $options = ['count'=>50, 'skip'=>0];
+        $all_refunds = $api->refund->all($options);
+
+
+        return view('pages.transaction.refunds', compact('pageConfigs','breadcrumbs','all_refunds'));
     }
 
     public function searchrefunds(Request $request){

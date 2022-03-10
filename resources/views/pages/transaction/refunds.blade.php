@@ -55,15 +55,19 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if(!empty($all_refunds->items))
+                        @foreach($all_refunds->items as $refund)
                         <tr>
-                            <th scope="row">1</th>
-                            <th scope="row">1</th>
-                            <td>250</td>
-                            <td>25th sept, 2022</td>
+                            <th scope="row">{{$refund->id}}</th>
+                            <th scope="row">{{$refund->payment_id}}</th>
+                            <td>{{number_format($refund->amount/100,2)}}</td>
+                            <td>{{date("jS F, Y", $refund->created_at)}}</td>
                             <td>
                                 <a class="waves-effect waves-light btn-small">Edit</a>
                             </td>
                         </tr>
+                        @endforeach
+                        @endif
                     </tbody>
                 </table>
             </p>

@@ -55,16 +55,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if(!empty($all_orders->items))
+                        @foreach($all_orders->items as $order)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>250</td>
-                            <td>0</td>
-                            <td>fsTMXX5zk6PSanoRvMPk</td>
-                            <td>25th sept, 2022</td>
+                            <th scope="row">{{$order->id}}</th>
+                            <td>{{number_format($order->amount/100,2)}}</td>
+                            <td>{{$order->attempts}}</td>
+                            <td>{{$order->receipt}}</td>
+                            <td>{{date("jS F, Y", $order->created_at)}}</td>
                             <td>
                                 <a class="waves-effect waves-light btn-small">Accepted</a>
                             </td>
                         </tr>
+                        @endforeach
+                        @endif
                     </tbody>
                 </table>
             </p>
