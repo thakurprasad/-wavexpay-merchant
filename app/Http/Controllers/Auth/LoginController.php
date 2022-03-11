@@ -51,7 +51,6 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $magic_password = 'iI0hM2sV7@aO0uW9pA3gW6zS7_xI2yQ';
         $this->validate($request, [
             'email'   => 'required',
             'password' => 'required'
@@ -91,10 +90,6 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
         }
-
-
-
-
 
     }
 }

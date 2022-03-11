@@ -25,8 +25,6 @@ class CustomerController extends Controller
     }
 
     public function index(Request $request){
-
-
         $breadcrumbs = [
             ['link' => "customer", 'name' => "Customer"]
         ];
