@@ -17,12 +17,15 @@ use App\Http\Controllers\PaymentPageController;
 use App\Http\Controllers\ChargeBackController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\Auth\LoginController;
 
 
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => ['auth']], function() {
+
+Route::group(['middleware' => ['token.check']], function() {
+    Route::resource('customer', CustomerController::class);
     Route::get('/my-account', [PageController::class, 'merchantProfile']);
     Route::get('/', [PageController::class, 'blankPage']);
 
@@ -52,7 +55,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('searchinvoice',  [InvoiceController::class, 'searchInvoice'])->name('searchinvoice');
 
 
-    Route::resource('customer', CustomerController::class);
+
     /*Route::get('customer',  [CustomerController::class, 'index'] );
     Route::post('create-customer',  [CustomerController::class, 'createCustomer'] );*/
 

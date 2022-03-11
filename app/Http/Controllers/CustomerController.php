@@ -8,7 +8,25 @@ use Razorpay\Api\Api;
 
 class CustomerController extends Controller
 {
+    public $token,$merchant;
+    /**
+     * Instantiate a new ClassController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next){
+            $this->token = session('token');
+            $this->merchant = session('merchant');
+            return $next($request);
+        });
+
+    }
+
     public function index(Request $request){
+
+
         $breadcrumbs = [
             ['link' => "customer", 'name' => "Customer"]
         ];
