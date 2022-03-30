@@ -11,7 +11,7 @@
         <div class="card-content">
             <p class="caption mb-0">
                 <div class="row">
-                    <form class="col s12" method="POST" action="{{ url('/') }}/transactions/searchrefunds">
+                    <form class="col s12" id="search_form" method="POST" action="{{ url('/') }}/transactions/searchrefunds">
                         @csrf
                         <div class="row">
                         <div class="input-field col s2">
@@ -36,7 +36,7 @@
                                 <label for="last_name">Notes</label>
                             </div>
                             <div class="input-field col s3">                          
-                                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                                <button class="btn waves-effect waves-light" onclick="search_refund()" type="button" name="action">Submit
                                     <i class="material-icons right">send</i>
                                 </button>
                             </div>
@@ -63,7 +63,7 @@
                             <td>{{number_format($refund->amount/100,2)}}</td>
                             <td>{{date("jS F, Y", $refund->created_at)}}</td>
                             <td>
-                                <a class="waves-effect waves-light btn-small">Edit</a>
+                                <a class="waves-effect waves-light btn-small">{{$refund->status}}</a>
                             </td>
                         </tr>
                         @endforeach
@@ -81,11 +81,34 @@
 @endsection
 @section('page-script')
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
 $(document).ready( function () {
     $('#myTable').DataTable({
         "searching": false
     });
 } );
+
+
+function search_refund(){
+    $("#table_container").LoadingOverlay("show", {
+        background  : "rgba(165, 190, 100, 0.5)"
+    });
+    $.ajax({
+        url: '{{url("searchrefund")}}',
+        data: $("#search_form").serialize(),
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){
+            $("#table_container").LoadingOverlay("hide", true);
+            $("#table_container").html(data.html);
+            $('#myTable').DataTable();
+        }
+    });
+}
+
+
 </script>
 @endsection

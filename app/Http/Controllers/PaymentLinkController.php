@@ -14,4 +14,9 @@ class PaymentLinkController extends Controller
         $pageConfigs = ['pageHeader' => true];
         return view('pages.paymentlinks.index', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
     }
+
+
+    public function searchPaymentLink(Request $request){
+        print_r($request->all());
+    }
 }

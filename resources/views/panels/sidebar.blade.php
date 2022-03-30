@@ -79,6 +79,13 @@
       </a>
     </li>
 
+    <li class="{{(request()->is('items')) ? 'active' : '' }} bold">
+      <a class="{{(request()->is('items')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('items') }}">
+        <i class="material-icons">Items</i>
+        <span class="menu-title" data-i18n="Dashboard">{{ __('Items') }}</span>
+      </a>
+    </li>
+
 
     <li class="{{(request()->is('payment-links')) ? 'active' : '' }} bold">
       <a class="{{(request()->is('payment-links')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('payment-links') }}">
@@ -122,8 +129,8 @@
       </a>
     </li>
 
-    <li class="{{(request()->is('settings')) ? 'active' : '' }} bold">
-      <a class="collapsible-header waves-effect waves-cyan " href="{{ url('settings') }}">
+    <li class="{{(request()->is('settings')) ? 'active'.$configData['activeMenuColor'] : '' }} bold">
+      <a class="{{(request()->is('settings')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('settings') }}">
         <i class="material-icons">Settings</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Settings') }}</span>
       </a>

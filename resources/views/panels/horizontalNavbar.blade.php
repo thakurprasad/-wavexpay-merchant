@@ -25,12 +25,12 @@
         <ul class="search-list collection display-none"></ul>
       </div>
       <ul class="navbar-list right">
-        <li class="dropdown-language">
+        <!--<li class="dropdown-language">
           <a class="waves-effect waves-block waves-light translation-button" href="javascript:void(0);"
             data-target="translation-dropdown">
             <span class="flag-icon flag-icon-gb"></span>
           </a>
-        </li>
+        </li>-->
         <li class="hide-on-med-and-down">
           <a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);">
             <i class="material-icons">settings_overscan</i>
@@ -58,11 +58,11 @@
             </span>
           </a>
         </li>
-        <li>
+        <!--<li>
           <a class="waves-effect waves-block waves-light sidenav-trigger" href="#" data-target="slide-out-right">
             <i class="material-icons">format_indent_increase</i>
           </a>
-        </li>
+        </li>-->
       </ul>
       <!-- translation-button-->
       <ul class="dropdown-content" id="translation-dropdown">

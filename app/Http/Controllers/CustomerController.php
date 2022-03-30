@@ -25,6 +25,7 @@ class CustomerController extends Controller
     }
 
     public function index(Request $request){
+        //echo $this->token;exit;
         $breadcrumbs = [
             ['link' => "customer", 'name' => "Customer"]
         ];
