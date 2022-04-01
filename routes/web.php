@@ -72,7 +72,10 @@ Route::group(['middleware' => ['token.check']], function() {
     //Payment Link routes
     Route::get('payment-links',  [PaymentLinkController::class, 'index'] );
     Route::post('searchpaymentlink',  [PaymentLinkController::class, 'searchPaymentLink'])->name('searchpaymentlink');
+    Route::post('createpaymentlink',  [PaymentLinkController::class, 'createPaymentLink'])->name('createpaymentlink');
+    Route::post('getpaymentlink',  [PaymentLinkController::class, 'getPaymentLink'])->name('getpaymentlink');
 
+    
     //Payment Pages routes
     Route::get('payment-pages',  [PaymentPageController::class, 'index'] );
     Route::post('get-payment-templates',  [PaymentPageController::class, 'getPaymentTemplates'] );
