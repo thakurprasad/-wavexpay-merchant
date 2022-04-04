@@ -157,6 +157,7 @@
                     <a class="waves-effect waves-light" onclick="add_notes()">+ Add Notes</a>
                     <span id="add_note_container">
                     </span>
+                    <span id="afetr_edit_note_container"></span>
                 </div>
                 <div class="input-field col s3">                          
                     <button class="btn waves-effect waves-light" type="button" name="action" onclick="create_payment_link()">create</button>
@@ -173,7 +174,7 @@
 
 
 
-<div id="modal2" class="modal modal-fixed-footer" style="width:750px; height:800px;">
+<div id="modal2" class="modal modal-fixed-footer" style="width:750px; height:1000px;">
     <div class="modal-content">
       <h5 id="modal_heading"><strong>Payment Link</strong></h5>
             <div class="row" id="link_details_container">
@@ -184,6 +185,76 @@
       <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
 </div>
+
+
+<div id="modal3" class="modal modal-fixed-footer" style="width:400px; height:400px;">
+    <div class="modal-content">
+      <h5 id="modal_heading"><strong>Change Reference Id</strong></h5>
+            <div class="row" id="">
+                <form id="ref_id_change_form">
+                    <div class="input-field col s12">
+                        <input type="hidden" id="plid" name="plid">
+                        <label for="first_name">Reference Id</label>
+                        <input placeholder="Reference Id" name="update_reference_id" id="update_reference_id" type="text" class="validate" required>
+                    </div>
+                    <div class="input-field col s3">                          
+                        <button class="btn waves-effect waves-light" type="button" name="action" onclick="change_ref_id_process()">Change</button>
+                    </div>
+                    <span id="msg"></span>
+                </form>
+            </div>
+    </div>
+    <div class="modal-footer">
+      <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+
+<div id="modal4" class="modal modal-fixed-footer" style="width:800px; height:400px;">
+    <div class="modal-content">
+        <h5 id="modal4_heading"><strong>Add Notes </strong></h5>
+        <form id="edit_note_form">
+            <input type="hidden" id="editplid" name="editplid">
+            <div class="row" id="edit_note_container">
+                
+            </div>
+            <div class="row">
+                <div class="input-field col s3">                          
+                    <button class="btn waves-effect waves-light" type="button" name="action" onclick="edit_note_process()">Edit Note</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+
+
+
+<div id="modal5" class="modal modal-fixed-footer" style="width:400px; height:400px;">
+    <div class="modal-content">
+      <h5 id="modal_heading"><strong>Change Expiry Date</strong></h5>
+            <div class="row" id="">
+                <form id="exp_date_change_form">
+                    <div class="input-field col s12">
+                        <input type="hidden" id="paylinkid" name="plid">
+                        <label for="first_name">Expiry Date</label><br>
+                        <input name="expiry_dt" id="expiry_dt" type="date" class="validate" required>
+                    </div>
+                    <div class="input-field col s3">                          
+                        <button class="btn waves-effect waves-light" type="button" name="action" onclick="change_exp_date_process()">Change</button>
+                    </div>
+                    <span id="msg"></span>
+                </form>
+            </div>
+    </div>
+    <div class="modal-footer">
+      <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
 @endsection
 
 @section('page-style')
@@ -290,7 +361,157 @@ function show_notes(link_id){
 
 
 function ch_r_id(id){
-    $("#c_r_c").html('<input type="text" id="new_ref_id" /><strong><a onclick="save_new_ref(\''+id+'\')">Save</a></strong>')
+    $('#modal3').modal('open');
+    $("#plid").val(id);
 }
+
+function change_ref_id_process(){
+    $("#ref_id_change_form").LoadingOverlay("show", {
+        background  : "rgba(165, 190, 100, 0.5)"
+    });
+    $.ajax({
+        url: '{{url("changerefidprocess")}}',
+        data: $("#ref_id_change_form").serialize(),
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){
+            $("#ref_id_change_form").LoadingOverlay("hide", true);
+            if(data.success==1){
+                alert('Reference Id Changed Successfully');
+                $('#modal3').modal('close');
+                $("#c_r_c").html(data.update_reference_id);
+            }else{
+                $("#msg").html(data.msg);
+            }
+        }
+    });
+}
+
+var ecount=1;
+function edit_notes(id){
+    $('#modal4').modal('open');
+    $("#editplid").val(id);
+    $('#modal4_heading').html('<strong>Add Notes <a style="margin-left:20px;" class="waves-effect waves-light     modal-trigger" href="#modal4" onclick="edit_notes_append(\''+id+'\')">+</a></strong>');
+    var html = '<div class="input-field col s12" id="edit_note_div'+ecount+'"><div class="col s4"><input placeholder="Note Title" name="edit_note_title[]" id="note_title" type="text" class="validate" required></div><div class="col s6"><textarea name="edit_note_desc[]" placeholder="Note Description"></textarea></div><div class="col s2"><a style="cursor:pointer;" onclick="cancel_div(\''+ecount+'\')">Cancel</a></div></div>';
+    $("#edit_note_container").append(html);
+    ecount++;
+}
+
+
+function edit_notes_append(id){
+    var html = '<div class="input-field col s12" id="edit_note_div'+ecount+'"><div class="col s4"><input placeholder="Note Title" name="edit_note_title[]" id="note_title" type="text" class="validate" required></div><div class="col s6"><textarea name="edit_note_desc[]" placeholder="Note Description"></textarea></div><div class="col s2"><a style="cursor:pointer;" onclick="cancel_edit_div(\''+ecount+'\')">Cancel</a></div></div>';
+    $("#edit_note_container").append(html);
+    ecount++;
+}
+
+
+function cancel_edit_div(count){
+    $("#edit_note_div"+count).remove();
+}
+
+
+function edit_note_process(){
+    var lid = $("#editplid").val();
+    $("#edit_note_container").LoadingOverlay("show", {
+        background  : "rgba(165, 190, 100, 0.5)"
+    });
+    $.ajax({
+        url: '{{url("changenoteprocess")}}',
+        data: $("#edit_note_form").serialize(),
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){
+            $("#edit_note_container").LoadingOverlay("hide", true);
+            if(data.success==1){
+                alert('Notes Updated Successfully');
+                $('#modal4').modal('close');
+                $('#modal2').modal('close');
+                $("#edit_note_form")[0].reset();
+                show_notes(lid);
+            }else{
+                $("#msg").html(data.msg);
+            }
+        }
+    });
+}
+
+
+function part_pay(lid,status){
+    if(confirm('Are You Sure To Change Part Payment Status?')){
+        $.ajax({
+            url: '{{url("changepaystatus")}}',
+            data: {'lid':lid,'status':status},
+            type: "POST",
+            headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+            },
+            success: function(data){
+                if(data.success==1){
+                    $('#modal2').modal('close');
+                    show_notes(lid);
+                }else{
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+}
+
+
+function edit_expiry_date(id){
+    $('#modal5').modal('open');
+    $("#paylinkid").val(id);
+}
+
+
+function change_exp_date_process(){
+    var paylinkid = $("#paylinkid").val();
+    var expiry_dt = $("#expiry_dt").val();
+    $.ajax({
+        url: '{{url("changeexpdate")}}',
+        data: {'paylinkid':paylinkid,'expiry_dt':expiry_dt},
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){
+            if(data.success==1){
+                $('#modal5').modal('close');
+                $('#modal2').modal('close');
+                alert('Expiry Date Changed Successfully!!');
+                show_notes(paylinkid);
+            }else{
+                alert(data.msg);
+            }
+        }
+    });
+}
+
+
+function delete_note(key,linkid){
+    if(confirm('Are You Sure To Change Part Payment Status?')){
+        $.ajax({
+            url: '{{url("deletenote")}}',
+            data: {'key':key,'linkid':linkid},
+            type: "POST",
+            headers: {
+                'X-CSRF-Token': '{{ csrf_token() }}',
+            },
+            success: function(data){
+                if(data.success==1){
+                    alert('Note Deleted Successfully!!');
+                    show_notes(linkid);
+                }else{
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+}
+
 </script>
 @endsection

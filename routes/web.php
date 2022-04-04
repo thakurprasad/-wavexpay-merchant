@@ -74,6 +74,11 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('searchpaymentlink',  [PaymentLinkController::class, 'searchPaymentLink'])->name('searchpaymentlink');
     Route::post('createpaymentlink',  [PaymentLinkController::class, 'createPaymentLink'])->name('createpaymentlink');
     Route::post('getpaymentlink',  [PaymentLinkController::class, 'getPaymentLink'])->name('getpaymentlink');
+    Route::post('changerefidprocess',  [PaymentLinkController::class, 'changeRefIdProcess'])->name('changerefidprocess');
+    Route::post('changenoteprocess',  [PaymentLinkController::class, 'changeNoteProcess'])->name('changenoteprocess');
+    Route::post('changepaystatus',  [PaymentLinkController::class, 'changePayStatus'])->name('changepaystatus');
+    Route::post('changeexpdate',  [PaymentLinkController::class, 'changeExpDate'])->name('changeexpdate');
+    Route::post('deletenote',  [PaymentLinkController::class, 'deleteNote'])->name('deletenote');
 
     
     //Payment Pages routes
