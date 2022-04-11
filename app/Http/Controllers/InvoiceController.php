@@ -20,6 +20,8 @@ class InvoiceController extends Controller
         $all_customers = $api->customer->all();
 
         $all_items = $api->Item->all();
+
+        //print_r(array(array('item_id'=>'item_DRt61i2NnL8oy6')));exit;
         
         return view('pages.invoice.index', compact('breadcrumbs','pageConfigs', 'all_invoices','all_customers','all_items'));
     }
@@ -190,12 +192,39 @@ class InvoiceController extends Controller
         foreach($request['tableitem'] as $items){
             $itemidArray['item_id'] = $items;
         }
+
+        /*$c_details = $api->customer->fetch($request['customer']);
+        print_r($c_details);*/
+
+        $customer_array = array(
+            'name' => "Gaurav Kumar",
+            'contact' => 9999999999,
+            'email' => "gaurav.kumar@example.com",
+            'billing_address'=> array(
+                "line1" => $request->billing_address1,
+                "line2" => $request->billing_address2,
+                "zipcode" => $request->billing_zip,
+                "city" => $request->billing_city,
+                "state" => $request->billing_state,
+                "country" => $request->billing_country
+            ),
+            'shipping_address'=> array(
+                "line1" => $request->shipping_address1,
+                "line2" => $request->shipping_address2,
+                "zipcode" => $request->shipping_zip,
+                "city" => $request->shipping_city,
+                "state" => $request->shipping_state,
+                "country" => $request->shipping_country
+            )
+        );
+
+
         $invoice_create_array = array (
             'type' => 'invoice',
             'description' => $request['description'], 
             'date' => strtotime(date('Y-m-d H:i:s')), 
             'customer_id'=> $request['customer'],  
-            'line_items'=>array($itemidArray)
+            'line_items'=>array($itemidArray),
         );
 
         //print_r($invoice_create_array);exit;
@@ -247,5 +276,67 @@ class InvoiceController extends Controller
             "currency": "USD",
             "expire_by": 1589765167
           }*/
+    }
+
+    public function showInvoice($invoiceId){
+        $breadcrumbs = [
+            ['link' => "invoice/".$invoiceId, 'name' => "Invoice Details"]
+        ];
+        //Pageheader set true for breadcrumbs
+        $pageConfigs = ['pageHeader' => true];
+
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $invoice_details = $api->invoice->fetch($invoiceId);
+
+        $all_customers = $api->customer->all();
+        $all_items = $api->Item->all();
+        //print_r($invoice_details);exit;
+
+        return view('pages.invoice.invoicedetails', compact('breadcrumbs','pageConfigs','invoice_details','all_customers','all_items'));
+    }
+
+    public function editInvoice(Request $request){
+        $invoiceId = $request->edit_id;
+
+        $itemidArray['item_id'] = array();
+        foreach($request['tableitem'] as $items){
+            $itemidArray['item_id'] = $items;
+        }
+
+        $customer_array = array(
+            'billing_address'=> array(
+                "line1" => $request->billing_address1,
+                "line2" => $request->billing_address2,
+                "zipcode" => $request->billing_zip,
+                "city" => $request->billing_city,
+                "state" => $request->billing_state,
+                "country" => $request->billing_country
+            ),
+            'shipping_address'=> array(
+                "line1" => $request->shipping_address1,
+                "line2" => $request->shipping_address2,
+                "zipcode" => $request->shipping_zip,
+                "city" => $request->shipping_city,
+                "state" => $request->shipping_state,
+                "country" => $request->shipping_country
+            )
+        );
+
+        $invoice_update_array = array (
+            'type' => 'invoice',
+            'description' => $request['description'], 
+            'date' => strtotime(date('Y-m-d H:i:s')), 
+            'customer_id'=> $request['customer'],  
+            'line_items'=>array($itemidArray),
+            'customer'=> $customer_array
+        );
+
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+
+        if($api->invoice->fetch($invoiceId)->edit(array('line_items' => array($itemidArray)))){
+            return response()->json(array("success" => 1));    
+        }else{
+            return response()->json(array("success" => 0));    
+        }
     }
 }

@@ -128,9 +128,11 @@ class PaymentLinkController extends Controller
         $notehtml = '';
         if(!empty($link_details->notes)){
             foreach($link_details->notes as $key=>$val){
-                $notehtml.='<label for="first_name" style="color:blue;">'.$key.'   :   <strong>'.$val.'</strong><For></For><a style="margin-left:20px;" class="waves-effect waves-light" onclick="delete_note(\''.$key.'\',\''.$id.'\')">Delete</a></label><br>';
+                $notehtml.='<label for="first_name" style="color:blue;">'.$key.'   :   <strong>'.$val.'</strong><For></For></label><br>';
             }
         }
+
+        /*<a style="margin-left:20px;" class="waves-effect waves-light" onclick="delete_note(\''.$key.'\',\''.$id.'\')">Delete</a>*/
 
        
         

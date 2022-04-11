@@ -20,6 +20,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\DisputeController;
 
 
 
@@ -48,18 +49,24 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::get('transactions/orders',  [OrderController::class, 'index'] );
     Route::post('searchorder',  [OrderController::class, 'searchOrder'])->name('searchorder');
 
+    //transaction dispute routes
+    Route::get('transactions/disputes',  [DisputeController::class, 'index'] );
+    Route::post('searchdispute',  [DisputeController::class, 'searchDispute'])->name('searchdispute');
+
     //settlements routes
     Route::get('settlements',  [SettlementController::class, 'index'] );
     Route::post('searchsettlement',  [SettlementController::class, 'searchSettlement'])->name('searchsettlement');
 
     //invoice routes
     Route::get('invoices',  [InvoiceController::class, 'index'] );
+    Route::get('invoice/{id}',  [InvoiceController::class, 'showInvoice'] );
     Route::get('newinvoice',  [InvoiceController::class, 'newInvoice']);
     Route::post('searchinvoice',  [InvoiceController::class, 'searchInvoice'])->name('searchinvoice');
     Route::post('createitem',  [InvoiceController::class, 'createItem'])->name('createitem');
     Route::post('getitem',  [InvoiceController::class, 'getItem'])->name('getitem');
     Route::post('addnewitemrow',  [InvoiceController::class, 'addNewItemRow'])->name('addnewitemrow');
     Route::post('createinvoice',  [InvoiceController::class, 'createInvoice'])->name('createinvoice');
+    Route::post('editinvoice',  [InvoiceController::class, 'editInvoice'])->name('editinvoice');
 
     //Settings routes
     Route::get('settings',  [SettingsController::class, 'index'] );

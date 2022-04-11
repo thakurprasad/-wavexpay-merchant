@@ -87,7 +87,7 @@
                         @if(!empty($all_invoices->items))
                         @foreach($all_invoices->items as $invoice)
                         <tr>
-                            <th scope="row">{{$invoice->id}}</th>
+                            <th scope="row"><a href="{{ url('/invoice',$invoice->id) }}">{{$invoice->id}}</a></th>
                             <td>{{number_format(($invoice->line_items[0]->net_amount)/100,2)}}</td>
                             <td>{{$invoice->receipt}}</td>
                             <td>{{date('Y-m-d',$invoice->created_at)}}</td>

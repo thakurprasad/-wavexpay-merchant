@@ -60,6 +60,9 @@
           </li>
           <li class="{{(request()->is('transactions/orders')) ? 'active' : '' }}">
             <a class="{{(request()->is('transactions/orders')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('transactions/orders') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Orders') }}</span></a>
+          </li>
+          <li class="{{(request()->is('transactions/disputes')) ? 'active' : '' }}">
+            <a class="{{(request()->is('transactions/disputes')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('transactions/disputes') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Disputes') }}</span></a>
           </li>             
         </ul>
       </div>
@@ -72,7 +75,21 @@
       </a>
     </li>
 
-    <li class="{{(request()->is('invoices')) ? 'active' : '' }} bold">
+
+    <li class="{{(request()->is('invoices') || request()->is('newinvoice') || request()->is('items')) ? 'active' : '' }} bold"><a class="collapsible-header waves-effect waves-cyan " href="JavaScript:void(0)"><i class="material-icons">Invoice</i><span class="menu-title" data-i18n="Dashboard">{{ __('Invoices') }}</span><span class="badge badge pill orange float-right mr-10">2</span></a>
+      <div class="collapsible-body">
+        <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+          <li class="{{(request()->is('invoices') || request()->is('newinvoice')) ? 'active' : '' }} bold">
+            <a class="{{(request()->is('invoices') || request()->is('newinvoice')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('invoices') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Invoices') }}</span></a>
+          </li>
+          <li class="{{(request()->is('items')) ? 'active' : '' }}">
+            <a class="{{(request()->is('items')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('items') }}"><i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">{{ __('Items') }}</span></a>
+          </li>  
+        </ul>
+      </div>
+    </li>
+
+    <!--<li class="{{(request()->is('invoices')) ? 'active' : '' }} bold">
       <a class="{{(request()->is('invoices')) ? 'active'.$configData['activeMenuColor'] : '' }}" href="{{ url('invoices') }}">
         <i class="material-icons">Invoices</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Invoices') }}</span>
@@ -84,7 +101,7 @@
         <i class="material-icons">Items</i>
         <span class="menu-title" data-i18n="Dashboard">{{ __('Items') }}</span>
       </a>
-    </li>
+    </li>-->
 
 
     <li class="{{(request()->is('payment-links')) ? 'active' : '' }} bold">
