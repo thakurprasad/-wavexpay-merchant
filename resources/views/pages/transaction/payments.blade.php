@@ -1,96 +1,126 @@
-{{-- extend layout --}}
-@extends('layouts.contentLayoutMaster')
-
-{{-- page title --}}
+@extends('layouts.admin')
 @section('title','Payments')
-
-
-
-{{-- page content --}}
-@section('content')
-<div class="section">
-    <div class="card">
-        <div class="card-content">
-            <p class="caption mb-0">
-                <div class="row">
-                    <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchpayments">
-                        @csrf
-                        <div class="row">
-                            <div class="input-field col s3">
-                                <input placeholder="Payment ID" name="payment_id" id="payment_id" type="text" class="validate">
-                                <label for="first_name">Payment Id</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input placeholder="Email" id="email" name="email" type="text" class="validate">
-                                <label for="last_name">Email</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <select name="status">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="authorized">Authorized</option>
-                                <option value="captured">Captured</option>
-                                <option value="refunded">Refunded</option>
-                                <option value="failed">Failed</option>
-                                </select>
-                                <label>Status</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input placeholder="Notes" id="notes" name="notes" type="text" class="validate">
-                                <label for="last_name">Notes</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input id="start_date" name="start_date" type="text" class="datepicker">
-                                <label for="last_name">Start Date</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input id="end_date" name="end_date" type="text" class="datepicker">
-                                <label for="last_name">End Date</label>
-                            </div>
-
-                            <div class="input-field col s3">                          
-                                <button class="btn waves-effect waves-light" onclick="search_payment()" type="button" name="action">Submit
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </div>
-        
-                        </div>
-                    </form>
-                </div>
-                <table id="myTable">
-                    <thead>
-                        <tr>
-                        <th scope="col">Payment Id</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Contact</th>
-                        <th scope="col">Created At</th>
-                        <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table_container">
-                        @if(!empty($all_payments->items))
-                        @foreach($all_payments->items as $payment)
-                        <tr>
-                            <th scope="row">{{$payment['id']}}</th>
-                            <td>{{$payment['amount']}}</td>
-                            <td>{{$payment['email']}}</td>
-                            <td>{{$payment['contact']}}</td>
-                            <td>{{date('Y-m-d',$payment->created_at)}}</td>
-                            <td>
-                                <a class="waves-effect waves-light btn-small">{{$payment['status']}}</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </p>
-        </div>
-    </div>
+@section('content_header')
+<div class="row mb-2">
+	<div class="col-sm-6">
+	<h1>Payments Management</h1>
+	</div>
+	<div class="col-sm-6">
+	<ol class="breadcrumb float-sm-right">
+		<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+		<li class="breadcrumb-item active">Payments</li>
+	</ol>
+	</div>
 </div>
 @endsection
+@section('content')
+	@if ($message = Session::get('success'))
+	<div class="alert alert-success">
+		<ul class="margin-bottom-none padding-left-lg">
+			<li>{{ $message }}</li>
+		</ul>
+	</div>
+	@endif
+	@if ($message = Session::get('error'))
+	<div class="alert alert-danger">
+		<ul class="margin-bottom-none padding-left-lg">
+			<li>{{ $message }} </li>
+		</ul>
+	</div>
+	@endif
+    <div class="card">
+        <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchpayments">
+            @csrf
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="payment_id">Payment Id</label>
+                        <input type="payment_id" class="form-control" id="payment_id" placeholder="Payment Id">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="" disabled selected>Choose your option</option>
+                            <option value="authorized">Authorized</option>
+                            <option value="captured">Captured</option>
+                            <option value="refunded">Refunded</option>
+                            <option value="failed">Failed</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <input type="notes" class="form-control" id="notes" placeholder="Notes">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="start_date">Start Date</label>
+                        <input type="start_date" class="form-control" id="start_date" placeholder="Start Date">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="end_date">End Date</label>
+                        <input type="end_date" class="form-control" id="end_date" placeholder="End Date">
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary"  onclick="search_payment()">Submit</button>
+        </div>
+        </form>
+    </div>
 
+	<div class="card">
+        <div class="card-body">
+
+        </div>
+		<div class="card-body">
+			<table class="table table-bordered table-responsive-sm" id="datatable">
+				<thead>
+                    <tr>
+                    <th scope="col">Payment Id</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="table_container">
+                    @if(!empty($all_payments->items))
+                    @foreach($all_payments->items as $payment)
+                    <tr>
+                        <th >{{$payment['id']}}</th>
+                        <td>{{$payment['amount']}}</td>
+                        <td>{{$payment['email']}}</td>
+                        <td>{{$payment['contact']}}</td>
+                        <td>{{date('Y-m-d',$payment->created_at)}}</td>
+                        <td>
+                            <a class="waves-effect waves-light btn-small">{{$payment['status']}}</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                    @endif
+                </tbody>
+			</table>
+		</div>
+	</div>
+
+@endsection
 @section('page-style')
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 @endsection

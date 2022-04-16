@@ -1,79 +1,82 @@
 {{-- extend layout --}}
-@extends('layouts.contentLayoutMaster')
+@extends('layouts.admin')
 
 {{-- page title --}}
 @section('title','Refunds')
 
+@section('content_header')
+<div class="row mb-2">
+	<div class="col-sm-6">
+	<h1>Refund Management</h1>
+	</div>
+	<div class="col-sm-6">
+	<ol class="breadcrumb float-sm-right">
+		<li class="breadcrumb-item"><a href="{{ route('home')}}">Home</a></li>
+		<li class="breadcrumb-item active">Refunds</li>
+	</ol>
+	</div>
+</div>
+@endsection
+
 {{-- page content --}}
 @section('content')
-<div class="section">
-    <div class="card">
-        <div class="card-content">
-            <p class="caption mb-0">
-                <div class="row">
-                    <form class="col s12" id="search_form" method="POST" action="{{ url('/') }}/transactions/searchrefunds">
-                        @csrf
-                        <div class="row">
-                        <div class="input-field col s2">
-                                <input placeholder="Refund ID" name="refund_id" id="refund_id" type="text" class="validate">
-                                <label for="first_name">Refund Id</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input placeholder="Payment ID" name="payment_id" id="payment_id" type="text" class="validate">
-                                <label for="first_name">Payment Id</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <select name="status">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="processed">Processed</option>
-                                <option value="processing">Processing</option>
-                                <option value="failed">Failed</option>
-                                </select>
-                                <label>Status</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input placeholder="Notes" id="notes" name="notes" type="text" class="validate">
-                                <label for="last_name">Notes</label>
-                            </div>
-                            <div class="input-field col s3">                          
-                                <button class="btn waves-effect waves-light" onclick="search_refund()" type="button" name="action">Submit
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </div>
-        
-                        </div>
-                    </form>
-                </div>
-                <table id="myTable">
-                    <thead>
-                        <tr>
-                        <th scope="col">Refund Id</th>
-                        <th scope="col">Payment Id</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Created At</th>
-                        <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(!empty($all_refunds->items))
-                        @foreach($all_refunds->items as $refund)
-                        <tr>
-                            <th scope="row">{{$refund->id}}</th>
-                            <th scope="row">{{$refund->payment_id}}</th>
-                            <td>{{number_format($refund->amount/100,2)}}</td>
-                            <td>{{date("jS F, Y", $refund->created_at)}}</td>
-                            <td>
-                                <a class="waves-effect waves-light btn-small">{{$refund->status}}</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </p>
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <ul class="margin-bottom-none padding-left-lg">
+                <li>{{ $message }}</li>
+            </ul>
         </div>
-    </div>
-</div>
+        @endif
+        @if ($message = Session::get('error'))
+        <div class="alert alert-danger">
+            <ul class="margin-bottom-none padding-left-lg">
+                <li>{{ $message }} </li>
+            </ul>
+        </div>
+    @endif
+
+    <div class="card">
+		<div class="card-header">
+			<div class="pull-left">
+
+	        </div>
+	        <div class="pull-right">
+
+
+	        </div>
+        </div>
+
+		<div class="card-body">
+			<table class="table table-bordered table-responsive-sm"  id="myTable">
+				<thead>
+                    <tr>
+                    <th scope="col">Refund Id</th>
+                    <th scope="col">Payment Id</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(!empty($all_refunds->items))
+                    @foreach($all_refunds->items as $refund)
+                    <tr>
+                        <th scope="row">{{$refund->id}}</th>
+                        <th scope="row">{{$refund->payment_id}}</th>
+                        <td>{{number_format($refund->amount/100,2)}}</td>
+                        <td>{{date("jS F, Y", $refund->created_at)}}</td>
+                        <td>
+                            <a class="waves-effect waves-light btn-small">{{$refund->status}}</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                    @endif
+                </tbody>
+			</table>
+
+		</div>
+	</div>
+
 @endsection
 
 @section('page-style')

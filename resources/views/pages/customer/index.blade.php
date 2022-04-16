@@ -1,52 +1,85 @@
 {{-- extend layout --}}
-@extends('layouts.contentLayoutMaster')
+@extends('layouts.admin')
 
 {{-- page title --}}
 @section('title','Customers')
 
+@section('content_header')
+<div class="row mb-2">
+	<div class="col-sm-6">
+	<h1>Customer Management</h1>
+	</div>
+	<div class="col-sm-6">
+	<ol class="breadcrumb float-sm-right">
+		<li class="breadcrumb-item"><a href="{{ route('home')}}">Home</a></li>
+		<li class="breadcrumb-item active">Customers</li>
+	</ol>
+	</div>
+</div>
+@endsection
+
 {{-- page content --}}
 @section('content')
-<div class="section">
-    <div class="card">
-        <div class="card-content">
-            <p class="caption mb-0">
-                <div class="row">
-                    <div class="row">
-                        <div class="input-field col s2">                          
-                            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Create Customer</a>
-                        </div>
-                    </div>
-                </div>
-                <table id="myTable">
-                    <thead>
-                        <tr>
-                        <th scope="col">Customer Id</th>
-                        <th scope="col">Customer Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Contact</th>
-                        <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(!empty($all_customers->items))
-                        @foreach($all_customers->items as $customer)
-                        <tr>
-                            <th scope="row">{{$customer->id}}</th>
-                            <td>{{$customer->name}}</td>
-                            <td>{{$customer->email}}</td>
-                            <td>{{$customer->contact}}</td>
-                            <td>
-                                <a class="waves-effect waves-light btn modal-trigger" onclick="edit_cust('{{$customer->id}}','{{$customer->name}}','{{$customer->email}}','{{$customer->contact}}','{{$customer->gstin}}')" href="#modal1">Edit Customer</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </p>
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <ul class="margin-bottom-none padding-left-lg">
+                <li>{{ $message }}</li>
+            </ul>
         </div>
-    </div>
-</div>
+        @endif
+        @if ($message = Session::get('error'))
+        <div class="alert alert-danger">
+            <ul class="margin-bottom-none padding-left-lg">
+                <li>{{ $message }} </li>
+            </ul>
+        </div>
+    @endif
+    <div class="card">
+		<div class="card-header">
+			<div class="pull-left">
+
+	        </div>
+	        <div class="pull-right">
+
+	            <a class="btn btn-success" href="#"> Create New Customer</a>
+
+	        </div>
+        </div>
+
+		<div class="card-body">
+			<table class="table table-bordered table-responsive-sm"  id="myTable">
+				<thead>
+					<tr class="text-center">
+                        <th>Customer Id</th>
+						<th>Customer Name</th>
+                        <th>Email</th>
+						<th>Contact</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+
+                @if(!empty($all_customers->items))
+                @foreach($all_customers->items as $value)
+				<tr>
+					<td>{{ $value['id'] }}</td>
+                    <td>{{ $value['name'] }}</td>
+					<td>{{ $value['email'] }}</td>
+					<td>{{ $value['contact'] }} </td>
+					<td class="text-center">
+                        <a class="btn btn-primary btn-sm" href="#"  title="Edit"><i class="fas fa-edit"></i></a>
+					</td>
+				</tr>
+				@endforeach
+                @endif
+				</tbody>
+			</table>
+            <br/>
+
+
+		</div>
+	</div>
+
 
 
 <!-- Modal Structure -->
@@ -80,7 +113,7 @@
             <div class="input-field col s12">
                 <span id="load_msg" style="display:none;">Please wait.....</span>
             </div>
-            <div class="input-field col s3" id="customer_button">                          
+            <div class="input-field col s3" id="customer_button">
                 <button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action" onclick="create_customer()">Create 123 Customer
                 </button>
             </div>
@@ -106,7 +139,7 @@ $(document).ready( function () {
     $("#form-create-customer")[0].reset();
     $("#modal_heading").html('Create Customer');
     $("#customer_button").html('<button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action" onclick="create_customer()">Create 234 Customer </button>');
-    $('.modal').modal();
+    //$('.modal').modal();
 } );
 
 
@@ -138,7 +171,7 @@ function edit_customer_process() {
         success: function(data){
             $("#load_msg").html('<span style="color:green;">'+data.msg+'</span>');
             location.reload();
-        }, 
+        },
         error: function(response){
             $("#load_msg").hide();
 
@@ -177,7 +210,7 @@ function create_customer() {
         success: function(data){
             $("#load_msg").html('<span style="color:green;">'+data.msg+'</span>');
             location.reload();
-        }, 
+        },
         error: function(response){
             $("#load_msg").hide();
 

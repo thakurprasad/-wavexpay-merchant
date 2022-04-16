@@ -30,35 +30,36 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => ['token.check']], function() {
     Route::resource('customer', CustomerController::class);
     Route::get('/my-account', [PageController::class, 'merchantProfile']);
+    Route::get('/home', [PageController::class, 'blankPage'])->name('home');
     Route::get('/', [PageController::class, 'blankPage']);
 
     //transaction payment routes
-    Route::get('transactions/payments',  [PaymentController::class, 'index'] );
+    Route::get('transactions/payments',  [PaymentController::class, 'index'] )->name('transactions/payments');
     Route::post('searchpayment',  [PaymentController::class, 'searchPayment'])->name('searchpayment');
 
     //transaction refund routes
-    Route::get('transactions/refunds',  [RefundController::class, 'index'] );
+    Route::get('transactions/refunds',  [RefundController::class, 'index'] )->name('transactions/refunds');
     Route::post('searchrefund',  [RefundController::class, 'searchRefund'])->name('searchrefund');
 
     //transaction batch routes
-    Route::get('transactions/batch',  [BatchController::class, 'index'] );
+    Route::get('transactions/batch',  [BatchController::class, 'index'] )->name('transactions/batch');
     Route::post('transactions/searchbatch',  [BatchController::class, 'searchBatch'])->name('searchbatch');
 
 
     //transaction order routes
-    Route::get('transactions/orders',  [OrderController::class, 'index'] );
+    Route::get('transactions/orders',  [OrderController::class, 'index'] )->name('transactions/orders');
     Route::post('searchorder',  [OrderController::class, 'searchOrder'])->name('searchorder');
 
     //transaction dispute routes
-    Route::get('transactions/disputes',  [DisputeController::class, 'index'] );
+    Route::get('transactions/disputes',  [DisputeController::class, 'index'] )->name('transactions/disputes');
     Route::post('searchdispute',  [DisputeController::class, 'searchDispute'])->name('searchdispute');
 
     //settlements routes
-    Route::get('settlements',  [SettlementController::class, 'index'] );
+    Route::get('settlements',  [SettlementController::class, 'index'] )->name('settlements');
     Route::post('searchsettlement',  [SettlementController::class, 'searchSettlement'])->name('searchsettlement');
 
     //invoice routes
-    Route::get('invoices',  [InvoiceController::class, 'index'] );
+    Route::get('invoices',  [InvoiceController::class, 'index'] )->name('invoices');
     Route::get('invoice/{id}',  [InvoiceController::class, 'showInvoice'] );
     Route::get('newinvoice',  [InvoiceController::class, 'newInvoice']);
     Route::post('searchinvoice',  [InvoiceController::class, 'searchInvoice'])->name('searchinvoice');
@@ -73,7 +74,7 @@ Route::group(['middleware' => ['token.check']], function() {
 
 
     //Items routes
-    Route::get('items',  [ItemController::class, 'index'] );
+    Route::get('items',  [ItemController::class, 'index'] )->name('items');
     Route::post('deleteitem',  [ItemController::class, 'deleteItem'])->name('deleteitem');
 
     //Payment Link routes
@@ -87,7 +88,7 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('changeexpdate',  [PaymentLinkController::class, 'changeExpDate'])->name('changeexpdate');
     Route::post('deletenote',  [PaymentLinkController::class, 'deleteNote'])->name('deletenote');
 
-    
+
     //Payment Pages routes
     Route::get('payment-pages',  [PaymentPageController::class, 'index'] );
     Route::post('get-payment-templates',  [PaymentPageController::class, 'getPaymentTemplates'] );
