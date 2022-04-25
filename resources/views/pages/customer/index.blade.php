@@ -41,7 +41,7 @@
 	        </div>
 	        <div class="pull-right">
 
-	            <a class="btn btn-success" href="#"> Create New Customer</a>
+	            <a class="btn btn-success" data-toggle="modal" data-target="#customerModal" onclick="crt_cust()"><i class="fas fa-plus"></i> Create New Customer</a>
 
 	        </div>
         </div>
@@ -67,7 +67,7 @@
 					<td>{{ $value['email'] }}</td>
 					<td>{{ $value['contact'] }} </td>
 					<td class="text-center">
-                        <a class="btn btn-primary btn-sm" href="#"  title="Edit"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#customerModal" title="Edit" onclick="edit_cust('{{ $value['id'] }}','{{ $value['name'] }}','{{ $value['email'] }}','{{$value['contact']}}','{{$value['gstin']}}')"><i class="fas fa-edit"></i></a>
 					</td>
 				</tr>
 				@endforeach
@@ -75,53 +75,68 @@
 				</tbody>
 			</table>
             <br/>
-
-
 		</div>
 	</div>
 
 
 
-<!-- Modal Structure -->
-<div id="modal1" class="modal modal-fixed-footer" style="width:500px;">
+<div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <h4 id="modal_heading">Create Customer</h4>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
         <form id="form-create-customer" method="post">
             <input type="hidden" id="edit_id">
-            <div class="input-field col s12">
-                <input placeholder="Company Name/Individual Name" name="name" id="name" type="text" class="validate" required>
-                <label for="first_name">Company Name/Individual Name</label>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="first_name">Company Name/Individual Name</label>
+                    <input placeholder="Company Name/Individual Name" name="name" id="name" type="text" class="form-control" required>
+                </div>
                 <span class="text-danger" id="nameError"></span>
             </div>
 
-            <div class="input-field col s12">
-                <input placeholder="Email" name="email" id="email" type="text" class="validate" required>
-                <label for="first_name">Email</label>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="first_name">Email</label>
+                    <input placeholder="Email" name="email" id="email" type="text" class="form-control" required>
+                </div>
                 <span class="text-danger" id="emailError"></span>
             </div>
 
-            <div class="input-field col s12">
-                <input placeholder="Customer Contact" name="customer_contact" id="customer_contact" type="text" class="validate" required>
-                <label for="first_name">Contact Number</label>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="first_name">Contact Number</label>
+                    <input placeholder="Customer Contact" name="customer_contact" id="customer_contact" type="text" class="form-control" required>
+                </div>
                 <span class="text-danger" id="contactNumberError"></span>
             </div>
 
-            <div class="input-field col s12">
-                <input placeholder="GSTIN" name="gstin" id="gstin" type="text" class="validate" required>
-                <label for="first_name">GSTIN</label>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="first_name">GSTIN</label>
+                    <input placeholder="GSTIN" name="gstin" id="gstin" type="text" class="form-control" required>
+                </div>
             </div>
-            <div class="input-field col s12">
+
+
+            <div class="col-sm-12">
                 <span id="load_msg" style="display:none;">Please wait.....</span>
             </div>
-            <div class="input-field col s3" id="customer_button">
-                <button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action" onclick="create_customer()">Create 123 Customer
-                </button>
-            </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <span id="customer_button"><button type="button" id="create_customer_btn" onclick="create_customer()" class="btn btn-primary">Save changes</button></span>
+      </div>
     </div>
-    <div class="modal-footer">
-      <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
+  </div>
 </div>
 @endsection
 
@@ -133,12 +148,10 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready( function () {
-    $('#myTable').DataTable({
-        "searching": false
-    });
+    $('#myTable').DataTable();
     $("#form-create-customer")[0].reset();
     $("#modal_heading").html('Create Customer');
-    $("#customer_button").html('<button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action" onclick="create_customer()">Create 234 Customer </button>');
+    $("#customer_button").html('<button class="btn btn-primary" id="create_customer_btn" type="button" name="action" onclick="create_customer()">Create Customer </button>');
     //$('.modal').modal();
 } );
 
@@ -151,7 +164,11 @@ function edit_cust(id,name,email,contact,gst) {
     $("#customer_contact").val(contact);
     $("#customer_contact").val(contact);
     $("#gstin").val(gst);
-    $("#customer_button").html('<button class="btn waves-effect waves-light" onclick="edit_customer_process()" type="button" name="action">Edit Customer</button>');
+    $('#nameError').html('');
+    $('#emailError').html('');
+    $('#contactNumberError').html('');
+    $("#exampleModalLabel").html('Edit Customer');
+    $("#customer_button").html('<button class="btn btn-primary" id="create_customer_btn" type="button" name="action" onclick="edit_customer_process()">Edit Customer </button>');
 }
 
 function edit_customer_process() {
@@ -197,8 +214,15 @@ function edit_customer_process() {
 }
 
 
+function crt_cust(){
+    $("#edit_id").val('');
+    $("#form-create-customer")[0].reset();
+    $("#exampleModalLabel").html('Create Customer');
+    $("#customer_button").html('<button class="btn btn-primary" id="create_customer_btn" type="button" name="action" onclick="create_customer()">Create Customer </button>');
+}
+
+
 function create_customer() {
-    alert('okk');
     $("#load_msg").show();
     $.ajax({
         url: '{{url("customer")}}',

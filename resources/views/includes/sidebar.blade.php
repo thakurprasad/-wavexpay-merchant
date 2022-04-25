@@ -38,7 +38,7 @@
                 <ul class="nav nav-treeview">
                     <li class="nav-item"><a href="{{ route('transactions/payments')}}" class="nav-link {{ Request::segment(2) === 'payments' ? 'active' : null }}"><i class="nav-icon far fa-circle text-success"></i><p>Payments</p> </a> </li>
                     <li class="nav-item"><a href="{{ route('transactions/refunds')}}" class="nav-link {{ Request::segment(2) === 'refunds' ? 'active' : null }}"><i class="nav-icon far fa-circle text-warning"></i><p>Refunds</p> </a></li>
-                    <li class="nav-item"><a href="{{ route('transactions/batch')}}" class="nav-link {{ Request::segment(2) === 'batch-refunds' ? 'active' : null }}"><i class="nav-icon far fa-circle text-info"></i><p>Batch Refunds</p> </a></li>
+                    <li class="nav-item"><a href="javascript:void(0)" class="nav-link {{ Request::segment(2) === 'batch-refunds' ? 'active' : null }}"><i class="nav-icon far fa-circle text-info"></i><p>Batch Refunds</p> </a></li>
                     <li class="nav-item"><a href="{{ route('transactions/orders')}}" class="nav-link {{ Request::segment(2) === 'orders' ? 'active' : null }}"><i class="nav-icon far fa-circle text-primary"></i><p>Orders</p> </a></li>
                     <li class="nav-item"><a href="{{ route('transactions/disputes')}}" class="nav-link {{ Request::segment(2) === 'disputes' ? 'active' : null }}"><i class="nav-icon far fa-circle text-danger"></i><p>Disputes</p> </a></li>
                 </ul>
@@ -46,12 +46,18 @@
             <li class="nav-item">
                 <a href="{{ route('settlements')}}" class="nav-link {{ in_array(Request::segment(1),array('settlements')) ? 'active' : '' }}"> <i class="nav-icon far fa-plus-square"></i> <p>Settlements</p> </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('payment-links')}}" class="nav-link {{ in_array(Request::segment(1),array('payment-links')) ? 'active' : '' }}"> <i class="nav-icon far fa-plus-square"></i> <p>Payment Links</p> </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('payment-pages')}}" class="nav-link {{ in_array(Request::segment(1),array('payment-pages')) ? 'active' : '' }}"> <i class="nav-icon far fa-dollar"></i> <p>Payment Pages</p> </a>
+            </li>
             <li class="nav-header"></li>
-            <li class="nav-item {{ in_array(Request::segment(2),array('invoices','items')) ? 'menu-open' : '' }}">
+            <li class="nav-item {{ in_array(Request::segment(1),array('invoices','items')) ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ in_array(Request::segment(2),array('invoices','items')) ? 'active' : '' }}"> <i class="nav-icon fas fa-users"></i> <p>Invoices <i class="right fas fa-angle-left"></i></p> </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item"><a href="{{ route('invoices')}}" class="nav-link {{ Request::segment(2) === 'invoices' ? 'active' : null }}"><i class="nav-icon far fa-circle text-success"></i><p>Invoices</p> </a> </li>
-                    <li class="nav-item"><a href="{{ route('items')}}" class="nav-link {{ Request::segment(2) === 'items' ? 'active' : null }}"><i class="nav-icon far fa-circle text-warning"></i><p>Items</p> </a></li>
+                    <li class="nav-item"><a href="{{ route('invoices')}}" class="nav-link {{ Request::segment(1) === 'invoices' ? 'active' : null }}"><i class="nav-icon far fa-circle text-success"></i><p>Invoices</p> </a> </li>
+                    <li class="nav-item"><a href="{{ route('items')}}" class="nav-link {{ Request::segment(1) === 'items' ? 'active' : null }}"><i class="nav-icon far fa-circle text-warning"></i><p>Items</p> </a></li>
                 </ul>
             </li>
 

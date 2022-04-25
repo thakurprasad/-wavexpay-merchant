@@ -78,7 +78,7 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('deleteitem',  [ItemController::class, 'deleteItem'])->name('deleteitem');
 
     //Payment Link routes
-    Route::get('payment-links',  [PaymentLinkController::class, 'index'] );
+    Route::get('payment-links',  [PaymentLinkController::class, 'index'] )->name('payment-links');
     Route::post('searchpaymentlink',  [PaymentLinkController::class, 'searchPaymentLink'])->name('searchpaymentlink');
     Route::post('createpaymentlink',  [PaymentLinkController::class, 'createPaymentLink'])->name('createpaymentlink');
     Route::post('getpaymentlink',  [PaymentLinkController::class, 'getPaymentLink'])->name('getpaymentlink');
@@ -90,7 +90,7 @@ Route::group(['middleware' => ['token.check']], function() {
 
 
     //Payment Pages routes
-    Route::get('payment-pages',  [PaymentPageController::class, 'index'] );
+    Route::get('payment-pages',  [PaymentPageController::class, 'index'] )->name('payment-pages');
     Route::post('get-payment-templates',  [PaymentPageController::class, 'getPaymentTemplates'] );
     Route::get('payment-template/{id}',  [PaymentPageController::class, 'showPaymentTemplates'] );
     Route::post('savepaymentpage',  [PaymentPageController::class, 'savePaymentPage'] );

@@ -120,15 +120,15 @@ class PaymentLinkController extends Controller
         }
 
         if($link_details->accept_partial == '1'){
-            $part_pay = 'yes &nbsp;&nbsp;<a style="margin-left:20px;" class="waves-effect waves-light" onclick="part_pay(\''.$id.'\',1)">Disable</a>';
+            $part_pay = 'yes &nbsp;&nbsp;<a style="margin-left:20px;cursor:pointer;"  class="btn btn-sm btn-warning" onclick="part_pay(\''.$id.'\',1)">Disable</a>';
         }else{
-            $part_pay = 'no &nbsp;&nbsp;<a style="margin-left:20px;" class="waves-effect waves-light" onclick="part_pay(\''.$id.'\',0)">Enable</a>';
+            $part_pay = 'no &nbsp;&nbsp;<a style="margin-left:20px;cursor:pointer;"  class="btn btn-sm btn-success" onclick="part_pay(\''.$id.'\',0)">Enable</a>';
         }
 
         $notehtml = '';
         if(!empty($link_details->notes)){
             foreach($link_details->notes as $key=>$val){
-                $notehtml.='<label for="first_name" style="color:blue;">'.$key.'   :   <strong>'.$val.'</strong><For></For></label><br>';
+                $notehtml.='<div class="row"><div class="col-sm-3">'.$key.'</div><div class="col-sm-3">'.$val.'</div><div class="col-sm-6"></div></div>';
             }
         }
 
@@ -136,46 +136,64 @@ class PaymentLinkController extends Controller
 
        
         
-        $html='<div class="row" style="margin-left: 50px;">
-            <div class="input-field col s12">
-                <label for="first_name" style="color:#000;">Amount : <strong style="color:blue;">'.$link_details->amount.'</strong></label>
+        $html='<div class="row">
+            <div class="col-sm-6">
+            <div class="form-group">
+                <label>Amount : <br><strong>'.$link_details->amount.'</strong></label>
             </div>
-            <div class="input-field col s12">
-                <label for="first_name" style="color:#000;">Payment For : <strong style="color:blue;">'.$link_details->description.'</strong><For></For></label>
             </div>
-            <div class="input-field col s12">
-                <label for="first_name" style="color:#000;">Reference Id : <strong id="c_r_c" style="color:blue;">'.$link_details->reference_id.'</strong><For></For><a style="margin-left:20px;" class="waves-effect waves-light  modal-trigger" href="#modal3" onclick="ch_r_id(\''.$id.'\')">Change Reference Id</a></label>
+            <div class="col-sm-6">
+            <div class="form-group">
+                <label>Payment For : <br><strong>'.$link_details->description.'</strong></label>
             </div>
-            <div class="input-field col s12">
-                <label for="first_name" style="color:#000;">Customer Email : <strong style="color:blue;">'.$link_details->customer->email.'</strong><For></For></label>
             </div>
-            <div class="input-field col s12">
+            <div class="col-sm-12">
+            <div class="form-group">
+                <label>Reference Id :        <strong id="c_r_c">'.$link_details->reference_id.'</strong><a style="margin-left:30px;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal3" onclick="ch_r_id(\''.$id.'\')">Change Reference Id</a></label>
+            </div>
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+                <label>Customer Email : <br><strong>'.$link_details->customer->email.'</strong></label>
+            </div>
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
                 <span id="customer_contact"></span>
-                <label for="first_name" style="color:#000;">Customer Contact : <strong style="color:blue;">'.$link_details->customer->contact.'</strong><For></For></label>
+                <label>Customer Contact : <br><strong>'.$link_details->customer->contact.'</strong></label>
             </div>
-            <br clear="all">
-            <div class="input-field col s12">
-                <label for="first_name" style="color:#000;">Notify Via Email :  <strong style="color:blue;">'.$estatus.'</strong></label>
             </div>
-            <div class="input-field col s12">
-                <label for="first_name" style="color:#000;">Notify Via SMS : <strong style="color:blue;">'.$sstatus.'</strong></label>
+            <div class="col-sm-6">
+            <div class="form-group">
+                <label>Notify Via Email :  <br><strong>'.$estatus.'</strong></label>
             </div>
-            <div class="input-field col s12">
-                <label for="first_name" style="color:#000;">Expiry? : <strong style="color:blue;">'.$is_expire.'</strong><a style="margin-left:20px;" class="waves-effect waves-light  modal-trigger" href="#modal5" onclick="edit_expiry_date(\''.$id.'\')">Change</a>';
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+                <label>Notify Via SMS : <br><strong>'.$sstatus.'</strong></label>
+            </div>
+            </div>
+            <div class="col-sm-12">
+            <div class="form-group">
+                <label>Expiry? : <strong>'.$is_expire.'</strong><a style="margin-left:30px;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal5" onclick="edit_expiry_date(\''.$id.'\')">Change</a><br>';
                 if($is_expire=='yes'){
                     $html.='<strong style="margin-left:20px;" >'.date('d/m/Y',$link_details->expire_by).'</strong>';
                 }
                 $html.='</label>
                 <span id="isexpiry"></span>
+            </div>
             </div>';
-            $html.='<div class="input-field col s12">
-                <label for="first_name" style="color:#000;">Partial Payments? : <strong style="color:blue;">'.$part_pay.'</strong></label>
+            $html.='<div class="col-sm-12">
+            <div class="form-group">
+                <label>Partial Payments? : <br><strong>'.$part_pay.'</strong></label>
                 <span id="partial_paymet"></span>
             </div>
-            <div class="input-field col s12">
-                <br clear="all"><br clear="all"> 
-                <label for="first_name" style="color:#000;"> <strong style="color:black;">NOTES</strong><For></For><a style="margin-left:20px;" class="waves-effect waves-light  modal-trigger" href="#modal4" onclick="edit_notes(\''.$id.'\')">Add Notes</a></label>                        
+            </div>
+            <div class="col-sm-12">
+            <div class="form-group">
+                <label for="first_name" style="color:#000;"> <strong style="color:black;">NOTES</strong><For></For><a style="margin-left:20px;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal4" onclick="edit_notes(\''.$id.'\')">Add Notes</a></label><br>                     
                 <span id="add_note_container">'.$notehtml.'</span>
+            </div>
             </div>
         </div>';
 

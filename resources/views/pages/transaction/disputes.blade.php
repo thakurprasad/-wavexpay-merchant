@@ -1,37 +1,66 @@
-{{-- extend layout --}}
-@extends('layouts.contentLayoutMaster')
-
-{{-- page title --}}
+@extends('layouts.admin')
 @section('title','Disputes')
-
-{{-- page content --}}
+@section('content_header')
+<div class="row mb-2">
+	<div class="col-sm-6">
+	<h1>Orders Management</h1>
+	</div>
+	<div class="col-sm-6">
+	<ol class="breadcrumb float-sm-right">
+		<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+		<li class="breadcrumb-item active">Orders</li>
+	</ol>
+	</div>
+</div>
+@endsection
 @section('content')
-<div class="section">
-    <div class="card">
-        <div class="card-content">
-            <p class="caption mb-0">
-                <div class="row">
-                    <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchorder">
-                        @csrf
-                        <div class="row">
-                            <div class="input-field col s3">
-                                <input placeholder="Order Id" name="dispute_id" id="dispute_id" type="text" class="validate">
+    @if ($message = Session::get('success'))
+    <div class="alert alert-success">
+        <ul class="margin-bottom-none padding-left-lg">
+            <li>{{ $message }}</li>
+        </ul>
+    </div>
+    @endif
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        <ul class="margin-bottom-none padding-left-lg">
+            <li>{{ $message }} </li>
+        </ul>
+    </div>
+    @endif
+        <div class="card">
+            <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchorder">
+                @csrf
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
                                 <label for="first_name">Dispute Id</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input placeholder="Reciept" name="payment_id" id="payment_id" type="text" class="validate">
+                                <input placeholder="Order Id" name="dispute_id" id="dispute_id" type="text" class="validate">
+                            </div>  
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
                                 <label for="first_name">Payment Id</label>
+                                <input placeholder="Reciept" name="payment_id" id="payment_id" type="text" class="validate">
                             </div>
-                            <div class="input-field col s3">
-                                <input id="start_date" name="start_date" type="text" class="datepicker">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
                                 <label for="last_name">Start Date</label>
+                                <input id="start_date" name="start_date" type="date" class="form-control">
                             </div>
-                            <div class="input-field col s3">
-                                <input id="end_date" name="end_date" type="text" class="datepicker">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
                                 <label for="last_name">End Date</label>
+                                <input id="end_date" name="end_date" type="date" class="form-control">
                             </div>
-                            <div class="input-field col s3">
-                                <select name="status">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Dispute Status</label>
+                                <select class="form-control" name="status">
                                     <option value="">All</option>
                                     <option value="open">Open</option>
                                     <option value="under_review">Under Review</option>
@@ -39,10 +68,12 @@
                                     <option value="won">Won</option>
                                     <option value="closed">Closed</option>
                                 </select>
-                                <label>Dispute Status</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <select name="phase">
+                            </div>  
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Dispute Type</label>
+                                <select class="form-control" name="phase">
                                     <option value="">All</option>
                                     <option value="retrieval">Retrieval</option>
                                     <option value="chargeback">Chargeback</option>
@@ -50,17 +81,21 @@
                                     <option value="arbitration">Arbitration</option>
                                     <option value="fraud">Fraud</option>
                                 </select>
-                                <label>Dispute Type</label>
-                            </div>
-                            <div class="input-field col s3">                          
-                                <button class="btn waves-effect waves-light" type="button" onclick="search_dispute()" name="action">Submit
-                                    <i class="material-icons right">send</i>
-                                </button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <table id="myTable">
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary"  onclick="search_dispute()">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-responsive-sm" id="myTable">
                     <thead>
                         <tr>
                         <th scope="col">Dispute Id</th>
@@ -90,10 +125,8 @@
                         @endif
                     </tbody>
                 </table>
-            </p>
+            </div>
         </div>
-    </div>
-</div>
 @endsection
 
 

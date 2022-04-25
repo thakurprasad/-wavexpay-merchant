@@ -36,13 +36,13 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="payment_id">Payment Id</label>
-                        <input type="payment_id" class="form-control" id="payment_id" placeholder="Payment Id">
+                        <input type="text" name="payment_id" class="form-control" id="payment_id" placeholder="Payment Id">
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Email">
+                        <input type="text" name="email" type="email" class="form-control" id="email" placeholder="Email">
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -60,26 +60,26 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="notes">Notes</label>
-                        <input type="notes" class="form-control" id="notes" placeholder="Notes">
+                        <input type="text" name="notes" class="form-control" id="notes" placeholder="Notes">
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="start_date">Start Date</label>
-                        <input type="start_date" class="form-control" id="start_date" placeholder="Start Date">
+                        <input type="date" name="start_date" class="form-control" id="start_date" placeholder="Start Date">
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="end_date">End Date</label>
-                        <input type="end_date" class="form-control" id="end_date" placeholder="End Date">
+                        <input type="date" name="end_date" class="form-control" id="end_date" placeholder="End Date">
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary"  onclick="search_payment()">Submit</button>
+            <button type="button" class="btn btn-primary"  onclick="search_payment()">Submit</button>
         </div>
         </form>
     </div>
@@ -104,7 +104,7 @@
                     @if(!empty($all_payments->items))
                     @foreach($all_payments->items as $payment)
                     <tr>
-                        <th >{{$payment['id']}}</th>
+                        <td>{{$payment['id']}}</td>
                         <td>{{$payment['amount']}}</td>
                         <td>{{$payment['email']}}</td>
                         <td>{{$payment['contact']}}</td>

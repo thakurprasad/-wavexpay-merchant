@@ -74,12 +74,16 @@ class LoginController extends Controller
             // 'application/json; charset=utf8'
             $res  =  json_decode($response->getBody(),true);
 
+            //print_r($res);exit;
+
             if($status_code==200){
                 if($res['status']=='success'){
 
                     $access_token = $res['access_token'];
                     session()->put('token', $access_token);
                     session()->put('merchant', $res['merchant']['merchant_id']);
+                    session()->put('merchant_key', $res['api_keys'][0]['api_key']);
+                    session()->put('merchant_secret', $res['api_keys'][0]['api_secret']);
                     return redirect('/');
                 }else{
                     return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);

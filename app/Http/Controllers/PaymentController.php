@@ -22,7 +22,7 @@ class PaymentController extends Controller
     }
 
     public function searchPayment(Request $request){
-        $payment_id = $request->invoice_id;
+        $payment_id = $request->payment_id;
         $email = $request->email;
         $status = $request->status;
         $notes = $request->notes;
@@ -30,6 +30,7 @@ class PaymentController extends Controller
         $end_date = $request->end_date;
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $all_payments = $api->payment->all();
+        
         $html = '';
 
         $start_date = DateTime::createFromFormat('d/m/Y', $start_date);
@@ -49,6 +50,7 @@ class PaymentController extends Controller
 
         if(!empty($all_payments->items)){
             foreach($all_payments->items as $payment){
+                echo ($payment['email']); echo '*****'; echo $email; exit;
                 if($payment_id==$payment['id'] || $email==$payment['email'] ||  $status==$payment['status']){
                     $html.='<tr>
                         <th scope="row">'.$payment['id'].'</th>

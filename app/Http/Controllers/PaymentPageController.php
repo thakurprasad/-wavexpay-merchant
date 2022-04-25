@@ -56,7 +56,7 @@ class PaymentPageController extends Controller
         $html = '';
         if(!empty($res)){
             foreach($res as $data){
-                $html.='<div class="card"><a href="payment-template/'.$data['id'].'"><div class="card-content"><p>'.$data['title'].'</p><p>'.$data['subtitle'].'</p></div></a></div>';
+                $html.='<div class="card"><div class="card-body"><a href="payment-template/'.$data['id'].'"><div class="card-content"><p>'.$data['title'].'</p><p>'.$data['subtitle'].'</p></div></a></div></div>';
             }
         }
         return response()->json(array('html'=>$html));

@@ -1,36 +1,55 @@
-{{-- extend layout --}}
-@extends('layouts.contentLayoutMaster')
-
-{{-- page title --}}
-@section('title','Settlement')
-
-{{-- page content --}}
+@extends('layouts.admin')
+@section('title','Settlements')
+@section('content_header')
+<div class="row mb-2">
+	<div class="col-sm-6">
+	<h1>Orders Management</h1>
+	</div>
+	<div class="col-sm-6">
+	<ol class="breadcrumb float-sm-right">
+		<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+		<li class="breadcrumb-item active">Orders</li>
+	</ol>
+	</div>
+</div>
+@endsection
 @section('content')
-<div class="section">
-    <div class="card">
-        <div class="card-content">
-            <p class="caption mb-0">
-                <div class="row">
-                    <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/searchsettlements">
-                        @csrf
-                        <div class="row">
-                            <div class="input-field col s3">
-                                <input placeholder="Settlement ID" name="settlement_id" id="settlement_id" type="text" class="validate">
+    @if ($message = Session::get('success'))
+    <div class="alert alert-success">
+        <ul class="margin-bottom-none padding-left-lg">
+            <li>{{ $message }}</li>
+        </ul>
+    </div>
+    @endif
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        <ul class="margin-bottom-none padding-left-lg">
+            <li>{{ $message }} </li>
+        </ul>
+    </div>
+    @endif
+        <div class="card">
+            <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/searchsettlements">
+                @csrf
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
                                 <label for="first_name">Settlement Id</label>
+                                <input placeholder="Settlement ID" name="settlement_id" id="settlement_id" type="text" class="form-control">
                             </div>
-                            
-                            <div class="input-field col s3">                          
-                                <button class="btn waves-effect waves-light" type="button" onclick="search_settlement()" name="action">Submit
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </div>
-        
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <table id="myTable">
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary"  onclick="search_settlement()">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered table-responsive-sm" id="myTable">
                     <thead>
-                        
                         <tr>
                         <th scope="col">Settlement Id</th>
                         <th scope="col">Fees</th>
@@ -56,10 +75,8 @@
                         @endif
                     </tbody>
                 </table>
-            </p>
+            </div>
         </div>
-    </div>
-</div>
 @endsection
 
 

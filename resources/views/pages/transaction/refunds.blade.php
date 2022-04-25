@@ -34,7 +34,47 @@
             </ul>
         </div>
     @endif
-
+    <div class="card">
+        <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchorder">
+            @csrf
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="first_name">Refund Id</label>
+                            <input placeholder="Refund Id" name="refund_id" id="refund_id" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="first_name">Payment Id</label>
+                            <input placeholder="Payment Id" name="payment_id" id="payment_id" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="last_name">Notes</label>
+                            <input placeholder="Notes" id="notes" name="notes" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="status" class="form-control">
+                                <option value="">Choose your option</option>
+                                <option value="created">Created</option>
+                                <option value="accepted">Accepted</option>
+                                <option value="paid">Paid</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary"  onclick="search_refund()">Submit</button>
+            </div>
+        </form>
+    </div>
     <div class="card">
 		<div class="card-header">
 			<div class="pull-left">
@@ -57,7 +97,7 @@
                     <th scope="col">Status</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="table_container">
                     @if(!empty($all_refunds->items))
                     @foreach($all_refunds->items as $refund)
                     <tr>

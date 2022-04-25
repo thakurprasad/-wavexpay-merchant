@@ -26,13 +26,13 @@ class RefundController extends Controller
         $refund_id = $request->refund_id;
         $status = $request->status;
         $notes = $request->notes;
-
+        $html='';
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $all_refunds = $api->refund->all();
 
         if(!empty($all_payments->items)){
             foreach($all_refunds->items as $refund){
-                if($payment_id==$payment['id'] || $email==$payment['email'] || $status==$payment['status']){
+                if($payment_id==$refund['payment_id'] || $refund_id==$refund['id'] || $status==$refund['status']){
                     $html.='<tr>
                         <th scope="row">'.$refund['id'].'</th>
                         <th scope="row">'.$refund['payment_id'].'</th>

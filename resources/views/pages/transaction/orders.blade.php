@@ -1,80 +1,109 @@
-{{-- extend layout --}}
-@extends('layouts.contentLayoutMaster')
-
-{{-- page title --}}
+@extends('layouts.admin')
 @section('title','Orders')
-
-{{-- page content --}}
+@section('content_header')
+<div class="row mb-2">
+	<div class="col-sm-6">
+	<h1>Orders Management</h1>
+	</div>
+	<div class="col-sm-6">
+	<ol class="breadcrumb float-sm-right">
+		<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+		<li class="breadcrumb-item active">Orders</li>
+	</ol>
+	</div>
+</div>
+@endsection
 @section('content')
-<div class="section">
+    @if ($message = Session::get('success'))
+    <div class="alert alert-success">
+        <ul class="margin-bottom-none padding-left-lg">
+            <li>{{ $message }}</li>
+        </ul>
+    </div>
+    @endif
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        <ul class="margin-bottom-none padding-left-lg">
+            <li>{{ $message }} </li>
+        </ul>
+    </div>
+    @endif
     <div class="card">
-        <div class="card-content">
-            <p class="caption mb-0">
+        <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchorder">
+            @csrf
+            <div class="card-body">
                 <div class="row">
-                    <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchorder">
-                        @csrf
-                        <div class="row">
-                            <div class="input-field col s3">
-                                <input placeholder="Order Id" name="order_id" id="order_id" type="text" class="validate">
-                                <label for="first_name">Order Id</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input placeholder="Reciept" name="reciept" id="reciept" type="text" class="validate">
-                                <label for="first_name">Reciept</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <input placeholder="Notes" id="notes" name="notes" type="text" class="validate">
-                                <label for="last_name">Notes</label>
-                            </div>
-                            <div class="input-field col s3">
-                                <select name="status">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="first_name">Order Id</label>
+                            <input placeholder="Order Id" name="order_id" id="order_id" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="first_name">Reciept</label>
+                            <input placeholder="Reciept" name="reciept" id="reciept" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="last_name">Notes</label>
+                            <input placeholder="Notes" id="notes" name="notes" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="status" class="form-control">
                                 <option value="" disabled selected>Choose your option</option>
                                 <option value="created">Created</option>
                                 <option value="accepted">Accepted</option>
                                 <option value="paid">Paid</option>
-                                </select>
-                                <label>Status</label>
-                            </div>
-                            <div class="input-field col s3">                          
-                                <button class="btn waves-effect waves-light" type="button" onclick="search_order()" name="action">Submit
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </div>
+                            </select>
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <table id="myTable">
-                    <thead>
-                        <tr>
-                        <th scope="col">Order Id</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Attempts</th>
-                        <th scope="col">Receipt</th>
-                        <th scope="col">Created At</th>
-                        <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table_container">
-                        @if(!empty($all_orders->items))
-                        @foreach($all_orders->items as $order)
-                        <tr>
-                            <th scope="row">{{$order->id}}</th>
-                            <td>{{number_format($order->amount/100,2)}}</td>
-                            <td>{{$order->attempts}}</td>
-                            <td>{{$order->receipt}}</td>
-                            <td>{{date("jS F, Y", $order->created_at)}}</td>
-                            <td>
-                                <a class="waves-effect waves-light btn-small">{{$order->status}}</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </p>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary"  onclick="search_order()">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="card">
+        <div class="card-body">
+
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-responsive-sm" id="myTable">
+                <thead>
+                    <tr>
+                    <th scope="col">Order Id</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Attempts</th>
+                    <th scope="col">Receipt</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="table_container">
+                    @if(!empty($all_orders->items))
+                    @foreach($all_orders->items as $order)
+                    <tr>
+                        <td>{{$order->id}}</td>
+                        <td>{{number_format($order->amount/100,2)}}</td>
+                        <td>{{$order->attempts}}</td>
+                        <td>{{$order->receipt}}</td>
+                        <td>{{date("jS F, Y", $order->created_at)}}</td>
+                        <td>
+                            <a class="waves-effect waves-light btn-small">{{$order->status}}</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                    @endif
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
 @endsection
 
 

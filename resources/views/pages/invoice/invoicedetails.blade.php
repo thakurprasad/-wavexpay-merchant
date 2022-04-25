@@ -1,32 +1,65 @@
 {{-- extend layout --}}
-@extends('layouts.contentLayoutMaster')
+@extends('layouts.admin')
 
 {{-- page title --}}
-@section('title','Invoices')
+@section('title','Invoice')
+
+@section('content_header')
+<div class="row mb-2">
+	<div class="col-sm-6">
+	<h1>Invoice Management</h1>
+	</div>
+	<div class="col-sm-6">
+	<ol class="breadcrumb float-sm-right">
+		<li class="breadcrumb-item"><a href="{{ route('home')}}">Home</a></li>
+		<li class="breadcrumb-item active">Invoice</li>
+	</ol>
+	</div>
+</div>
+@endsection
 
 {{-- page content --}}
 @section('content')
-<div class="section">
+@if ($message = Session::get('success'))
+<div class="alert alert-success">
+    <ul class="margin-bottom-none padding-left-lg">
+        <li>{{ $message }}</li>
+    </ul>
+</div>
+@endif
+@if ($message = Session::get('error'))
+<div class="alert alert-danger">
+    <ul class="margin-bottom-none padding-left-lg">
+        <li>{{ $message }} </li>
+    </ul>
+</div>
+@endif
     <div class="card">
-        <div class="card-content">
-            <p class="caption mb-0">
-                <div class="row">
-                    <form id="form-edit-invoice" method="post">
-                        <input type="hidden" id="edit_id" value="{{$invoice_details->id}}">
-                        <div class="row">
-                            <div class="input-field col s6">
-                                <input placeholder="Invoice #" name="invoice_no" id="invoice_no" type="text" class="validate" required value="{{$invoice_details->id}}" readonly>
+        <div class="card-body">
+            <div class="row">
+                <form id="form-edit-invoice" method="post">
+                    <input type="hidden" id="edit_id" value="{{$invoice_details->id}}">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
                                 <label for="first_name">Invoice #</label>
+                                <input placeholder="Invoice #" name="invoice_no" id="invoice_no" type="text" class="form-control" required value="{{$invoice_details->id}}" readonly>
                                 <span class="text-danger" id="nameError"></span>
                             </div>
+                        </div>
 
-                            <div class="input-field col s12">
-                                <input placeholder="Enter Description" name="desscription" id="desscription" type="text" class="validate" required value="{{$invoice_details->description}}">
+                        <div class="col-sm-12">
+                            <div class="form-group">
                                 <label for="first_name">Description</label>
+                                <input placeholder="Enter Description" name="desscription" id="desscription" type="text" class="form-control" required value="{{$invoice_details->description}}">
                             </div>
-                            <div class="col s6">
+                        </div>
+
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <h6>BILLING TO</h6>
-                                <select name="customer" id="customer">
+                                <select class="form-control" name="customer" id="customer">
                                     <option value="" disabled>Select A Customer</option>
                                     @if(!empty($all_customers->items))
                                     @foreach($all_customers->items as $customer)
@@ -43,53 +76,55 @@
                                 {{$invoice_details->customer_details->contact}}<br>
                                 {{$invoice_details->customer_details->email}}<br>
                             </div>
-                            <div class="col s6">
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
                                 <h6>Billing Address &nbsp;<a class="modal-trigger" href="#billingmodal">Change</a></h6>
                                 <p id="billing_address"></p>
 
                                 <div class="row" id="billing_address_container">
-                                    <div class="col s6">
-                                        <input type="text" id="c_bil_add1" readonly value="<?php 
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="c_bil_add1" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->billing_address->line1))
                                         {
                                             echo $invoice_details->customer_details->billing_address->line1;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s6">
-                                        <input type="text" id="c_bil_add2" readonly value="<?php 
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="c_bil_add2" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->billing_address->line2))
                                         {
                                             echo $invoice_details->customer_details->billing_address->line2;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s3">
-                                        <input type="text" id="c_bil_state" readonly value="<?php 
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="c_bil_state" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->billing_address->state))
                                         {
                                             echo $invoice_details->customer_details->billing_address->state;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s3">
-                                        <input type="text" id="c_bil_city" readonly value="<?php 
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="c_bil_city" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->billing_address->city))
                                         {
                                             echo $invoice_details->customer_details->billing_address->city;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s3">
-                                        <input type="text" id="c_bil_zip" readonly value="<?php 
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="c_bil_zip" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->billing_address->zipcode))
                                         {
                                             echo $invoice_details->customer_details->billing_address->zipcode;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s3">
-                                        <input type="text" id="c_bil_country" readonly value="<?php 
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="c_bil_country" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->billing_address->country))
                                         {
                                             echo $invoice_details->customer_details->billing_address->country;
@@ -101,48 +136,48 @@
                                 <h6>Shipping Address &nbsp;<a class="modal-trigger" href="#shippingmodal">Change</a></h6>
                                 <p id="shipping_address"></p>
                                 <div class="row" id="shipping_address_container">
-                                    <div class="col s6">
-                                        <input type="text" id="c_shi_add1" readonly value="<?php 
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="c_shi_add1" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->shipping_address->line1))
                                         {
                                             echo $invoice_details->customer_details->shipping_address->line1;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s6">
-                                        <input type="text" id="c_shi_add2" readonly value="<?php 
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="c_shi_add2" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->shipping_address->line2))
                                         {
                                             echo $invoice_details->customer_details->shipping_address->line2;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s3">
-                                        <input type="text" id="c_shi_state" readonly value="<?php 
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="c_shi_state" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->shipping_address->state))
                                         {
                                             echo $invoice_details->customer_details->shipping_address->state;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s3">
-                                        <input type="text" id="c_shi_city" readonly value="<?php 
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="c_shi_city" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->shipping_address->city))
                                         {
                                             echo $invoice_details->customer_details->shipping_address->city;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s3">
-                                        <input type="text" id="c_shi_zip" readonly value="<?php 
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="c_shi_zip" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->shipping_address->zipcode))
                                         {
                                             echo $invoice_details->customer_details->shipping_address->zipcode;
                                         }
                                         ?>">
                                     </div>
-                                    <div class="col s3">
-                                        <input type="text" id="c_shi_country" readonly value="<?php 
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="c_shi_country" readonly value="<?php 
                                         if(isset($invoice_details->customer_details->shipping_address->country))
                                         {
                                             echo $invoice_details->customer_details->shipping_address->country;
@@ -151,136 +186,147 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="input-field col s12"></div>
+                        </div>
+                        <div class="col-sm-12"></div>
 
-                            <div class="col s4">
+                        <div class="col-sm-4">
+                            <div class="form-group">
                                 <label for="first_name">Issue Date</label>
-                                <input placeholder="Issue Date" name="issue_date" id="issue_date" type="date" class="validate" required value="<?php if(!empty($invoice_details->created_at)){
-                                    echo date('Y-m-d',$invoice_details->created_at);
+                                <input placeholder="Issue Date" name="issue_date" id="issue_date" type="date" class="form-control" required value="<?php if(!empty($invoice_details->created_at)){
+                                echo date('Y-m-d',$invoice_details->created_at);
                                 } ?>">
-                                
                             </div>
-                            <div class="col s4">
+                        </div>
+
+
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
                                 <label for="first_name">Expiry Date</label>
-                                <input placeholder="Expiry Date" name="expiry_date" id="expiry_date" type="date" class="validate" required value="<?php if(!empty($invoice_details->expire_by)){
+                                <input placeholder="Expiry Date" name="expiry_date" id="expiry_date" type="date"  class="form-control" required value="<?php if(!empty($invoice_details->expire_by)){
                                     echo date('Y-m-d',$invoice_details->expire_by);
-                                } ?>"> 
+                                } ?>">
                             </div>
-                            <div class="col s4">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
                                 <label for="first_name">Place Of Supply</label>
-                                <input placeholder="Place Of Supply" name="place_of_supply" id="place_of_supply" type="text" class="validate" required value="<?php if(!empty($invoice_details->supply_state_code)){
+                                <input placeholder="Place Of Supply" name="place_of_supply" id="place_of_supply" type="text"  class="form-control" required value="<?php if(!empty($invoice_details->supply_state_code)){
                                     echo $invoice_details->supply_state_code;
                                 } ?>">
                             </div>
+                        </div>
 
-                            <div class="input-field col s12">
-                                <input placeholder="Customer Notes" name="customer_notes" id="customer_notes" type="text" class="validate" required value="<?php if(!empty($invoice_details->comment)){
-                                    echo $invoice_details->comment;
-                                } ?>">
+                        <div class="col-sm-4">
+                            <div class="form-group">
                                 <label for="first_name">Customer Notes</label>
-                            </div>
-
-                            <div class="input-field col s12">
-                                <input placeholder="Terms And Condition" name="terms_condition" id="terms_condition" type="text" class="validate" required value="<?php if(!empty($invoice_details->terms)){
-                                    echo $invoice_details->terms;
+                                <input placeholder="Customer Notes" name="customer_notes" id="customer_notes" type="text"  class="form-control" required value="<?php if(!empty($invoice_details->comment)){
+                                echo $invoice_details->comment;
                                 } ?>">
-                                <label for="first_name">Terms And Condition</label>
-                            </div>
-
-                            <div class="input-field col s12">
-                                <table id="item-table">
-                                    <tr>
-                                        <th class="lineItem__item">DESCRIPTION</th>
-                                        <th class="text-right lineItem__amount">RATE/ITEM</th>
-                                        <th class="text-right lineItem__qty">QTY</th>
-                                        <th class="text-right lineItem__total">TOTAL</th>
-                                    </tr>
-                                    <tbody>
-                                        @if(!empty($invoice_details->line_items))
-                                        @foreach($invoice_details->line_items as $item)
-                                        <tr>
-                                            <td>
-                                                <select name="tableitem[]" id="tableitem{{$item->id}}" onchange="select_item('{{$item->id}}')">
-                                                    <option value="" disabled selected>Select An Item</option>
-                                                    @if(!empty($all_items->items))
-                                                    @foreach($all_items->items as $titem)
-                                                    <option value="{{$titem->id}}" 
-                                                    <?php 
-                                                    if($titem->name==$item->name)
-                                                    {
-                                                        echo 'selected="selected"';
-                                                    }
-                                                    ?>
-                                                    ><strong>{{$titem->name}}</option>
-                                                    @endforeach
-                                                    @endif
-                                                </select>
-                                                <span id="itd{{$titem->id}}">
-                                                </span>
-                                                
-                                            </td>
-                                            <td>
-                                                <input type="text" name="item_rate[]" id="item_rate{{$item->id}}" class="validate sum" required value="{{ $item->amount/100 }}">
-                                            </td>
-                                            <td>
-                                                <input type="number" min="1" name="item_qty[]" id="item_qty{{$item->id}}" class="validate" onclick="change_sub_amount('{{$item->id}}')" required value="{{ $item->quantity }}">
-                                            </td>
-                                            <td>
-                                                <input type="text" name="item_total[]" id="item_total{{$item->id}}" class="validate" required value="{{ $item->gross_amount/100 }}">
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @endif
-
-                                        <?php 
-                                        for($i=1;$i<=10;$i++)
-                                        {
-                                        ?>
-                                        <tr id="item_row_id{{$i}}" style="display:none;">
-                                            <td>
-                                                
-                                                <select name="tableitem[]" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
-                                                    <option value="" disabled selected>Select An Item</option>
-                                                    @if(!empty($all_items->items))
-                                                    @foreach($all_items->items as $titem)
-                                                    <option value="{{$titem->id}}"><strong>{{$titem->name}}</option>
-                                                    @endforeach
-                                                    @endif
-                                                </select>
-                                                <span id="itd{{$i}}">
-                                                </span>
-                                                <!--<a class="modal-trigger" href="#createitemmodal" onclick="item_row('{{$i}}')">+ Create New Item</a>-->
-                                            </td>
-                                            <td>
-                                                <input type="text" name="item_rate[]" id="item_rate{{$i}}" class="validate sum" required>
-                                            </td>
-                                            <td>
-                                                <input type="number" min="1" name="item_qty[]" id="item_qty{{$i}}" class="validate" onclick="change_sub_amount('{{$i}}')" required>
-                                            </td>
-                                            <td>
-                                                <input type="text" name="item_total[]" id="item_total{{$i}}" class="validate" required>
-                                            </td>
-                                        </tr>
-                                        <?php 
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="input-field col s12">
-                                <a class="waves-effect waves-light" href="javascript:void(0)" onclick="add_line_item()">+ Add Line Item</a>
-                            </div>
-                            <table><tr><td></td><td></td><td>Total Amount : </td><td><input type="text" id="total_amt" disabled value="{{ $invoice_details->amount/100 }}"></td></tr></table>
-                            <div class="input-field col s2">                          
-                                <a class="waves-effect waves-light btn" href="javascript:void(0)" onclick="save_invoice()">Save</a>
                             </div>
                         </div>
-                    </form>
-                </div>
-            </p>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="first_name">Terms And Condition</label>
+                                <input placeholder="Terms And Condition" name="terms_condition" id="terms_condition" type="text"  class="form-control" required value="<?php if(!empty($invoice_details->terms)){
+                                echo $invoice_details->terms;
+                                } ?>">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <table  class="table table-bordered table-responsive-sm" id="item-table">
+                                <tr>
+                                    <th class="lineItem__item">DESCRIPTION</th>
+                                    <th class="text-right lineItem__amount">RATE/ITEM</th>
+                                    <th class="text-right lineItem__qty">QTY</th>
+                                    <th class="text-right lineItem__total">TOTAL</th>
+                                </tr>
+                                <tbody>
+                                    @if(!empty($invoice_details->line_items))
+                                    @foreach($invoice_details->line_items as $item)
+                                    <tr>
+                                        <td>
+                                            <select name="tableitem[]" id="tableitem{{$item->id}}" onchange="select_item('{{$item->id}}')">
+                                                <option value="" disabled selected>Select An Item</option>
+                                                @if(!empty($all_items->items))
+                                                @foreach($all_items->items as $titem)
+                                                <option value="{{$titem->id}}" 
+                                                <?php 
+                                                if($titem->name==$item->name)
+                                                {
+                                                    echo 'selected="selected"';
+                                                }
+                                                ?>
+                                                ><strong>{{$titem->name}}</option>
+                                                @endforeach
+                                                @endif
+                                            </select>
+                                            <span id="itd{{$titem->id}}">
+                                            </span>
+                                            
+                                        </td>
+                                        <td>
+                                            <input type="text" name="item_rate[]" id="item_rate{{$item->id}}" class="validate sum" required value="{{ $item->amount/100 }}">
+                                        </td>
+                                        <td>
+                                            <input type="number" min="1" name="item_qty[]" id="item_qty{{$item->id}}" class="validate" onclick="change_sub_amount('{{$item->id}}')" required value="{{ $item->quantity }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="item_total[]" id="item_total{{$item->id}}" class="validate" required value="{{ $item->gross_amount/100 }}">
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @endif
+
+                                    <?php 
+                                    for($i=1;$i<=10;$i++)
+                                    {
+                                    ?>
+                                    <tr id="item_row_id{{$i}}" style="display:none;">
+                                        <td>
+                                            
+                                            <select name="tableitem[]" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
+                                                <option value="" disabled selected>Select An Item</option>
+                                                @if(!empty($all_items->items))
+                                                @foreach($all_items->items as $titem)
+                                                <option value="{{$titem->id}}"><strong>{{$titem->name}}</option>
+                                                @endforeach
+                                                @endif
+                                            </select>
+                                            <span id="itd{{$i}}">
+                                            </span>
+                                            <!--<a class="modal-trigger" href="#createitemmodal" onclick="item_row('{{$i}}')">+ Create New Item</a>-->
+                                        </td>
+                                        <td>
+                                            <input type="text" name="item_rate[]" id="item_rate{{$i}}" class="validate sum" required>
+                                        </td>
+                                        <td>
+                                            <input type="number" min="1" name="item_qty[]" id="item_qty{{$i}}" class="validate" onclick="change_sub_amount('{{$i}}')" required>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="item_total[]" id="item_total{{$i}}" class="validate" required>
+                                        </td>
+                                    </tr>
+                                    <?php 
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="input-field col s12">
+                            <a class="waves-effect waves-light" href="javascript:void(0)" onclick="add_line_item()">+ Add Line Item</a>
+                        </div>
+                        <table class="table table-responsive-sm"><tr><td style="width: 195px;"></td><td style="width: 290px;"></td><td style="width: 290px; padding-left:230px;">Total : </td><td><input type="text" style="float:right;" class="form-control" id="total_amt" disabled value="{{ $invoice_details->amount/100 }}"></td></tr></table>
+                        <div class="col-sm-2">                          
+                            <a class="btn btn-md btn-info" href="javascript:void(0)" onclick="save_invoice()">Save</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
 
 <!-- Modal Structure -->
@@ -436,11 +482,6 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
-$(document).ready( function () {
-    $('.modal').modal();
-} );
-
-
 $("#customer").on('change', function() {
     $("#billing_address").html('<a class="modal-trigger" href="#billingmodal">+ Add Billing Address</a>');
     $("#shipping_address").html('<a class="modal-trigger" href="#shippingmodal">+ Add Shipping Address</a>');

@@ -14,7 +14,14 @@ class InvoiceController extends Controller
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
 
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        //rzp_live_WtpbTT2s2aJ3Ky
+        //uSaaMQw3jHK0MPtOnXCSSg51
+
+        $api_key = session('merchant_key');
+        $api_secret = session('merchant_secret');
+
+
+        $api = new Api($api_key, $api_secret);
         $all_invoices = $api->invoice->all();
 
         $all_customers = $api->customer->all();
@@ -82,8 +89,12 @@ class InvoiceController extends Controller
 
         /*$options = ['id'=>$invoice_id,'reciept'=>$receipt,'customer_contact'=>$customer_contact,'customer_email'=>$customer_email];*/
 
-        
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api_key = session('merchant_key');
+        $api_secret = session('merchant_secret');
+
+
+        $api = new Api($api_key, $api_secret);
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $all_invoices = $api->invoice->all();
 
         $html = '';
@@ -119,7 +130,12 @@ class InvoiceController extends Controller
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
 
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api_key = session('merchant_key');
+        $api_secret = session('merchant_secret');
+
+
+        $api = new Api($api_key, $api_secret);
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
 
         $all_customers = $api->customer->all();
 
@@ -132,30 +148,31 @@ class InvoiceController extends Controller
     public function createItem(Request $request){
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
 
-        $api->Item->create(array("name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR"));
-
-        $all_items = $api->Item->all();
-        $item_dropdown='<option value="" disabled>Select An Item</option>';
-        foreach($all_items->items as $titem){
-            $item_dropdown.='<option value="'.$titem->id.'"';
-            if($titem->name==$request->modal_item_name){
-                $item_dropdown.=' selected';
-            }
-            $item_dropdown.='>'.$titem->name.'</option>';
+        if($api->Item->create(array("name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR"))){
+            return response()->json(array('success'=>1,'msg'=>'Item Created SUccessfully!!'));
         }
-        return response()->json(array('name'=>$request->modal_item_name,"amount" => $request->modal_item_rate,'item_dropdown'=>$item_dropdown));
     }
 
     public function getItem(Request $request){
         $item_id = $request->item_id;
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api_key = session('merchant_key');
+        $api_secret = session('merchant_secret');
+
+
+        $api = new Api($api_key, $api_secret);
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $item_details = $api->Item->fetch($item_id);
         return response()->json(array("amount" => $item_details->amount));
     }
 
     public function addNewItemRow(Request $request){
         $count = $request->count;
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api_key = session('merchant_key');
+        $api_secret = session('merchant_secret');
+
+
+        $api = new Api($api_key, $api_secret);
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $all_items = $api->Item->all();
 
         $html='<tr id="item_row_id'.$count.'">
@@ -187,7 +204,12 @@ class InvoiceController extends Controller
     }
 
     public function createInvoice(Request $request){
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api_key = session('merchant_key');
+        $api_secret = session('merchant_secret');
+
+
+        $api = new Api($api_key, $api_secret);
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $itemidArray['item_id'] = array();
         foreach($request['tableitem'] as $items){
             $itemidArray['item_id'] = $items;
@@ -285,7 +307,12 @@ class InvoiceController extends Controller
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
 
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api_key = session('merchant_key');
+        $api_secret = session('merchant_secret');
+
+
+        $api = new Api($api_key, $api_secret);
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $invoice_details = $api->invoice->fetch($invoiceId);
 
         $all_customers = $api->customer->all();
@@ -331,7 +358,13 @@ class InvoiceController extends Controller
             'customer'=> $customer_array
         );
 
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api_key = session('merchant_key');
+        $api_secret = session('merchant_secret');
+
+
+        $api = new Api($api_key, $api_secret);
+
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
 
         if($api->invoice->fetch($invoiceId)->edit(array('line_items' => array($itemidArray)))){
             return response()->json(array("success" => 1));    
