@@ -26,6 +26,7 @@ use App\Http\Controllers\DisputeController;
 
 Auth::routes(['verify' => true]);
 
+Route::get('/logout', 'LoginController@logout')->name('logout');
 
 Route::group(['middleware' => ['token.check']], function() {
     Route::resource('customer', CustomerController::class);

@@ -35,13 +35,21 @@ class PaymentLinkController extends Controller
        $html = '';
         if(!empty($all_links->payment_links)){
             foreach($all_links->payment_links as $link){
-                if($payment_link_id==$link->id || $reference_id==$link->reference_id || $customer_contact==$link->customer->contact || $customer_email==$link->customer->email){
+                $s_customer_contact = '';
+                $s_customer_email = '';
+                if(isset($link->customer->contact) && $link->customer->contact!=''){
+                    $s_customer_contact = $link->customer->contact;
+                }
+                if(isset($link->customer->email) && $link->customer->email!=''){
+                    $s_customer_email = $link->customer->email;
+                }
+                if($payment_link_id==$link->id || $reference_id==$link->reference_id || $customer_contact==$s_customer_contact || $customer_email==$s_customer_email){
                     $html.='<tr>
                         <th>'.$link->id.'</th>
                         <td>'.date('Y-m-d H:i:s',$link->created_at).'</td>
                         <td>'.number_format($link->amount/100,2).'</td>
                         <td>'.$link->reference_id.'</td>
-                        <td>'.$link->customer->contact.'('.$link->customer->email.')'.'</td>
+                        <td>'.$s_customer_contact.'('.$s_customer_email.')'.'</td>
                         <td>'.$link->short_url.'</td>
                         <td>'.$link->status.'</td>
                     </tr>';

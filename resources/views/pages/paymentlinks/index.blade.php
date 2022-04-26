@@ -147,7 +147,7 @@
       </div>
       <div class="modal-body">
         <form id="form-create-payment-link" method="post">
-            <div class="row">
+            <div class="row" id="clid">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="first_name">Amount*</label>
@@ -456,9 +456,9 @@ function cancel_div(count){
 }
 
 function create_payment_link(){
-    /*$("#form-create-payment-link").LoadingOverlay("show", {
+    $("#clid").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
-    });*/
+    });
     $.ajax({
         url: '{{url("createpaymentlink")}}',
         data: $("#form-create-payment-link").serialize(),
@@ -469,9 +469,9 @@ function create_payment_link(){
         success: function(data){
             if(data.success==1){
                 alert('Payment Link Created');
-                $("#form-create-payment-link").LoadingOverlay("hide", true);
+                $("#clid").LoadingOverlay("hide", true);
                 $("#form-create-payment-link")[0].reset();
-                $('#modal1').modal('close');
+                $('#modal1').modal('hide');
                 location.reload();
             }
             
