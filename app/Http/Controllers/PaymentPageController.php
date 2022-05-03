@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Session;
+use DB;
 
 class PaymentPageController extends Controller
 {
@@ -32,6 +33,8 @@ class PaymentPageController extends Controller
         ]);
         $res  =  json_decode($response->getBody(),true);
         $res  =  $res['data']['data'];
+
+        $res  =  DB::table('payment_page')->get();
 
 
         return view('pages.paymentpages.index', compact('breadcrumbs','pageConfigs', 'res'));
@@ -131,7 +134,17 @@ class PaymentPageController extends Controller
                             'merchant_salt' => $merchant_salt
                         ]
                     ]);
+
+        //$save_array['payment_page_id'] = $response->id;
+        DB::table('payment_page')->insert($save_array);
+        
         $status_code = $response->getStatusCode();
         return response()->json(array('success'=>1));
+    }
+
+    public function getPaymentPageDetails(Request $request){
+        $id = $request->id;
+        $get_payment_page_details = DB::table('payment_page')->where('id',$id)->first();
+        return response()->json(array('page_title'=>$get_payment_page_details->page_title,'status'=>$get_payment_page_details->status,'custom_url'=>$get_payment_page_details->custom_url,'created_at'=>$get_payment_page_details->created_at,''));
     }
 }

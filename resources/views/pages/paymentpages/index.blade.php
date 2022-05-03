@@ -28,7 +28,7 @@
         </ul>
     </div>
     @endif
-    <div class="card">
+    <!--<div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-3">
@@ -76,8 +76,17 @@
                 </div>
             </div>
         </form>
-    </div>
+    </div>-->
     <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <a class="btn btn-md btn-info" data-toggle="modal" data-target="#modal2" onclick="create_payment_page()">Create Payment Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             <table class="table table-bordered table-responsive-sm" id="myTable">
                 <thead>
@@ -95,17 +104,17 @@
                     @if(!empty($res))
                     @foreach($res as $page)
                     <tr>
-                        <td><a style="cursor:pointer;" data-toggle="modal" data-target="#modal1" onclick="show_payment_page('{{ json_encode($page) }}')">{{$page['page_title']}}</a></th>
+                        <td><a style="cursor:pointer;" data-toggle="modal" data-target="#modal1" onclick="show_payment_page('{{ $page->id }}')">{{$page->page_title}}</a></th>
                         <td>0</td>
-                        <td>{!! $page['page_content'] !!}</td>
+                        <td>{!! $page->page_content !!}</td>
                         <td>0</td>
-                        <td>{{$page['custom_url']}}</td>
-                        <td>{{date('Y-m-d',strtotime($page['created_at']))}}</td>
+                        <td>{{ $page->custom_url }}</td>
+                        <td>{{ date('Y-m-d',strtotime($page->created_at)) }}</td>
                         <td>
-                            @if($page['status']=='Inactive')
-                            <span class="badge red">{{$page['status']}}</span>
+                            @if($page->status=='Inactive')
+                            <span class="badge red">{{ $page->status }}</span>
                             @else
-                            <span class="badge blue">{{$page['status']}}</span>
+                            <span class="badge blue">{{ $page->status }}</span>
                             @endif
                         </td>
                     </tr>
@@ -211,9 +220,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
 $(document).ready( function () {
-    $('#myTable').DataTable({
-        "searching": false
-    });
+    $('#myTable').DataTable();
 } );
 
 
@@ -233,21 +240,30 @@ function create_payment_page(){
 }
 
 
-function show_payment_page(page_details){
-    var details = JSON.parse(page_details);
-    console.log(details);
-     $(".creatediv").show();
-    $("#modal_heading").html(details.page_title);
-    $("#page_status").val(details.status);
-    $("#page_url").val(details.custom_url);
-    $("#payment_page_id").val(details.id);
-    $("#created_on").html('<strong>'+new Date(details.created_at)+'</strong>');
-    if(details.status==="Active"){
-        $("#statusContainer").html('<button class="btn waves-effect waves-light" id="change_status_btn" type="button" name="action" onclick="changestatus()">Change Status</button>');
-    }else{
-        $("#statusContainer").html('');
-    }
-    $("#save_button").hide();
+function show_payment_page(id){
+    $.ajax({
+        url: '{{url("get-payment-page-details")}}',
+        type: "POST",
+        data: {'id' : id },
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){
+            $(".creatediv").show();
+            $("#modal_heading").html(data.page_title);
+            $("#page_status").val(data.status);
+            $("#page_url").val(data.custom_url);
+            $("#payment_page_id").val(id);
+            $("#created_on").html('<strong>'+new Date(data.created_at)+'</strong>');
+            if(data.status==="Active"){
+                $("#statusContainer").html('<button class="btn waves-effect waves-light" id="change_status_btn" type="button" name="action" onclick="changestatus()">Change Status</button>');
+            }else{
+                $("#statusContainer").html('');
+            }
+            $("#save_button").hide();
+        }
+    });
+    
 }
 
 
@@ -256,7 +272,7 @@ function search_pages(){
         background  : "rgba(165, 190, 100, 0.5)"
     });
     $.ajax({
-        url: '{{url("searchinvoice")}}',
+        url: '{{url("searchpaymentpage")}}',
         data: $("#search-form").serialize(),
         type: "POST",
         headers: {

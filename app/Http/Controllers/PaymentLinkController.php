@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
+use DB;
 
 class PaymentLinkController extends Controller
 {
@@ -15,7 +16,10 @@ class PaymentLinkController extends Controller
         $pageConfigs = ['pageHeader' => true];
 
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $all_links = $api->paymentLink->all();
+        //$all_links = $api->paymentLink->all();
+        //@if(!empty($all_links->payment_links))
+        //@foreach($all_links->payment_links as $link)
+        $all_links = DB::table('payment_link')->get();
 
         return view('pages.paymentlinks.index', compact('pageConfigs','breadcrumbs','all_links'));
     }
@@ -29,31 +33,44 @@ class PaymentLinkController extends Controller
        $customer_email = $request->customer_email;
        $notes = $request->notes;
 
-       $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-       $all_links = $api->paymentLink->all();
+       //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+       //$all_links = $api->paymentLink->all();
+        $query = DB::table('payment_link');
+        if($reference_id!=''){
+            $query->where('reference_id',$reference_id);
+        }if($customer_contact!=''){
+            $query->where('customer_contact',$customer_contact);
+        }if($customer_email!=''){
+            $query->where('customer_email',$customer_email);
+        }if($payment_link_id!=''){
+            $query->where('payment_link_id',$payment_link_id);
+        }
+        $result = $query->get();
+        //print_r($result);exit;
+        $all_links = $result;
 
-       $html = '';
-        if(!empty($all_links->payment_links)){
-            foreach($all_links->payment_links as $link){
+        $html = '';
+        /*if(!empty($all_links->payment_links)){
+            foreach($all_links->payment_links as $link){*/
+        if(!empty($all_links)){
+            foreach($all_links as $link){
                 $s_customer_contact = '';
                 $s_customer_email = '';
-                if(isset($link->customer->contact) && $link->customer->contact!=''){
-                    $s_customer_contact = $link->customer->contact;
+                if(isset($link->customer_contact) && $link->customer_contact!=''){
+                    $s_customer_contact = $link->customer_contact;
                 }
-                if(isset($link->customer->email) && $link->customer->email!=''){
-                    $s_customer_email = $link->customer->email;
+                if(isset($link->customer_email) && $link->customer_email!=''){
+                    $s_customer_email = $link->customer_email;
                 }
-                if($payment_link_id==$link->id || $reference_id==$link->reference_id || $customer_contact==$s_customer_contact || $customer_email==$s_customer_email){
-                    $html.='<tr>
-                        <th>'.$link->id.'</th>
-                        <td>'.date('Y-m-d H:i:s',$link->created_at).'</td>
-                        <td>'.number_format($link->amount/100,2).'</td>
-                        <td>'.$link->reference_id.'</td>
-                        <td>'.$s_customer_contact.'('.$s_customer_email.')'.'</td>
-                        <td>'.$link->short_url.'</td>
-                        <td>'.$link->status.'</td>
-                    </tr>';
-                }
+                $html.='<tr>
+                    <th>'.$link->id.'</th>
+                    <td>'.date('Y-m-d H:i:s',$link->created_at).'</td>
+                    <td>'.number_format($link->amount/100,2).'</td>
+                    <td>'.$link->reference_id.'</td>
+                    <td>'.$s_customer_contact.'('.$s_customer_email.')'.'</td>
+                    <td>'.$link->short_url.'</td>
+                    <td>'.$link->status.'</td>
+                </tr>';
             }
         }
         return response()->json(array('html'=>$html));
@@ -93,12 +110,14 @@ class PaymentLinkController extends Controller
         //echo $request['amount'];exit;
 
         
-        if($api->paymentLink->create(array('amount'=>(float)$request['amount'], 'reference_id' => $request['reference_id'], 'currency'=>'INR','accept_partial'=>$accept_partial, 'description' => $request['payment_description'], 'customer' => array(
-            'email' => $request['customer_email'], 'contact'=> $request['customer_contact']), 'notify'=>array('sms'=>$sms, 'email'=>$email) , 'reminder_enable'=>true ,'notes'=>$note_array,'callback_url' => 'https://example-callback-url.com/','callback_method'=>'get'))){
-                return response()->json(array("success" => 1));  
-        }else{
-                return response()->json(array("success" => 0));  
-        }
+
+        $response = $api->paymentLink->create(array('amount'=>(float)$request['amount'], 'reference_id' => $request['reference_id'], 'currency'=>'INR','accept_partial'=>$accept_partial, 'description' => $request['payment_description'], 'customer' => array('email' => $request['customer_email'], 'contact'=> $request['customer_contact']), 'notify'=>array('sms'=>$sms, 'email'=>$email) , 'reminder_enable'=>true ,'notes'=>$note_array,'callback_url' => 'https://example-callback-url.com/','callback_method'=>'get'));
+
+        //print_r($response);exit;
+
+        DB::table('payment_link')->insert(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>'true','description' => $response->description, 'customer_email' => $response->customer->email, 'customer_contact' => $response->customer->contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant')));
+
+        return response()->json(array("success" => 1));  
         
     }
 

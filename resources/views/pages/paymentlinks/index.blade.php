@@ -106,22 +106,22 @@
                     </tr>
                 </thead>
                 <tbody id="table_container">
-                    @if(!empty($all_links->payment_links))
-                    @foreach($all_links->payment_links as $link)
+                    @if(!empty($all_links))
+                    @foreach($all_links as $link)
                     @php 
                     $contact = 'N/A';
                     $email = 'N/A';
-                    if(isset($link->customer->contact) && $link->customer->contact!='')
+                    if(isset($link->customer_contact) && $link->customer_contact!='')
                     {
-                        $contact = $link->customer->contact;
+                        $contact = $link->customer_contact;
                     }
-                    if(isset($link->customer->email) && $link->customer->email!='')
+                    if(isset($link->customer_email) && $link->customer_email!='')
                     {
-                        $email = $link->customer->email;
+                        $email = $link->customer_email;
                     }
                     @endphp
                     <tr>
-                        <td><a style="cursor:pointer;" class="waves-effect waves-light" onclick="show_notes('{{$link->id}}')">{{$link->id}}</a></td>
+                        <td><a style="cursor:pointer;" class="waves-effect waves-light" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->id}}</a></td>
                         <td>{{date('Y-m-d H:i:s',$link->created_at)}}</td>
                         <td>{{number_format($link->amount/100,2)}}</td>
                         <td>{{$link->reference_id}}</td>

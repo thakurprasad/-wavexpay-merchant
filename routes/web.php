@@ -95,6 +95,7 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('get-payment-templates',  [PaymentPageController::class, 'getPaymentTemplates'] );
     Route::get('payment-template/{id}',  [PaymentPageController::class, 'showPaymentTemplates'] );
     Route::post('savepaymentpage',  [PaymentPageController::class, 'savePaymentPage'] );
+    Route::post('get-payment-page-details',  [PaymentPageController::class, 'getPaymentPageDetails'] );
 
 
 
