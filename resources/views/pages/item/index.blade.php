@@ -58,14 +58,14 @@
                 </tr>
             </thead>
             <tbody id="table_container">
-                @if(!empty($all_items->items))
-                @foreach($all_items->items as $titem)
-                <tr id="item{{$titem['id']}}">
-                    <td>{{$titem['id']}}</td>
-                    <td>{{$titem['name']}}</td>
-                    <td>{{$titem['description']}}</td>
-                    <td>{{number_format(($titem['amount']/100),2)}}</td>
-                    <td><span class="badge red" onclick="delete_item('{{$titem['id']}}')">Delete</span></td>
+                @if(!empty($all_items))
+                @foreach($all_items as $titem)
+                <tr id="item{{$titem->item_id}}">
+                    <td>{{$titem->item_id}}</td>
+                    <td>{{$titem->name}}</td>
+                    <td>{{$titem->description}}</td>
+                    <td>{{number_format($titem->amount,2)}}</td>
+                    <td><a class="btn btn-sm btn-danger" onclick="delete_item('{{$titem->item_id}}')">Delete</a></td>
                 </tr>
                 @endforeach
                 @endif

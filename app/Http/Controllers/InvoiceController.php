@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
+use DB;
 
 class InvoiceController extends Controller
 {
@@ -148,9 +149,12 @@ class InvoiceController extends Controller
     public function createItem(Request $request){
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
 
-        if($api->Item->create(array("name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR"))){
-            return response()->json(array('success'=>1,'msg'=>'Item Created SUccessfully!!'));
-        }
+        $response = $api->Item->create(array("name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR"));
+
+        DB::table('items')->insert(array("item_id"=>$response->id,"name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR","created_at"=>NOW()));
+
+
+        return response()->json(array('success'=>1,'msg'=>'Item Created SUccessfully!!'));
     }
 
     public function getItem(Request $request){

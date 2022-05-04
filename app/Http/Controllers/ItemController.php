@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
+use DB;
 
 class ItemController extends Controller
 {
@@ -15,7 +16,10 @@ class ItemController extends Controller
         $pageConfigs = ['pageHeader' => true];
 
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $all_items = $api->Item->all();
+        //$all_items = $api->Item->all();
+        /*@if(!empty($all_items->items))
+                @foreach($all_items->items as $titem)*/
+        $all_items = DB::table('items')->get();
         
         return view('pages.item.index', compact('breadcrumbs','pageConfigs','all_items'));
     }
@@ -25,6 +29,7 @@ class ItemController extends Controller
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         
         if($api->Item->fetch($item_id)->delete()){
+            $delete_item_from_db = DB::table('items')->where('item_id',$request->item_id)->delete();
             return response()->json(array("success" => 1));    
         }else{
             return response()->json(array("success" => 0));    

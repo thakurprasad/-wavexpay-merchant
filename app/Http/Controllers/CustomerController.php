@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
+use DB;
 
 class CustomerController extends Controller
 {
@@ -33,7 +34,8 @@ class CustomerController extends Controller
         $pageConfigs = ['pageHeader' => true];
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $options = ['count'=>50, 'skip'=>0];
-        $all_customers = $api->customer->all($options);
+        //$all_customers = $api->customer->all($options);
+        $all_customers = DB::table('customers')->get();
         return view('pages.customer.index', compact('pageConfigs','breadcrumbs','all_customers'));
     }
 
@@ -44,7 +46,11 @@ class CustomerController extends Controller
             'customer_contact' => 'required',
         ]);
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $api->customer->create(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact));
+
+        $response = $api->customer->create(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact));
+
+        DB::table('customers')->insert(array('customer_id'=> $response->id, 'name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact,'gstin'=>$request->gstin,"created_at"=>NOW()));
+
         return response()->json(array('msg'=>'Customer Created'));
     }
 
@@ -56,6 +62,9 @@ class CustomerController extends Controller
         ]);
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $api->customer->fetch($request->id)->edit(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->contact));
+
+        DB::table('customers')->where('customer_id',$request->id)->update(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->contact,'gstin'=>$request->gst,"updated_at"=>NOW()));
+
         return response()->json(array('msg'=>'Customer Updated'));
     }
 }

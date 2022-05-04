@@ -59,15 +59,15 @@
 				</thead>
 				<tbody>
 
-                @if(!empty($all_customers->items))
-                @foreach($all_customers->items as $value)
+                @if(!empty($all_customers))
+                @foreach($all_customers as $value)
 				<tr>
-					<td>{{ $value['id'] }}</td>
-                    <td>{{ $value['name'] }}</td>
-					<td>{{ $value['email'] }}</td>
-					<td>{{ $value['contact'] }} </td>
+					<td>{{ $value->id }}</td>
+                    <td>{{ $value->name }}</td>
+					<td>{{ $value->email }}</td>
+					<td>{{ $value->contact }} </td>
 					<td class="text-center">
-                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#customerModal" title="Edit" onclick="edit_cust('{{ $value['id'] }}','{{ $value['name'] }}','{{ $value['email'] }}','{{$value['contact']}}','{{$value['gstin']}}')"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#customerModal" title="Edit" onclick="edit_cust('{{ $value->customer_id }}','{{ $value->name }}','{{ $value->email }}','{{ $value->contact }}','{{ $value->gstin }}')"><i class="fas fa-edit"></i></a>
 					</td>
 				</tr>
 				@endforeach
