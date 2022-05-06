@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use DB;
+use App\Helpers\Helper;
 
 class InvoiceController extends Controller
 {
@@ -23,11 +24,12 @@ class InvoiceController extends Controller
 
 
         $api = new Api($api_key, $api_secret);
-        $all_invoices = $api->invoice->all();
-
+        /*$all_invoices = $api->invoice->all();
         $all_customers = $api->customer->all();
-
-        $all_items = $api->Item->all();
+        $all_items = $api->Item->all();*/
+        $all_invoices = DB::table('invoices')->get();
+        $all_customers = DB::table('customers')->get();
+        $all_items = DB::table('items')->get();
 
         //print_r(array(array('item_id'=>'item_DRt61i2NnL8oy6')));exit;
         
@@ -40,55 +42,21 @@ class InvoiceController extends Controller
         $customer_contact = $request->customer_contact;
         $customer_email = $request->customer_email;
 
-        /*$url = 'https://dashboard.razorpay.com/merchant/api/test/invoices';
-
-        if($invoice_id!=''){
-            $url.='/'.$invoice_id;
+        $query = DB::table('invoices');
+        if($reference_id!=''){
+            $query->where('invoice_id',$invoice_id);
+        }if($receipt!=''){
+            $query->where('receipt',$receipt);
+        }if($customer_email!=''){
+            $query->where('customer_email',$customer_email);
+        }if($customer_email!=''){
+            $query->where('customer_email',$customer_email);
         }
-
-        if($receipt!='' && $customer_contact=='' && $customer_email==''){
-            $url.='?receipt='.$receipt;
-        }
-        if($receipt=='' && $customer_contact!='' && $customer_email==''){
-            $url.='?customer_contact='.$customer_contact;
-        }
-        if($receipt=='' && $customer_contact=='' && $customer_email!=''){
-            $url.='?customer_email='.$customer_email;
-        }
-        if($receipt!='' && $customer_contact!='' && $customer_email==''){
-            $url.='?receipt='.$receipt.'&customer_contact='.$customer_contact;
-        }
-        if($receipt=='' && $customer_contact!='' && $customer_email!=''){
-            $url.='?customer_contact='.$customer_contact.'&customer_email='.$customer_email;
-        }
-        if($receipt!='' && $customer_contact=='' && $customer_email!=''){
-            $url.='?receipt='.$receipt.'&customer_email='.$customer_email;
-        }
-        if($receipt!='' && $customer_contact!='' && $customer_email!=''){
-            $url.='?receipt='.$receipt.'&customer_email='.$customer_email.'&customer_contact='.$customer_contact;
-        }
-        $url.='&type=invoice';*/
+        $result = $query->get();
+        //print_r($result);exit;
+        $all_links = $result;
 
 
-
-        /*using curl
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($ch, CURLOPT_USERPWD, 'rzp_test_YRAqXZOYgy9uyf' . ':' . 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $result = curl_exec($ch);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
-        curl_close($ch);
-        print_r($result);exit;
-        //end using curl*/
-
-
-
-
-        /*$options = ['id'=>$invoice_id,'reciept'=>$receipt,'customer_contact'=>$customer_contact,'customer_email'=>$customer_email];*/
 
         $api_key = session('merchant_key');
         $api_secret = session('merchant_secret');
@@ -138,9 +106,9 @@ class InvoiceController extends Controller
         $api = new Api($api_key, $api_secret);
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
 
-        $all_customers = $api->customer->all();
+        $all_customers = DB::table('customers')->get();
 
-        $all_items = $api->Item->all();
+        $all_items = DB::table('items')->get();
         
         return view('pages.invoice.newinvoice', compact('breadcrumbs','pageConfigs','all_customers','all_items'));
     }
@@ -219,8 +187,12 @@ class InvoiceController extends Controller
             $itemidArray['item_id'] = $items;
         }
 
-        /*$c_details = $api->customer->fetch($request['customer']);
-        print_r($c_details);*/
+        $item_id = '';
+        foreach($request['tableitem'] as $items){
+            $item_id.=$items.',';
+        }
+        $item_id = rtrim($item_id,',');
+
 
         $customer_array = array(
             'name' => "Gaurav Kumar",
@@ -244,6 +216,17 @@ class InvoiceController extends Controller
             )
         );
 
+        $customer_name = '';
+        $customer_email = '';
+        $customer_contact = '';
+
+        $get_customer_details = DB::table('customers')->where('customer_id',$request['customer'])->first();
+        if(!empty($get_customer_details)){
+            $customer_name = $get_customer_details->name;
+            $customer_email = $get_customer_details->email;
+            $customer_contact = $get_customer_details->contact;
+        }
+
 
         $invoice_create_array = array (
             'type' => 'invoice',
@@ -253,55 +236,12 @@ class InvoiceController extends Controller
             'line_items'=>array($itemidArray),
         );
 
-        //print_r($invoice_create_array);exit;
-        if($api->invoice->create($invoice_create_array)){
-            return response()->json(array("success" => 1));    
-        }else{
-            return response()->json(array("success" => 0));    
-        }
+        $response = $api->invoice->create($invoice_create_array);
 
+        DB::table('invoices')->insert(array('invoice_id'=>$response->id,'reciept'=>$response->reciept,'short_url'=>$response->short_url,'type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'item_id'=>$item_id,'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'status'=>$response->status,'created_at'=>date('Y-m-d H:i:s')));
 
-       
+        return response()->json(array("success" => 1));    
 
-        /*{
-            "type": "invoice",
-            "description": "Invoice for the month of January 2020",
-            "partial_payment": true,
-            "customer": {
-              "name": "Gaurav Kumar",
-              "contact": 9999999999,
-              "email": "gaurav.kumar@example.com",
-              "billing_address": {
-                "line1": "Ground & 1st Floor, SJR Cyber Laskar",
-                "line2": "Hosur Road",
-                "zipcode": "560068",
-                "city": "Bengaluru",
-                "state": "Karnataka",
-                "country": "in"
-              },
-              "shipping_address": {
-                "line1": "Ground & 1st Floor, SJR Cyber Laskar",
-                "line2": "Hosur Road",
-                "zipcode": "560068",
-                "city": "Bengaluru",
-                "state": "Karnataka",
-                "country": "in"
-              }
-            },
-            "line_items": [
-              {
-                "name": "Master Cloud Computing in 30 Days",
-                "description": "Book by Ravena Ravenclaw",
-                "amount": 399,
-                "currency": "USD",
-                "quantity": 1
-              }
-            ],
-            "sms_notify": 1,
-            "email_notify": 1,
-            "currency": "USD",
-            "expire_by": 1589765167
-          }*/
     }
 
     public function showInvoice($invoiceId){

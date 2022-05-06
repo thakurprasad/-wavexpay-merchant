@@ -100,14 +100,23 @@
                     </tr>
                 </thead>
                 <tbody id="table_container">
-                    @if(!empty($all_invoices->items))
-                    @foreach($all_invoices->items as $invoice)
+                    @if(!empty($all_invoices))
+                    @foreach($all_invoices as $invoice)
+                    @php 
+                        $customer_details = Helper::get_customer_details($invoice->customer_id);  
+                        $items = explode(',',$invoice->item_id);
+                        $amount = 0;
+                        foreach($items as $iid){
+                            $item_details = Helper::get_item_details($iid);
+                            $amount+=$item_details->amount;
+                        } 
+                    @endphp
                     <tr>
-                        <td><a href="{{ url('/invoice',$invoice->id) }}">{{$invoice->id}}</a></td>
-                        <td>{{number_format(($invoice->line_items[0]->net_amount)/100,2)}}</td>
-                        <td>{{$invoice->receipt}}</td>
-                        <td>{{date('Y-m-d',$invoice->created_at)}}</td>
-                        <td>{{$invoice->customer_details->name}} ({{$invoice->customer_details->contact}} / {{$invoice->customer_details->email}})	</td>
+                        <td><a href="{{ url('/invoice',$invoice->invoice_id) }}">{{ $invoice->id }}</a></td>
+                        <td>{{ number_format($amount,2) }}</td>
+                        <td>{{ $invoice->receipt }}</td>
+                        <td>{{ $invoice->created_at }}</td>
+                        <td>{{ $customer_details->name}} ({{$customer_details->contact}} / {{$customer_details->email}})	</td>
                         <td>{{$invoice->short_url}}</td>
                         <td>
                             @if($invoice->status=='cancelled')

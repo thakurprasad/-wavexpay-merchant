@@ -3,6 +3,7 @@
 namespace App\Helpers;
 use App\Models\UserType;
 use Config;
+use DB;
 
 class Helper
 {
@@ -223,6 +224,14 @@ class Helper
         ]; 
     }
 
+    public static function get_customer_details($customer_id){
+        $customer_details = DB::table('customers')->where('customer_id',$customer_id)->first();
+        return $customer_details;
+    } 
 
+    public static function get_item_details($item_id){
+        $item_details = DB::table('items')->where('item_id',$item_id)->first();
+        return $item_details;
+    } 
 
 }

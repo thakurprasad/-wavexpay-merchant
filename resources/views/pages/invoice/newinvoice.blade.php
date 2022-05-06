@@ -61,8 +61,8 @@
                                 <h6>BILLING TO</h6>
                                 <select class="form-control" name="customer" id="customer">
                                     <option value="" disabled selected>Select A Customer</option>
-                                    @if(!empty($all_customers->items))
-                                    @foreach($all_customers->items as $customer)
+                                    @if(!empty($all_customers))
+                                    @foreach($all_customers as $customer)
                                     <option value="{{$customer->id}}"><strong>{{$customer->name}}</strong> ( {{$customer->email}} )</option>
                                     @endforeach
                                     @endif
@@ -195,9 +195,9 @@
                                             
                                             <select class="form-control" name="tableitem[]" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
                                                 <option value="" disabled selected>Select An Item</option>
-                                                @if(!empty($all_items->items))
-                                                @foreach($all_items->items as $titem)
-                                                <option value="{{$titem->id}}"><strong>{{$titem->name}}</option>
+                                                @if(!empty($all_items))
+                                                @foreach($all_items as $titem)
+                                                <option value="{{$titem->item_id}}"><strong>{{$titem->name}}</option>
                                                 @endforeach
                                                 @endif
                                             </select>
