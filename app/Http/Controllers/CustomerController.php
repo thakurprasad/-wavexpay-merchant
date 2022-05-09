@@ -49,7 +49,7 @@ class CustomerController extends Controller
 
         $response = $api->customer->create(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact));
 
-        DB::table('customers')->insert(array('customer_id'=> $response->id, 'name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact,'gstin'=>$request->gstin,"created_at"=>NOW()));
+        DB::table('customers')->insert(array('customer_id'=> $response->id, 'merchant_id'=>session('merchant'), 'name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact,'gstin'=>$request->gstin,"created_at"=>NOW()));
 
         return response()->json(array('msg'=>'Customer Created'));
     }

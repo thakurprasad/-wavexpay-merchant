@@ -136,6 +136,7 @@ class PaymentPageController extends Controller
                     ]);
 
         //$save_array['payment_page_id'] = $response->id;
+        $save_array['merchant_id'] = session('merchant');
         DB::table('payment_page')->insert($save_array);
         
         $status_code = $response->getStatusCode();
