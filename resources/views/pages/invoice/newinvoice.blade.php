@@ -63,7 +63,7 @@
                                     <option value="" disabled selected>Select A Customer</option>
                                     @if(!empty($all_customers))
                                     @foreach($all_customers as $customer)
-                                    <option value="{{$customer->id}}"><strong>{{$customer->name}}</strong> ( {{$customer->email}} )</option>
+                                    <option value="{{$customer->customer_id}}"><strong>{{$customer->name}}</strong> ( {{$customer->email}} )</option>
                                     @endforeach
                                     @endif
                                 </select>

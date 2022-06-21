@@ -230,7 +230,7 @@ class Helper
     } 
 
     public static function get_item_details($item_id){
-        $item_details = DB::table('items')->where('item_id',$item_id)->first();
+        $item_details = DB::table('items')->where('id',$item_id)->first();
         return $item_details;
     } 
 
