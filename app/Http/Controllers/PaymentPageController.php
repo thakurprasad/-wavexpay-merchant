@@ -91,8 +91,11 @@ class PaymentPageController extends Controller
     public function savePaymentPage(Request $request){
         $label = $request->label;
         $labeltype = $request->labeltype;
-        $form_json = array_map (null,$label,$labeltype);
+        $labelTypevalue = $request->labelTypevalue;
+        $form_json = array_map (null,$label,$labeltype,$labelTypevalue);
         $form_json = json_encode($form_json);
+
+        //print_r($form_json);exit;
 
         if($request->is_expiry=='yes'){
             $is_expiry = 1;
@@ -126,14 +129,15 @@ class PaymentPageController extends Controller
         $client = new Client(['base_uri' => env('API_BASE_URL')]);
         $api_end_point = 'api/merchants/payment-pages';
         $merchant_salt = env('MERCHANT_SALT');
-        $response = $client->request('POST',$api_end_point,[
-                        'form_params' =>  $save_array ,
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Authorization' => 'Bearer '.session('token'),
-                            'merchant_salt' => $merchant_salt
-                        ]
-                    ]);
+        $response = $client->request('POST',
+        $api_end_point,[
+            'form_params' =>  $save_array ,
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer '.session('token'),
+                'merchant_salt' => $merchant_salt
+            ]
+        ]);
 
         //$save_array['payment_page_id'] = $response->id;
         $save_array['merchant_id'] = session('merchant');

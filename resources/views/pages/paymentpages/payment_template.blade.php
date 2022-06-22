@@ -107,6 +107,7 @@
                                     <a data-toggle="modal" data-target="#modal1" onclick="change_label_name('email')"><input placeholder="To be Filled By Customer" name="email" id="fb_link" type="text" readonly class="form-control"></a>
                                     <input type="hidden" name="label[]" value="email" id="email_label_value">
                                     <input type="hidden" name="labeltype[]" value="text">
+                                    <input type="hidden" name="labelTypevalue[]" value="">
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -115,6 +116,7 @@
                                     <a data-toggle="modal" data-target="#modal1" onclick="change_label_name('phone')"><input placeholder="To be Filled By Customer" name="email" id="fb_link" type="text" class="form-control" readonly></a>
                                     <input type="hidden" name="label[]" value="phone" id="phone_label_value">
                                     <input type="hidden" name="labeltype[]" value="text">
+                                    <input type="hidden" name="labelTypevalue[]" value="">
                                 </div>
                             </div>
 
@@ -285,7 +287,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Price Field</h5>
+                <h5 class="modal-title">Settings</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -443,7 +445,7 @@ function add_field_process(){
 
 
     var label_to_be_given = $("#label_new_to_be_given").val();
-    var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="col-sm-12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input placeholder="To be Filled By Customer" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="'+label_val+'"></div></span>';
+    var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="col-sm-12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input placeholder="To be Filled By Customer" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="'+label_val+'"><input type="hidden" name="labelTypevalue[]" value=""></div></span>';
     $("#append_field").append(html);
     $('#modal2').modal('hide');
 }
@@ -469,14 +471,14 @@ function create_new_field_price(){
 function add_price_field_process2(){
     var label_to_be_given = $("#label_new_fix_price_to_be_given").val();
     var modal_fixed_price = $("#fix_price_to_be_given").val();
-    var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="input-field col s12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input value="'+modal_fixed_price+'" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelpricetypevalue[]" value="'+modal_fixed_price+'"></div></span>';
+    var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="input-field col s12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input value="'+modal_fixed_price+'" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelTypevalue[]" value="'+modal_fixed_price+'"></div></span>';
     $("#append_field").append(html);
     $('#modal4').modal('hide');
 }
 
 function add_price_field_process(){
     var label_to_be_given = $("#label_new_price_to_be_given").val();
-    var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="input-field col s12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelpricetypevalue[]" value=""></div></span>';
+    var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="input-field col s12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelTypevalue[]" value=""></div></span>';
     $("#append_field").append(html);
     $('#modal3').modal('hide');
 }
@@ -485,7 +487,7 @@ function add_price_field_process(){
 function add_price_field_process3(){
     var label_to_be_given = $("#label_new_fix_price_with_qty_to_be_given").val();
     var modal_fixed_price = $("#fix_price_with_qty_to_be_given").val();
-    var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="input-field col s12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input value="'+modal_fixed_price+'" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="number" class="validate" value="0" disabled placeholder="Enter Price" id="fix_qty_to_be_given"><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelpricetypevalue[]" value="'+modal_fixed_price+'"><input type="hidden" name="labelpricetypeqty[]" value="number"></div></span>';
+    var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="input-field col s12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input value="'+modal_fixed_price+'" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="number" class="validate" value="0" disabled placeholder="Enter Price" id="fix_qty_to_be_given"><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelTypevalue[]" value="'+modal_fixed_price+'"><input type="hidden" name="labelpricetypeqty[]" value="number"></div></span>';
     $("#append_field").append(html);
     $('#modal5').modal('hide');
 }

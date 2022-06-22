@@ -255,11 +255,11 @@ function show_payment_page(id){
             $("#page_url").val(data.custom_url);
             $("#payment_page_id").val(id);
             $("#created_on").html('<strong>'+new Date(data.created_at)+'</strong>');
-            if(data.status==="Active"){
+            /*if(data.status==="Active"){
                 $("#statusContainer").html('<button class="btn waves-effect waves-light" id="change_status_btn" type="button" name="action" onclick="changestatus()">Change Status</button>');
-            }else{
+            }else{*/
                 $("#statusContainer").html('');
-            }
+            /*}*/
             $("#save_button").hide();
         }
     });
