@@ -65,11 +65,10 @@ class PaymentLinkController extends Controller
                 $html.='<tr>
                     <th>'.$link->id.'</th>
                     <td>'.date('Y-m-d H:i:s',$link->created_at).'</td>
-                    <td>'.number_format($link->amount/100,2).'</td>
+                    <td>'.number_format($link->amount,2).'</td>
                     <td>'.$link->reference_id.'</td>
                     <td>'.$s_customer_contact.'('.$s_customer_email.')'.'</td>
                     <td>'.$link->short_url.'</td>
-                    <td>'.$link->status.'</td>
                 </tr>';
             }
         }
@@ -115,7 +114,7 @@ class PaymentLinkController extends Controller
 
         //print_r($response);exit;
 
-        DB::table('payment_link')->insert(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>'true','description' => $response->description, 'customer_email' => $response->customer->email, 'customer_contact' => $response->customer->contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant')));
+        DB::table('payment_link')->insert(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>'true','description' => $response->description, 'customer_email' => $response->customer->email, 'customer_contact' => $response->customer->contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
 
         return response()->json(array("success" => 1));  
         
@@ -166,59 +165,59 @@ class PaymentLinkController extends Controller
         $html='<div class="row">
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Amount : <br><strong>'.$link_details->amount.'</strong></label>
+                <label>Amount </label><br><input type="text" class="form-control" readonly value="'.$link_details->amount.'" />
             </div>
             </div>
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Payment For : <br><strong>'.$link_details->description.'</strong></label>
-            </div>
-            </div>
-            <div class="col-sm-12">
-            <div class="form-group">
-                <label>Reference Id :        <strong id="c_r_c">'.$link_details->reference_id.'</strong><a style="margin-left:30px;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal3" onclick="ch_r_id(\''.$id.'\')">Change Reference Id</a></label>
+                <label>Payment For</label> <br><input type="text" class="form-control" readonly value="'.$link_details->description.'">
             </div>
             </div>
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Customer Email : <br><strong>'.$link_details->customer->email.'</strong></label>
+                <label>Reference Id</label>  <br><input type="text" class="form-control" value="'.$link_details->reference_id.'" id="c_r_c"><a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal3" onclick="ch_r_id(\''.$id.'\')">Change Reference Id</a>
+            </div>
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+                <label>Customer Email</label>  <br><input type="text" readonly class="form-control" value="'.$link_details->customer->email.'" />
             </div>
             </div>
             <div class="col-sm-6">
             <div class="form-group">
                 <span id="customer_contact"></span>
-                <label>Customer Contact : <br><strong>'.$link_details->customer->contact.'</strong></label>
+                <label>Customer Contact</label>  <br><input type="text" readonly class="form-control" value="'.$link_details->customer->contact.'" />
+            </div>
+            </div>
+            <div class="col-sm-3">
+            <div class="form-group">
+                <label>Notify Via Email   <br><strong>'.$estatus.'</strong></label>
+            </div>
+            </div>
+            <div class="col-sm-3">
+            <div class="form-group">
+                <label>Notify Via SMS  <br><strong>'.$sstatus.'</strong></label>
             </div>
             </div>
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Notify Via Email :  <br><strong>'.$estatus.'</strong></label>
-            </div>
-            </div>
-            <div class="col-sm-6">
-            <div class="form-group">
-                <label>Notify Via SMS : <br><strong>'.$sstatus.'</strong></label>
-            </div>
-            </div>
-            <div class="col-sm-12">
-            <div class="form-group">
-                <label>Expiry? : <strong>'.$is_expire.'</strong><a style="margin-left:30px;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal5" onclick="edit_expiry_date(\''.$id.'\')">Change</a><br>';
+                <label>Expiry?  <strong>'.$is_expire.'</strong><br>';
                 if($is_expire=='yes'){
-                    $html.='<strong style="margin-left:20px;" >'.date('d/m/Y',$link_details->expire_by).'</strong>';
+                    $html.='<strong>'.date('d/m/Y',$link_details->expire_by).'</strong><a class="btn btn-sm btn-warning" style="margin-left:10px;" data-toggle="modal" data-target="#modal5" onclick="edit_expiry_date(\''.$id.'\')">Change</a>';
                 }
                 $html.='</label>
                 <span id="isexpiry"></span>
             </div>
             </div>';
-            $html.='<div class="col-sm-12">
+            $html.='<div class="col-sm-6">
             <div class="form-group">
-                <label>Partial Payments? : <br><strong>'.$part_pay.'</strong></label>
+                <label>Partial Payments?  <br><strong>'.$part_pay.'</strong></label>
                 <span id="partial_paymet"></span>
             </div>
             </div>
             <div class="col-sm-12">
             <div class="form-group">
-                <label for="first_name" style="color:#000;"> <strong style="color:black;">NOTES</strong><For></For><a style="margin-left:20px;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal4" onclick="edit_notes(\''.$id.'\')">Add Notes</a></label><br>                     
+                <label for="first_name" style="color:#000;"> <strong style="color:black;">NOTES</strong><For></For><a style="margin-left:20px;" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal4" onclick="edit_notes(\''.$id.'\')"> + Add Notes</a></label><br>                     
                 <span id="add_note_container">'.$notehtml.'</span>
             </div>
             </div>

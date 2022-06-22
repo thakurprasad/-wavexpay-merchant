@@ -50,7 +50,7 @@
                 <a href="{{ route('payment-links')}}" class="nav-link {{ in_array(Request::segment(1),array('payment-links')) ? 'active' : '' }}"> <i class="nav-icon far fa-plus-square"></i> <p>Payment Links</p> </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('payment-pages')}}" class="nav-link {{ in_array(Request::segment(1),array('payment-pages')) ? 'active' : '' }}"> <i class="nav-icon far fa-dollar"></i> <p>Payment Pages</p> </a>
+                <a href="{{ route('payment-pages')}}" class="nav-link {{ in_array(Request::segment(1),array('payment-pages')) ? 'active' : '' }}"> <i class="nav-icon far fa-plus-square"></i> <p>Payment Pages</p> </a>
             </li>
             <li class="nav-header"></li>
             <li class="nav-item {{ in_array(Request::segment(1),array('invoices','items')) ? 'menu-open' : '' }}">

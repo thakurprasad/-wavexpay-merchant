@@ -37,20 +37,7 @@
         <form class="col s12" method="POST" id="search-form" action="<?php url('/') ?>/searchinvoice">
             @csrf
             <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select class="form-control" name="status">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="created">Created</option>
-                                <option value="partially_paid">Partially Paid</option>
-                                <option value="paid">Paid</option>
-                                <option value="cancelled">Cancelled</option>
-                                <option value="expired">Expired</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="row">                 
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="first_name">Payment Link Id</label>
@@ -102,7 +89,6 @@
                     <th scope="col">Reference Id</th>
                     <th scope="col">Customer</th>
                     <th scope="col">Payment Links</th>
-                    <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody id="table_container">
@@ -121,13 +107,12 @@
                     }
                     @endphp
                     <tr>
-                        <td><a style="cursor:pointer;" class="waves-effect waves-light" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->id}}</a></td>
+                        <td><a style="cursor:pointer; color: blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a></td>
                         <td>{{date('Y-m-d H:i:s',$link->created_at)}}</td>
                         <td>{{number_format($link->amount/100,2)}}</td>
                         <td>{{$link->reference_id}}</td>
                         <td>{{$contact}}({{$email}})</td>
                         <td>{{$link->short_url}}</td>
-                        <td>{{$link->status}}</td>
                     </tr>
                     @endforeach
                     @endif
@@ -247,8 +232,8 @@
 
 
 <div class="modal" id="modal2" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="padding: 20px;">
       <div class="modal-header">
         <h5 class="modal-title">Payment Link</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -519,7 +504,7 @@ function change_ref_id_process(){
             if(data.success==1){
                 alert('Reference Id Changed Successfully');
                 $('#modal3').modal('hide');
-                $("#c_r_c").html(data.update_reference_id);
+                $("#c_r_c").val(data.update_reference_id);
             }else{
                 $("#msg").html(data.msg);
             }
