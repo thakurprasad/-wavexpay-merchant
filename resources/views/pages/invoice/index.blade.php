@@ -110,6 +110,8 @@
                         $count = 0;
                         foreach($items as $iid){
                             $item_details = Helper::get_item_details($iid);
+                            
+                            
                             $amount+=($item_details->amount)*$qty[$count];
                             $count++;
                         } 
@@ -121,7 +123,7 @@
                         }
                     @endphp
                     <tr>
-                        <td><a href="{{ url('/invoice',$invoice->invoice_id) }}">{{ $invoice->id }}</a></td>
+                        <td><a style="color: blue;" href="{{ url('/invoice',$invoice->invoice_id) }}">{{ $invoice->invoice_id }}</a></td>
                         <td>{{ number_format($amount,2) }}</td>
                         <td>{{ $reciept }}</td>
                         <td>{{ $invoice->created_at }}</td>

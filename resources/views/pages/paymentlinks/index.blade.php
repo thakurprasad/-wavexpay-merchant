@@ -68,10 +68,17 @@
                     </div>
 
                     
-                    <div class="col-sm-3">
+                    <div class="col-sm-1">
                         <div class="form-group">
                             <label for="first_name">&nbsp;</label><br>
                             <button class="btn btn-md btn-info" type="button" name="action" onclick="search_payment_link()">Submit</button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="first_name">&nbsp;</label><br>
+                            <button class="btn btn-md btn-primary" type="button" name="action" onclick="reset_page()">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -108,8 +115,8 @@
                     @endphp
                     <tr>
                         <td><a style="cursor:pointer; color: blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a></td>
-                        <td>{{date('Y-m-d H:i:s',$link->created_at)}}</td>
-                        <td>{{number_format($link->amount/100,2)}}</td>
+                        <td>{{date('Y-m-d H:i:s',strtotime($link->created_at))}}</td>
+                        <td>{{number_format($link->amount,2)}}</td>
                         <td>{{$link->reference_id}}</td>
                         <td>{{$contact}}({{$email}})</td>
                         <td>{{$link->short_url}}</td>
@@ -632,6 +639,10 @@ function delete_note(key,linkid){
             }
         });
     }
+}
+
+function reset_page(){
+    location.reload();
 }
 
 </script>

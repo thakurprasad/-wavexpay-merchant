@@ -64,7 +64,7 @@ class PaymentLinkController extends Controller
                 }
                 $html.='<tr>
                     <th>'.$link->id.'</th>
-                    <td>'.date('Y-m-d H:i:s',$link->created_at).'</td>
+                    <td>'.date('Y-m-d H:i:s',strtotime($link->created_at)).'</td>
                     <td>'.number_format($link->amount,2).'</td>
                     <td>'.$link->reference_id.'</td>
                     <td>'.$s_customer_contact.'('.$s_customer_email.')'.'</td>

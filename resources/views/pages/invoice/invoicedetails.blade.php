@@ -12,7 +12,7 @@
 	<div class="col-sm-6">
 	<ol class="breadcrumb float-sm-right">
 		<li class="breadcrumb-item"><a href="{{ route('home')}}">Home</a></li>
-		<li class="breadcrumb-item active">Invoice</li>
+		<li class="breadcrumb-item active"><a href="{{ route('invoices')}}">Invoice</a></li>
 	</ol>
 	</div>
 </div>
@@ -79,7 +79,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <h6>Billing Address &nbsp;<a class="modal-trigger" href="#billingmodal">Change</a></h6>
+                                <!--<h6>Billing Address &nbsp;<a class="modal-trigger" href="#billingmodal">Change</a></h6>-->
                                 <p id="billing_address"></p>
 
                                 <div class="row" id="billing_address_container">
@@ -133,7 +133,7 @@
                                     </div>
                                 </div>
                                 <br clear="all">
-                                <h6>Shipping Address &nbsp;<a class="modal-trigger" href="#shippingmodal">Change</a></h6>
+                                <!--<h6>Shipping Address &nbsp;<a class="modal-trigger" href="#shippingmodal">Change</a></h6>-->
                                 <p id="shipping_address"></p>
                                 <div class="row" id="shipping_address_container">
                                     <div class="col-sm-6">
@@ -253,7 +253,7 @@
                                     @foreach(explode(",",$invoice_details->item_id) as $singleitem)
                                     <?php 
                                      
-                                    $item = DB::table('items')->where('id',$singleitem)->first();
+                                    $item = DB::table('items')->where('item_id',$singleitem)->first();
                                     $total_price+=$item->amount*$qty[$count];
                                     ?>
                                     <tr>
@@ -262,7 +262,7 @@
                                                 <option value="" disabled selected>Select An Item</option>
                                                 @if(!empty($all_items))
                                                 @foreach($all_items as $titem)
-                                                <option value="{{$titem->id}}" 
+                                                <option value="{{$titem->item_id}}" 
                                                 <?php 
                                                 if($titem->name==$item->name)
                                                 {
@@ -300,11 +300,11 @@
                                     <tr id="item_row_id{{$i}}" style="display:none;">
                                         <td>
                                             
-                                            <select name="tableitem[]" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
+                                            <select name="tableitem[]" class="form-control" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
                                                 <option value="" disabled selected>Select An Item</option>
-                                                @if(!empty($all_items->items))
-                                                @foreach($all_items->items as $titem)
-                                                <option value="{{$titem->id}}"><strong>{{$titem->name}}</option>
+                                                @if(!empty($all_items))
+                                                @foreach($all_items as $titem)
+                                                <option value="{{$titem->item_id}}"><strong>{{$titem->name}}</option>
                                                 @endforeach
                                                 @endif
                                             </select>
@@ -313,13 +313,13 @@
                                             <!--<a class="modal-trigger" href="#createitemmodal" onclick="item_row('{{$i}}')">+ Create New Item</a>-->
                                         </td>
                                         <td>
-                                            <input type="text" name="item_rate[]" id="item_rate{{$i}}" class="validate sum" required>
+                                            <input type="text" name="item_rate[]" id="item_rate{{$i}}" class="form-control sum" required>
                                         </td>
                                         <td>
-                                            <input type="number" min="1" name="item_qty[]" id="item_qty{{$i}}" class="validate" onclick="change_sub_amount('{{$i}}')" required>
+                                            <input type="number" min="1" name="item_qty[]" id="item_qty{{$i}}" class="form-control" onclick="change_sub_amount('{{$i}}')" required>
                                         </td>
                                         <td>
-                                            <input type="text" name="item_total[]" id="item_total{{$i}}" class="validate" required>
+                                            <input type="text" name="item_total[]" id="item_total{{$i}}" class="form-control" required>
                                         </td>
                                     </tr>
                                     <?php 
@@ -329,11 +329,11 @@
                             </table>
                         </div>
                         <div class="input-field col s12">
-                            <a class="waves-effect waves-light" href="javascript:void(0)" onclick="add_line_item()">+ Add Line Item</a>
+                            <a class="btn btn-md btn-info" href="javascript:void(0)" onclick="add_line_item()">+ Add Line Item</a>
                         </div>
                         <table class="table table-responsive-sm"><tr><td style="width: 195px;"></td><td style="width: 290px;"></td><td style="width: 290px; padding-left:230px;">Total : </td><td><input type="text" style="float:right;" class="form-control" id="total_amt" disabled value="{{$total_price}}"></td></tr></table>
                         <div class="col-sm-2">                          
-                            <a class="btn btn-md btn-info" href="javascript:void(0)" onclick="save_invoice()">Save</a>
+                            <a class="btn btn-md btn-primary" href="javascript:void(0)" onclick="save_invoice()">Save</a>
                         </div>
                     </div>
                 </form>

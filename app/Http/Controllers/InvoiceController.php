@@ -136,7 +136,8 @@ class InvoiceController extends Controller
 
         $api = new Api($api_key, $api_secret);
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $item_details = $api->Item->fetch($item_id);
+        //$item_details = $api->Item->fetch($item_id);
+        $item_details = DB::table('items')->where('item_id',$item_id)->first();
         return response()->json(array("amount" => $item_details->amount));
     }
 
