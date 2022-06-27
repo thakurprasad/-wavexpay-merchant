@@ -30,7 +30,7 @@ class RefundController extends Controller
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $all_refunds = $api->refund->all();
 
-        if(!empty($all_payments->items)){
+        if(!empty($all_refunds->items)){
             foreach($all_refunds->items as $refund){
                 if($payment_id==$refund['payment_id'] || $refund_id==$refund['id'] || $status==$refund['status']){
                     $html.='<tr>
