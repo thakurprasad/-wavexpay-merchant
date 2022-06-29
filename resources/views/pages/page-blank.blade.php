@@ -2,7 +2,7 @@
 @extends('layouts.admin')
 
 {{-- page title --}}
-@section('title','Customers')
+@section('title','Home')
 
 @section('content_header')
 <div class="row mb-2">
@@ -99,7 +99,9 @@
 				<div class="col-lg-6 col-6">
 					<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 				</div>
-				
+				<div class="col-lg-6 col-6">
+					<div id="piechart"></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -138,5 +140,30 @@ new Chart("myChart", {
     }
   }
 });
+</script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+  ['Task', 'Transaction data Volume'],
+  ['Payment', 800],
+  ['Refund', 200],
+  ['Batch Refund', 400],
+  ['Orders', 200],
+  ['Disputes', 600]
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Transaction data Volume', 'width':550, 'height':400};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
 </script>
 @endsection
