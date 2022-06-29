@@ -97,12 +97,48 @@
 
 			<div class="row" style="margin-top: 30px;">
 				<div class="col-lg-4 col-4">
+					<div class="row">
+						<div class="col-lg-9">
+							<select class="form-control" name="suc_transaction" onchange="show_trans_graph()">
+								<option value="" disabled>Select format</option>
+								<option value="monthly">Monthly</option>
+								<option value="yearly">Yearly</option>
+							</select>
+						</div>
+						<div class="col-lg-3">
+							<button id="btn-download1" class="btn btn-xs btn-info">Download</button>
+						</div>
+					</div>
 					<canvas id="lineChart1" style="width:100%; height: 600px; max-width:600px"></canvas>
 				</div>
 				<div class="col-lg-4 col-4">
+					<div class="row">
+						<div class="col-lg-9">
+							<select class="form-control" name="total_transaction">
+								<option value="" disabled>Select format</option>
+								<option value="monthly">Monthly</option>
+								<option value="yearly">Yearly</option>
+							</select>
+						</div>
+						<div class="col-lg-3">
+							<button id="btn-download2" class="btn btn-xs btn-primary">Download</button>
+						</div>
+					</div>
 					<canvas id="lineChart2" style="width:100%; height: 600px;max-width:600px"></canvas>
 				</div>
 				<div class="col-lg-4 col-4">
+					<div class="row">
+						<div class="col-lg-9">
+							<select class="form-control" name="suc_rate">
+								<option value="" disabled>Select format</option>
+								<option value="monthly">Monthly</option>
+								<option value="yearly">Yearly</option>
+							</select>
+						</div>
+						<div class="col-lg-3">
+							<button id="btn-download3" class="btn btn-xs btn-warning">Download</button>
+						</div>
+					</div>
 					<canvas id="lineChart3" style="width:100%; height: 600px;max-width:600px"></canvas>
 				</div>
 			</div>
@@ -249,7 +285,7 @@ var yValues3 = [500,808,320,409,222,759,907,601,214];
 new Chart("lineChart3", {
   type: "line",
   data: {
-    labels: xValues2,
+    labels: xValues3,
     datasets: [{
       fill: true,
 	  borderJoinStyle: 'round',
@@ -257,7 +293,7 @@ new Chart("lineChart3", {
       lineTension: 0,
       backgroundColor: "rgba(0,0,255,1.0)",
       borderColor: "white",
-      data: yValues2
+      data: yValues3
     }]
   },
   options: {
@@ -273,6 +309,67 @@ new Chart("lineChart3", {
 });
 
 
+function show_trans_graph(){
+	var xValues1 = ['JAN','FEB','MAR','APR','MAY','JUNE','JULY','AUG','SEPT'];
+	var yValues1 = [70,87,18,79,91,39,100,301,214];
+	new Chart("lineChart1", {
+	type: "line",
+	data: {
+		labels: xValues1,
+		datasets: [{
+		fill: true,
+		borderJoinStyle: 'round',
+		lineTension: 0,
+		backgroundColor: "rgba(0,0,255,1.0)",
+		borderColor: "white",
+		data: yValues1
+		}]
+	},
+	options: {
+		legend: {display: false},
+		scales: {
+		yAxes: [{ticks: {min: 0, max:500}}],
+		},
+		title: {
+		display: true,
+		text: "Successful Transaction"
+		}
+	}
+	});
+}
 
+document.getElementById('btn-download1').onclick = function() {
+	var xValues1 = ['JAN','FEB','MAR','APR','MAY','JUNE','JULY','AUG','SEPT'];
+	var yValues1 = [70,87,18,79,91,39,100,301,214];
+	var print_chart = new Chart("lineChart1", {
+	type: "line",
+	data: {
+		labels: xValues1,
+		datasets: [{
+		fill: true,
+		borderJoinStyle: 'round',
+		lineTension: 0,
+		backgroundColor: "rgba(0,0,255,1.0)",
+		borderColor: "white",
+		data: yValues1
+		}]
+	},
+	options: {
+		legend: {display: false},
+		scales: {
+		yAxes: [{ticks: {min: 0, max:500}}],
+		},
+		title: {
+		display: true,
+		text: "Successful Transaction"
+		}
+	}
+	});
+	// Trigger the download
+	var a = document.createElement('a');
+	a.href = print_chart.toBase64Image();
+	a.download = 'my_file_name.png';
+	a.click();
+}
 </script>
 @endsection
