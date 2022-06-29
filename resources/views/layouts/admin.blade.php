@@ -103,6 +103,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script type="text/javascript" src="{{ asset("/plugins/moment/moment.min.js") }}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
+<script src="{{ asset("/bower_components/admin-lte/plugins/chart.js/Chart.js") }}"></script>
+
+
 @yield('page-script')
 
 <script>

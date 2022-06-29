@@ -80,6 +80,7 @@
 
         <div class="card-footer">
             <button type="button" class="btn btn-primary"  onclick="search_payment()">Submit</button>
+            <button type="button" class="btn btn-info"  onclick="reset_page()">Reset</button>
         </div>
         </form>
     </div>
@@ -97,21 +98,17 @@
                     <th scope="col">Email</th>
                     <th scope="col">Contact</th>
                     <th scope="col">Created At</th>
-                    <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody id="table_container">
-                    @if(!empty($all_payments->items))
-                    @foreach($all_payments->items as $payment)
+                    @if(!empty($all_payments))
+                    @foreach($all_payments as $payment)
                     <tr>
-                        <td>{{$payment['id']}}</td>
-                        <td>{{$payment['amount']}}</td>
-                        <td>{{$payment['email']}}</td>
-                        <td>{{$payment['contact']}}</td>
-                        <td>{{date('Y-m-d',$payment->created_at)}}</td>
-                        <td>
-                            <a class="waves-effect waves-light btn-small">{{$payment['status']}}</a>
-                        </td>
+                        <td>{{$payment->id}}</td>
+                        <td>{{$payment->amount}}</td>
+                        <td>{{$payment->email}}</td>
+                        <td>{{$payment->contact}}</td>
+                        <td>{{$payment->created_at}}</td>
                     </tr>
                     @endforeach
                     @endif
@@ -152,6 +149,10 @@ function search_payment(){
             $('#myTable').DataTable();
         }
     });
+}
+
+function reset_page(){
+    location.reload();
 }
 </script>
 @endsection

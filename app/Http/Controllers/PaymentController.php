@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use DateTime;
@@ -15,8 +15,9 @@ class PaymentController extends Controller
 
 
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $all_payments = $api->payment->all();
+        //$all_payments = $api->payment->all();
         //Pageheader set true for breadcrumbs
+        $all_payments = DB::table('payments')->get();
         $pageConfigs = ['pageHeader' => true];
         return view('pages.transaction.payments', compact('breadcrumbs','pageConfigs', 'all_payments'));
     }

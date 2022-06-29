@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 
@@ -16,8 +16,8 @@ class OrderController extends Controller
 
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $options = ['count'=>50, 'skip'=>0];
-        $all_orders = $api->order->all($options);
-
+        //$all_orders = $api->order->all($options);
+        $all_orders = DB::table('orders')->get();
         return view('pages.transaction.orders', compact('pageConfigs','breadcrumbs','all_orders'));
     }
 
@@ -29,19 +29,20 @@ class OrderController extends Controller
         $html = '';
         
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $all_orders = $api->order->all();
+        //$all_orders = $api->order->all();
+        $all_orders = DB::table('orders')->get();
 
-        if(!empty($all_orders->items)){
-            foreach($all_orders->items as $order){
-                if($order_id==$order['id'] || $reciept==$order['receipt'] ||  $status==$order['status']){
+        if(!empty($all_orders)){
+            foreach($all_orders as $order){
+                if(($order_id==$order->id && $order->id!='') || ($reciept==$order->receipt && $order->receipt!='') ||  ($status==$order->status && $order->status!='')){
                     $html.='<tr>
-                        <th scope="row">'.$order['id'].'</th>
-                        <td>'.number_format($order['amount']/100,2).'</td>
-                        <td>'.$order['attempts'].'</td>
-                        <td>'.$order['receipt'].'</td>
-                        <td>'.date("jS F, Y", $order['created_at']).'</td>
+                        <th scope="row">'.$order->id.'</th>
+                        <td>'.number_format($order->amount,2).'</td>
+                        <td>'.$order->attempts.'</td>
+                        <td>'.$order->receipt.'</td>
+                        <td>'.$order->created_at.'</td>
                         <td>
-                            <a class="waves-effect waves-light btn-small">'.$order['status'].'</a>
+                            <a class="waves-effect waves-light btn-small">'.$order->status.'</a>
                         </td>
                     </tr>';
                 }

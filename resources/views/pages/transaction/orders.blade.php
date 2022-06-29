@@ -51,7 +51,7 @@
                             <input placeholder="Notes" id="notes" name="notes" type="text" class="form-control">
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <!--<div class="col-sm-3">
                         <div class="form-group">
                             <label>Status</label>
                             <select name="status" class="form-control">
@@ -61,11 +61,12 @@
                                 <option value="paid">Paid</option>
                             </select>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="card-footer">
                 <button type="button" class="btn btn-primary"  onclick="search_order()">Submit</button>
+                <button type="button" class="btn btn-info"  onclick="reset_page()">Reset</button>
             </div>
         </form>
     </div>
@@ -82,21 +83,21 @@
                     <th scope="col">Attempts</th>
                     <th scope="col">Receipt</th>
                     <th scope="col">Created At</th>
-                    <th scope="col">Status</th>
+                    <!--<th scope="col">Status</th>-->
                     </tr>
                 </thead>
                 <tbody id="table_container">
-                    @if(!empty($all_orders->items))
-                    @foreach($all_orders->items as $order)
+                    @if(!empty($all_orders))
+                    @foreach($all_orders as $order)
                     <tr>
                         <td>{{$order->id}}</td>
-                        <td>{{number_format($order->amount/100,2)}}</td>
+                        <td>{{number_format($order->amount,2)}}</td>
                         <td>{{$order->attempts}}</td>
                         <td>{{$order->receipt}}</td>
-                        <td>{{date("jS F, Y", $order->created_at)}}</td>
-                        <td>
+                        <td>{{$order->created_at}}</td>
+                        <!--<td>
                             <a class="waves-effect waves-light btn-small">{{$order->status}}</a>
-                        </td>
+                        </td>-->
                     </tr>
                     @endforeach
                     @endif
@@ -138,6 +139,10 @@ function search_order(){
             $('#myTable').DataTable();
         }
     });
+}
+
+function reset_page(){
+    location.reload();
 }
 </script>
 @endsection
