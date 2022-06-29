@@ -94,6 +94,13 @@
 				<!-- ./col -->
 			</div>
 			<!-- /.row -->
+
+			<div class="row">
+				<div class="col-lg-6 col-6">
+					<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+				</div>
+				
+			</div>
 		</div>
 	</div>
 
@@ -107,5 +114,29 @@
 @endsection
 @section('page-script')
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+var xValues = ["January", "February", "March", "April", "May", "June", "July", "August", "Sept"];
+var yValues = [200, 58, 125, 110, 175, 148, 221, 315, 112];
+var barColors = ["red", "green","blue","orange","brown", "black", "beige", "yellow"];
 
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Monthly Payment Data"
+    }
+  }
+});
+</script>
 @endsection
