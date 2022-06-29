@@ -95,7 +95,21 @@
 			</div>
 			<!-- /.row -->
 
-			<div class="row">
+			<div class="row" style="margin-top: 30px;">
+				<div class="col-lg-4 col-4">
+					<canvas id="lineChart1" style="width:100%; height: 600px; max-width:600px"></canvas>
+				</div>
+				<div class="col-lg-4 col-4">
+					<canvas id="lineChart2" style="width:100%; height: 600px;max-width:600px"></canvas>
+				</div>
+				<div class="col-lg-4 col-4">
+					<canvas id="lineChart3" style="width:100%; height: 600px;max-width:600px"></canvas>
+				</div>
+			</div>
+
+
+
+			<div class="row" style="margin-top: 30px;">
 				<div class="col-lg-6 col-6">
 					<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 				</div>
@@ -116,7 +130,7 @@
 @endsection
 @section('page-script')
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" ></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
 var xValues = ["January", "February", "March", "April", "May", "June", "July", "August", "Sept"];
@@ -140,6 +154,10 @@ new Chart("myChart", {
     }
   }
 });
+
+
+
+
 </script>
 
 <script type="text/javascript">
@@ -165,5 +183,96 @@ function drawChart() {
   var chart = new google.visualization.PieChart(document.getElementById('piechart'));
   chart.draw(data, options);
 }
+
+
+
+
+var xValues1 = ['JAN17','JAN18','JAN19','JAN20','JAN21','JAN22','JAN23','JAN24','JAN25'];
+var yValues1 = [7,8,8,9,9,9,10,11,14];
+new Chart("lineChart1", {
+  type: "line",
+  data: {
+    labels: xValues1,
+    datasets: [{
+      fill: true,
+	  borderJoinStyle: 'round',
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "white",
+      data: yValues1
+    }]
+  },
+  options: {
+    legend: {display: false},
+    scales: {
+      yAxes: [{ticks: {min: 6, max:16}}],
+    },
+	title: {
+      display: true,
+      text: "Successful Transaction"
+    }
+  }
+});
+
+
+var xValues2 = ['MAR17','MAR18','MAR19','MAR20','MAR21','MAR22','MAR23','MAR24','MAR25'];
+var yValues2 = [700,208,820,609,922,359,107,101,214];
+new Chart("lineChart2", {
+  type: "line",
+  data: {
+    labels: xValues2,
+    datasets: [{
+      fill: true,
+	  borderJoinStyle: 'round',
+	  borderColor: 'white',
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "white",
+      data: yValues2
+    }]
+  },
+  options: {
+    legend: {display: false},
+    scales: {
+      yAxes: [{ticks: {min: 100, max:1000}}],
+    },
+	title: {
+      display: true,
+      text: "Total Collection"
+    }
+  }
+});
+
+
+var xValues3 = ['APR17','APR18','APR19','APR20','APR21','APR22','APR23','APR24','APR25'];
+var yValues3 = [500,808,320,409,222,759,907,601,214];
+new Chart("lineChart3", {
+  type: "line",
+  data: {
+    labels: xValues2,
+    datasets: [{
+      fill: true,
+	  borderJoinStyle: 'round',
+	  borderColor: 'white',
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "white",
+      data: yValues2
+    }]
+  },
+  options: {
+    legend: {display: false},
+    scales: {
+      yAxes: [{ticks: {min: 100, max:1000}}],
+    },
+	title: {
+      display: true,
+      text: "Total Collection"
+    }
+  }
+});
+
+
+
 </script>
 @endsection
