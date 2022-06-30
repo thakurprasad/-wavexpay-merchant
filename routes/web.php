@@ -32,7 +32,7 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::resource('customer', CustomerController::class);
     Route::get('/my-account', [PageController::class, 'merchantProfile']);
     Route::get('/home', [PageController::class, 'blankPage'])->name('home');
-    Route::get('/', [PageController::class, 'blankPage']);
+    Route::get('/', [PageController::class, 'dashboard']);
 
     //transaction payment routes
     Route::get('transactions/payments',  [PaymentController::class, 'index'] )->name('transactions/payments');

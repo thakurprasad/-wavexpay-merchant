@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Http;
+use DB;
 
 class PageController extends Controller
 {
@@ -11,13 +12,28 @@ class PageController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Pages"], ['name' => "Blank Page"],
         ];
 
-        /*$response = Http::get('https://jsonplaceholder.typicode.com/posts');
-        print_r($response->body());
-        exit;*/
-        //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
         return view('pages.page-blank', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
     }
+
+    public function dashboard()
+    {
+        $breadcrumbs = [
+            ['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Pages"], ['name' => "Blank Page"],
+        ];
+
+        $payments = DB::table('payments')->get();
+        $orders = DB::table('orders')->get();
+        $disputes = DB::table('disputes')->get();
+        $refunds = DB::table('refunds')->get();
+        $users = DB::table('users')->get();
+
+        $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
+        
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc'));
+    }
+
+
     public function collapsePage()
     {
         $breadcrumbs = [
