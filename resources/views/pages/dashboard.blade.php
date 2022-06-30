@@ -61,6 +61,32 @@
 					<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 					</div>
 				</div>
+                <!-- ./col -->
+				<div class="col-lg-3 col-6">
+					<!-- small box -->
+					<div class="small-box bg-danger">
+					<div class="inner">
+                        @php
+                        $total_amount=0;
+                        if(!empty($payments))
+                        {
+                            foreach($payments as $payment)
+                            {
+                                $total_amount+=$payment->amount;
+                            }
+                        }
+                        @endphp
+						<h3>₹{{number_format($total_amount,2)}}</h3>
+
+						<p>Total Payments Amount</p>
+					</div>
+					<div class="icon">
+						<i class="ion ion-pie-graph"></i>
+					</div>
+					<a href="{{ route('transactions/payments') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+				<!-- ./col -->
 				<!-- ./col -->
 				<div class="col-lg-3 col-6">
 					<!-- small box -->
@@ -68,7 +94,7 @@
 					<div class="inner">
 						<h3>{{count($users)}}</h3>
 
-						<p>User Registrations</p>
+						<p>Total Users</p>
 					</div>
 					<div class="icon">
 						<i class="ion ion-person-add"></i>
@@ -76,22 +102,7 @@
 					<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 					</div>
 				</div>
-				<!-- ./col -->
-				<div class="col-lg-3 col-6">
-					<!-- small box -->
-					<div class="small-box bg-danger">
-					<div class="inner">
-						<h3>65</h3>
-
-						<p>Unique Visitors</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-pie-graph"></i>
-					</div>
-					<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-					</div>
-				</div>
-				<!-- ./col -->
+				
 			</div>
 			<!-- /.row -->
 
