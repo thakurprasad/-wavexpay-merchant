@@ -28,9 +28,36 @@ class PageController extends Controller
         $refunds = DB::table('refunds')->get();
         $users = DB::table('users')->get();
 
+        
+
+        /*****************payment value calculation for payment line graph***********************/
+        $payment_current_month_data = DB::table('payments')->whereMonth('payment_created_at', date('m'))
+        ->whereYear('payment_created_at', date('Y'))
+        ->get(['amount','payment_created_at']);
+
+        $paymentmaxValue = DB::table('payments')->orderBy('amount', 'desc')->value('amount');
+        $paymentminValue = DB::table('payments')->orderBy('amount', 'asc')->value('amount');
+
+
+        
+        $paymentxvalue1='[';
+        $paymentyvalue1='[';
+        foreach($payment_current_month_data as $data)
+        {
+            $paymentxvalue1.="'".date('M',strtotime($data->payment_created_at)).date('d',strtotime($data->payment_created_at))."'".",";
+
+            $paymentyvalue1.=$data->amount.',';
+        }
+        $paymentxvalue1=rtrim($paymentxvalue1,",");
+        $paymentxvalue1.=']';
+
+        $paymentyvalue1=rtrim($paymentyvalue1,",");
+        $paymentyvalue1.=']';
+        /*****************payment value end calculation for payment line graph***********************/
+
         $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue'));
     }
 
 

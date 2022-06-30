@@ -239,20 +239,20 @@ var yValues1 = [7,8,8,9,9,9,10,11,14];
 new Chart("lineChart1", {
   type: "line",
   data: {
-    labels: xValues1,
+    labels: {!! $paymentxvalue1 !!},
     datasets: [{
       fill: true,
 	  borderJoinStyle: 'round',
       lineTension: 0,
       backgroundColor: "rgba(0,0,255,1.0)",
       borderColor: "white",
-      data: yValues1
+      data: {{$paymentyvalue1}}
     }]
   },
   options: {
     legend: {display: false},
     scales: {
-      yAxes: [{ticks: {min: 6, max:16}}],
+      yAxes: [{ticks: {min: {{$paymentminValue}}, max:{{$paymentmaxValue}}}}],
     },
 	title: {
       display: true,
