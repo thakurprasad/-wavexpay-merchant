@@ -107,22 +107,22 @@
 			<!-- /.row -->
 
 			<div class="row" style="margin-top: 30px;">
-				<div class="col-lg-4 col-4">
+				<div class="col-lg-6 col-6">
 					<div class="row">
-						<div class="col-lg-9">
+						<div class="col-lg-10">
 							<select class="form-control" name="suc_transaction" onchange="show_trans_graph()">
 								<option value="" disabled>Select format</option>
 								<option value="monthly">Monthly</option>
 								<option value="yearly">Yearly</option>
 							</select>
 						</div>
-						<div class="col-lg-3">
+						<div class="col-lg-2">
 							<button id="btn-download1" class="btn btn-xs btn-info">Download</button>
 						</div>
 					</div>
-					<canvas id="lineChart1" style="width:100%; height: 600px; max-width:600px"></canvas>
+					<canvas id="lineChart1" style="width:100%; height: 400px; max-width:600px"></canvas>
 				</div>
-				<div class="col-lg-4 col-4">
+				<!--<div class="col-lg-4 col-4">
 					<div class="row">
 						<div class="col-lg-9">
 							<select class="form-control" name="total_transaction">
@@ -136,21 +136,21 @@
 						</div>
 					</div>
 					<canvas id="lineChart2" style="width:100%; height: 600px;max-width:600px"></canvas>
-				</div>
-				<div class="col-lg-4 col-4">
+				</div>-->
+				<div class="col-lg-6 col-6">
 					<div class="row">
-						<div class="col-lg-9">
+						<div class="col-lg-10">
 							<select class="form-control" name="suc_rate">
 								<option value="" disabled>Select format</option>
 								<option value="monthly">Monthly</option>
 								<option value="yearly">Yearly</option>
 							</select>
 						</div>
-						<div class="col-lg-3">
+						<div class="col-lg-2">
 							<button id="btn-download3" class="btn btn-xs btn-warning">Download</button>
 						</div>
 					</div>
-					<canvas id="lineChart3" style="width:100%; height: 600px;max-width:600px"></canvas>
+					<canvas id="lineChart3" style="width:100%; height: 400px;max-width:600px"></canvas>
 				</div>
 			</div>
 
@@ -296,7 +296,7 @@ var yValues3 = [500,808,320,409,222,759,907,601,214];
 new Chart("lineChart3", {
   type: "line",
   data: {
-    labels: xValues3,
+    labels: {!! $orderxvalue1 !!},
     datasets: [{
       fill: true,
 	  borderJoinStyle: 'round',
@@ -304,13 +304,13 @@ new Chart("lineChart3", {
       lineTension: 0,
       backgroundColor: "rgba(0,0,255,1.0)",
       borderColor: "white",
-      data: yValues3
+      data: {{$orderyvalue1}}
     }]
   },
   options: {
     legend: {display: false},
     scales: {
-      yAxes: [{ticks: {min: 100, max:1000}}],
+      yAxes: [{ticks: {min: {{$orderminValue}}, max:{{$ordermaxValue}}}}],
     },
 	title: {
       display: true,

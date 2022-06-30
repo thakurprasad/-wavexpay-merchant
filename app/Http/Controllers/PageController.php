@@ -38,8 +38,6 @@ class PageController extends Controller
         $paymentmaxValue = DB::table('payments')->orderBy('amount', 'desc')->value('amount');
         $paymentminValue = DB::table('payments')->orderBy('amount', 'asc')->value('amount');
 
-
-        
         $paymentxvalue1='[';
         $paymentyvalue1='[';
         foreach($payment_current_month_data as $data)
@@ -55,9 +53,33 @@ class PageController extends Controller
         $paymentyvalue1.=']';
         /*****************payment value end calculation for payment line graph***********************/
 
+
+        /*****************order value calculation for total line graph***********************/
+        $order_current_month_data = DB::table('orders')->whereMonth('order_created_at', date('m'))
+        ->whereYear('order_created_at', date('Y'))
+        ->get(['amount','order_created_at']);
+
+        $ordermaxValue = DB::table('orders')->whereMonth('order_created_at', date('m'))->whereYear('order_created_at', date('Y'))->orderBy('amount', 'desc')->value('amount');
+        $orderminValue = DB::table('orders')->whereMonth('order_created_at', date('m'))->whereYear('order_created_at', date('Y'))->orderBy('amount', 'asc')->value('amount');
+
+        $orderxvalue1='[';
+        $orderyvalue1='[';
+        foreach($order_current_month_data as $data)
+        {
+            $orderxvalue1.="'".date('M',strtotime($data->order_created_at)).date('d',strtotime($data->order_created_at))."'".",";
+
+            $orderyvalue1.=$data->amount.',';
+        }
+        $orderxvalue1=rtrim($orderxvalue1,",");
+        $orderxvalue1.=']';
+
+        $orderyvalue1=rtrim($orderyvalue1,",");
+        $orderyvalue1.=']';
+        /*****************order value end calculation for payment line graph***********************/
+
         $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1'));
     }
 
 
