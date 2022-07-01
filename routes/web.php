@@ -101,5 +101,8 @@ Route::group(['middleware' => ['token.check']], function() {
 
     Route::get('chargeback',  [ChargeBackController::class, 'index'] );
     Route::get('reports',  [ReportController::class, 'index'] );
+
+
+    Route::post('getsuccesstransactiongraphdata',[PageController::class, 'getSuccessTransactionGraphData'] );
 });
 

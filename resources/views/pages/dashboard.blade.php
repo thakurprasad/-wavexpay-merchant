@@ -110,8 +110,8 @@
 				<div class="col-lg-6 col-6">
 					<div class="row">
 						<div class="col-lg-10">
-							<select class="form-control" name="suc_transaction" onchange="show_trans_graph()">
-								<option value="" disabled>Select format</option>
+							<select class="form-control" id="suc_transaction" name="suc_transaction" onchange="show_trans_graph()">
+								<option value="" disabled selected>Select format</option>
 								<option value="monthly">Monthly</option>
 								<option value="yearly">Yearly</option>
 							</select>
@@ -120,7 +120,7 @@
 							<button id="btn-download1" class="btn btn-xs btn-info">Download</button>
 						</div>
 					</div>
-					<canvas id="lineChart1" style="width:100%; height: 400px; max-width:600px"></canvas>
+					<canvas id="lineChart1" style="width:100%; height: 300px; max-width:500px"></canvas>
 				</div>
 				<!--<div class="col-lg-4 col-4">
 					<div class="row">
@@ -150,7 +150,7 @@
 							<button id="btn-download3" class="btn btn-xs btn-warning">Download</button>
 						</div>
 					</div>
-					<canvas id="lineChart3" style="width:100%; height: 400px;max-width:600px"></canvas>
+					<canvas id="lineChart3" style="width:100%; height: 300px;max-width:500px"></canvas>
 				</div>
 			</div>
 
@@ -258,34 +258,6 @@ new Chart("lineChart1", {
 });
 
 
-var xValues2 = ['MAR17','MAR18','MAR19','MAR20','MAR21','MAR22','MAR23','MAR24','MAR25'];
-var yValues2 = [700,208,820,609,922,359,107,101,214];
-new Chart("lineChart2", {
-  type: "line",
-  data: {
-    labels: xValues2,
-    datasets: [{
-      fill: true,
-	  borderJoinStyle: 'round',
-	  borderColor: 'white',
-      lineTension: 0,
-      backgroundColor: "rgba(0,0,255,1.0)",
-      borderColor: "white",
-      data: yValues2
-    }]
-  },
-  options: {
-    legend: {display: false},
-    scales: {
-      yAxes: [{ticks: {min: 100, max:1000}}],
-    },
-	title: {
-      display: true,
-      text: "Total Collection"
-    }
-  }
-});
-
 
 var xValues3 = ['APR17','APR18','APR19','APR20','APR21','APR22','APR23','APR24','APR25'];
 var yValues3 = [500,808,320,409,222,759,907,601,214];
@@ -317,33 +289,74 @@ new Chart("lineChart3", {
 
 
 function show_trans_graph(){
-	var xValues1 = ['JAN','FEB','MAR','APR','MAY','JUNE','JULY','AUG','SEPT'];
-	var yValues1 = [70,87,18,79,91,39,100,301,214];
-	new Chart("lineChart1", {
-	type: "line",
-	data: {
-		labels: xValues1,
-		datasets: [{
-		fill: true,
-		borderJoinStyle: 'round',
-		lineTension: 0,
-		backgroundColor: "rgba(0,0,255,1.0)",
-		borderColor: "white",
-		data: yValues1
-		}]
-	},
-	options: {
-		legend: {display: false},
-		scales: {
-		yAxes: [{ticks: {min: 0, max:500}}],
-		},
-		title: {
-		display: true,
-		text: "Successful Transaction"
+	var suc_transaction = $("#suc_transaction").val();
+	var xValues = ['N/A'];
+	var yValues = [0];
+	var min = 0;
+	var max = 1000;
+	$.ajax({
+        url: '{{url("getsuccesstransactiongraphdata")}}',
+        data: {data_format: suc_transaction},
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){          
+			xValues = data.paymentxvalue1;
+			yValues = data.paymentyvalue1;
+			min = data.paymentminValue;
+			max = data.paymentmaxValue;			
+			create_ajax_payment_chart(xValues,yValues,min,max);
+        }
+    });
+}
+
+function create_ajax_payment_chart(xValues,yValues,min,max){
+	console.log(xValues);
+	var canv = document.createElement("canvas");
+	canv.width = 200;
+	canv.height = 200;
+	canv.setAttribute('id', 'lineChart1');
+	document.body.appendChild(canv);
+	var C = document.getElementById(canv.getAttribute('id'));
+	if (C.getContext) 
+	{              
+    	if (C.getContext) 
+		{
+			new Chart("lineChart1", {
+			type: "line",
+			data: {
+				labels: (xValues.trim()).split(','),
+				datasets: [{
+				fill: true,
+				borderJoinStyle: 'round',
+				lineTension: 0,
+				backgroundColor: "rgba(0,0,255,1.0)",
+				borderColor: "white",
+				data: (yValues.trim()).split(",")
+				}]
+			},
+			options: {
+				legend: {display: false},
+				scales: {
+				yAxes: [{ticks: {min: min, max:max}}],
+				},
+				title: {
+				display: true,
+				text: "Successful Transaction"
+				}
+			}
+			});
 		}
 	}
-	});
+
 }
+
+
+
+
+
+
 
 document.getElementById('btn-download1').onclick = function() {
 	var xValues1 = ['JAN','FEB','MAR','APR','MAY','JUNE','JULY','AUG','SEPT'];
