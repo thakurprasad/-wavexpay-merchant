@@ -216,10 +216,62 @@ class PageController extends Controller
 
         $paymentyvalue1=rtrim($paymentyvalue1,",");
 
-        /*$paymentmaxValue = DB::table('payments')->whereMonth('payment_created_at', date('m'))->whereYear('payment_created_at', date('Y'))->orderBy('amount', 'desc')->value('amount');
-        $paymentminValue = DB::table('payments')->whereMonth('payment_created_at', date('m'))->whereYear('payment_created_at', date('Y'))->orderBy('amount', 'asc')->value('amount');*/
-        
+        $paymentmaxValue = DB::table('payments')->select(
+            DB::raw("(SUM(amount)) as total_amount"),
+            DB::raw("YEAR(payment_created_at) as year"))->groupBy('year')->value('total_amount');
+        /*$paymentminValue = DB::table('payments')->whereMonth('payment_created_at', date('m'))->whereYear('payment_created_at', date('Y'))->orderBy('amount', 'asc')->value('amount');*/
 
-        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'paymentmaxValue'=>5000,'paymentminValue'=>0));
+        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'paymentmaxValue'=>$paymentmaxValue,'paymentminValue'=>0));
+    }
+
+
+    public function getSuccessRateGraphData(Request $request){
+        $data_format = $request->data_format;
+        $paymentxvalue1='';
+        $paymentyvalue1='';
+
+        if($data_format=='monthly')
+        {
+            $payment_month_data = DB::table('orders')->select(
+                DB::raw("(SUM(amount)) as total_amount"),
+                DB::raw("MONTHNAME(order_created_at) as month_name")
+            )
+            ->whereYear('order_created_at', date('Y'))
+            ->groupBy('month_name')
+            ->get();
+        }
+        else if($data_format=='yearly')
+        {
+            $payment_month_data = DB::table('orders')->select(
+                DB::raw("(SUM(amount)) as total_amount"),
+                DB::raw("YEAR(order_created_at) as year")
+            )
+            ->orderBy('order_created_at', 'DESC')
+            ->groupBy('year')
+            ->get();
+        }
+
+        foreach($payment_month_data as $data)
+        {
+            if($data_format=='monthly')
+            {
+                $paymentxvalue1.=$data->month_name.',';
+            }
+            else if($data_format=='yearly')
+            {
+                $paymentxvalue1.=$data->year.',';
+            }
+            $paymentyvalue1.=$data->total_amount.',';
+        }
+        $paymentxvalue1=rtrim($paymentxvalue1,",");
+
+        $paymentyvalue1=rtrim($paymentyvalue1,",");
+
+        $paymentmaxValue = DB::table('orders')->select(
+            DB::raw("(SUM(amount)) as total_amount"),
+            DB::raw("YEAR(order_created_at) as year"))->groupBy('year')->value('total_amount');
+        /*$paymentminValue = DB::table('payments')->whereMonth('payment_created_at', date('m'))->whereYear('payment_created_at', date('Y'))->orderBy('amount', 'asc')->value('amount');*/
+
+        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'paymentmaxValue'=>$paymentmaxValue,'paymentminValue'=>0));
     }
 }

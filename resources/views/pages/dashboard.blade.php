@@ -140,8 +140,8 @@
 				<div class="col-lg-6 col-6">
 					<div class="row">
 						<div class="col-lg-10">
-							<select class="form-control" name="suc_rate">
-								<option value="" disabled>Select format</option>
+							<select class="form-control" name="suc_rate" id="suc_rate" onchange="show_suc_graph()">
+								<option value="" disabled selected>Select format</option>
 								<option value="monthly">Monthly</option>
 								<option value="yearly">Yearly</option>
 							</select>
@@ -352,6 +352,75 @@ function create_ajax_payment_chart(xValues,yValues,min,max){
 
 }
 
+
+
+
+
+function show_suc_graph()
+{
+	var suc_rate = $("#suc_rate").val();
+	var xValues = ['N/A'];
+	var yValues = [0];
+	var min = 0;
+	var max = 1000;
+	$.ajax({
+        url: '{{url("getsuccessrategraphdata")}}',
+        data: {data_format: suc_rate},
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){          
+			xValues = data.paymentxvalue1;
+			yValues = data.paymentyvalue1;
+			min = data.paymentminValue;
+			max = data.paymentmaxValue;			
+			create_ajax_success_chart(xValues,yValues,min,max);
+        }
+    });
+}
+
+
+function create_ajax_success_chart(xValues,yValues,min,max){
+	console.log(xValues);
+	var canv = document.createElement("canvas");
+	canv.width = 200;
+	canv.height = 200;
+	canv.setAttribute('id', 'lineChart3');
+	document.body.appendChild(canv);
+	var C = document.getElementById(canv.getAttribute('id'));
+	if (C.getContext) 
+	{              
+    	if (C.getContext) 
+		{
+			new Chart("lineChart3", {
+			type: "line",
+			data: {
+				labels: (xValues.trim()).split(','),
+				datasets: [{
+				fill: true,
+				borderJoinStyle: 'round',
+				lineTension: 0,
+				backgroundColor: "rgba(0,0,255,1.0)",
+				borderColor: "white",
+				data: (yValues.trim()).split(",")
+				}]
+			},
+			options: {
+				legend: {display: false},
+				scales: {
+				yAxes: [{ticks: {min: min, max:max}}],
+				},
+				title: {
+				display: true,
+				text: "Successful Transaction"
+				}
+			}
+			});
+		}
+	}
+
+}
 
 
 

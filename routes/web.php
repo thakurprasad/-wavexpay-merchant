@@ -104,5 +104,6 @@ Route::group(['middleware' => ['token.check']], function() {
 
 
     Route::post('getsuccesstransactiongraphdata',[PageController::class, 'getSuccessTransactionGraphData'] );
+    Route::post('getsuccessrategraphdata',[PageController::class, 'getSuccessRateGraphData'] );
 });
 
