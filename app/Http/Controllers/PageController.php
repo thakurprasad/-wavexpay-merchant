@@ -88,9 +88,38 @@ class PageController extends Controller
         ['Disputes', ".count($disputes)."]";
         /*************************** end of pie chart data for volume in each section **************/
 
+
+        /*************************** Bar Chart Data For Payment ************************************/
+        $xValue='[';
+        $yValue='[';
+        $payment_current_month_data = DB::table('payments')->select(
+            DB::raw("(SUM(amount)) as total_amount"),
+            DB::raw("MONTHNAME(payment_created_at) as month_name")
+        )
+        ->whereYear('payment_created_at', date('Y'))
+        ->groupBy('month_name')
+        ->get();
+        
+        foreach($payment_current_month_data as $pd)
+        {
+            $xValue.='"'.$pd->month_name.'",';
+            $yValue.=$pd->total_amount.',';
+        }
+        $xValue=rtrim($xValue,",");
+        $xValue.=']';
+
+        $yValue=rtrim($yValue,",");
+        $yValue.=']';
+
+        
+
+        //var yValues = [200, 58, 125, 110, 175, 148, 221, 315, 112];
+        //var barColors = ["red", "green","blue","orange","brown", "black", "beige", "yellow"];
+        /*************************** End Bar Chart Data For Payment ********************************/
+
         $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue'));
     }
 
 

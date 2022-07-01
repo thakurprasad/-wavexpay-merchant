@@ -187,10 +187,10 @@ var barColors = ["red", "green","blue","orange","brown", "black", "beige", "yell
 new Chart("myChart", {
   type: "bar",
   data: {
-    labels: xValues,
+    labels: {!! $xValue !!},
     datasets: [{
       backgroundColor: barColors,
-      data: yValues
+      data: {{$yValue}}
     }]
   },
   options: {
