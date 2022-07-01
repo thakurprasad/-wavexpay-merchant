@@ -35,6 +35,8 @@ class PageController extends Controller
         ->whereYear('payment_created_at', date('Y'))
         ->get(['amount','payment_created_at']);
 
+        //print_r($payment_current_month_data);exit;
+
         $paymentmaxValue = DB::table('payments')->orderBy('amount', 'desc')->value('amount');
         $paymentminValue = DB::table('payments')->orderBy('amount', 'asc')->value('amount');
 
@@ -51,6 +53,7 @@ class PageController extends Controller
 
         $paymentyvalue1=rtrim($paymentyvalue1,",");
         $paymentyvalue1.=']';
+        
         /*****************payment value end calculation for payment line graph***********************/
 
 
@@ -77,9 +80,17 @@ class PageController extends Controller
         $orderyvalue1.=']';
         /*****************order value end calculation for payment line graph***********************/
 
+
+        /*************************** pie chart data for volume in each section *********************/
+        $new_pie_chart_volume_data = "['Payment', ".count($payments)."],
+        ['Refund', ".count($refunds)."],
+        ['Orders', ".count($orders)."],
+        ['Disputes', ".count($disputes)."]";
+        /*************************** end of pie chart data for volume in each section **************/
+
         $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data'));
     }
 
 

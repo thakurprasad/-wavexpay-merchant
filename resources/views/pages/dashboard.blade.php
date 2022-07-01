@@ -216,11 +216,7 @@ google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
   var data = google.visualization.arrayToDataTable([
   ['Task', 'Transaction data Volume'],
-  ['Payment', 800],
-  ['Refund', 200],
-  ['Batch Refund', 400],
-  ['Orders', 200],
-  ['Disputes', 600]
+  {!! $new_pie_chart_volume_data !!}
 ]);
 
   // Optional; add a title and set the width and height of the chart
