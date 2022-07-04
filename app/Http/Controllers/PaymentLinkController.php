@@ -63,7 +63,7 @@ class PaymentLinkController extends Controller
                     $s_customer_email = $link->customer_email;
                 }
                 $html.='<tr>
-                    <th>'.$link->id.'</th>
+                    <th><a style="cursor:pointer; color: blue;" onclick="show_notes(\''.$link->payment_link_id.'\')">'.$link->payment_link_id.'</a></th>
                     <td>'.date('Y-m-d H:i:s',strtotime($link->created_at)).'</td>
                     <td>'.number_format($link->amount,2).'</td>
                     <td>'.$link->reference_id.'</td>
@@ -78,22 +78,21 @@ class PaymentLinkController extends Controller
     public function createPaymentLink(Request $request){
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
 
+        $accept_partial = false;
+        $email = false;
+        $sms = false;
+        $reference_id = rand(10000,99999);
+
         if($request['partial_paymet']=='yes'){
             $accept_partial = true;
-        }else{
-            $accept_partial = false;
         }
 
         if($request['notify_via_email']=='yes'){
             $email = true;
         }
-        else{
-            $email = false;
-        }
+
         if($request['notify_via_sms']=='yes'){
             $sms = true;
-        }else{
-            $sms = false;
         }
 
         $note_title = $request['note_title'];
@@ -110,7 +109,7 @@ class PaymentLinkController extends Controller
 
         
 
-        $response = $api->paymentLink->create(array('amount'=>(float)$request['amount'], 'reference_id' => $request['reference_id'], 'currency'=>'INR','accept_partial'=>$accept_partial, 'description' => $request['payment_description'], 'customer' => array('email' => $request['customer_email'], 'contact'=> $request['customer_contact']), 'notify'=>array('sms'=>$sms, 'email'=>$email) , 'reminder_enable'=>true ,'notes'=>$note_array,'callback_url' => 'https://example-callback-url.com/','callback_method'=>'get'));
+        $response = $api->paymentLink->create(array('amount'=>(float)$request['amount'], /*'reference_id' => $reference_id,*/ 'reference_id' => $request['reference_id'], 'currency'=>'INR','accept_partial'=>$accept_partial, 'description' => $request['payment_description'], 'customer' => array('email' => $request['customer_email'], 'contact'=> $request['customer_contact']), 'notify'=>array('sms'=>$sms, 'email'=>$email) , 'reminder_enable'=>true ,'notes'=>$note_array,'callback_url' => 'https://example-callback-url.com/','callback_method'=>'get'));
 
         //print_r($response);exit;
 

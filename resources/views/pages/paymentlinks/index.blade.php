@@ -130,7 +130,7 @@
 
 <div id="modal1" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" style="width: 600px;">
       <div class="modal-header">
         <h5 class="modal-title">New Payment Link</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -140,19 +140,20 @@
       <div class="modal-body">
         <form id="form-create-payment-link" method="post">
             <div class="row" id="clid">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Amount*</label>
-                        <input placeholder="Amount" name="amount" id="amount" type="text" class="form-control" required>
-                    </div>
-                </div>
+                
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="first_name">Payment For <For></For></label>
                         <input placeholder="Payment Description" name="payment_description" id="payment_description" type="text" class="form-control" required>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="first_name">Amount*</label>
+                        <input placeholder="Amount" name="amount" id="amount" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-sm-3">
                     <div class="form-group">
                         <label for="first_name">Reference Id <For></For></label>
                         <input placeholder="Reference Id" name="reference_id" id="reference_id" type="text" class="form-control" required>
@@ -170,7 +171,7 @@
                         <input placeholder="Customer Contact" name="customer_contact" id="customer_contact" type="text" class="form-control" required>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <!--<div class="col-sm-6">
                     <div class="form-group">
                         <label for="first_name">Notify Via Email</label>
                         <select class="form-control" name="notify_via_email" id="notify_via_email">
@@ -213,10 +214,10 @@
                             <option value="no">No</option>
                         </select>
                     </div>
-                </div>
+                </div>-->
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <a class="waves-effect waves-light" style="cursor:pointer;" onclick="add_notes()">+ Add Notes</a>
+                        <a class="waves-effect waves-light" style="cursor:pointer;" onclick="add_notes()"><strong>+ Add Notes</strong></a>
                         <span id="add_note_container">
                         </span>
                         <span id="afetr_edit_note_container"></span>

@@ -158,7 +158,8 @@
 
 			<div class="row" style="margin-top: 30px;">
 				<div class="col-lg-6 col-6">
-					<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+					<!--<canvas id="myChart" style="width:100%;max-width:600px"></canvas>-->
+					<div id="myPlot" style="width:100%;max-width:700px"></div>
 				</div>
 				<div class="col-lg-6 col-6">
 					<div id="piechart"></div>
@@ -179,12 +180,13 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" ></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
 var xValues = ["January", "February", "March", "April", "May", "June", "July", "August", "Sept"];
 var yValues = [200, 58, 125, 110, 175, 148, 221, 315, 112];
 var barColors = ["red", "green","blue","orange","brown", "black", "beige", "yellow"];
 
-new Chart("myChart", {
+/*new Chart("myChart", {
   type: "bar",
   data: {
     labels: {!! $xValue !!},
@@ -195,12 +197,26 @@ new Chart("myChart", {
   },
   options: {
     legend: {display: false},
+	scales: {
+      y: {
+        beginAtZero: true
+      }
+    },
     title: {
       display: true,
       text: "Monthly Payment Data"
     }
   }
-});
+});*/
+
+
+var data = [{
+  x: {!! $xValue !!},
+  y: {{$yValue}},
+  type: "bar"  }];
+var layout = {title:"Monthly Payment Data"};
+
+Plotly.newPlot("myPlot", data, layout);
 
 
 
@@ -230,8 +246,7 @@ function drawChart() {
 
 
 
-var xValues1 = ['JAN17','JAN18','JAN19','JAN20','JAN21','JAN22','JAN23','JAN24','JAN25'];
-var yValues1 = [7,8,8,9,9,9,10,11,14];
+
 new Chart("lineChart1", {
   type: "line",
   data: {
@@ -248,7 +263,8 @@ new Chart("lineChart1", {
   options: {
     legend: {display: false},
     scales: {
-      yAxes: [{ticks: {min: {{$paymentminValue}}, max:{{$paymentmaxValue}}}}],
+      //yAxes: [{ticks: {min: {{$paymentminValue}}, max:{{$paymentmaxValue}}}}],
+	  yAxes: [{ticks: {min: 50, max:5000}}],
     },
 	title: {
       display: true,
@@ -259,8 +275,7 @@ new Chart("lineChart1", {
 
 
 
-var xValues3 = ['APR17','APR18','APR19','APR20','APR21','APR22','APR23','APR24','APR25'];
-var yValues3 = [500,808,320,409,222,759,907,601,214];
+
 new Chart("lineChart3", {
   type: "line",
   data: {
@@ -278,7 +293,8 @@ new Chart("lineChart3", {
   options: {
     legend: {display: false},
     scales: {
-      yAxes: [{ticks: {min: {{$orderminValue}}, max:{{$ordermaxValue}}}}],
+      //yAxes: [{ticks: {min: {{$orderminValue}}, max:{{$ordermaxValue}}}}],
+	  yAxes: [{ticks: {min: 50, max:50000}}],
     },
 	title: {
       display: true,
@@ -339,7 +355,7 @@ function create_ajax_payment_chart(xValues,yValues,min,max){
 			options: {
 				legend: {display: false},
 				scales: {
-				yAxes: [{ticks: {min: min, max:max}}],
+				yAxes: [{ticks: {min: 50, max:5000}}],
 				},
 				title: {
 				display: true,
@@ -409,11 +425,11 @@ function create_ajax_success_chart(xValues,yValues,min,max){
 			options: {
 				legend: {display: false},
 				scales: {
-				yAxes: [{ticks: {min: min, max:max}}],
+				yAxes: [{ticks: {min: 50, max:50000}}],
 				},
 				title: {
 				display: true,
-				text: "Successful Transaction"
+				text: "Total Collection"
 				}
 			}
 			});
@@ -428,36 +444,22 @@ function create_ajax_success_chart(xValues,yValues,min,max){
 
 
 document.getElementById('btn-download1').onclick = function() {
-	var xValues1 = ['JAN','FEB','MAR','APR','MAY','JUNE','JULY','AUG','SEPT'];
-	var yValues1 = [70,87,18,79,91,39,100,301,214];
-	var print_chart = new Chart("lineChart1", {
-	type: "line",
-	data: {
-		labels: xValues1,
-		datasets: [{
-		fill: true,
-		borderJoinStyle: 'round',
-		lineTension: 0,
-		backgroundColor: "rgba(0,0,255,1.0)",
-		borderColor: "white",
-		data: yValues1
-		}]
-	},
-	options: {
-		legend: {display: false},
-		scales: {
-		yAxes: [{ticks: {min: 0, max:500}}],
-		},
-		title: {
-		display: true,
-		text: "Successful Transaction"
-		}
-	}
-	});
+	show_trans_graph();
+	var print_chart = new Chart("lineChart1");
 	// Trigger the download
 	var a = document.createElement('a');
 	a.href = print_chart.toBase64Image();
-	a.download = 'my_file_name.png';
+	a.download = 'Successful Transaction.png';
+	a.click();
+}
+
+document.getElementById('btn-download3').onclick = function() {
+	show_suc_graph();
+	var print_chart = new Chart("lineChart3");
+	// Trigger the download
+	var a = document.createElement('a');
+	a.href = print_chart.toBase64Image();
+	a.download = 'Orders.png';
 	a.click();
 }
 </script>
