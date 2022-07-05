@@ -264,7 +264,7 @@ new Chart("lineChart1", {
     legend: {display: false},
     scales: {
       //yAxes: [{ticks: {min: {{$paymentminValue}}, max:{{$paymentmaxValue}}}}],
-	  yAxes: [{ticks: {min: 50, max:5000}}],
+	  yAxes: [{ticks: {min: 50, max:2000}}],
     },
 	title: {
       display: true,
@@ -294,7 +294,7 @@ new Chart("lineChart3", {
     legend: {display: false},
     scales: {
       //yAxes: [{ticks: {min: {{$orderminValue}}, max:{{$ordermaxValue}}}}],
-	  yAxes: [{ticks: {min: 50, max:50000}}],
+	  yAxes: [{ticks: {min: 50, max:25000}}],
     },
 	title: {
       display: true,
@@ -355,7 +355,7 @@ function create_ajax_payment_chart(xValues,yValues,min,max){
 			options: {
 				legend: {display: false},
 				scales: {
-				yAxes: [{ticks: {min: 50, max:5000}}],
+				yAxes: [{ticks: {min: 50, max:2000}}],
 				},
 				title: {
 				display: true,
@@ -425,7 +425,7 @@ function create_ajax_success_chart(xValues,yValues,min,max){
 			options: {
 				legend: {display: false},
 				scales: {
-				yAxes: [{ticks: {min: 50, max:50000}}],
+				yAxes: [{ticks: {min: 50, max:25000}}],
 				},
 				title: {
 				display: true,

@@ -160,6 +160,11 @@ class PaymentPageController extends Controller
 
     public function paymentPageFront(Request $request)
     {
-        print_r($request->all());
+        $unique_id = request()->segment(count(request()->segments()));echo '<br />';
+        $decrypted = Crypt::decryptString($unique_id);
+        $get_payment_page_details = DB::table('payment_page')->where('unique_id',$decrypted)->first();
+
+        return view('pages.paymentpages.payment_front_view', compact('get_payment_page_details'));
+
     }
 }

@@ -294,12 +294,14 @@ function reload_page(){
 
 
 function copy(url) {
-  var Url = url;
-  Url.innerHTML = Url;
-  console.log(Url.innerHTML)
-  Url.select();
-  document.execCommand("copy");
-  alert("Url Copied");
+    var dummy = document.createElement('input'),
+    text = url;
+    document.body.appendChild(dummy);
+    dummy.value = '{{ url("/") }}/pages.merchant.com/'+text;
+    dummy.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummy);
+    alert('Url Copied');
 }
 </script>
 @endsection
