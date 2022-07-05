@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Session;
@@ -103,6 +103,9 @@ class PaymentPageController extends Controller
             $is_expiry = 0;
         }
 
+        $unique_id = rand(10000,99999);
+        $page_url = Crypt::encryptString($unique_id);
+
 
         $save_array = array(
             "template_id" => $request->template_id,
@@ -126,7 +129,7 @@ class PaymentPageController extends Controller
             "google_analytics" => $request["google_analytics"]
         );
 
-        $client = new Client(['base_uri' => env('API_BASE_URL')]);
+        /*$client = new Client(['base_uri' => env('API_BASE_URL')]);
         $api_end_point = 'api/merchants/payment-pages';
         $merchant_salt = env('MERCHANT_SALT');
         $response = $client->request('POST',
@@ -137,13 +140,15 @@ class PaymentPageController extends Controller
                 'Authorization' => 'Bearer '.session('token'),
                 'merchant_salt' => $merchant_salt
             ]
-        ]);
+        ]);*/
 
         //$save_array['payment_page_id'] = $response->id;
         $save_array['merchant_id'] = session('merchant');
+        $save_array['page_url'] = $page_url;
+        $save_array['unique_id'] = $unique_id;
         DB::table('payment_page')->insert($save_array);
         
-        $status_code = $response->getStatusCode();
+        //$status_code = $response->getStatusCode();
         return response()->json(array('success'=>1));
     }
 
@@ -151,5 +156,10 @@ class PaymentPageController extends Controller
         $id = $request->id;
         $get_payment_page_details = DB::table('payment_page')->where('id',$id)->first();
         return response()->json(array('page_title'=>$get_payment_page_details->page_title,'status'=>$get_payment_page_details->status,'custom_url'=>$get_payment_page_details->custom_url,'created_at'=>$get_payment_page_details->created_at,''));
+    }
+
+    public function paymentPageFront(Request $request)
+    {
+        print_r($request->all());
     }
 }

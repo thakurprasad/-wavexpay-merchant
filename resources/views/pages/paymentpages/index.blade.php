@@ -97,6 +97,7 @@
                     <th scope="col">Units Sold</th>
                     <th scope="col">Page Url</th>
                     <th scope="col">Created On</th>
+                    <th scope="col">Payment Url</th>
                     <th scope="col">Status</th>
                     </tr>
                 </thead>
@@ -110,6 +111,7 @@
                         <td>0</td>
                         <td>{{ $page->custom_url }}</td>
                         <td>{{ date('Y-m-d',strtotime($page->created_at)) }}</td>
+                        <td><button class="btn btn-sm btn-info" onclick="copy('{{$page->page_url}}')">Copy Url</button></td>
                         <td>
                             @if($page->status=='Inactive')
                             <span class="badge red">{{ $page->status }}</span>
@@ -288,6 +290,16 @@ function search_pages(){
 
 function reload_page(){
     location.reload();
+}
+
+
+function copy(url) {
+  var Url = url;
+  Url.innerHTML = Url;
+  console.log(Url.innerHTML)
+  Url.select();
+  document.execCommand("copy");
+  alert("Url Copied");
 }
 </script>
 @endsection

@@ -34,6 +34,9 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::get('/home', [PageController::class, 'blankPage'])->name('home');
     Route::get('/', [PageController::class, 'dashboard']);
 
+
+    Route::get('/pages.merchant.com/{url}', [PaymentPageController::class, 'paymentPageFront'])->name('pages.merchant.com/{url}');
+
     //transaction payment routes
     Route::get('transactions/payments',  [PaymentController::class, 'index'] )->name('transactions/payments');
     Route::post('searchpayment',  [PaymentController::class, 'searchPayment'])->name('searchpayment');
