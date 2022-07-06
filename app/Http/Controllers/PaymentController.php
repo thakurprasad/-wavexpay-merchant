@@ -15,7 +15,8 @@ class PaymentController extends Controller
 
 
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        //$all_payments = $api->payment->all();
+        $all_payments = $api->payment->all();
+        //print_r($all_payments);exit;
         //Pageheader set true for breadcrumbs
         $all_payments = DB::table('payments')->get();
         $pageConfigs = ['pageHeader' => true];
@@ -51,7 +52,6 @@ class PaymentController extends Controller
 
         if(!empty($all_payments->items)){
             foreach($all_payments->items as $payment){
-                echo ($payment['email']); echo '*****'; echo $email; exit;
                 if($payment_id==$payment['id'] || $email==$payment['email'] ||  $status==$payment['status']){
                     $html.='<tr>
                         <th scope="row">'.$payment['id'].'</th>
@@ -67,5 +67,12 @@ class PaymentController extends Controller
             }
         }
         return response()->json(array('html'=>$html));
+    }
+
+    public function statusWisePayment(Request $request)
+    {
+        $status = $request->status;
+        $all_payments = DB::table('payments')->where('status',$status)->get();
+        return view('pages.transaction.paymentsstatus', compact('all_payments'));
     }
 }

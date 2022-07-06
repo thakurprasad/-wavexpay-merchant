@@ -40,6 +40,7 @@ Route::group(['middleware' => ['token.check']], function() {
     //transaction payment routes
     Route::get('transactions/payments',  [PaymentController::class, 'index'] )->name('transactions/payments');
     Route::post('searchpayment',  [PaymentController::class, 'searchPayment'])->name('searchpayment');
+    Route::get('transactions/payments/status',  [PaymentController::class, 'statusWisePayment'] );
 
     //transaction refund routes
     Route::get('transactions/refunds',  [RefundController::class, 'index'] )->name('transactions/refunds');

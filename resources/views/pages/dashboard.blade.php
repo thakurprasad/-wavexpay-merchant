@@ -37,10 +37,10 @@
 					<!-- small box -->
 					<div class="small-box bg-warning">
 						<div class="inner">
-							<select class="form-control">
+							<select class="form-control" id="status_filter">
 								<option value="" disabled selected>Select Status</option>
-								<option value="failure">Failed</option>
-								<option value="success">Successful</option>
+								<option value="failed">Failed</option>
+								<option value="authorized">Successful</option>
 							</select>
 						</div>
 						<div class="inner" style="height: 54px;">
@@ -183,6 +183,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" ></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script>
+    $(function(){
+      // bind change event to select
+      $('#status_filter').on('change', function () {
+          var url = $(this).val(); // get selected value
+          if (url) { // require a URL
+              window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
+          }
+          return false;
+      });
+    });
+</script>
+
 <script>
 var xValues = ["January", "February", "March", "April", "May", "June", "July", "August", "Sept"];
 var yValues = [200, 58, 125, 110, 175, 148, 221, 315, 112];
