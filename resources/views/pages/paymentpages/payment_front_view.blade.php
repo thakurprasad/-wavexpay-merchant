@@ -23,7 +23,8 @@
             @csrf
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4">
                         <div class="card" style="width:130px;">
                             <div class="card-body">
                                 <a class="brand-logo darken-1" href="http://localhost/laravel/wavexpay-merchant/public/">
@@ -62,24 +63,26 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="row">
-                            <?php print_r($get_payment_page_details->payment_form_json); ?>
+                            @php 
+                            $json_fields = ($get_payment_page_details->payment_form_json);
+                            $field_array = json_decode($get_payment_page_details->payment_form_json,true);
+                            @endphp
                             <h6>Payment Details</h6>
+                            @if(isset($field_array) && !empty($field_array))
+                            @foreach($field_array as $array_values)
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label id="email_label" for="first_name">Email</label><br>
-                                    <input placeholder="To be Filled By Customer" name="email" id="fb_link" type="text" readonly class="form-control">
+                                    <label id="email_label" for="first_name">{{ $array_values[0] }}</label><br>
+                                    <input name="{{ $array_values[0] }}" id="email" type="{{ $array_values[1] }}" class="form-control" value="{{ $array_values[2] }}" <?php if($array_values[2]!='') { echo 'readonly'; } ?>>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label id="phone_label" for="first_name">Phone</label><br>
-                                    <input placeholder="To be Filled By Customer" name="email" id="fb_link" type="text" class="form-control" readonly>
-                                </div>
-                            </div>
+                            @endforeach
+                            @endif
                         </div>
                     </div>
+                    <div class="col-sm-2"></div>
                 </div>               
             </div>
         </form>

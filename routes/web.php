@@ -31,7 +31,7 @@ Route::get('/logout', 'LoginController@logout')->name('logout');
 Route::group(['middleware' => ['token.check']], function() {
     Route::resource('customer', CustomerController::class);
     Route::get('/my-account', [PageController::class, 'merchantProfile']);
-    Route::get('/home', [PageController::class, 'blankPage'])->name('home');
+    Route::get('/home', [PageController::class, 'dashboard'])->name('home');
     Route::get('/', [PageController::class, 'dashboard']);
 
 
