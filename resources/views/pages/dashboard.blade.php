@@ -32,6 +32,24 @@
 
 			<!-- Small boxes (Stat box) -->
 			<div class="row">
+				<!-- ./col -->
+				<div class="col-lg-3 col-6">
+					<!-- small box -->
+					<div class="small-box bg-warning">
+						<div class="inner">
+							<select class="form-control">
+								<option value="" disabled selected>Select Status</option>
+								<option value="failure">Failed</option>
+								<option value="success">Successful</option>
+							</select>
+						</div>
+						<div class="inner" style="height: 54px;">
+							<p>Transaction Status Filter</p>
+						</div>
+						<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+				<!-- ./col -->
 				<div class="col-lg-3 col-6">
 					<!-- small box -->
 					<div class="small-box bg-info">
@@ -46,21 +64,7 @@
 					<a href="{{ route('transactions/orders')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 					</div>
 				</div>
-				<!-- ./col -->
-				<div class="col-lg-3 col-6">
-					<!-- small box -->
-					<div class="small-box bg-success">
-					<div class="inner">
-						<h3>{{$success_perc}}<sup style="font-size: 20px">%</sup></h3>
-
-						<p>Bounce Rate</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-stats-bars"></i>
-					</div>
-					<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-					</div>
-				</div>
+				
                 <!-- ./col -->
 				<div class="col-lg-3 col-6">
 					<!-- small box -->
@@ -87,22 +91,20 @@
 					</div>
 				</div>
 				<!-- ./col -->
-				<!-- ./col -->
+				
 				<div class="col-lg-3 col-6">
 					<!-- small box -->
-					<div class="small-box bg-warning">
+					<div class="small-box bg-success">
 					<div class="inner">
-						<h3>{{count($users)}}</h3>
-
-						<p>Total Users</p>
+						<h3>{{$success_perc}}<sup style="font-size: 20px">%</sup></h3>
+						<p>Success Rate</p>
 					</div>
 					<div class="icon">
-						<i class="ion ion-person-add"></i>
+						<i class="ion ion-stats-bars"></i>
 					</div>
 					<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 					</div>
 				</div>
-				
 			</div>
 			<!-- /.row -->
 
