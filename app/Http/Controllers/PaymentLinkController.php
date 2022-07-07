@@ -82,17 +82,27 @@ class PaymentLinkController extends Controller
         $email = false;
         $sms = false;
         $reference_id = rand(10000,99999);
+        $customer_contact = rand(1000000000,20000000000);
+        $customer_email = 'testcustomer'.rand(1000,2000).'@wavexpay.com';
 
-        if($request['partial_paymet']=='yes'){
+        if(isset($request['partial_paymet']) && $request['partial_paymet']=='yes'){
             $accept_partial = true;
         }
 
-        if($request['notify_via_email']=='yes'){
+        if(isset($request['notify_via_email']) && $request['notify_via_email']=='yes'){
             $email = true;
         }
 
-        if($request['notify_via_sms']=='yes'){
+        if(isset($request['notify_via_sms']) && $request['notify_via_sms']=='yes'){
             $sms = true;
+        }
+
+        if(isset($request['customer_contact']) && $request['customer_contact']!=''){
+            $customer_contact = $request['customer_contact'];
+        }
+
+        if(isset($request['customer_email']) && $request['customer_email']!=''){
+            $customer_email = $request['customer_email'];
         }
 
         $note_title = $request['note_title'];
@@ -105,15 +115,25 @@ class PaymentLinkController extends Controller
             }
         }
         
-        //echo $request['amount'];exit;
 
         
+        if($request['show_hide_status']=='hide'){
+            $response = $api->paymentLink->create(array('amount'=>(float)$request['amount'], 'reference_id' => $request['reference_id'], 'currency'=>'INR','accept_partial'=>$accept_partial, 'description' => $request['payment_description'], 'notify'=>array('sms'=>$sms, 'email'=>$email) , 'reminder_enable'=>true ,'notes'=>$note_array,'callback_url' => 'https://example-callback-url.com/','callback_method'=>'get'));
+        }else if($request['show_hide_status']=='show'){
+            $response = $api->paymentLink->create(array('amount'=>(float)$request['amount'], 'reference_id' => $request['reference_id'], 'currency'=>'INR','accept_partial'=>$accept_partial, 'description' => $request['payment_description'], 'customer' => array('name'=>$request['customer_name'],'email' => $request['customer_email'], 'contact'=>$request['customer_contact']), 'notify'=>array('sms'=>$sms, 'email'=>$email) , 'reminder_enable'=>true ,'notes'=>$note_array,'callback_url' => 'https://example-callback-url.com/','callback_method'=>'get'));
+        }
 
-        $response = $api->paymentLink->create(array('amount'=>(float)$request['amount'], /*'reference_id' => $reference_id,*/ 'reference_id' => $request['reference_id'], 'currency'=>'INR','accept_partial'=>$accept_partial, 'description' => $request['payment_description'], 'customer' => array('email' => $request['customer_email'], 'contact'=> $request['customer_contact']), 'notify'=>array('sms'=>$sms, 'email'=>$email) , 'reminder_enable'=>true ,'notes'=>$note_array,'callback_url' => 'https://example-callback-url.com/','callback_method'=>'get'));
 
-        //print_r($response);exit;
+        $db_customer_email = '';
+        if(isset($response->customer->email)){
+            $db_customer_email = $response->customer->email;
+        }
+        $db_customer_contact = '';
+        if(isset($response->customer->contact)){
+            $db_customer_contact = $response->customer->contact;
+        }
 
-        DB::table('payment_link')->insert(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>'true','description' => $response->description, 'customer_email' => $response->customer->email, 'customer_contact' => $response->customer->contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
+        DB::table('payment_link')->insert(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>'true','description' => $response->description, 'customer_email' => $db_customer_email, 'customer_contact' => $db_customer_contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
 
         return response()->json(array("success" => 1));  
         

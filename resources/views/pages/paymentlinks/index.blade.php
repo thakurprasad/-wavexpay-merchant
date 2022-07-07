@@ -140,23 +140,42 @@
       <div class="modal-body">
         <form id="form-create-payment-link" method="post">
             <div class="row" id="clid">
-                
+                <input type="hidden" id="show_hide_status" name="show_hide_status" value="hide">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="first_name">Payment For <For></For></label>
                         <input placeholder="Payment Description" name="payment_description" id="payment_description" type="text" class="form-control" required>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label for="first_name">Amount*</label>
                         <input placeholder="Amount" name="amount" id="amount" type="text" class="form-control" required>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <input placeholder="Reference Id" name="reference_id" id="reference_id" type="hidden" class="form-control" value="{{ rand(10000,20000) }}">
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <span id="show_hide_advanced_info">
+                            <button class="btn btn-info btn-sm" type="button" onclick="show_advanced_info()">
+                                + Show Advanced Information
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row" id="details_span" style="display:none;">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label for="first_name">Reference Id <For></For></label>
                         <input placeholder="Reference Id" name="reference_id" id="reference_id" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="first_name">Customer Name <For></For></label>
+                        <input placeholder="Customer Name" name="customer_name" id="customer_name" type="text" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -171,7 +190,7 @@
                         <input placeholder="Customer Contact" name="customer_contact" id="customer_contact" type="text" class="form-control" required>
                     </div>
                 </div>
-                <!--<div class="col-sm-6">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label for="first_name">Notify Via Email</label>
                         <select class="form-control" name="notify_via_email" id="notify_via_email">
@@ -214,7 +233,9 @@
                             <option value="no">No</option>
                         </select>
                     </div>
-                </div>-->
+                </div>
+                </div>
+
                 <div class="col-sm-12">
                     <div class="form-group">
                         <a class="waves-effect waves-light" style="cursor:pointer;" onclick="add_notes()"><strong>+ Add Notes</strong></a>
@@ -644,6 +665,19 @@ function delete_note(key,linkid){
 
 function reset_page(){
     location.reload();
+}
+
+
+function show_advanced_info(){
+    $("#details_span").show();
+    $("#show_hide_status").val('show');
+    $("#show_hide_advanced_info").html('<button class="btn btn-info btn-sm" type="button" onclick="hide_advanced_info()"> - Hide Advanced Information</button>');
+}
+
+function hide_advanced_info(){
+    $("#details_span").hide();
+    $("#show_hide_status").val('hide');
+    $("#show_hide_advanced_info").html('<button class="btn btn-info btn-sm" type="button" onclick="show_advanced_info()"> + Show Advanced Information</button>');
 }
 
 </script>
