@@ -21,10 +21,19 @@
     <div class="card">
 		<div class="card-header">
 			<div class="pull-left">
-
+				<label for="first_name"><strong>Payment Date Range</strong><For></For></label>
+				<div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+					<i class="fa fa-calendar"></i>&nbsp;
+					<span></span> <i class="fa fa-caret-down"></i>
+				</div>
 	        </div>
 	        <div class="pull-right">
-
+				<label for="first_name"><strong>Transaction Filter</strong><For></For></label>
+				<select class="form-control" style="width: 300px;" id="status_filter">
+					<option value="" disabled selected>Select Transaction Status</option>
+					<option value="failed">Failed</option>
+					<option value="authorized">Successful</option>
+				</select>
 	        </div>
         </div>
 
@@ -32,25 +41,8 @@
 
 			<!-- Small boxes (Stat box) -->
 			<div class="row">
-				<!-- ./col -->
-				<div class="col-lg-3 col-6">
-					<!-- small box -->
-					<div class="small-box bg-warning">
-						<div class="inner">
-							<select class="form-control" id="status_filter">
-								<option value="" disabled selected>Select Status</option>
-								<option value="failed">Failed</option>
-								<option value="authorized">Successful</option>
-							</select>
-						</div>
-						<div class="inner" style="height: 54px;">
-							<p>Transaction Status Filter</p>
-						</div>
-						<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-					</div>
-				</div>
-				<!-- ./col -->
-				<div class="col-lg-3 col-6">
+				
+				<div class="col-lg-4 col-6">
 					<!-- small box -->
 					<div class="small-box bg-info">
 					<div class="inner">
@@ -66,7 +58,7 @@
 				</div>
 				
                 <!-- ./col -->
-				<div class="col-lg-3 col-6">
+				<div class="col-lg-4 col-6">
 					<!-- small box -->
 					<div class="small-box bg-danger">
 					<div class="inner">
@@ -92,7 +84,7 @@
 				</div>
 				<!-- ./col -->
 				
-				<div class="col-lg-3 col-6">
+				<div class="col-lg-4 col-6">
 					<!-- small box -->
 					<div class="small-box bg-success">
 					<div class="inner">
@@ -177,6 +169,7 @@
 
 @section('page-style')
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 @section('page-script')
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -184,13 +177,53 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+<script type="text/javascript">
+$(function() {
+
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    cb(start, end);
+
+});
+
+
+$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+  console.log(picker.startDate.format('YYYY-MM-DD'));
+  console.log(picker.endDate.format('YYYY-MM-DD'));
+});
+</script>
+
+
+
 <script>
     $(function(){
       // bind change event to select
       $('#status_filter').on('change', function () {
           var url = $(this).val(); // get selected value
           if (url) { // require a URL
-              window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
+              //window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
+			  window.open('{{ url("/") }}/transactions/payments/status?status='+url, '_blank');
           }
           return false;
       });
@@ -441,7 +474,7 @@ function create_ajax_success_chart(xValues,yValues,min,max){
 			options: {
 				legend: {display: false},
 				scales: {
-				yAxes: [{ticks: {min: 50, max:25000}}],
+				yAxes: [{ticks: {min: 0, max:2500000}}],
 				},
 				title: {
 				display: true,
