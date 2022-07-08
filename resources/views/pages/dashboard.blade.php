@@ -5,14 +5,7 @@
 @section('title','Home')
 
 @section('content_header')
-<div class="row mb-2">
-	<div class="col-sm-6">
-	<h1>Dashboard</h1>
-	</div>
-	<div class="col-sm-6">
 
-	</div>
-</div>
 @endsection
 
 {{-- page content --}}
@@ -101,7 +94,7 @@
 			<!-- /.row -->
 
 			<div class="row" style="margin-top: 30px;">
-				<div class="col-lg-6 col-6">
+				<!--<div class="col-lg-6 col-6">
 					<div class="row">
 						<div class="col-lg-10">
 							<select class="form-control" id="suc_transaction" name="suc_transaction" onchange="show_trans_graph()">
@@ -116,21 +109,6 @@
 					</div>
 					<canvas id="lineChart1" style="width:100%; height: 300px; max-width:500px"></canvas>
 				</div>
-				<!--<div class="col-lg-4 col-4">
-					<div class="row">
-						<div class="col-lg-9">
-							<select class="form-control" name="total_transaction">
-								<option value="" disabled>Select format</option>
-								<option value="monthly">Monthly</option>
-								<option value="yearly">Yearly</option>
-							</select>
-						</div>
-						<div class="col-lg-3">
-							<button id="btn-download2" class="btn btn-xs btn-primary">Download</button>
-						</div>
-					</div>
-					<canvas id="lineChart2" style="width:100%; height: 600px;max-width:600px"></canvas>
-				</div>-->
 				<div class="col-lg-6 col-6">
 					<div class="row">
 						<div class="col-lg-10">
@@ -145,6 +123,36 @@
 						</div>
 					</div>
 					<canvas id="lineChart3" style="width:100%; height: 300px;max-width:500px"></canvas>
+				</div>-->
+				<div class="col-lg-6 col-6">
+					<div class="row">
+						<div class="col-lg-10">
+							<select class="form-control" id="suc_transaction" name="suc_transaction" onchange="show_trans_graph()">
+								<option value="" disabled selected>Select format</option>
+								<option value="monthly">Monthly</option>
+								<option value="yearly">Yearly</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							<button id="btn-download1" class="btn btn-xs btn-info">Download</button>
+						</div>
+					</div>
+					<canvas id="chart-line" style="width:100%; height: 400px; max-width:500px"></canvas>
+				</div>
+				<div class="col-lg-6 col-6">
+					<div class="row">
+						<div class="col-lg-10">
+							<select class="form-control" name="suc_rate" id="suc_rate" onchange="show_suc_graph()">
+								<option value="" disabled selected>Select format</option>
+								<option value="monthly">Monthly</option>
+								<option value="yearly">Yearly</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							<button id="btn-download3" class="btn btn-xs btn-warning">Download</button>
+						</div>
+					</div>
+					<canvas id="chart-line2" style="width:100%; height: 400px;max-width:500px"></canvas>
 				</div>
 			</div>
 
@@ -173,11 +181,13 @@
 @endsection
 @section('page-script')
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" ></script>
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
 
 
 <script type="text/javascript">
@@ -218,10 +228,9 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 
 <script>
     $(function(){
-      // bind change event to select
       $('#status_filter').on('change', function () {
-          var url = $(this).val(); // get selected value
-          if (url) { // require a URL
+          var url = $(this).val(); 
+          if (url) { 
               //window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
 			  window.open('{{ url("/") }}/transactions/payments/status?status='+url, '_blank');
           }
@@ -231,63 +240,23 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 </script>
 
 <script>
-var xValues = ["January", "February", "March", "April", "May", "June", "July", "August", "Sept"];
-var yValues = [200, 58, 125, 110, 175, 148, 221, 315, 112];
-var barColors = ["red", "green","blue","orange","brown", "black", "beige", "yellow"];
-
-/*new Chart("myChart", {
-  type: "bar",
-  data: {
-    labels: {!! $xValue !!},
-    datasets: [{
-      backgroundColor: barColors,
-      data: {{$yValue}}
-    }]
-  },
-  options: {
-    legend: {display: false},
-	scales: {
-      y: {
-        beginAtZero: true
-      }
-    },
-    title: {
-      display: true,
-      text: "Monthly Payment Data"
-    }
-  }
-});*/
-
-
 var data = [{
   x: {!! $xValue !!},
   y: {{$yValue}},
   type: "bar"  }];
 var layout = {title:"Monthly Payment Data"};
-
 Plotly.newPlot("myPlot", data, layout);
-
-
-
-
 </script>
 
 <script type="text/javascript">
-// Load google charts
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
-
-// Draw the chart and set the chart values
 function drawChart() {
   var data = google.visualization.arrayToDataTable([
   ['Task', 'Transaction data Volume'],
   {!! $new_pie_chart_volume_data !!}
 ]);
-
-  // Optional; add a title and set the width and height of the chart
   var options = {'title':'Transaction data Volume', 'width':550, 'height':400};
-
-  // Display the chart inside the <div> element with id="piechart"
   var chart = new google.visualization.PieChart(document.getElementById('piechart'));
   chart.draw(data, options);
 }
@@ -296,7 +265,7 @@ function drawChart() {
 
 
 
-new Chart("lineChart1", {
+/*new Chart("lineChart1", {
   type: "line",
   data: {
     labels: {!! $paymentxvalue1 !!},
@@ -494,7 +463,7 @@ function create_ajax_success_chart(xValues,yValues,min,max){
 
 document.getElementById('btn-download1').onclick = function() {
 	show_trans_graph();
-	var print_chart = new Chart("lineChart1");
+	var print_chart = new Chart("chart-line");
 	// Trigger the download
 	var a = document.createElement('a');
 	a.href = print_chart.toBase64Image();
@@ -504,12 +473,66 @@ document.getElementById('btn-download1').onclick = function() {
 
 document.getElementById('btn-download3').onclick = function() {
 	show_suc_graph();
-	var print_chart = new Chart("lineChart3");
+	var print_chart = new Chart("chart-line2");
 	// Trigger the download
 	var a = document.createElement('a');
 	a.href = print_chart.toBase64Image();
 	a.download = 'Orders.png';
 	a.click();
-}
+}*/
+</script>
+
+
+
+<script>
+    $(document).ready(function() {
+        var ctx = $("#chart-line");
+        var myLineChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {!! $paymentxvalue1 !!},
+                datasets: [{
+                    data: {{$paymentyvalue1}},
+                    label: "Monthly Payment Data",
+                    borderColor: "#"+Math.floor((Math.random() * 100) + 1)+"8af7",
+                    backgroundColor:'#'+Math.floor((Math.random() * 100) + 1)+'458af7',
+                    fill: false
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Daily wise Monthly Payment (in INR)'
+                }
+            }
+        });
+
+
+
+
+		var ctx = $("#chart-line2");
+        var myLineChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {!! $orderxvalue1 !!},
+                datasets: [{
+                    data: {{$orderyvalue1}},
+                    label: "Monthly Order Data",
+                    borderColor: "#"+Math.floor((Math.random() * 100) + 1)+"8af7",
+                    backgroundColor:'#'+Math.floor((Math.random() * 100) + 1)+'458af7',
+                    fill: false
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Daily wise Monthly Order (in INR)'
+                }
+            }
+        });
+
+
+
+    });
 </script>
 @endsection
