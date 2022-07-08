@@ -175,7 +175,22 @@ class PageController extends Controller
 
     public function getSuccessTransactionGraphData(Request $request)
     {
-        $data_format = $request->data_format;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $paymentxvalue1='';
+        $paymentyvalue1='';
+
+        $payment_data = DB::table('payments')->select(
+            DB::raw("(SUM(amount)) as total_amount"),
+            DB::raw("DATE(payment_created_at) as date")
+        )
+        ->orderBy('payment_created_at', 'DESC')
+        ->groupBy('date')
+        ->get();
+
+        //print_r($payment_data);exit;
+
+        /*$data_format = $request->data_format;
         $paymentxvalue1='';
         $paymentyvalue1='';
 
@@ -198,30 +213,16 @@ class PageController extends Controller
             ->orderBy('payment_created_at', 'DESC')
             ->groupBy('year')
             ->get();
-        }
-
-        foreach($payment_month_data as $data)
+        }*/
+        foreach($payment_data as $data)
         {
-            if($data_format=='monthly')
-            {
-                $paymentxvalue1.=$data->month_name.',';
-            }
-            else if($data_format=='yearly')
-            {
-                $paymentxvalue1.=$data->year.',';
-            }
+            $paymentxvalue1.=date('F d',strtotime($data->date)).',';
             $paymentyvalue1.=$data->total_amount.',';
         }
         $paymentxvalue1=rtrim($paymentxvalue1,",");
-
         $paymentyvalue1=rtrim($paymentyvalue1,",");
 
-        $paymentmaxValue = DB::table('payments')->select(
-            DB::raw("(SUM(amount)) as total_amount"),
-            DB::raw("YEAR(payment_created_at) as year"))->groupBy('year')->value('total_amount');
-        /*$paymentminValue = DB::table('payments')->whereMonth('payment_created_at', date('m'))->whereYear('payment_created_at', date('Y'))->orderBy('amount', 'asc')->value('amount');*/
-
-        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'paymentmaxValue'=>$paymentmaxValue,'paymentminValue'=>0));
+        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1));
     }
 
 

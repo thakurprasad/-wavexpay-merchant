@@ -126,30 +126,22 @@
 				</div>-->
 				<div class="col-lg-6 col-6">
 					<div class="row">
-						<div class="col-lg-10">
-							<select class="form-control" id="suc_transaction" name="suc_transaction" onchange="show_trans_graph()">
-								<option value="" disabled selected>Select format</option>
-								<option value="monthly">Monthly</option>
-								<option value="yearly">Yearly</option>
-							</select>
+						<div class="col-lg-5">
+							
 						</div>
 						<div class="col-lg-2">
-							<button id="btn-download1" class="btn btn-xs btn-info">Download</button>
+							<button id="btn-download1" class="btn btn-sm btn-info">Download</button>
 						</div>
 					</div>
 					<canvas id="chart-line" style="width:100%; height: 400px; max-width:500px"></canvas>
 				</div>
 				<div class="col-lg-6 col-6">
 					<div class="row">
-						<div class="col-lg-10">
-							<select class="form-control" name="suc_rate" id="suc_rate" onchange="show_suc_graph()">
-								<option value="" disabled selected>Select format</option>
-								<option value="monthly">Monthly</option>
-								<option value="yearly">Yearly</option>
-							</select>
+						<div class="col-lg-5">
+							
 						</div>
 						<div class="col-lg-2">
-							<button id="btn-download3" class="btn btn-xs btn-warning">Download</button>
+							<button id="btn-download3" class="btn btn-sm btn-warning">Download</button>
 						</div>
 					</div>
 					<canvas id="chart-line2" style="width:100%; height: 400px;max-width:500px"></canvas>
@@ -193,7 +185,9 @@
 <script type="text/javascript">
 $(function() {
 
-    var start = moment().subtract(29, 'days');
+    /*var start = moment().subtract(29, 'days');
+    var end = moment();*/
+	var start = moment().startOf('month');
     var end = moment();
 
     function cb(start, end) {
@@ -219,9 +213,60 @@ $(function() {
 
 
 $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
-  console.log(picker.startDate.format('YYYY-MM-DD'));
-  console.log(picker.endDate.format('YYYY-MM-DD'));
+    var start_date = picker.startDate.format('YYYY-MM-DD');
+    var end_date = picker.endDate.format('YYYY-MM-DD');
+	
+	$.ajax({
+        url: '{{url("getsuccesstransactiongraphdata")}}',
+        data: {start_date : start_date, end_date: end_date},
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){      
+			console.log(data);    
+			create_ajax_payment_chart(data.paymentxvalue1,data.paymentyvalue1);
+        }
+    });
 });
+
+
+function create_ajax_payment_chart(xValues,yValues){
+	console.log(xValues);
+	var canv = document.createElement("canvas");
+	canv.width = 200;
+	canv.height = 200;
+	canv.setAttribute('id', 'chart-line');
+	document.body.appendChild(canv);
+	var C = document.getElementById(canv.getAttribute('id'));
+	if (C.getContext) 
+	{              
+    	if (C.getContext) 
+		{
+			var ctx = $("#chart-line");
+			var myLineChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: (xValues.trim()).split(','),
+					datasets: [{
+						data: (yValues.trim()).split(','),
+						label: "Monthly Payment Data",
+						borderColor: "#"+Math.floor((Math.random() * 100) + 1)+"8af7",
+						backgroundColor:'#'+Math.floor((Math.random() * 100) + 1)+'458af7',
+						fill: false
+					}]
+				},
+				options: {
+					title: {
+						display: true,
+						text: 'Daily wise Monthly Payment (in INR)'
+					}
+				}
+			});
+		}
+	}
+
+}
 </script>
 
 
