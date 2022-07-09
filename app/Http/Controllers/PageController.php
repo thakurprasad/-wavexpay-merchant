@@ -177,14 +177,31 @@ class PageController extends Controller
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        
         $paymentxvalue1='';
         $paymentyvalue1='';
+
+        $orderxvalue1='';
+        $orderyvalue1='';
 
         $payment_data = DB::table('payments')->select(
             DB::raw("(SUM(amount)) as total_amount"),
             DB::raw("DATE(payment_created_at) as date")
         )
+        ->whereYear('payment_created_at', date('Y'))
+        ->whereBetween('payment_created_at', [$start_date, $end_date])
         ->orderBy('payment_created_at', 'DESC')
+        ->groupBy('date')
+        ->get();
+
+
+        $order_data = DB::table('orders')->select(
+            DB::raw("(SUM(amount)) as total_amount"),
+            DB::raw("DATE(order_created_at) as date")
+        )
+        ->whereYear('order_created_at', date('Y'))
+        ->whereBetween('order_created_at', [$start_date, $end_date])
+        ->orderBy('order_created_at', 'DESC')
         ->groupBy('date')
         ->get();
 
@@ -222,7 +239,17 @@ class PageController extends Controller
         $paymentxvalue1=rtrim($paymentxvalue1,",");
         $paymentyvalue1=rtrim($paymentyvalue1,",");
 
-        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1));
+        foreach($order_data as $odata)
+        {
+            $orderxvalue1.=date('F d',strtotime($odata->date)).',';
+            $orderyvalue1.=$odata->total_amount.',';
+        }
+        $orderxvalue1=rtrim($orderxvalue1,",");
+        $orderyvalue1=rtrim($orderyvalue1,",");
+
+        
+
+        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'orderxvalue1'=>$orderxvalue1,'orderyvalue1'=>$orderyvalue1));
     }
 
 

@@ -226,6 +226,7 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
         success: function(data){      
 			console.log(data);    
 			create_ajax_payment_chart(data.paymentxvalue1,data.paymentyvalue1);
+			create_ajax_order_chart(data.orderxvalue1,data.orderyvalue1);
         }
     });
 });
@@ -260,6 +261,43 @@ function create_ajax_payment_chart(xValues,yValues){
 					title: {
 						display: true,
 						text: 'Daily wise Monthly Payment (in INR)'
+					}
+				}
+			});
+		}
+	}
+}
+
+
+function create_ajax_order_chart(oxValues,oyValues){
+	console.log(oxValues);
+	var canv = document.createElement("canvas");
+	canv.width = 200;
+	canv.height = 200;
+	canv.setAttribute('id', 'chart-line2');
+	document.body.appendChild(canv);
+	var C = document.getElementById(canv.getAttribute('id'));
+	if (C.getContext) 
+	{              
+    	if (C.getContext) 
+		{
+			var ctx = $("#chart-line2");
+			var myLineChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: (oxValues.trim()).split(','),
+					datasets: [{
+						data: (oyValues.trim()).split(','),
+						label: "Order Payment Data",
+						borderColor: "#"+Math.floor((Math.random() * 100) + 1)+"8af7",
+						backgroundColor:'#'+Math.floor((Math.random() * 100) + 1)+'458af7',
+						fill: false
+					}]
+				},
+				options: {
+					title: {
+						display: true,
+						text: 'Daily wise Monthly Order (in INR)'
 					}
 				}
 			});
