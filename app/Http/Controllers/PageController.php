@@ -180,22 +180,40 @@ class PageController extends Controller
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
-        
+        $status_filter = $request->status_filter;
+
         $paymentxvalue1='';
         $paymentyvalue1='';
 
         $orderxvalue1='';
         $orderyvalue1='';
 
-        $payment_data = DB::table('payments')->select(
-            DB::raw("(SUM(amount)) as total_amount"),
-            DB::raw("DATE(payment_created_at) as date")
-        )
-        ->whereYear('payment_created_at', date('Y'))
-        ->whereBetween('payment_created_at', [$start_date, $end_date])
-        ->orderBy('payment_created_at', 'DESC')
-        ->groupBy('date')
-        ->get();
+
+
+
+        if($status_filter=='all'){
+            $payment_data = DB::table('payments')->select(
+                DB::raw("(SUM(amount)) as total_amount"),
+                DB::raw("DATE(payment_created_at) as date")
+            )
+            ->whereYear('payment_created_at', date('Y'))
+            ->whereBetween('payment_created_at', [$start_date, $end_date])
+            ->orderBy('payment_created_at', 'DESC')
+            ->groupBy('date')
+            ->get();
+        }else{
+            $payment_data = DB::table('payments')->select(
+                DB::raw("(SUM(amount)) as total_amount"),
+                DB::raw("DATE(payment_created_at) as date")
+            )
+            ->whereYear('payment_created_at', date('Y'))
+            ->whereBetween('payment_created_at', [$start_date, $end_date])
+            ->orderBy('payment_created_at', 'DESC')
+            ->groupBy('date')
+            ->where('status',$status_filter)
+            ->get();
+        }
+
 
 
         $order_data = DB::table('orders')->select(
@@ -208,10 +226,15 @@ class PageController extends Controller
         ->groupBy('date')
         ->get();
 
+
+        $total_order = count($order_data);
+        $total_payment_amount = 0;
+
         foreach($payment_data as $data)
         {
             $paymentxvalue1.=date('F d',strtotime($data->date)).',';
             $paymentyvalue1.=$data->total_amount.',';
+            $total_payment_amount+=$data->total_amount;
         }
         $paymentxvalue1=rtrim($paymentxvalue1,",");
         $paymentyvalue1=rtrim($paymentyvalue1,",");
@@ -226,7 +249,7 @@ class PageController extends Controller
 
         
 
-        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'orderxvalue1'=>$orderxvalue1,'orderyvalue1'=>$orderyvalue1));
+        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'orderxvalue1'=>$orderxvalue1,'orderyvalue1'=>$orderyvalue1,'total_order'=>$total_order,'total_payment_amount'=>$total_payment_amount));
     }
 
 

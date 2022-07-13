@@ -48,7 +48,7 @@
 					<!-- small box -->
 					<div class="small-box bg-info">
 					<div class="inner">
-						<h3>{{count($orders)}}</h3>
+						<h3 id="order_count">{{count($orders)}}</h3>
 
 						<p>New Orders</p>
 					</div>
@@ -74,7 +74,7 @@
                             }
                         }
                         @endphp
-						<h3>₹{{number_format($total_amount,2)}}</h3>
+						<h3 id="total_payment_amount">₹{{number_format($total_amount,2)}}</h3>
 
 						<p>Total Payments Amount</p>
 					</div>
@@ -224,10 +224,12 @@ $(function() {
 $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
     var start_date = picker.startDate.format('YYYY-MM-DD');
     var end_date = picker.endDate.format('YYYY-MM-DD');
+
+	var status_filter = $("#status_filter").val();
 	
 	$.ajax({
         url: '{{url("getsuccesstransactiongraphdata")}}',
-        data: {start_date : start_date, end_date: end_date},
+        data: {start_date : start_date, end_date: end_date, status_filter: status_filter},
         type: "POST",
         headers: {
             'X-CSRF-Token': '{{ csrf_token() }}',
@@ -236,6 +238,8 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 			console.log(data);    
 			create_ajax_payment_chart(data.paymentxvalue1,data.paymentyvalue1);
 			create_ajax_order_chart(data.orderxvalue1,data.orderyvalue1);
+			$("#order_count").html(data.total_order);
+			$("#total_payment_amount").html('₹'+(data.total_payment_amount).toFixed(2));
         }
     });
 });
