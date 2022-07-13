@@ -23,6 +23,9 @@ class PageController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Pages"], ['name' => "Blank Page"],
         ];
 
+
+        $dashboard_header = \DB::connection('mysqlSecondConnection')->table('dashboardheader')->first();
+
         $payments = DB::table('payments')->get();
         $orders = DB::table('orders')->get();
         $disputes = DB::table('disputes')->get();
@@ -121,7 +124,7 @@ class PageController extends Controller
 
         $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header'));
     }
 
 
@@ -205,32 +208,6 @@ class PageController extends Controller
         ->groupBy('date')
         ->get();
 
-        //print_r($payment_data);exit;
-
-        /*$data_format = $request->data_format;
-        $paymentxvalue1='';
-        $paymentyvalue1='';
-
-        if($data_format=='monthly')
-        {
-            $payment_month_data = DB::table('payments')->select(
-                DB::raw("(SUM(amount)) as total_amount"),
-                DB::raw("MONTHNAME(payment_created_at) as month_name")
-            )
-            ->whereYear('payment_created_at', date('Y'))
-            ->groupBy('month_name')
-            ->get();
-        }
-        else if($data_format=='yearly')
-        {
-            $payment_month_data = DB::table('payments')->select(
-                DB::raw("(SUM(amount)) as total_amount"),
-                DB::raw("YEAR(payment_created_at) as year")
-            )
-            ->orderBy('payment_created_at', 'DESC')
-            ->groupBy('year')
-            ->get();
-        }*/
         foreach($payment_data as $data)
         {
             $paymentxvalue1.=date('F d',strtotime($data->date)).',';

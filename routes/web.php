@@ -21,6 +21,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\DisputeController;
+use App\Http\Controllers\GeneralSettingController;
 
 
 
@@ -77,7 +78,6 @@ Route::group(['middleware' => ['token.check']], function() {
     //Settings routes
     Route::get('settings',  [SettingsController::class, 'index'] );
 
-
     //Items routes
     Route::get('items',  [ItemController::class, 'index'] )->name('items');
     Route::post('deleteitem',  [ItemController::class, 'deleteItem'])->name('deleteitem');
@@ -93,6 +93,10 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('changeexpdate',  [PaymentLinkController::class, 'changeExpDate'])->name('changeexpdate');
     Route::post('deletenote',  [PaymentLinkController::class, 'deleteNote'])->name('deletenote');
 
+
+    Route::get('general-settings',  [GeneralSettingController::class, 'index'] )->name('general-settings');
+    Route::get('general-settings/{id}',  [GeneralSettingController::class, 'getGeneralSetting'] );
+    Route::post('updategeneralsetting/{id}',  [GeneralSettingController::class, 'updateGeneralSetting']);
 
     //Payment Pages routes
     Route::get('payment-pages',  [PaymentPageController::class, 'index'] )->name('payment-pages');

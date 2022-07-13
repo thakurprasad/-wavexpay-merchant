@@ -101,11 +101,11 @@
             </li>
 
 
-            <li class="nav-item {{ in_array(Request::segment(1),array('pages')) ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ in_array(Request::segment(1),array('settings','countries','states')) ? 'active' : '' }}"> <i class="nav-icon fas fa-gear"></i> <p>Settings <i class="right fas fa-angle-left"></i></p> </a>
+            <li class="nav-item {{ in_array(Request::segment(1),array('pages','general-settings')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ in_array(Request::segment(1),array('settings','countries','states','general-settings')) ? 'active' : '' }}"> <i class="nav-icon fas fa-gear"></i> <p>Settings <i class="right fas fa-angle-left"></i></p> </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item"><a href="#" class="nav-link {{ Request::segment(1) === 'payment-templates' ? 'active' : null }}"><i class="nav-icon far fa-circle text-success"></i><p>Payment Templates</p> </a> </li>
-
+                    <li class="nav-item"><a href="{{ route('general-settings')}}" class="nav-link {{ Request::segment(1) === 'general-settings' ? 'active' : null }}"><i class="nav-icon far fa-circle text-warning"></i><p>General Settings</p> </a> </li>
                 </ul>
             </li>
 

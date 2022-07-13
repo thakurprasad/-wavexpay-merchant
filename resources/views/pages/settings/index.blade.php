@@ -1,55 +1,73 @@
-{{-- extend layout --}}
-@extends('layouts.contentLayoutMaster')
+@extends('layouts.admin')
 
-{{-- page title --}}
-@section('title','Invoices')
-
-{{-- page content --}}
-@section('content')
-<div class="section">
-    <div class="card">
-        <div class="card-content">
-            <p class="caption mb-0">
-                <table id="myTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">Api Title</th>
-                            <th scope="col">Api Key</th>
-                            <th scope="col">Created At</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table_container">
-                        @if(!empty($res['data']))
-                        @foreach($res['data'] as $keys)
-                        <tr>
-                            <th scope="row">{{$keys['api_title']}}</th>
-                            <td>{{$keys['api_key']}}</td>
-                            <td>{{date('Y-m-d',strtotime($keys['created_at']))}}</td>
-                        </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </p>
-        </div>
-    </div>
+@section('content_header')
+<div class="row mb-2">
+	<div class="col-sm-6">
+	<h1>Dashboard Header</h1>
+	</div>
+	<div class="col-sm-6">
+	<ol class="breadcrumb float-sm-right">
+		<li class="breadcrumb-item"><a href="{{ route('home')}}">Home</a></li>
+		<li class="breadcrumb-item active">Dashboard Header</li>
+	</ol>
+	</div>
 </div>
 @endsection
+@section('content')
+	@if ($message = Session::get('success'))
+	<div class="alert alert-success">
+		<ul class="margin-bottom-none padding-left-lg">
+			<li>{{ $message }}</li>
+		</ul>
+	</div>
+	@endif
+	@if ($message = Session::get('error'))
+	<div class="alert alert-danger">
+		<ul class="margin-bottom-none padding-left-lg">
+			<li>{{ $message }} </li>
+		</ul>
+	</div>
+	@endif
+	<div class="card">
+		<div class="card-header">
+			<div class="pull-left">
 
+	        </div>
+	        <div class="pull-right">
+			
+	        </div>
+        </div>
 
-@section('page-style')
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+		<div class="card-body">
+			<table class="table table-bordered table-sm" id="datatable">
+				<thead>
+					<tr class="text-center">
+						<th>Theme Color</th>
+						<th>Logo</th>
+                        <th>Language</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				@foreach ($general_settings as $value)				
+				<tr>
+					<td>{{ $value->theme_color }}</td>
+					<td><image src="{{ url('/') }}/images/logo/{{ $value->logo }}" style="height: 50px; width: 50px;" /></td>
+					<td>{{ $value->language }}</td>
+					<td class="text-center">
+						<a class="btn btn-primary btn-sm" href="{{ url('/general-settings',$value->id) }}"  title="Edit"><i class="fas fa-edit"></i></a>
+					</td>
+				</tr>
+				@endforeach
+				</tbody>
+			</table>
+		</div>
+	</div>
+
 @endsection
-@section('page-script')
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script>
-$(document).ready( function () {
-    $('#myTable').DataTable({
-        "searching": false
-    });
-} );
+@section('css')
+@endsection
+@section('js')
 
-
-
-</script>
 @endsection

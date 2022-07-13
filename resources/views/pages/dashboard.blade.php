@@ -10,6 +10,13 @@
 
 {{-- page content --}}
 @section('content')
+	
+	<div class="alert alert-primary alert-dismissible fade show" role="alert">
+		<strong><?php if(isset($dashboard_header) && $dashboard_header->title!='') { echo $dashboard_header->title; } ?>!</strong> <?php if(isset($dashboard_header) && $dashboard_header->description!='') { echo $dashboard_header->description; } ?>.
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
 
     <div class="card">
 		<div class="card-header">
@@ -26,6 +33,8 @@
 					<option value="" disabled selected>Select Transaction Status</option>
 					<option value="failed">Failed</option>
 					<option value="authorized">Successful</option>
+					<option value="pending">Pending</option>
+					<option value="all">All</option>
 				</select>
 	        </div>
         </div>
@@ -130,7 +139,7 @@
 							
 						</div>
 						<div class="col-lg-2">
-							<button id="btn-download1" class="btn btn-sm btn-info">Download</button>
+							<!--<button id="btn-download1" class="btn btn-sm btn-info">Download</button>-->
 						</div>
 					</div>
 					<canvas id="chart-line" style="width:100%; height: 400px; max-width:500px"></canvas>
@@ -141,7 +150,7 @@
 							
 						</div>
 						<div class="col-lg-2">
-							<button id="btn-download3" class="btn btn-sm btn-warning">Download</button>
+							<!--<button id="btn-download3" class="btn btn-sm btn-warning">Download</button>-->
 						</div>
 					</div>
 					<canvas id="chart-line2" style="width:100%; height: 400px;max-width:500px"></canvas>

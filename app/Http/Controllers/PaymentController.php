@@ -72,7 +72,12 @@ class PaymentController extends Controller
     public function statusWisePayment(Request $request)
     {
         $status = $request->status;
-        $all_payments = DB::table('payments')->where('status',$status)->get();
+        if($status=='all'){
+            $all_payments = DB::table('payments')->get();
+        }else{
+            $all_payments = DB::table('payments')->where('status',$status)->get();
+        }
+        
         return view('pages.transaction.paymentsstatus', compact('all_payments'));
     }
 }
