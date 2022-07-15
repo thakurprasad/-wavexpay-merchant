@@ -191,7 +191,7 @@ class PageController extends Controller
 
 
 
-        if($status_filter=='all'){
+        if($status_filter=='' || $status_filter=='all'){
             $payment_data = DB::table('payments')->select(
                 DB::raw("(SUM(amount)) as total_amount"),
                 DB::raw("DATE(payment_created_at) as date")
@@ -247,9 +247,17 @@ class PageController extends Controller
         $orderxvalue1=rtrim($orderxvalue1,",");
         $orderyvalue1=rtrim($orderyvalue1,",");
 
+        //success percentage calculation
+        $payments = DB::table('payments')->whereBetween('payment_created_at', [$start_date, $end_date])->get();
+        $orders = DB::table('orders')->whereBetween('order_created_at', [$start_date, $end_date])->get();
+        $disputes = DB::table('disputes')->whereBetween('created_at', [$start_date, $end_date])->get();
+        $refunds = DB::table('refunds')->whereBetween('created_at', [$start_date, $end_date])->get();
+
+        $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
+        //end success percentage calculation
         
 
-        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'orderxvalue1'=>$orderxvalue1,'orderyvalue1'=>$orderyvalue1,'total_order'=>$total_order,'total_payment_amount'=>$total_payment_amount));
+        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'orderxvalue1'=>$orderxvalue1,'orderyvalue1'=>$orderyvalue1,'total_order'=>$total_order,'total_payment_amount'=>$total_payment_amount,'success_perc'=>$success_perc));
     }
 
 

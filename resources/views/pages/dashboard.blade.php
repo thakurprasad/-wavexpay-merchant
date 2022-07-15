@@ -90,7 +90,7 @@
 					<!-- small box -->
 					<div class="small-box bg-success">
 					<div class="inner">
-						<h3>{{$success_perc}}<sup style="font-size: 20px">%</sup></h3>
+						<h3 id="success_rate_container">{{$success_perc}}<sup style="font-size: 20px">%</sup></h3>
 						<p>Success Rate</p>
 					</div>
 					<div class="icon">
@@ -240,6 +240,7 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 			create_ajax_order_chart(data.orderxvalue1,data.orderyvalue1);
 			$("#order_count").html(data.total_order);
 			$("#total_payment_amount").html('₹'+(data.total_payment_amount).toFixed(2));
+			$("#success_rate_container").html(data.success_perc+'<sup style="font-size: 20px">%</sup>');
         }
     });
 });
