@@ -8,271 +8,247 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ url('/') }}/plugins/fontawesome-free/css/all.min.css">
-  <!-- daterange picker -->
-  <link rel="stylesheet" href="{{ url('/') }}/plugins/daterangepicker/daterangepicker.css">
-  <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="{{ url('/') }}/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Bootstrap Color Picker -->
-  <link rel="stylesheet" href="{{ url('/') }}/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="{{ url('/') }}/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- Select2 -->
-  <link rel="stylesheet" href="{{ url('/') }}/plugins/select2/css/select2.min.css">
-  <link rel="stylesheet" href="{{ url('/') }}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-  <!-- Bootstrap4 Duallistbox -->
-  <link rel="stylesheet" href="{{ url('/') }}/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
-  <!-- BS Stepper -->
-  <link rel="stylesheet" href="{{ url('/') }}/plugins/bs-stepper/css/bs-stepper.min.css">
+  
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ url('/') }}/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
       <div class="card">
-        <!-- SELECT2 EXAMPLE -->
-        <div class="card card-default">
-          <div class="card-header">
-            <h3 class="card-title">Sign Up To Continue</h3>
+        <form>
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">Sign Up To Continue</h3>
+              </div>
             </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <div class="row">
-              <div class="d-flex align-items-start">
-                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                  <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
-                  <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</button>
-                  <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
-                  <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
-                </div>
-                <div class="tab-content" id="v-pills-tabContent">
-                  <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-
-                    <!--Form Start-->
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="card card-primary">
-                          <div class="card-header">
-                            <h3 class="card-title">Quick Example</h3>
-                          </div>
-                          <form>
-                            <div class="row">
-                              <div class="col-md-12">
-                                <div class="card-body">
-                                  <div class="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="exampleInputFile">File input</label>
-                                    <div class="input-group">
-                                      <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                      </div>
-                                      <div class="input-group-append">
-                                        <span class="input-group-text">Upload</span>
-                                      </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div class="row">
+                <div class="d-flex align-items-start">
+                  <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Business Type</button>
+                    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Contact Details</button>
+                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Business Overview</button>
+                    <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Business Details</button>
+                  </div>
+                  <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                      <!--Form Start-->
+                      <div class="row" style="width:700px;">
+                        <div class="col-md-12">
+                          <div class="card card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">Business Type</h3>
+                            </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="card-body">
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Business Type</label>
+                                      <select class="form-control" name="business_type">
+                                        <option value="">Select</option>
+                                        <option value="not_registered">Not Yet Registered</option>
+                                        <option value="registered">Registered</option>
+                                      </select>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Registered Business Type</label>
+                                      <ul class="list-group">
+                                        <li class="list-group-item" style="border-color:#A9A9A9; border-width:1px;">Propeitorship</li>
+                                        <li class="list-group-item" style="border-color:#A9A9A9; border-width:1px;">Partnership</li>
+                                        <li class="list-group-item" style="border-color:#A9A9A9; border-width:1px;">Private Limited</li>
+                                        <li class="list-group-item" style="border-color:#A9A9A9; border-width:1px;">Public Limited</li>
+                                        <li class="list-group-item" style="border-color:#A9A9A9; border-width:1px;">LLP</li>
+                                        <li class="list-group-item" style="border-color:#A9A9A9; border-width:1px;">Trust</li>
+                                        <li class="list-group-item" style="border-color:#A9A9A9; border-width:1px;">Society</li>
+                                      </ul>
                                     </div>
                                   </div>
-                                  <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                                  </div>
+                                </div>
+                                <div class="card-footer">
+                                  <button type="submit" class="btn btn-primary">Save & Next</button>
                                 </div>
                               </div>
-                              <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                              </div>
-                            </div>
-                          </form>
+                          </div>
                         </div>
                       </div>
+                      <!--Form End-->
                     </div>
-                    <!--Form End-->
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                      <!--Form Start-->
+                      <div class="row" style="width:700px;">
+                        <div class="col-md-12">
+                          <div class="card card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">Your Conatct Details</h3>
+                            </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="card-body">
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Your Name</label>
+                                      <input type="text" name="name" class="form-control" placeholder="Your Name" />
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Your Conatact Number</label>
+                                      <input type="text" name="contact" class="form-control" placeholder="Contact Number" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="card-footer">
+                                  <button type="submit" class="btn btn-primary">Save & Next</button>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Form End-->
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                      <!--Form Start-->
+                      <div class="row" style="width:700px;">
+                        <div class="col-md-12">
+                          <div class="card card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">Business Overview</h3>
+                            </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="card-body">
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Business Type</label>
+                                      <select class="form-control" name="business_type">
+                                        <option value="">Select</option>
+                                        <option value="not_registered">Not Yet Registered</option>
+                                        <option value="registered">Registered</option>
+                                      </select>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Business Category</label>
+                                      <select class="form-control" name="business_type">
+                                        <option value="">Select</option>
+                                        <option value="ecommerce">Ecommerce</option>
+                                        <option value="education">Education</option>
+                                        <option value="lifestyle">Fashion Lifestyle</option>
+                                        <option value="beverage">Food & Beverage</option>
+                                        <option value="grocery">Grocery</option>
+                                        <option value="it">It Software</option>
+                                        <option value="healthcare">Healthcare</option>
+                                        <option value="services">Services</option>
+                                        <option value="development">Web Design Development</option>
+                                        <option value="accountingservices">Accounting Services</option>
+                                        <option value="repair">Automotive Reppair Shop</option>
+                                        <option value="cabservice">Cab Service</option>
+                                        <option value="caterer">Caterer</option>
+                                        <option value="charity">Charity</option>
+                                      </select>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Business Description</label>
+                                      <textarea name="business_description" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">How Do You Wish To Accept Payment?</label>
+                                      <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="acceptpaymentby" id="flexRadioDefault1" value="withoutapp">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                          Without Website/App
+                                        </label>
+                                        <input class="form-check-input" type="radio" name="acceptpaymentby" id="flexRadioDefault2" style="margin-left: 130px;" value="withapp">
+                                        <label class="form-check-label" for="flexRadioDefault2" style="margin-left: 150px;">
+                                          With My Web/App
+                                        </label><br />                                         
+                                        <input type="text" style="margin-left: 270px; width: 300px; margin-top:5px;" placeholder="Web Url" class="form-control" id="weburl" name="weburl" style="display:none;" />
+                                      </div>
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="card-footer">
+                                  <button type="submit" class="btn btn-primary">Save & Next</button>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Form End-->
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                      <!--Form Start-->
+                      <div class="row" style="width:700px;">
+                        <div class="col-md-12">
+                          <div class="card card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">Business Details</h3>
+                            </div>                         
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="card-body">
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">PAN</label>
+                                      <input type="text" class="form-control" name="PAN" id="PAN" maxlength="10"  style="text-transform:uppercase" />
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">PAN Holder Name</label>
+                                      <input type="text" class="form-control" name="panholdername" />
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Billing Label</label>
+                                      <input type="text" class="form-control" name="billinglabel" />
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Address</label>
+                                      <textarea class="form-control" name="address"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">PINCODE</label>
+                                      <input type="text" class="form-control" name="pincode" />
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">City</label>
+                                      <input type="text" class="form-control" name="city" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="card-footer">
+                                  <button type="submit" class="btn btn-primary">Save & Next</button>
+                                </div>
+                              </div>                         
+                          </div>
+                        </div>
+                      </div>
+                      <!--Form End-->
+                    </div>
                   </div>
-                  <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
-                  <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
-                  <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- /.card -->
+        </form>
       </div>
     </div>
+    
     <!-- /.container-fluid -->
   </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<!-- jQuery -->
-<script src="{{ url('/') }}/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ url('/') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Select2 -->
-<script src="{{ url('/') }}/plugins/select2/js/select2.full.min.js"></script>
-<!-- Bootstrap4 Duallistbox -->
-<script src="{{ url('/') }}/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
-<!-- InputMask -->
-<script src="{{ url('/') }}/plugins/moment/moment.min.js"></script>
-<script src="../../plugins/inputmask/jquery.inputmask.min.js"></script>
-<!-- date-range-picker -->
-<script src="{{ url('/') }}/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- bootstrap color picker -->
-<script src="{{ url('/') }}/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ url('/') }}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Bootstrap Switch -->
-<script src="{{ url('/') }}/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-<!-- BS-Stepper -->
-<script src="{{ url('/') }}/plugins/bs-stepper/js/bs-stepper.min.js"></script>
-<!-- dropzonejs -->
-<script src="{{ url('/') }}/plugins/dropzone/min/dropzone.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- AdminLTE App -->
 <script src="{{ url('/') }}/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ url('/') }}/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-
-    //Datemask dd/mm/yyyy
-    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-    //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    //Money Euro
-    $('[data-mask]').inputmask()
-
-    //Date picker
-    $('#reservationdate').datetimepicker({
-        format: 'L'
-    });
-
-    //Date and time picker
-    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
-
-    //Date range picker
-    $('#reservation').daterangepicker()
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({
-      timePicker: true,
-      timePickerIncrement: 30,
-      locale: {
-        format: 'MM/DD/YYYY hh:mm A'
-      }
-    })
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-      {
-        ranges   : {
-          'Today'       : [moment(), moment()],
-          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        startDate: moment().subtract(29, 'days'),
-        endDate  : moment()
-      },
-      function (start, end) {
-        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-      }
-    )
-
-    //Timepicker
-    $('#timepicker').datetimepicker({
-      format: 'LT'
-    })
-
-    //Bootstrap Duallistbox
-    $('.duallistbox').bootstrapDualListbox()
-
-    //Colorpicker
-    $('.my-colorpicker1').colorpicker()
-    //color picker with addon
-    $('.my-colorpicker2').colorpicker()
-
-    $('.my-colorpicker2').on('colorpickerChange', function(event) {
-      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-    })
-
-    $("input[data-bootstrap-switch]").each(function(){
-      $(this).bootstrapSwitch('state', $(this).prop('checked'));
-    })
-
-  })
-  // BS-Stepper Init
-  document.addEventListener('DOMContentLoaded', function () {
-    window.stepper = new Stepper(document.querySelector('.bs-stepper'))
-  })
-
-  // DropzoneJS Demo Code Start
-  Dropzone.autoDiscover = false
-
-  // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-  var previewNode = document.querySelector("#template")
-  previewNode.id = ""
-  var previewTemplate = previewNode.parentNode.innerHTML
-  previewNode.parentNode.removeChild(previewNode)
-
-  var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-    url: "/target-url", // Set the url
-    thumbnailWidth: 80,
-    thumbnailHeight: 80,
-    parallelUploads: 20,
-    previewTemplate: previewTemplate,
-    autoQueue: false, // Make sure the files aren't queued until manually added
-    previewsContainer: "#previews", // Define the container to display the previews
-    clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
-  })
-
-  myDropzone.on("addedfile", function(file) {
-    // Hookup the start button
-    file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file) }
-  })
-
-  // Update the total progress bar
-  myDropzone.on("totaluploadprogress", function(progress) {
-    document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
-  })
-
-  myDropzone.on("sending", function(file) {
-    // Show the total progress bar when upload starts
-    document.querySelector("#total-progress").style.opacity = "1"
-    // And disable the start button
-    file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
-  })
-
-  // Hide the total progress bar when nothing's uploading anymore
-  myDropzone.on("queuecomplete", function(progress) {
-    document.querySelector("#total-progress").style.opacity = "0"
-  })
-
-  // Setup the buttons for all transfers
-  // The "add files" button doesn't need to be setup because the config
-  // `clickable` has already been specified.
-  document.querySelector("#actions .start").onclick = function() {
-    myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
-  }
-  document.querySelector("#actions .cancel").onclick = function() {
-    myDropzone.removeAllFiles(true)
-  }
-  // DropzoneJS Demo Code End
+  $( document ).ready(function() {
+    $("#weburl").hide();
+  });
+  $('#flexRadioDefault2').on('click', function(event) {
+      $("#weburl").show();
+  });
+  $('#flexRadioDefault1').on('click', function(event) {
+      $("#weburl").hide();
+  });
 </script>
 </body>
 </html>
