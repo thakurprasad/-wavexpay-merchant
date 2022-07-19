@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class RegisterController extends Controller
 {
@@ -69,5 +71,27 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function SignUpMerchant(Request $request)
+    {
+        $input = $request->all();
+        $insertarray['status']= (isset($input['status']) && $input['status']=='on')?'Active':'Inactive';
+        $insertarray['merchant_logo'] = 'default_logo.png';
+        $insertarray['access_salt'] = $input['name'].' '.$input['contact'];
+        $insertarray['merchant_payment_method'] = 'razorpay';
+        $insertarray['contact_name'] = $input['name'];
+        $insertarray['merchant_name'] = $input['name'];
+        $insertarray['contact_phone'] = $input['contact'];
+        if ($files = $request->file('merchant_logo')) {
+            // Define upload path
+            $destinationPath = public_path('/storage/logo/'); // upload path
+            // Upload Orginal Image
+            $uploadedImage = 'logo_'.date('YmdHis') . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $uploadedImage);
+            $input['merchant_logo'] = $uploadedImage;
+        }
+        \DB::connection('mysqlSecondConnection')->table('merchants')->insert($insertarray);
+        echo 'inserted';exit;
     }
 }

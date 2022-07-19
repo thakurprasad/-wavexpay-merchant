@@ -18,6 +18,7 @@ use App\Http\Controllers\ChargeBackController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\DisputeController;
@@ -28,6 +29,8 @@ use App\Http\Controllers\GeneralSettingController;
 Auth::routes(['verify' => true]);
 
 Route::get('/logout', 'LoginController@logout')->name('logout');
+
+Route::post('sign-up-merchant',  [RegisterController::class, 'SignUpMerchant'])->name('sign-up-merchant');
 
 Route::group(['middleware' => ['token.check']], function() {
     Route::resource('customer', CustomerController::class);

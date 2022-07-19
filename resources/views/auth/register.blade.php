@@ -17,7 +17,8 @@
     <div class="col-md-2"></div>
     <div class="col-md-10">
       <div class="card">
-        <form>
+        <form method="post" action="{{ url('/sign-up-merchant') }}">
+          @csrf
           <div class="card card-default">
             <div class="card-header">
               <h3 class="card-title">Sign Up To Continue</h3>
@@ -68,7 +69,7 @@
                                   </div>
                                 </div>
                                 <div class="card-footer">
-                                  <button type="submit" class="btn btn-primary">Save & Next</button>
+                                  <button type="button" class="btn btn-primary" data-bs-toggle="pill" data-bs-target="#v-pills-profile">Save & Next</button>
                                 </div>
                               </div>
                           </div>
@@ -98,7 +99,7 @@
                                   </div>
                                 </div>
                                 <div class="card-footer">
-                                  <button type="submit" class="btn btn-primary">Save & Next</button>
+                                  <button type="button" class="btn btn-primary">Save & Next</button>
                                 </div>
                               </div>
                           </div>
@@ -167,7 +168,7 @@
                                   </div>
                                 </div>
                                 <div class="card-footer">
-                                  <button type="submit" class="btn btn-primary">Save & Next</button>
+                                  <button type="button" class="btn btn-primary">Save & Next</button>
                                 </div>
                               </div>
                           </div>
