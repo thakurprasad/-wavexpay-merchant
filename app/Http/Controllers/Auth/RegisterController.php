@@ -77,7 +77,7 @@ class RegisterController extends Controller
     public function SignUpMerchantStepOne(Request $request)
     {
         $input = $request->all();
-        print_r($input);exit;
+        $register_session_array = array();
         /*$insertarray['status']= (isset($input['status']) && $input['status']=='on')?'Active':'Inactive';
         $insertarray['merchant_logo'] = 'default_logo.png';
         $insertarray['access_salt'] = $input['name'].' '.$input['contact'];
@@ -94,6 +94,19 @@ class RegisterController extends Controller
             $input['merchant_logo'] = $uploadedImage;
         }
         \DB::connection('mysqlSecondConnection')->table('merchants')->insert($insertarray);*/
-        
+        $register_session_array['business_type'] = $input['business_type'];
+        $register_session_array['business_category'] = $input['business_category'];
+        Session::put('register_session_array',$register_session_array);
+        return view('auth.register2');
+    }
+
+    public function SignUpMerchantStepTwo(Request $request)
+    {
+        $input = $request->all();
+        $register_session_array = Session::get('register_session_array');
+        $register_session_array['name'] = $input['name'];
+        $register_session_array['email'] = $input['email'];
+        Session::put('register_session_array',$register_session_array);
+        return view('auth.register2');
     }
 }

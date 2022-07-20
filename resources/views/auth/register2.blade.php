@@ -13,10 +13,10 @@
       <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
       <script>
       function submit_form() {
-        var exampleInputBusiness1 = $("#exampleInputBusiness1").val();
-        var exampleFormControlSelect1 = $("#exampleFormControlSelect1").val();
-        if(exampleInputBusiness1==''){
-          alert('business type is required');
+        var exampleInputName1 = $("#exampleInputName1").val();
+        var exampleInputNumber1 = $("#exampleInputNumber1").val();
+        if(exampleInputName1==''){
+          alert('Name is required');
           return false;
         }
         setTimeout(
@@ -24,7 +24,7 @@
             $("#submit_button").LoadingOverlay("show");
             setTimeout(
               function() {
-                $("#step_one_form").submit();
+                $("#step_two_form").submit();
               }
             , 1000);
           }
@@ -50,29 +50,27 @@
                         </div>
                      </div>
                      <div class="col-md-12 stage-2">
-                          <div class="col-md-5">
-                            <div class="form">
-                              <h3 class="bottom-space"> What's your business type?</h3>
-                              <form method="post" id="step_one_form" action="{{ url('/sign-up-merchant-step-one') }}">
-                                @csrf
-                                <div class="form-group">
-                                  <label for="exampleInputbusiness1">Business Type</label>
-                                  <input type="text" name="business_type" class="form-control business-text" id="exampleInputBusiness1"  placeholder="Not yet registerd" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="exampleFormControlSelect1">Registerd business</label>
-                                  <select class="form-control" name="business_category" id="exampleFormControlSelect1" required>
-                                    <option value="proprietorship">Proprietorship</option>
-                                    <option value="partnership">Partnership</option>
-                                    <option value="privatelimited">Private Limited</option>
-                                    <option value="publiclimited">Public Limited</option>
-                                    <option value="llp">LLP</option>
-                                    <option value="trust">Trust</option>
-                                  </select>
-                                </div>
-                                <button type="button" id="submit_button" onclick="submit_form()" class="btn-wavex btn btn-primary">Next</button>
+                        <div class="col-md-5">
+                           <div class="form">
+                              <h3> Welcome to Razorpay</h3>
+                              <p>Sign up to create an account with us</p>
+                              <form method="post" id="step_two_form" action="{{ url('/sign-up-merchant-step-two') }}">
+                                 <div class="form-group">
+                                    <label for="exampleInputName1">Your name</label>
+                                    <input type="text" class="form-control name-wave" name="name" id="exampleInputName1"  placeholder="Enter Name">
+                                    <label for="exampleInputNumber1">Email or Mobile number</label>
+                                    <input type="text" class="form-control phone-wave" id="exampleInputNumber1"  placeholder="Enter email address or Mobile number" name="email">
+                                    <div class="form-check mb-2 mr-sm-2 account-wave">
+                                        <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                                        <label class="form-check-label" for="inlineFormCheck">
+                                          Get account updates on whatsapp<img src="{{ url('/') }}/register_section/img/whatsapp.png" class="whatsapp img-responsive">
+                                        </label>
+                                    </div>
+                                    <a class="coupon" href="#"><small id="couponHelp" class="form-text text-muted">Get a coupon code</small></a>
+                                 </div>
+                                 <button type="button" id="submit_button" onclick="submit_form()" class="btn-wavex btn btn-primary">Submit</button>
                               </form>
-                            </div>
+                           </div>
                         </div>
                         <div class="col-md-6 stage-2-choose">
                            <h5>Why choose Razorpay?</h5>
