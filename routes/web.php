@@ -30,7 +30,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
-Route::post('sign-up-merchant',  [RegisterController::class, 'SignUpMerchant'])->name('sign-up-merchant');
+Route::post('sign-up-merchant-step-one',  [RegisterController::class, 'SignUpMerchantStepOne'])->name('sign-up-merchant-step-one');
 
 Route::group(['middleware' => ['token.check']], function() {
     Route::resource('customer', CustomerController::class);

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use Session;
 
 class RegisterController extends Controller
 {
@@ -73,10 +74,11 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function SignUpMerchant(Request $request)
+    public function SignUpMerchantStepOne(Request $request)
     {
         $input = $request->all();
-        $insertarray['status']= (isset($input['status']) && $input['status']=='on')?'Active':'Inactive';
+        
+        /*$insertarray['status']= (isset($input['status']) && $input['status']=='on')?'Active':'Inactive';
         $insertarray['merchant_logo'] = 'default_logo.png';
         $insertarray['access_salt'] = $input['name'].' '.$input['contact'];
         $insertarray['merchant_payment_method'] = 'razorpay';
@@ -91,7 +93,7 @@ class RegisterController extends Controller
             $files->move($destinationPath, $uploadedImage);
             $input['merchant_logo'] = $uploadedImage;
         }
-        \DB::connection('mysqlSecondConnection')->table('merchants')->insert($insertarray);
-        echo 'inserted';exit;
+        \DB::connection('mysqlSecondConnection')->table('merchants')->insert($insertarray);*/
+        
     }
 }
