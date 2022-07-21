@@ -52,9 +52,10 @@
                      <div class="col-md-12 stage-2">
                         <div class="col-md-5">
                            <div class="form">
-                              <h3> Welcome to Razorpay</h3>
+                              <h3> Welcome to Wavexpay</h3>
                               <p>Sign up to create an account with us</p>
                               <form method="post" id="step_two_form" action="{{ url('/sign-up-merchant-step-two') }}">
+                                 @csrf
                                  <div class="form-group">
                                     <label for="exampleInputName1">Your name</label>
                                     <input type="text" class="form-control name-wave" name="name" id="exampleInputName1"  placeholder="Enter Name">
@@ -73,7 +74,7 @@
                            </div>
                         </div>
                         <div class="col-md-6 stage-2-choose">
-                           <h5>Why choose Razorpay?</h5>
+                           <h5>Why choose Wavexpay?</h5>
                            <p>50,00,000+ businesses trust their payments with Razorpay</p>
                            <img src="{{ url('/') }}/register_section/img/client-logos.png" class="img-responsive">
                            <p class="need">Need help? We are just a click away. Contact Us</p>

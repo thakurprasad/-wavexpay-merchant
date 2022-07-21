@@ -104,9 +104,16 @@ class RegisterController extends Controller
     {
         $input = $request->all();
         $register_session_array = Session::get('register_session_array');
-        $register_session_array['name'] = $input['name'];
-        $register_session_array['email'] = $input['email'];
-        Session::put('register_session_array',$register_session_array);
-        return view('auth.register2');
+
+        $insertarray['merchant_logo'] = 'default_logo.png';
+        $insertarray['access_salt'] = $input['name'].' '.$input['email'];
+        $insertarray['merchant_payment_method'] = 'razorpay';
+        $insertarray['contact_name'] = $input['name'];
+        $insertarray['merchant_name'] = $input['name'];
+        $insertarray['contact_phone'] = $input['email'];
+
+        DB::connection('mysqlSecondConnection')->table('merchants')->insert($insertarray);
+
+        echo 'inserted';exit;
     }
 }

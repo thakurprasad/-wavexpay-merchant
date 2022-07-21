@@ -15,7 +15,7 @@
       function submit_form() {
         var exampleInputBusiness1 = $("#exampleInputBusiness1").val();
         var exampleFormControlSelect1 = $("#exampleFormControlSelect1").val();
-        if(exampleInputBusiness1==''){
+        if(exampleInputBusiness1==null){
           alert('business type is required');
           return false;
         }
@@ -57,7 +57,11 @@
                                 @csrf
                                 <div class="form-group">
                                   <label for="exampleInputbusiness1">Business Type</label>
-                                  <input type="text" name="business_type" class="form-control business-text" id="exampleInputBusiness1"  placeholder="Not yet registerd" required>
+                                  <select class="form-control" name="business_type" id="exampleInputBusiness1" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="registered">Registered</option>
+                                    <option value="notregistered">Not Yet Registered</option>
+                                  </select>
                                 </div>
                                 <div class="form-group">
                                   <label for="exampleFormControlSelect1">Registerd business</label>
@@ -75,7 +79,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 stage-2-choose">
-                           <h5>Why choose Razorpay?</h5>
+                           <h5>Why choose Wavexpay?</h5>
                            <p>50,00,000+ businesses trust their payments with Razorpay</p>
                            <img src="{{ url('/') }}/register_section/img/client-logos.png" class="img-responsive">
                            <p class="need">Need help? We are just a click away. Contact Us</p>
