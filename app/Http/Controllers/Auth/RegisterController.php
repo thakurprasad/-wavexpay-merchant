@@ -106,7 +106,7 @@ class RegisterController extends Controller
         $register_session_array = Session::get('register_session_array');
 
         $insertarray['merchant_logo'] = 'default_logo.png';
-        $insertarray['access_salt'] = $input['name'].' '.$input['email'];
+        $insertarray['access_salt'] = env('MERCHANT_SALT');
         $insertarray['merchant_payment_method'] = 'razorpay';
         $insertarray['contact_name'] = $input['name'];
         $insertarray['merchant_name'] = $input['name'];

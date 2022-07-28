@@ -11,12 +11,14 @@
 {{-- page content --}}
 @section('content')
 	
+	<?php if(isset($dashboard_header) && $dashboard_header->title!='') { ?>
 	<div class="alert alert-primary alert-dismissible fade show" role="alert">
 		<strong><?php if(isset($dashboard_header) && $dashboard_header->title!='') { echo $dashboard_header->title; } ?>!</strong> <?php if(isset($dashboard_header) && $dashboard_header->description!='') { echo $dashboard_header->description; } ?>.
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
+	<?php } ?>
 
     <div class="card">
 		<div class="card-header">
