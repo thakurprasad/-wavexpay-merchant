@@ -343,6 +343,6 @@ class PaymentLinkController extends Controller
     }
 
     public function openStandardPaymentLink(){
-        return view('pages.paymentlinks.standardPaymentlinktype');
+        return view('pages.paymentlinks.standardPaymentlink');
     }
 }

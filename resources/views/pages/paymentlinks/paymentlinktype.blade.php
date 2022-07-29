@@ -36,7 +36,7 @@
                            <p>Create a classic payment link to <br>collect payment from your <br>customers in all payment<br> methods.</p>
                            <div class="payment-link-btn">
                               <hr class="border-top">
-                              <a class="btn-linkk" href="#">Create now</a>
+                              <a class="btn-linkk" href="{{ url('create-standard-payment-links')}}">Create now</a>
                            </div>
                         </div>
                         <div class="col-md-2 payment-link-para">
