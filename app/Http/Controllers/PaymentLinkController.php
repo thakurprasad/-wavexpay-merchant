@@ -337,4 +337,12 @@ class PaymentLinkController extends Controller
         }
         return response()->json(array("success" => 1));  
     }
+
+    public function openPaymentLink(){
+        return view('pages.paymentlinks.paymentlinktype');
+    }
+
+    public function openStandardPaymentLink(){
+        return view('pages.paymentlinks.standardPaymentlinktype');
+    }
 }

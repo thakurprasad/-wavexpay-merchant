@@ -93,7 +93,7 @@ class RegisterController extends Controller
             $files->move($destinationPath, $uploadedImage);
             $input['merchant_logo'] = $uploadedImage;
         }
-        \DB::connection('mysqlSecondConnection')->table('merchants')->insert($insertarray);*/
+        */
         $register_session_array['business_type'] = $input['business_type'];
         $register_session_array['business_category'] = $input['business_category'];
         Session::put('register_session_array',$register_session_array);
@@ -112,7 +112,7 @@ class RegisterController extends Controller
         $insertarray['merchant_name'] = $input['name'];
         $insertarray['contact_phone'] = $input['email'];
 
-        DB::connection('mysqlSecondConnection')->table('merchants')->insert($insertarray);
+        DB::table('merchants')->insert($insertarray);
 
         echo 'inserted';exit;
     }

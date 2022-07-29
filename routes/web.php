@@ -99,6 +99,10 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('deletenote',  [PaymentLinkController::class, 'deleteNote'])->name('deletenote');
 
 
+    Route::get('create-payment-links',  [PaymentLinkController::class, 'openPaymentLink'] );
+    Route::get('create-standard-payment-links',  [PaymentLinkController::class, 'openStandardPaymentLink'] );
+
+
     Route::get('general-settings',  [GeneralSettingController::class, 'index'] )->name('general-settings');
     Route::get('general-settings/{id}',  [GeneralSettingController::class, 'getGeneralSetting'] );
     Route::post('updategeneralsetting/{id}',  [GeneralSettingController::class, 'updateGeneralSetting']);

@@ -24,7 +24,7 @@ class PageController extends Controller
         ];
 
 
-        //$dashboard_header = \DB::connection('mysqlSecondConnection')->table('dashboardheader')->first();
+        
 
         $dashboard_header = DB::table('dashboardheader')->first();
 

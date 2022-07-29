@@ -31,7 +31,8 @@
     <div class="card">
         <div class="card-body">
             <div class="row">    
-                <a class="btn btn-md btn-primary" data-toggle="modal" data-target="#modal1">Create Payment Link</a>
+                <!--<a class="btn btn-md btn-primary" data-toggle="modal" data-target="#modal1">Create Payment Link</a>-->
+                <a class="btn btn-sm btn-primary" href="{{ url('/create-payment-links') }}">Create Payment Link</a>
             </div>
         </div>
         <form class="col s12" method="POST" id="search-form" action="<?php url('/') ?>/searchinvoice">
