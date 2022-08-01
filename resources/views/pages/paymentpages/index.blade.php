@@ -82,7 +82,8 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <a class="btn btn-md btn-info" data-toggle="modal" data-target="#modal2" onclick="create_payment_page()">Create Payment Page</a>
+                        <!--<a class="btn btn-md btn-info" data-toggle="modal" data-target="#modal2" onclick="create_payment_page()">Create Payment Page</a>-->
+                        <a class="btn btn-md btn-info" href="{{ url('/create-payment-pages') }}">Create Payment Page</a>
                     </div>
                 </div>
             </div>

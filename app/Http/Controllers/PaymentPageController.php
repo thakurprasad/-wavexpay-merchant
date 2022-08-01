@@ -59,7 +59,17 @@ class PaymentPageController extends Controller
         $html = '';
         if(!empty($res)){
             foreach($res as $data){
-                $html.='<div class="card"><div class="card-body"><a href="payment-template/'.$data['id'].'"><div class="card-content"><p>'.$data['title'].'</p><p>'.$data['subtitle'].'</p></div></a></div></div>';
+                //$html.='<div class="card"><div class="card-body"><a href="payment-template/'.$data['id'].'"><div class="card-content"><p>'.$data['title'].'</p><p>'.$data['subtitle'].'</p></div></a></div></div>';
+
+                $html.='<div class="col-md-2 payment-link-para">
+                    <img src="'.url('/').'/payment_link_section/img/congrts.jpg" class="img-responsive">
+                    <h5>'.$data['title'].'</h5>
+                    <p>'.$data['subtitle'].'</p>
+                    <div class="payment-link-btn">
+                        <hr class="border-top">
+                        <a class="btn-linkk" href="payment-page/'.$data['id'].'">Create now</a>
+                    </div>
+                </div>';
             }
         }
         return response()->json(array('html'=>$html));
@@ -166,5 +176,16 @@ class PaymentPageController extends Controller
 
         return view('pages.paymentpages.payment_front_view', compact('get_payment_page_details'));
 
+    }
+
+
+    public function openPaymentTemplateType()
+    {
+        return view('pages.paymentpages.paymenttemplates');
+    }
+
+    public function showPaymentPageTemplates()
+    {
+        return view('pages.paymentpages.paymentpagetemplate');
     }
 }

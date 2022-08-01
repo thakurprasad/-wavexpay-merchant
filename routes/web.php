@@ -23,10 +23,14 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\DisputeController;
 use App\Http\Controllers\GeneralSettingController;
+use App\Http\Controllers\ChangePasswordController;
 
 
 
 Auth::routes(['verify' => true]);
+
+Route::get('change-password', [ChangePasswordController::class, 'index']);
+Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
 
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
@@ -113,6 +117,10 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::get('payment-template/{id}',  [PaymentPageController::class, 'showPaymentTemplates'] );
     Route::post('savepaymentpage',  [PaymentPageController::class, 'savePaymentPage'] );
     Route::post('get-payment-page-details',  [PaymentPageController::class, 'getPaymentPageDetails'] );
+
+
+    Route::get('create-payment-pages',  [PaymentPageController::class, 'openPaymentTemplateType'] );
+    Route::get('payment-page/{id}',  [PaymentPageController::class, 'showPaymentPageTemplates'] );
 
 
 
