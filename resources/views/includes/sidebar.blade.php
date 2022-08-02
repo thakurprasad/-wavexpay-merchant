@@ -125,7 +125,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item"><a href="#" class="nav-link {{ Request::segment(1) === 'profile_update' ? 'active' : null }}"><i class="nav-icon far fa-circle text-success"></i><p>Profile Update</p> </a> </li>
-                    <li class="nav-item"><a href="{{ url('change-password') }}" class="nav-link {{ Request::segment(1) === 'profile_update' ? 'active' : null }}"><i class="nav-icon far fa-circle text-warning"></i><p>Change Password B</p> </a> </li>
+                    <li class="nav-item"><a href="{{ url('change-password') }}" class="nav-link {{ Request::segment(1) === 'profile_update' ? 'active' : null }}"><i class="nav-icon far fa-circle text-warning"></i><p>Change Password</p> </a> </li>
                 </ul>
             </li>
             <li class="nav-item">

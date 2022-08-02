@@ -1164,7 +1164,75 @@ button.btn.btn-gradient.ruppes-btn {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+.modal-content.temp-email-form {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+       width: 32%;
+       top: 100px;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    left: 244px;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+.bottom-footer-temp {
+   width: 100%;
+    position: absolute;
+    top: 90px;
+}
+.space-temp2-bottom:hover {
+    padding: 10px 10px;
+    box-shadow: 1px 4px 5px 0px;
+}
+.bottom-footer-temp a {
+    display: inline-grid;
+}
+a.save-btn-temp span {
+    display: block;
+    background: #fff;
+    padding: 5px;
+    color: #337ab7;
+    width: 32px;
+    text-align: center;
+    border: 1px solid;
+}
+a.next-btn-temp span {
+    display: block;
+    background: #fff;
+    padding: 5px;
+    color: #337ab7;
+    width: 32px;
+    text-align: center;
+    border: 1px solid;
+}
 
+a.save-btn-temp {
+    color: #ffffff;
+    margin-right: 14px;
+}
+a.next-btn-temp {
+    color: #ffffff;
+}
+.phone-temp-pop {
+    
+    border: none;
+}
+.border-in input[type="text"] {
+    border-bottom: 1px solid;
+    border-radius: 0px;
+}
+.border-in input[type="email"] {
+    border-bottom: 1px solid #ccc;
+    border-radius: 0px;
+}
+.form-group.row.border-in {
+    padding: 15px 0px 0px;
+    margin-bottom: 8px;
+}
 
 @media only screen and (max-width: 767px) {
 .col-md-2.logo-wave {
