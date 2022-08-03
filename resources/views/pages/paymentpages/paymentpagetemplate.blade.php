@@ -26,6 +26,8 @@
          </div>
       </header>
       <div id="root-wave" class="wavexpay-all">
+      <form class="col s12" method="POST" id="payment-page-form">
+      @csrf
       <div id="desktop-container-wave">
          <div class="content-container-wave container">
             <div class="content-wave row">
@@ -168,7 +170,11 @@
                </div>
             </div>
          </div>
+      
+      
+      
       </div>
+      </form>
 
 
       
