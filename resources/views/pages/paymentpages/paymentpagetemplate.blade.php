@@ -141,7 +141,12 @@
                                     </select>
                                  </div>
                                  <div class="col-sm-4">
-                                    <input type="phone" class="form-control name-text" id="exampleInputphone1" placeholder="Price Field">
+                                    <select class="form-control" name="input_field_price_type" id="input_field_price_type" onchange="create_new_field_price()">
+                                        <option value="" disabled selected>Price Field</option>
+                                        <option value="fixed">Fixed Amount</option>
+                                        <option value="decide">Customer Decide Amount</option>
+                                        <option value="itemwithquantity">Item with quantity</option>
+                                    </select>
                                  </div>
                                  <br />
                                  <br />
@@ -170,7 +175,7 @@
       <div id="modal1" class="modal" tabindex="-1" role="dialog" style="z-index: 99999;">
          <div class="modal-dialog" role="document">
             <div class="modal-content">
-            <div class="modal-header" style="background-color: #58595b; height: 50px;">
+            <div class="modal-header" style="background-color: #2f3445; height: 50px;">
                 <h5 class="modal-title">Change Label Text</h5>              
             </div>
             <br />
@@ -180,7 +185,7 @@
                 <span id="btn-container"><a href="javascript:void(0)" class="btn btn-md btn-warning" onclick="change_label_process()">Change Label</a></span>
             </div>
             <br />
-            <div class="modal-footer" style="background-color: #58595b;">
+            <div class="modal-footer" style="background-color: #2f3445;">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
             </div>
@@ -190,7 +195,7 @@
       <div id="modal2" class="modal" tabindex="-1" role="dialog" style="z-index: 99999;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-            <div class="modal-header" style="background-color: #58595b; height: 50px;">
+            <div class="modal-header" style="background-color: #2f3445; height: 50px;">
                 <h5 class="modal-title">Add Field</h5>               
             </div>
             <br />
@@ -202,18 +207,91 @@
                 <span id="btn-container"><a href="javascript:void(0)" class="btn btn-md btn-info" onclick="add_field_process()">Add</a></span>
             </div>
             <br />
-            <div class="modal-footer" style="background-color: #58595b;">
+            <div class="modal-footer" style="background-color: #2f3445;">
                 <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
             </div>
             </div>
         </div>
-    </div>
+      </div>
+
+
+      <div id="modal3" class="modal" tabindex="-1" role="dialog" style="z-index: 99999;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header" style="background-color: #2f3445; height: 70px;">
+                <h5 class="modal-title">Add Price Field</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <br />
+            <div class="modal-body">
+                <input type="text" class="form-control" id="label_new_price_to_be_given" required placeholder="Enter Label Text">
+                <br />
+                <input type="text" class="form-control" id="modal_fixed_price" disabled placeholder="To be filled by customer">
+                <br />
+                <span id="btn-container"><a href="javascript:void(0)" class="btn btn-md btn-info" onclick="add_price_field_process()">Add</a></span>
+            </div>
+            <br />
+            <div class="modal-footer" style="background-color: #2f3445;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+      </div>
+
+      <div id="modal4" class="modal" tabindex="-1" role="dialog" style="z-index: 99999;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header" style="background-color: #2f3445; height: 50px;">
+                <h5 class="modal-title">Add Price Field</h5>               
+            </div>
+            <br />
+            <div class="modal-body">
+                <input type="text" class="form-control" id="label_new_fix_price_to_be_given" required placeholder="Enter Label Text">
+                <br />
+                <input type="text" class="form-control" placeholder="Enter Price" id="fix_price_to_be_given">
+                <br />
+                <span id="btn-container"><a href="javascript:void(0)" class="btn btn-md btn-info" onclick="add_price_field_process2()">Add</a></span>
+            </div>
+            <br />
+            <div class="modal-footer" style="background-color: #2f3445;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+      </div>
+
+
+      <div id="modal5" class="modal" tabindex="-1" role="dialog" style="z-index: 99999;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header" style="background-color: #2f3445; height: 50px;">
+                <h5 class="modal-title">Add Price Field</h5>              
+            </div>
+            <br />
+            <div class="modal-body">
+                <input type="text" class="form-control" id="label_new_fix_price_with_qty_to_be_given" required placeholder="Enter Label Text">
+                <br />
+                <input type="text" class="form-control" placeholder="Enter Price" id="fix_price_with_qty_to_be_given">
+                <br />
+                <input type="number" class="form-control" value="0" disabled placeholder="Enter Price" id="fix_qty_to_be_given">
+                <br />
+                <span id="btn-container"><a href="javascript:void(0)" class="btn btn-sm btn-info" onclick="add_price_field_process3()">Add</a></span>
+            </div>
+            <br />
+            <div class="modal-footer" style="background-color: #2f3445;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+      </div>
 
 
       <div id="setting_modal" class="modal" tabindex="-1" role="dialog" style="z-index: 9999;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-            <div class="modal-header" style="background-color: #58595b; height: 50px;">
+            <div class="modal-header" style="background-color: #2f3445; height: 50px;">
                 <h5 class="modal-title">Settings</h5>               
             </div>
             <div class="modal-body">
@@ -284,7 +362,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer" style="background-color: #58595b;">
+            <div class="modal-footer" style="background-color: #2f3445;">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>        
@@ -441,14 +519,14 @@
          function add_price_field_process2(){
             var label_to_be_given = $("#label_new_fix_price_to_be_given").val();
             var modal_fixed_price = $("#fix_price_to_be_given").val();
-            var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="input-field col s12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input value="'+modal_fixed_price+'" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelTypevalue[]" value="'+modal_fixed_price+'"></div></span>';
+            var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="col-sm-12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input value="'+modal_fixed_price+'" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelTypevalue[]" value="'+modal_fixed_price+'"></div></span>';
             $("#append_field").append(html);
             $('#modal4').modal('hide');
          }
 
          function add_price_field_process(){
             var label_to_be_given = $("#label_new_price_to_be_given").val();
-            var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="input-field col s12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelTypevalue[]" value=""></div></span>';
+            var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="col-sm-12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelTypevalue[]" value=""></div></span>';
             $("#append_field").append(html);
             $('#modal3').modal('hide');
          }
@@ -457,7 +535,7 @@
          function add_price_field_process3(){
             var label_to_be_given = $("#label_new_fix_price_with_qty_to_be_given").val();
             var modal_fixed_price = $("#fix_price_with_qty_to_be_given").val();
-            var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="input-field col s12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input value="'+modal_fixed_price+'" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="number" class="validate" value="0" disabled placeholder="Enter Price" id="fix_qty_to_be_given"><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelTypevalue[]" value="'+modal_fixed_price+'"><input type="hidden" name="labelpricetypeqty[]" value="number"></div></span>';
+            var html = '<span id="new_label_id'+label_to_be_given.replace(/\s+/g, "")+'"><div class="col-sm-12"><label id="phone_label" for="first_name">'+label_to_be_given+'&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delete_field(\''+label_to_be_given.replace(/\s+/g, "")+'\')">Delete</a></label><br><input value="'+modal_fixed_price+'" name="email" id="fb_link" type="text" class="form-control" readonly></a><input type="number" class="validate" value="0" disabled placeholder="Enter Price" id="fix_qty_to_be_given"><input type="hidden" name="label[]" value="'+label_to_be_given+'"><input type="hidden" name="labeltype[]" value="text"><input type="hidden" name="labelTypevalue[]" value="'+modal_fixed_price+'"><input type="hidden" name="labelpricetypeqty[]" value="number"></div></span>';
             $("#append_field").append(html);
             $('#modal5').modal('hide');
          }
