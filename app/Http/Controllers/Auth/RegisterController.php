@@ -78,22 +78,6 @@ class RegisterController extends Controller
     {
         $input = $request->all();
         $register_session_array = array();
-        /*$insertarray['status']= (isset($input['status']) && $input['status']=='on')?'Active':'Inactive';
-        $insertarray['merchant_logo'] = 'default_logo.png';
-        $insertarray['access_salt'] = $input['name'].' '.$input['contact'];
-        $insertarray['merchant_payment_method'] = 'razorpay';
-        $insertarray['contact_name'] = $input['name'];
-        $insertarray['merchant_name'] = $input['name'];
-        $insertarray['contact_phone'] = $input['contact'];
-        if ($files = $request->file('merchant_logo')) {
-            // Define upload path
-            $destinationPath = public_path('/storage/logo/'); // upload path
-            // Upload Orginal Image
-            $uploadedImage = 'logo_'.date('YmdHis') . "." . $files->getClientOriginalExtension();
-            $files->move($destinationPath, $uploadedImage);
-            $input['merchant_logo'] = $uploadedImage;
-        }
-        */
         $register_session_array['business_type'] = $input['business_type'];
         $register_session_array['business_category'] = $input['business_category'];
         Session::put('register_session_array',$register_session_array);
@@ -110,10 +94,10 @@ class RegisterController extends Controller
         $insertarray['merchant_payment_method'] = 'razorpay';
         $insertarray['contact_name'] = $input['name'];
         $insertarray['merchant_name'] = $input['name'];
-        $insertarray['contact_phone'] = $input['email'];
+        $insertarray['contact_email'] = $input['email'];
 
         DB::table('merchants')->insert($insertarray);
 
-        echo 'inserted';exit;
+        echo 'inserted';exit; 
     }
 }
