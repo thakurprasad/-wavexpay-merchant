@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use DB;
 use Session;
+use GuzzleHttp\Client;
+
+
 
 class RegisterController extends Controller
 {
@@ -94,10 +97,59 @@ class RegisterController extends Controller
         $insertarray['merchant_payment_method'] = 'razorpay';
         $insertarray['contact_name'] = $input['name'];
         $insertarray['merchant_name'] = $input['name'];
-        $insertarray['contact_email'] = $input['email'];
+        $insertarray['contact_phone'] = '1234567890';
 
-        DB::table('merchants')->insert($insertarray);
+        $merchant_id = DB::table('merchants')->insertGetId($insertarray);
 
-        echo 'inserted';exit; 
+        $merchantuserinsertarray['merchant_id'] = $merchant_id;
+        $merchantuserinsertarray['name'] = $input['name'];
+        $merchantuserinsertarray['email'] = $input['email'];
+        $merchantuserinsertarray['email_verified_at'] = date('Y-m-d H:i:s');
+        $merchantuserinsertarray['password'] = Hash::make('password');
+        $merchantuserinsertarray['created_at'] = date('Y-m-d H:i:s');
+
+        $merchant_user = DB::table('merchant_users')->insertGetId($merchantuserinsertarray);
+
+
+        $merchant_salt = env('MERCHANT_SALT');
+        
+        $client = new Client(['base_uri' => env('API_BASE_URL')]);
+        $api_end_point = '/api/merchants/login';
+        $response = $client->request('POST',$api_end_point,[
+            'form_params' => [
+                'email' => $input['email'],
+                'password' => 'password',
+                'merchant_salt' => $merchant_salt
+            ]
+        ]);
+
+        dd($response);
+
+        $status_code = $response->getStatusCode();
+        // 200
+        $header = $response->getHeader('content-type');
+        // 'application/json; charset=utf8'
+        $res  =  json_decode($response->getBody(),true);
+
+        //print_r($res);exit;
+
+        if($status_code==200){
+            if($res['status']=='success'){
+                //dd($res);
+                $access_token = $res['access_token'];
+                session()->put('token', $access_token);
+                session()->put('merchant', $res['merchant']['merchant_id']);
+                session()->put('merchant_key', $res['api_keys'][0]['api_key']);
+                session()->put('merchant_secret', $res['api_keys'][0]['api_secret']);
+                return redirect('/home?action=signup');
+            }else{
+                return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
+            }
+        }else{
+            return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
+        }
+       
+
+       
     }
 }

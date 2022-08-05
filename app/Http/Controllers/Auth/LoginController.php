@@ -60,14 +60,17 @@ class LoginController extends Controller
         $merchant_salt = env('MERCHANT_SALT');
         try {
             $client = new Client(['base_uri' => env('API_BASE_URL')]);
-            $api_end_point = 'api/merchants/login';
+            $api_end_point = '/api/merchants/login';
             $response = $client->request('POST',$api_end_point,[
                 'form_params' => [
-                        'email' => $request->input('email'),
-                        'password' => $request->input('password'),
-                        'merchant_salt' => $merchant_salt
-                        ]
+                    'email' => $request->input('email'),
+                    'password' => $request->input('password'),
+                    'merchant_salt' => $merchant_salt
+                ]
             ]);
+
+            //dd($response);
+
             $status_code = $response->getStatusCode();
             // 200
             $header = $response->getHeader('content-type');
@@ -78,7 +81,7 @@ class LoginController extends Controller
 
             if($status_code==200){
                 if($res['status']=='success'){
-
+                    //dd($res);
                     $access_token = $res['access_token'];
                     session()->put('token', $access_token);
                     session()->put('merchant', $res['merchant']['merchant_id']);
@@ -89,6 +92,7 @@ class LoginController extends Controller
                     return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
                 }
             }else{
+                echo "okk";exit;
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
         } catch (\Exception $e) {
