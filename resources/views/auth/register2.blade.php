@@ -60,13 +60,15 @@
                                     <label for="exampleInputName1">Your name</label>
                                     <input type="text" class="form-control name-wave" name="name" id="exampleInputName1"  placeholder="Enter Name" required>
                                     <label for="exampleInputNumber1">Email</label>
-                                    <input type="email" class="form-control phone-wave" id="exampleInputNumber1"  placeholder="Enter email address or Mobile number" name="email" required>
-                                    <div class="form-check mb-2 mr-sm-2 account-wave">
-                                        <!--<input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                                    <input type="email" class="form-control phone-wave" id="exampleInputNumber1"  placeholder="Enter email address" name="email" required>
+                                    <label for="exampleInputNumber1">Phone</label>
+                                    <input type="email" class="form-control phone-wave" id="exampleInputNumber1"  placeholder="Enter Mobile number" name="phone" required>
+                                    <!--<div class="form-check mb-2 mr-sm-2 account-wave">
+                                        <input class="form-check-input" type="checkbox" id="inlineFormCheck">
                                         <label class="form-check-label" for="inlineFormCheck">
                                           Get account updates on whatsapp<img src="{{ url('/') }}/register_section/img/whatsapp.png" class="whatsapp img-responsive">
-                                        </label>-->
-                                    </div>
+                                        </label>
+                                    </div>-->
                                     <a class="coupon" href="#"><small id="couponHelp" class="form-text text-muted">Get a coupon code</small></a>
                                  </div>
                                  <button type="button" id="submit_button" onclick="submit_form()" class="btn-wavex btn btn-primary">Submit</button>

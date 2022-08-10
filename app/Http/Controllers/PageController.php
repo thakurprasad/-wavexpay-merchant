@@ -17,14 +17,15 @@ class PageController extends Controller
         return view('pages.page-blank', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $breadcrumbs = [
             ['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Pages"], ['name' => "Blank Page"],
         ];
 
+        $action = $request->action;
 
-        
+
 
         $dashboard_header = DB::table('dashboardheader')->first();
 
@@ -126,7 +127,7 @@ class PageController extends Controller
 
         $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action'));
     }
 
 
@@ -311,5 +312,43 @@ class PageController extends Controller
         /*$paymentminValue = DB::table('payments')->whereMonth('payment_created_at', date('m'))->whereYear('payment_created_at', date('Y'))->orderBy('amount', 'asc')->value('amount');*/
 
         return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'paymentmaxValue'=>$paymentmaxValue,'paymentminValue'=>0));
+    }
+
+    public function completeSignUp(Request $request)
+    {
+        $merchant_id =  session()->get('merchant');
+        return view('auth.complete_sign_up',compact('merchant_id'));
+    }
+
+    public function completeSignUpProcess(Request $request)
+    {
+        $input = $request->all();
+        $input['aadhar_front_image']= '';
+        $input['aadhar_back_image']= '';
+        if($request->file('aadhar_front')){
+            $file= $request->file('aadhar_front');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('DocumentationImage'), $filename);
+            $input['aadhar_front_image']= $filename;
+        }
+        if($request->file('aadhar_back')){
+            $file2= $request->file('aadhar_back');
+            $filename2= date('YmdHi').$file2->getClientOriginalName();
+            $file2-> move(public_path('DocumentationImage'), $filename2);
+            $input['aadhar_back_image']= $filename2;
+        }
+
+        unset($input['aadhar_front']);
+        unset($input['aadhar_back']);
+        unset($input['_token']);
+
+        DB::table('merchant_users')->where('merchant_id',$input['merchant_id'])->update($input);
+
+        return response()->json(array('success'=>1));
+    }
+
+    public function welcomeToWavexpay()
+    {
+        return view('pages.welcome_to_wavexpay');
     }
 }

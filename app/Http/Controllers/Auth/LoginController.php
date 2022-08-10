@@ -11,6 +11,7 @@ use Auth;
 use Carbon\Carbon;
 use Session;
 use GuzzleHttp\Client;
+use DB;
 class LoginController extends Controller
 {
     /*
@@ -57,7 +58,9 @@ class LoginController extends Controller
         ]);
 
         $remember_me = $request->has('remember') ? true : false;
-        $merchant_salt = env('MERCHANT_SALT');
+        $merchant_users = DB::table('merchant_users')->where('email',$request->input('email'))->first();
+        $merchants = DB::table('merchants')->where('id',$merchant_users->merchant_id)->first();
+        $merchant_salt = $merchants->access_salt;
         try {
             $client = new Client(['base_uri' => env('API_BASE_URL')]);
             $api_end_point = '/api/merchants/login';

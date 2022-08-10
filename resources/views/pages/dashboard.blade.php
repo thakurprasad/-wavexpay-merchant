@@ -174,6 +174,8 @@
 	</div>
 
 
+	
+
 
 @endsection
 
@@ -181,6 +183,13 @@
 @section('page-style')
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<style>
+.modal {
+    overflow-y: auto;
+}
+</style>
+
 @endsection
 @section('page-script')
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -632,6 +641,33 @@ document.getElementById('btn-download3').onclick = function() {
 
 
 
+
     });
+
+
+	<?php 
+	if(isset($action) && $action=='signup')
+	{
+	?>
+	 $(document).ready(function() {
+		$("#myModal").modal('show');
+	 });
+	<?php 
+	}
+	?>
+
+	function business_details()
+	{
+		$("#myModal").modal('hide');
+		$("#businessDetail").modal('show');
+	}
+
+	function doc_verify()
+	{
+		$("#businessDetail").modal('hide');
+		$("#docVerifyModal").modal('show');
+	}
+
+
 </script>
 @endsection

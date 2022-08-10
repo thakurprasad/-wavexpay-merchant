@@ -32,6 +32,9 @@ Auth::routes(['verify' => true]);
 Route::get('change-password', [ChangePasswordController::class, 'index']);
 Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
 
+Route::get('complete-sign-up', [PageController::class, 'completeSignUp']);
+Route::post('completesignupprocess', [PageController::class, 'completeSignUpProcess'])->name('completesignupprocess');
+Route::get('welcome_to_wavexpay', [PageController::class, 'welcomeToWavexpay'])->name('welcome_to_wavexpay');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
 Route::post('sign-up-merchant-step-one',  [RegisterController::class, 'SignUpMerchantStepOne'])->name('sign-up-merchant-step-one');

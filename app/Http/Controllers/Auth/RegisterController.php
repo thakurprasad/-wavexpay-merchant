@@ -77,6 +77,16 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     public function SignUpMerchantStepOne(Request $request)
     {
         $input = $request->all();
@@ -91,13 +101,14 @@ class RegisterController extends Controller
     {
         $input = $request->all();
         $register_session_array = Session::get('register_session_array');
-
+        $access_salt = 'Merchant_'.$this->generateRandomString(20);
         $insertarray['merchant_logo'] = 'default_logo.png';
-        $insertarray['access_salt'] = env('MERCHANT_SALT');
+        //$insertarray['access_salt'] = env('MERCHANT_SALT');
+        $insertarray['access_salt'] = $access_salt;
         $insertarray['merchant_payment_method'] = 'razorpay';
         $insertarray['contact_name'] = $input['name'];
         $insertarray['merchant_name'] = $input['name'];
-        $insertarray['contact_phone'] = '1234567890';
+        $insertarray['contact_phone'] = $input['phone'];
 
         $merchant_id = DB::table('merchants')->insertGetId($insertarray);
 
@@ -110,20 +121,22 @@ class RegisterController extends Controller
 
         $merchant_user = DB::table('merchant_users')->insertGetId($merchantuserinsertarray);
 
+        $merchant_keys = DB::table('merchant_keys')->insert(array('merchnat_id'=>$merchant_id,'api_title'=>'Razorpay','api_key'=>'rzp_live_'.$this->generateRandomString(14),'api_secret'=>$this->generateRandomString(20),'created_at'=>date('Y-m-d H:i:s')));
 
-        $merchant_salt = env('MERCHANT_SALT');
+
+        $merchant_salt = $access_salt;
         
         $client = new Client(['base_uri' => env('API_BASE_URL')]);
         $api_end_point = '/api/merchants/login';
         $response = $client->request('POST',$api_end_point,[
             'form_params' => [
-                'email' => $input['email'],
+                'email' => $request->input('email'),
                 'password' => 'password',
                 'merchant_salt' => $merchant_salt
             ]
         ]);
 
-        dd($response);
+        //dd($response);
 
         $status_code = $response->getStatusCode();
         // 200
@@ -141,7 +154,7 @@ class RegisterController extends Controller
                 session()->put('merchant', $res['merchant']['merchant_id']);
                 session()->put('merchant_key', $res['api_keys'][0]['api_key']);
                 session()->put('merchant_secret', $res['api_keys'][0]['api_secret']);
-                return redirect('/home?action=signup');
+                return redirect('/complete-sign-up');
             }else{
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
