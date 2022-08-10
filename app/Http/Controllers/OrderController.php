@@ -14,10 +14,12 @@ class OrderController extends Controller
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
 
+        $merchant_id =  session()->get('merchant');
+
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $options = ['count'=>50, 'skip'=>0];
         //$all_orders = $api->order->all($options);
-        $all_orders = DB::table('orders')->get();
+        $all_orders = DB::table('orders')->where('merchant_id',$merchant_id)->get();
         return view('pages.transaction.orders', compact('pageConfigs','breadcrumbs','all_orders'));
     }
 
@@ -30,7 +32,8 @@ class OrderController extends Controller
         
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         //$all_orders = $api->order->all();
-        $all_orders = DB::table('orders')->get();
+        $merchant_id =  session()->get('merchant');
+        $all_orders = DB::table('orders')->where('merchant_id',$merchant_id)->get();
 
         if(!empty($all_orders)){
             foreach($all_orders as $order){

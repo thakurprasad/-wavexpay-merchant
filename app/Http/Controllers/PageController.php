@@ -25,12 +25,12 @@ class PageController extends Controller
 
         $action = $request->action;
 
-
+        $merchant_id =  session()->get('merchant');
 
         $dashboard_header = DB::table('dashboardheader')->first();
 
-        $payments = DB::table('payments')->get();
-        $orders = DB::table('orders')->get();
+        $payments = DB::table('payments')->where('merchant_id',$merchant_id)->get();
+        $orders = DB::table('orders')->where('merchant_id',$merchant_id)->get();
         $disputes = DB::table('disputes')->get();
         $refunds = DB::table('refunds')->get();
         $users = DB::table('users')->get();
@@ -38,14 +38,14 @@ class PageController extends Controller
         
 
         /*****************payment value calculation for payment line graph***********************/
-        $payment_current_month_data = DB::table('payments')->whereMonth('payment_created_at', date('m'))
+        $payment_current_month_data = DB::table('payments')->where('merchant_id',$merchant_id)->whereMonth('payment_created_at', date('m'))
         ->whereYear('payment_created_at', date('Y'))
         ->get(['amount','payment_created_at']);
 
         //print_r($payment_current_month_data);exit;
 
-        $paymentmaxValue = DB::table('payments')->orderBy('amount', 'desc')->value('amount');
-        $paymentminValue = DB::table('payments')->orderBy('amount', 'asc')->value('amount');
+        $paymentmaxValue = DB::table('payments')->where('merchant_id',$merchant_id)->orderBy('amount', 'desc')->value('amount');
+        $paymentminValue = DB::table('payments')->where('merchant_id',$merchant_id)->orderBy('amount', 'asc')->value('amount');
 
         $paymentxvalue1='[';
         $paymentyvalue1='[';
@@ -65,13 +65,13 @@ class PageController extends Controller
 
 
         /*****************order value calculation for total line graph***********************/
-        $order_current_month_data = DB::table('orders')->whereMonth('order_created_at', date('m'))
+        $order_current_month_data = DB::table('orders')->where('merchant_id',$merchant_id)->whereMonth('order_created_at', date('m'))
         ->whereYear('order_created_at', date('Y'))
         ->get(['amount','order_created_at']);
 
 
-        $ordermaxValue = DB::table('orders')->whereMonth('order_created_at', date('m'))->whereYear('order_created_at', date('Y'))->orderBy('amount', 'desc')->value('amount');
-        $orderminValue = DB::table('orders')->whereMonth('order_created_at', date('m'))->whereYear('order_created_at', date('Y'))->orderBy('amount', 'asc')->value('amount');
+        $ordermaxValue = DB::table('orders')->where('merchant_id',$merchant_id)->whereMonth('order_created_at', date('m'))->whereYear('order_created_at', date('Y'))->orderBy('amount', 'desc')->value('amount');
+        $orderminValue = DB::table('orders')->where('merchant_id',$merchant_id)->whereMonth('order_created_at', date('m'))->whereYear('order_created_at', date('Y'))->orderBy('amount', 'asc')->value('amount');
 
         $orderxvalue1='[';
         $orderyvalue1='[';
@@ -100,7 +100,7 @@ class PageController extends Controller
         /*************************** Bar Chart Data For Payment ************************************/
         $xValue='[';
         $yValue='[';
-        $payment_month_data = DB::table('payments')->select(
+        $payment_month_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
             DB::raw("(SUM(amount)) as total_amount"),
             DB::raw("MONTHNAME(payment_created_at) as month_name")
         )
@@ -191,11 +191,11 @@ class PageController extends Controller
         $orderxvalue1='';
         $orderyvalue1='';
 
-
+        $merchant_id =  session()->get('merchant');
 
 
         if($status_filter=='' || $status_filter=='all'){
-            $payment_data = DB::table('payments')->select(
+            $payment_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
                 DB::raw("(SUM(amount)) as total_amount"),
                 DB::raw("DATE(payment_created_at) as date")
             )
@@ -205,7 +205,7 @@ class PageController extends Controller
             ->groupBy('date')
             ->get();
         }else{
-            $payment_data = DB::table('payments')->select(
+            $payment_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
                 DB::raw("(SUM(amount)) as total_amount"),
                 DB::raw("DATE(payment_created_at) as date")
             )
@@ -219,7 +219,7 @@ class PageController extends Controller
 
 
 
-        $order_data = DB::table('orders')->select(
+        $order_data = DB::table('orders')->where('merchant_id',$merchant_id)->select(
             DB::raw("(SUM(amount)) as total_amount"),
             DB::raw("DATE(order_created_at) as date")
         )
@@ -251,8 +251,8 @@ class PageController extends Controller
         $orderyvalue1=rtrim($orderyvalue1,",");
 
         //success percentage calculation
-        $payments = DB::table('payments')->whereBetween('payment_created_at', [$start_date, $end_date])->get();
-        $orders = DB::table('orders')->whereBetween('order_created_at', [$start_date, $end_date])->get();
+        $payments = DB::table('payments')->where('merchant_id',$merchant_id)->whereBetween('payment_created_at', [$start_date, $end_date])->get();
+        $orders = DB::table('orders')->where('merchant_id',$merchant_id)->whereBetween('order_created_at', [$start_date, $end_date])->get();
         $disputes = DB::table('disputes')->whereBetween('created_at', [$start_date, $end_date])->get();
         $refunds = DB::table('refunds')->whereBetween('created_at', [$start_date, $end_date])->get();
 
@@ -269,9 +269,11 @@ class PageController extends Controller
         $paymentxvalue1='';
         $paymentyvalue1='';
 
+        $merchant_id =  session()->get('merchant');
+
         if($data_format=='monthly')
         {
-            $payment_month_data = DB::table('orders')->select(
+            $payment_month_data = DB::table('orders')->where('merchant_id',$merchant_id)->select(
                 DB::raw("(SUM(amount)) as total_amount"),
                 DB::raw("MONTHNAME(order_created_at) as month_name")
             )
@@ -281,7 +283,7 @@ class PageController extends Controller
         }
         else if($data_format=='yearly')
         {
-            $payment_month_data = DB::table('orders')->select(
+            $payment_month_data = DB::table('orders')->where('merchant_id',$merchant_id)->select(
                 DB::raw("(SUM(amount)) as total_amount"),
                 DB::raw("YEAR(order_created_at) as year")
             )
@@ -306,7 +308,7 @@ class PageController extends Controller
 
         $paymentyvalue1=rtrim($paymentyvalue1,",");
 
-        $paymentmaxValue = DB::table('orders')->select(
+        $paymentmaxValue = DB::table('orders')->where('merchant_id',$merchant_id)->select(
             DB::raw("(SUM(amount)) as total_amount"),
             DB::raw("YEAR(order_created_at) as year"))->groupBy('year')->value('total_amount');
         /*$paymentminValue = DB::table('payments')->whereMonth('payment_created_at', date('m'))->whereYear('payment_created_at', date('Y'))->orderBy('amount', 'asc')->value('amount');*/

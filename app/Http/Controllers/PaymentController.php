@@ -14,11 +14,13 @@ class PaymentController extends Controller
         ];
 
 
+        $merchant_id =  session()->get('merchant');
+
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $all_payments = $api->payment->all();
         //print_r($all_payments);exit;
         //Pageheader set true for breadcrumbs
-        $all_payments = DB::table('payments')->get();
+        $all_payments = DB::table('payments')->where('merchant_id',$merchant_id)->get();
         $pageConfigs = ['pageHeader' => true];
         return view('pages.transaction.payments', compact('breadcrumbs','pageConfigs', 'all_payments'));
     }
@@ -32,6 +34,8 @@ class PaymentController extends Controller
         $end_date = $request->end_date;
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $all_payments = $api->payment->all();
+
+        $merchant_id =  session()->get('merchant');
         
         $html = '';
 
@@ -71,11 +75,12 @@ class PaymentController extends Controller
 
     public function statusWisePayment(Request $request)
     {
+        $merchant_id =  session()->get('merchant');
         $status = $request->status;
         if($status=='all'){
             $all_payments = DB::table('payments')->get();
         }else{
-            $all_payments = DB::table('payments')->where('status',$status)->get();
+            $all_payments = DB::table('payments')->where('merchant_id',$merchant_id)->where('status',$status)->get();
         }
         
         return view('pages.transaction.paymentsstatus', compact('all_payments'));
