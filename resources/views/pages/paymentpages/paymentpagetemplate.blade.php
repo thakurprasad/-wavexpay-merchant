@@ -20,7 +20,7 @@
                   <h4>Create New Payment Page</h4>
                </div>
                <div class="col-md-6">
-                  <div class="page-action"><button type="button" class="Button--header Button--transparent Button" style="color: rgb(255, 255, 255);"><i class="i i-receipt"></i><span>Payment Receipts</span></button><button type="button"  onclick="open_setting_modal()" class="Button--header Button--transparent Button" style="color: rgb(255, 255, 255);"><i class="i i-settings-outline"></i><span>Page Settings</span></button><button disabled="" class="hidden-xs Button--primary Button">Create and Publish Page</button><span class="close-btn-temp"><a href="{{ route('payment-pages') }}">×</a></span></div>
+                  <div class="page-action"><!--<button type="button" class="Button--header Button--transparent Button" style="color: rgb(255, 255, 255);"><i class="i i-receipt"></i><span>Payment Receipts</span></button>--><button type="button"  onclick="open_setting_modal()" class="Button--header Button--transparent Button" style="color: rgb(255, 255, 255);"><i class="i i-settings-outline"></i><span>Page Settings</span></button><button onclick="save_payment_page()" class="hidden-xs Button--primary Button">Create and Publish Page</button><span class="close-btn-temp"><a href="{{ route('payment-pages') }}">×</a></span></div>
                </div>
             </div>
          </div>
