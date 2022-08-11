@@ -175,8 +175,15 @@ class PageController extends Controller
             ['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Pages"], ['name' => "User Profile"],
         ];
         //Pageheader set true for breadcrumbs
+        $merchant_id =  session()->get('merchant');
+        $merchant_details = DB::table('merchants')->where('id',$merchant_id)->first();
+        $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
+
+        /*print_r($merchant_details);
+        print_r($merchant_users_details);exit;*/
+
         $pageConfigs = ['pageHeader' => true];
-        return view('pages.merchant-profile', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
+        return view('pages.merchant-profile', compact('merchant_details','merchant_users_details'));
     }
 
     public function getSuccessTransactionGraphData(Request $request)
@@ -353,4 +360,5 @@ class PageController extends Controller
     {
         return view('pages.welcome_to_wavexpay');
     }
+
 }

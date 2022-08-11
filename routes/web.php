@@ -133,5 +133,8 @@ Route::group(['middleware' => ['token.check']], function() {
 
     Route::post('getsuccesstransactiongraphdata',[PageController::class, 'getSuccessTransactionGraphData'] );
     Route::post('getsuccessrategraphdata',[PageController::class, 'getSuccessRateGraphData'] );
+
+    Route::post('changedisplayname',  [UserController::class, 'changeDisplayName'])->name('changedisplayname');
+    Route::post('changecontactnumber',  [UserController::class, 'changeContactNumber'])->name('changecontactnumber');
 });
 

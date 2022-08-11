@@ -186,5 +186,23 @@ class UserController extends Controller
     }
 
 
+    public function changeDisplayName(Request $request)
+    {
+        $merchant_id = $request->merchant_id;
+        $display_name = $request->display_name;
+
+        DB::table('merchant_users')->where('merchant_id',$merchant_id)->update(array('display_name'=>$display_name));
+        return response()->json(array('success'=>1));
+    }
+
+    public function changeContactNumber(Request $request)
+    {
+        $merchant_id = $request->merchant_id;
+        $contact_number = $request->contact_number;
+
+        DB::table('merchants')->where('id',$merchant_id)->update(array('contact_phone'=>$contact_number));
+        return response()->json(array('success'=>1));
+    }
+
 }
 
