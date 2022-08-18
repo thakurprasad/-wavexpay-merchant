@@ -32,8 +32,6 @@
 	        <div class="pull-right">
 				<label for="first_name"><strong>Transaction Filter</strong><For></For></label>
 				<select class="form-control" style="width: 300px;" id="status_filter">
-					<option value="" disabled selected>Select Transaction Status</option>
-					<option value="failed">Failed</option>
 					<option value="authorized">Successful</option>
 					<option value="pending">Pending</option>
 					<option value="all">All</option>
@@ -206,8 +204,9 @@
 $(function() {
 
     /*var start = moment().subtract(29, 'days');
-    var end = moment();*/
-	var start = moment().startOf('month');
+    var end = moment();
+	var start = moment().startOf('month');*/
+	var start = moment();
     var end = moment();
 
     function cb(start, end) {

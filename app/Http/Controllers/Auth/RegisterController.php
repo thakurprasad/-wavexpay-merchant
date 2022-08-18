@@ -109,6 +109,7 @@ class RegisterController extends Controller
         $insertarray['contact_name'] = $input['name'];
         $insertarray['merchant_name'] = $input['name'];
         $insertarray['contact_phone'] = $input['phone'];
+        $insertarray['created_at'] = date('Y-m-d H:i:s');
 
         $merchant_id = DB::table('merchants')->insertGetId($insertarray);
 
