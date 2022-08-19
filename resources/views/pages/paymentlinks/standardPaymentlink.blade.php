@@ -135,6 +135,7 @@
                               <div class="col-sm-12">
                                  <div class="form-group">
                                        <button class="btn btn-primary" type="button" onclick="create_payment_link()">create</button>
+                                       <a class="btn btn-danger" type="button" href="{{ route('payment-links') }}">Cancel</a>
                                  </div>
                               </div>
                            </div>

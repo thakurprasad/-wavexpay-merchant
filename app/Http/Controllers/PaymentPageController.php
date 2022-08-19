@@ -122,6 +122,8 @@ class PaymentPageController extends Controller
             "merchant_id" => 1,
             "page_title" => $request["page_title"],
             "page_content" => $request["page_description"],
+            "customer_name" => $request["customer_name"],
+            "customer_number" => $request["customer_number"],
             "status" => "Active",
             "fb_link" =>  $request["fb_link"],
             "twitter_link" =>  $request["twitter_link"],

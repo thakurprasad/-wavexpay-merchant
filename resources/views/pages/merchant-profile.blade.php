@@ -17,7 +17,7 @@
             <thead>
               <tr>
                 <th data-field="id">Merchant Id: {{$merchant_details->id}}</th>
-                <th data-field="name"><a href="#">Change Password</a></th>
+                
               </tr>
             </thead>
             <tbody>
@@ -28,6 +28,10 @@
               <tr>
                 <td>Display Name</td>
                 <td><span id="display_name_container">{{$merchant_users_details->display_name}}</span> &nbsp;&nbsp;<a style="cursor:pointer;" data-toggle="modal" data-target="#displayNameModal" onclick="setDisplayName()"><i class="fas fa-edit">edit</i></a></td>
+              </tr>
+              <tr>
+                <td>Display Logo</td>
+                <td><span id="display_logo_container">{{$merchant_users_details->display_name}}</span> &nbsp;&nbsp;<a style="cursor:pointer;" class="btn btn-sm btn-success" data-toggle="modal" data-target="#diaplayLogoModal" onclick="setDisplayLogo()">Change Display Logo</a></td>
               </tr>
               <tr>
                 <td>Contact Email</td>
@@ -119,6 +123,26 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" id="contact_number_change_button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="diaplayLogoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLabel">Change Display Logo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="file" id="display_logo" accept="image/*" name="display_logo">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="contact_number_change_button" class="btn btn-sm btn-primary">Save changes</button>
       </div>
     </div>
   </div>

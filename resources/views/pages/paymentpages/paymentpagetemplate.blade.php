@@ -68,7 +68,7 @@
                                     <div class="input-group-prepend">
                                        <div class="input-group-text"><i class="fa fa-envelope icon"></i></div>
                                     </div>
-                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+                                    <input type="text" name="customer_name" class="form-control" id="inlineFormInputGroup" placeholder="Username">
                                  </div>
                               </div>
                               <div class="col-auto">
@@ -77,7 +77,7 @@
                                     <div class="input-group-prepend">
                                        <div class="input-group-text"><i class="fa fa-phone icon"></i></div>
                                     </div>
-                                    <input type="text" class="form-control name-text" id="exampleInputname1"  placeholder="Enter number">
+                                    <input type="text" class="form-control name-text" id="exampleInputname1"  placeholder="Enter number" name="customer_number">
                                  </div>
                               </div>
                            </div>
@@ -96,13 +96,7 @@
                         <div  id="main-view" class="slider-view">
                            <h4>Payment Details</h4>
                            <div class="title-underline"></div>
-                           <div class="form-group row">
-                              <label for="inputbusiness1" class="col-sm-3 col-form-label">Amount</label>
-                              <div class="col-sm-1"></div>
-                              <div class="col-sm-8">
-                                 <input type="text" class="form-control name-text" id="exampleInputname1"  placeholder="Ruppes Field">
-                              </div>
-                           </div>
+                           
                            <div class="form-group row">
                               <label for="inputbusiness1" id="email_label" class="col-sm-3 col-form-label">Email</label>
                               <div class="col-sm-1"></div>
