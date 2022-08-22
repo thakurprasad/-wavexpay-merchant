@@ -208,7 +208,7 @@ class PageController extends Controller
             )
             ->whereYear('payment_created_at', date('Y'))
             ->whereBetween('payment_created_at', [$start_date, $end_date])
-            ->orderBy('payment_created_at', 'DESC')
+            ->orderBy('date', 'DESC')
             ->groupBy('date')
             ->get();
         }else{
@@ -218,7 +218,7 @@ class PageController extends Controller
             )
             ->whereYear('payment_created_at', date('Y'))
             ->whereBetween('payment_created_at', [$start_date, $end_date])
-            ->orderBy('payment_created_at', 'DESC')
+            ->orderBy('date', 'DESC')
             ->groupBy('date')
             ->where('status',$status_filter)
             ->get();
@@ -232,7 +232,7 @@ class PageController extends Controller
         )
         ->whereYear('order_created_at', date('Y'))
         ->whereBetween('order_created_at', [$start_date, $end_date])
-        ->orderBy('order_created_at', 'DESC')
+        ->orderBy('date', 'DESC')
         ->groupBy('date')
         ->get();
 
