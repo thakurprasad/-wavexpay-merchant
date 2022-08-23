@@ -188,6 +188,10 @@ class PaymentPageController extends Controller
 
     public function showPaymentPageTemplates()
     {
-        return view('pages.paymentpages.paymentpagetemplate');
+        $merchant_id =  session()->get('merchant');
+        $merchant_details = DB::table('merchants')->where('id',$merchant_id)->first();
+        $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
+        $display_name = $merchant_users_details->display_name;
+        return view('pages.paymentpages.paymentpagetemplate',compact('display_name'));
     }
 }

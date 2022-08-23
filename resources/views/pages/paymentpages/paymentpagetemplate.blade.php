@@ -38,7 +38,7 @@
                            <div id="header-logo-wave">
                               <div class="no-merchant-logo">Add your logo here</div>
                            </div>
-                           <div id="merchant-name">WAVEXPAY</div>
+                           <div id="merchant-name">{{$display_name}}</div>
                         </div>
                      </div>
                      <div class="col-md-6">
