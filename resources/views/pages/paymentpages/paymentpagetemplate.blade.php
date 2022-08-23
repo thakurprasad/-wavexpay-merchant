@@ -48,18 +48,14 @@
                      <div class="col-md-5">
                         <div class="form-wave">
                            <div class="form-group">
-                              <textarea class="temp-wave-name" id="textAreaExample1" rows="4" placeholder="Enter Page title here"></textarea>
+                              <textarea class="temp-wave-name"  name="page_title" id="page_title" rows="4" placeholder="Enter Page title here"></textarea>
                            </div>
-                           <div class="goal-tracker-wave tooltip">
-                              <a href="#">+ Add a Goal Tracker</a> <i class="fa fa-info-circle"></i> <span class="badge bg-success">NEW</span>
-                              <span class="tooltiptext">
-                                 <div class="rzp-popover-body">
-                                    <div class="rzp-tooltip-title">Whats a Goal Tracker?</div>
-                                    Setup and show progress of tangible goals on your Payment Page and help your audience visualise how their contributions are going.<br><br>This can also help convert potential customers and supporters by viewing progess of your goals and existing supporters.
-                                 </div>
-                              </span>
+
+                           <div class="form-group">
+                              <textarea class="form-control" placeholder="Page Description" name="page_description" id="page_description"></textarea>
                            </div>
-                           <div class="goal-tracker-wave"><a href="#">+ Add social media share icons</a> </div>
+                           
+                           <!--<div class="goal-tracker-wave"><a href="#">+ Add social media share icons</a> </div>-->
                            <div class="form-group price stage-4 temp-4">
                               <label for="inputEmail4">Customer Details</label>
                               <div class="col-auto">
@@ -82,7 +78,7 @@
                               </div>
                            </div>
                            <div class="goal-tracker-wave"><a href="#">+ Add Your Terms and Conditions</a> </div>
-                           <p class="teemp-legel">You agree to share information entered on this page with WAVEXPAY (owner of this page) and Razorpay, adhering to applicable laws.</p>
+                           <textarea class="form-control" placeholder="Terms & Condition" name="terms_and_condition" id="terms_and_condition"></textarea>
                            <hr>
                            <div class="teemp-legel2">
                               <h4>WAVEXPAY</h4>
@@ -154,9 +150,9 @@
                               <div class="col-md-6">
                                  <img id="fin-logo" src="{{ url('/') }}/payment_page/img/pay_methods_branding.png" class="img-responsive">
                               </div>
-                              <div class="col-md-6 pay-left">
+                              <!--<div class="col-md-6 pay-left">
                                  <button class="btn btn-gradient ruppes-btn">Pay <span style="margin-left: 4px;"><b class="currency-symbol">₹</b> 000.00</span></button>
-                              </div>
+                              </div>-->
                            </div>
                         </div>
                      </div>
@@ -567,6 +563,26 @@
 
 
          function save_payment_page(){
+            var page_title = $("#page_title").val();
+            if(page_title=='')
+            {
+               alert('Page Title Can not be blank');
+               return false;
+            }
+            var page_description = $("#page_description").val();
+            if(page_description=='')
+            {
+               alert('Page Description Can not be blank');
+               return false;
+            }
+            var terms_and_condition = $("#terms_and_condition").val();
+            if(terms_and_condition=='')
+            {
+               alert('Terms condition Can not be blank');
+               return false;
+            }
+
+
             var template_id = $("#template_id").val();
             var custom_url = $("#custom_url").val();
             var theme = $("#theme").val();
