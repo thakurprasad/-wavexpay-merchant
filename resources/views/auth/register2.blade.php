@@ -56,6 +56,7 @@
                               <p>Sign up to create an account with us</p>
                               <form method="post" id="step_two_form" action="{{ url('/sign-up-merchant-step-two') }}">
                                  @csrf
+                                 <input type="hidden" value="<?php if(isset($action)) { echo $action; } ?>" name="action">
                                  <div class="form-group">
                                     <label for="exampleInputName1">Your name</label>
                                     <input type="text" class="form-control name-wave" name="name" id="exampleInputName1"  placeholder="Enter Name" required>

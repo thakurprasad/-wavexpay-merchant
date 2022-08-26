@@ -8,6 +8,12 @@
            style="width:80%;border:0;align:center; margin:0 13px;">
     </a>
 
+
+    @php 
+        $merchant_id =  session()->get('merchant');
+        $get_merchant_details = Helper::get_merchant_details($merchant_id);
+    @endphp
+
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
@@ -23,6 +29,13 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
+        @if($get_merchant_details->is_partner=='yes')
+        <ul class="nav nav-pills nav-sidebar flex-column nav-compact text-sm nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+                <a href="{{ url('partner-dashboard') }}" class="nav-link {{ in_array(Request::segment(1),array('partner-dashboard')) ? 'active' : '' }}"> <i class="nav-icon fas fa-tachometer-alt" style="color: #f41811;"></i> <p>Dashboard</p> </a>
+            </li>
+        </ul>
+        @else
         <ul class="nav nav-pills nav-sidebar flex-column nav-compact text-sm nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
@@ -127,10 +140,13 @@
                     <li class="nav-item"><a href="{{ url('change-password') }}" class="nav-link {{ Request::segment(1) === 'profile_update' ? 'active' : null }}"><i class="nav-icon far fa-circle text-warning"></i><p>Change Password</p> </a> </li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();    document.getElementById('logout-form').submit();"> <i class="fas fa-sign-out-alt nav-icon"></i> <p>Logout</p> </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
-            </li>
+        </ul>
+        @endif 
+        <ul class="nav nav-pills nav-sidebar flex-column nav-compact text-sm nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
+        <li>
+        <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();    document.getElementById('logout-form').submit();"> <i class="fas fa-sign-out-alt nav-icon"></i> <p>Logout</p> </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
+        </li>
         </ul>
         </nav>
       <!-- /.sidebar-menu -->

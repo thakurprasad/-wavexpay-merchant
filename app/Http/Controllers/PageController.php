@@ -361,4 +361,10 @@ class PageController extends Controller
         return view('pages.welcome_to_wavexpay');
     }
 
+
+    public function partnerDashboard(Request $request)
+    {
+        return view('pages.partner_dashboard');
+    }
+
 }

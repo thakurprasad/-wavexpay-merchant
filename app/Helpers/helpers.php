@@ -234,4 +234,9 @@ class Helper
         return $item_details;
     } 
 
+    public static function get_merchant_details($merchant_id){
+        $item_details = DB::table('merchants')->where('id',$merchant_id)->first();
+        return $item_details;
+    }
+
 }

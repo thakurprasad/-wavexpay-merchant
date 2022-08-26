@@ -39,6 +39,9 @@ Route::get('/logout', 'LoginController@logout')->name('logout');
 
 Route::post('sign-up-merchant-step-one',  [RegisterController::class, 'SignUpMerchantStepOne'])->name('sign-up-merchant-step-one');
 
+Route::get('register-as-partner',  [RegisterController::class, 'RegisterAsPartner']);
+Route::get('partner-dashboard',  [PageController::class, 'partnerDashboard']);
+
 Route::post('sign-up-merchant-step-two',  [RegisterController::class, 'SignUpMerchantStepTwo'])->name('sign-up-merchant-step-two');
 
 Route::group(['middleware' => ['token.check']], function() {

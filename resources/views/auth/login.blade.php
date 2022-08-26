@@ -47,7 +47,10 @@
             <button type="submit" class="btn btn-primary btn-block">{{ __('Login') }}</button>
           </div>
           <div class="col-4"></div>
-          <div class="col-8">Still Not An User? <br /> <a style="margin-left:10px;" href="{{url('register')}}">Register Here</a></div>
+          <div class="col-8">Still Not An User? <br /> 
+            <a style="margin-left:10px;" href="{{url('register')}}">Register Here</a>
+            <br /> <a href="{{url('register-as-partner')}}">Become A Partner</a>
+          </div>
           <!-- /.col -->
         </div>
       </form>

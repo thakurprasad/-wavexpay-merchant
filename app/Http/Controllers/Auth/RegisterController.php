@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use Helper;
 use Session;
 use GuzzleHttp\Client;
 
@@ -90,11 +91,17 @@ class RegisterController extends Controller
     public function SignUpMerchantStepOne(Request $request)
     {
         $input = $request->all();
+        $action = '';
         $register_session_array = array();
         $register_session_array['business_type'] = $input['business_type'];
         $register_session_array['business_category'] = $input['business_category'];
+        if(isset($request->action) && $request->action=='become_a_partner')
+        {
+            $register_session_array['action'] = $request->action;
+            $action = $request->action;
+        }
         Session::put('register_session_array',$register_session_array);
-        return view('auth.register2');
+        return view('auth.register2',compact('action'));
     }
 
     public function SignUpMerchantStepTwo(Request $request)
@@ -109,6 +116,10 @@ class RegisterController extends Controller
         $insertarray['contact_name'] = $input['name'];
         $insertarray['merchant_name'] = $input['name'];
         $insertarray['contact_phone'] = $input['phone'];
+        if(isset($input['action']) && $input['action']!='' && $input['action']=='become_a_partner')
+        {
+            $insertarray['is_partner'] = 'yes';
+        }
         $insertarray['created_at'] = date('Y-m-d H:i:s');
 
         $merchant_id = DB::table('merchants')->insertGetId($insertarray);
@@ -155,6 +166,12 @@ class RegisterController extends Controller
                 session()->put('merchant', $res['merchant']['merchant_id']);
                 session()->put('merchant_key', $res['api_keys'][0]['api_key']);
                 session()->put('merchant_secret', $res['api_keys'][0]['api_secret']);
+
+                $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
+                if($get_merchant_details->is_partner=='yes')
+                {
+                    return redirect('/partner-dashboard');
+                }
                 return redirect('/complete-sign-up');
             }else{
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
@@ -165,5 +182,12 @@ class RegisterController extends Controller
        
 
        
+    }
+
+
+    public function RegisterAsPartner(Request $request)
+    {
+        $action = 'become_a_partner';
+        return view('auth.register',compact('action'));
     }
 }

@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Session;
 use GuzzleHttp\Client;
 use DB;
+use Helper;
 class LoginController extends Controller
 {
     /*
@@ -90,6 +91,12 @@ class LoginController extends Controller
                     session()->put('merchant', $res['merchant']['merchant_id']);
                     session()->put('merchant_key', $res['api_keys'][0]['api_key']);
                     session()->put('merchant_secret', $res['api_keys'][0]['api_secret']);
+
+                    $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
+                    if($get_merchant_details->is_partner=='yes')
+                    {
+                        return redirect('/partner-dashboard');
+                    }
                     return redirect('/');
                 }else{
                     return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);

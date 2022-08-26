@@ -62,6 +62,7 @@
                      <!--Main element-->
                      <form id="complete_sign_up_form" enctype="multipart/form-data" method="POST">
                         @csrf
+                        <input type="hidden" value="<?php if(isset($action)) { echo $action; } ?>" name="action">
                         <input type="hidden" id="merchant_id" name="merchant_id" value="{{$merchant_id}}">
                         <div class="col-md-9 gray-wave tabcontent" id="Contact" >
                            <div class="form-data">
