@@ -1,5 +1,4 @@
-{{-- extend layout --}}
-@extends('layouts.admin')
+@extends('newlayout.app')
 
 {{-- page title --}}
 @section('title','Refunds')

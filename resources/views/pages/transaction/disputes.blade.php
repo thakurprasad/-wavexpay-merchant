@@ -1,4 +1,5 @@
-@extends('layouts.admin')
+{{--@extends('layouts.admin')--}}
+@extends('newlayout.app')
 @section('title','Disputes')
 @section('content_header')
 <div class="row mb-2">
@@ -87,6 +88,7 @@
                 </div>
                 <div class="card-footer">
                     <button type="button" class="btn btn-primary"  onclick="search_dispute()">Submit</button>
+                    <button type="button" class="btn btn-info"  onclick="reset_page()">Reset</button>
                 </div>
             </form>
         </div>
@@ -161,6 +163,10 @@ function search_dispute(){
             $('#myTable').DataTable();
         }
     });
+}
+
+function reset_page(){
+    location.reload();
 }
 </script>
 @endsection

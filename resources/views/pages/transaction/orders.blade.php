@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('newlayout.app')
 @section('title','Orders')
 @section('content_header')
 <div class="row mb-2">

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('newlayout.app')
 @section('title','Payments')
 @section('content_header')
 <div class="row mb-2">
@@ -90,7 +90,7 @@
 
         </div>
 		<div class="card-body">
-			<table class="table table-bordered table-responsive-sm" id="datatable">
+			<table class="table table-bordered table-responsive-sm" id="myTable2">
 				<thead>
                     <tr>
                     <th scope="col">Payment Id</th>
@@ -126,7 +126,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
 $(document).ready( function () {
-    $('#myTable').DataTable({
+    $('#myTable2').DataTable({
         "searching": false
     });
 } );
