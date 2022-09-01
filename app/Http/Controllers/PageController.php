@@ -60,6 +60,10 @@ class PageController extends Controller
 
         $paymentyvalue1=rtrim($paymentyvalue1,",");
         $paymentyvalue1.=']';
+
+
+        /*echo $paymentxvalue1;
+        echo $paymentyvalue1;exit;*/
         
         /*****************payment value end calculation for payment line graph***********************/
 
