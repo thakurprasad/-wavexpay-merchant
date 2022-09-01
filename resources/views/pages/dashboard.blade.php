@@ -28,7 +28,7 @@
    
     <div class="row">
         <div class="col-xl-5">
-            <label for="first_name"><strong>Payment Date Range</strong><For></For></label>
+            <label for="first_name" style="color:#00008B;"><strong>Payment Date Range</strong><For></For></label>
             <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 80%">
                 <i class="fa fa-calendar"></i>&nbsp;
                 <span></span> <i class="fa fa-caret-down"></i>
@@ -38,7 +38,7 @@
             
         </div>
         <div class="col-xl-5">
-            <label for="first_name"><strong>Transaction Filter</strong><For></For></label>
+            <label for="first_name" style="color:#00008B;"><strong>Transaction Filter</strong><For></For></label>
             <select class="form-control" style="width: 100%;" id="status_filter">
                 <option value="authorized">Successful</option>
                 <option value="pending">Pending</option>
@@ -63,8 +63,8 @@
         <div class="card-body">
             <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">New Orders</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{count($orders)}}</div>
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><strong>New Orders</strong></div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><strong>{{count($orders)}}</strong></div>
             </div>
             <div class="col-auto">
                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -90,8 +90,8 @@
             @endphp
             <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Payments Amount</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">₹{{number_format($total_amount,2)}}</div>
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><strong>Total Payments Amount</strong></div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><strong>₹{{number_format($total_amount,2)}}</strong></div>
             </div>
             <div class="col-auto">
                 <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -107,10 +107,10 @@
         <div class="card-body">
             <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Success Rate</div>
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><strong>Success Rate</strong></div>
                 <div class="row no-gutters align-items-center">
                 <div class="col-auto">
-                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{$success_perc}}%</div>
+                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><strong>{{$success_perc}}%</strong></div>
                 </div>
                 <div class="col">
                     <div class="progress progress-sm mr-2">
@@ -140,7 +140,7 @@
         <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Payment Overview</h6>
+            <h6 class="m-0 font-weight-bold" style="color: #00008B;">Payment Overview</h6>
             <div class="dropdown no-arrow">
             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -168,7 +168,7 @@
         <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Order Overview</h6>
+            <h6 class="m-0 font-weight-bold" style="color: #00008B;">Order Overview</h6>
             <div class="dropdown no-arrow">
             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -686,10 +686,10 @@ var myLineChart = new Chart(ctx, {
       label: "Payment",
       lineTension: 0.3,
       backgroundColor: "rgba(78, 115, 223, 0.05)",
-      borderColor: "rgba(78, 115, 223, 1)",
+      borderColor: "#00008B",
       pointRadius: 3,
       pointBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointBorderColor: "rgba(78, 115, 223, 1)",
+      pointBorderColor: "#00008B",
       pointHoverRadius: 3,
       pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
@@ -776,7 +776,7 @@ var myBarChart = new Chart(ctx2, {
     labels: {!! $orderxvalue1 !!},
     datasets: [{
       label: "Revenue",
-      backgroundColor: "#4e73df",
+      backgroundColor: "#00008B",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
       data: {{$orderyvalue1}},
@@ -831,7 +831,7 @@ var myBarChart = new Chart(ctx2, {
     },
     tooltips: {
       titleMarginBottom: 10,
-      titleFontColor: '#6e707e',
+      titleFontColor: '#00008B',
       titleFontSize: 14,
       backgroundColor: "rgb(255,255,255)",
       bodyFontColor: "#858796",

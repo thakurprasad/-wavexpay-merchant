@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('newlayout.app')
 @section('title','Payment Links')
 @section('content_header')
 <div class="row mb-2">
@@ -30,10 +30,7 @@
     @endif
     <div class="card">
         <div class="card-body">
-            <div class="row">    
-                <!--<a class="btn btn-md btn-primary" data-toggle="modal" data-target="#modal1">Create Payment Link</a>-->
-                <a class="btn btn-sm btn-primary" href="{{ url('/create-payment-links') }}">Create Payment Link</a>
-            </div>
+            <a class="btn btn-sm btn-primary" href="{{ url('/create-payment-links') }}">Create Payment Link</a>
         </div>
         <form class="col s12" method="POST" id="search-form" action="<?php url('/') ?>/searchinvoice">
             @csrf
@@ -115,7 +112,7 @@
                     }
                     @endphp
                     <tr>
-                        <td><a style="cursor:pointer; color: blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a></td>
+                        <td><!--<a style="cursor:pointer; color: blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a>--><a style="cursor:pointer; color: blue;">{{$link->payment_link_id}}</a></td>
                         <td>{{date('Y-m-d H:i:s',strtotime($link->created_at))}}</td>
                         <td>{{number_format($link->amount,2)}}</td>
                         <td>{{$link->reference_id}}</td>
