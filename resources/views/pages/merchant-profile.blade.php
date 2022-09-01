@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('newlayout.app')
 
 {{-- page title --}}
 @section('title','User Profile')
@@ -9,7 +9,7 @@
   <div class="card">
     <div class="card-content">
       <div class="row">            
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding-left:40px;">
           <input type="hidden" name="merchant_id" id="merchant_id" value="{{$merchant_details->id}}">
           <input type="hidden" name="hidden_display_name" id="hidden_display_name" value="{{$merchant_users_details->display_name}}">
           <input type="hidden" name="hidden_contact_number" id="hidden_contact_number" value="{{$merchant_details->contact_phone}}">
