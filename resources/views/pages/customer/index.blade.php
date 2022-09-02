@@ -1,5 +1,5 @@
 {{-- extend layout --}}
-@extends('layouts.admin')
+@extends('newlayout.app')
 
 {{-- page title --}}
 @section('title','Customers')
@@ -41,7 +41,7 @@
 	        </div>
 	        <div class="pull-right">
 
-	            <a class="btn btn-success" data-toggle="modal" data-target="#customerModal" onclick="crt_cust()"><i class="fas fa-plus"></i> Create New Customer</a>
+	            <a class="btn btn-success" style="color: #FFFFFF;background-color:#00008B;" data-toggle="modal" data-target="#customerModal" onclick="crt_cust()"><i class="fas fa-plus"></i> Create New Customer</a>
 
 	        </div>
         </div>
@@ -67,7 +67,7 @@
 					<td>{{ $value->email }}</td>
 					<td>{{ $value->contact }} </td>
 					<td class="text-center">
-                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#customerModal" title="Edit" onclick="edit_cust('{{ $value->customer_id }}','{{ $value->name }}','{{ $value->email }}','{{ $value->contact }}','{{ $value->gstin }}')"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-primary btn-sm" style="color: #FFFFFF;background-color:#4e73df;" data-toggle="modal" data-target="#customerModal" title="Edit" onclick="edit_cust('{{ $value->customer_id }}','{{ $value->name }}','{{ $value->email }}','{{ $value->contact }}','{{ $value->gstin }}')"><i class="fas fa-edit"></i></a>
 					</td>
 				</tr>
 				@endforeach

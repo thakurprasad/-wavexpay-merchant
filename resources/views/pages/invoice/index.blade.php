@@ -1,5 +1,5 @@
 {{-- extend layout --}}
-@extends('layouts.admin')
+@extends('newlayout.app')
 
 {{-- page title --}}
 @section('title','Invoice')
@@ -36,7 +36,7 @@
 @endif
     <div class="card">
         <div class="card-body">
-            <a href="{{ url('/newinvoice') }}" class="btn btn-md btn-warning">Create Invoice</a>
+            <a href="{{ url('/newinvoice') }}" class="btn btn-md btn-warning" style="color: #FFFFFF;background-color:#00008B;"><i class="fas fa-plus"></i> Create Invoice</a>
         </div>
         <form class="col s12" method="POST" id="search-form" action="<?php url('/') ?>/searchinvoice">
             @csrf

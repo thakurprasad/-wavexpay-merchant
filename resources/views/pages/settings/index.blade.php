@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('newlayout.app')
 
 @section('content_header')
 <div class="row mb-2">
@@ -31,7 +31,7 @@
 	<div class="card">
 		<div class="card-header">
 			<div class="pull-left">
-
+				General Settings
 	        </div>
 	        <div class="pull-right">
 			

@@ -16,7 +16,7 @@
     </div>
 
     @if(isset($dashboard_header) && $dashboard_header->title!='')
-	<div class="alert alert-primary alert-dismissible fade show" role="alert">
+	<div class="alert alert-primary alert-dismissible fade show" role="alert" style="background-color:#4e73df;color:#FFFFFF;">
 		<strong>@php if(isset($dashboard_header) && $dashboard_header->title!='') { echo $dashboard_header->title; } @endphp!</strong> @php if(isset($dashboard_header) && $dashboard_header->description!='') { echo $dashboard_header->description; } @endphp.
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>

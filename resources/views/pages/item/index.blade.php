@@ -1,5 +1,5 @@
 {{-- extend layout --}}
-@extends('layouts.admin')
+@extends('newlayout.app')
 
 {{-- page title --}}
 @section('title','Items')
@@ -41,7 +41,7 @@
         </div>
         <div class="pull-right">
 
-            <a class="btn btn-success" data-toggle="modal" data-target="#createitemmodal"><i class="fas fa-plus"></i> Create Item</a>
+            <a class="btn btn-info" style="color: #FFFFFF;background-color:#00008B;" data-toggle="modal" data-target="#createitemmodal"><i class="fas fa-plus"></i> Create Item</a>
 
         </div>
     </div>
@@ -65,7 +65,7 @@
                     <td>{{$titem->name}}</td>
                     <td>{{$titem->description}}</td>
                     <td>{{number_format($titem->amount,2)}}</td>
-                    <td><a class="btn btn-sm btn-danger" onclick="delete_item('{{$titem->item_id}}')">Delete</a></td>
+                    <td><a class="btn btn-sm btn-danger" style="color: #FFFFFF;" onclick="delete_item('{{$titem->item_id}}')"><i class="fas fa-trash"></i></a></td>
                 </tr>
                 @endforeach
                 @endif

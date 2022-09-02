@@ -1,5 +1,5 @@
 {{-- extend layout --}}
-@extends('layouts.admin')
+@extends('newlayout.app')
 
 {{-- page title --}}
 @section('title','Invoice')
@@ -34,7 +34,7 @@
     </ul>
 </div>
 @endif
-    <div class="card">
+    <div class="card" style="padding: 20px;">
         <div class="card-body">
             <div class="row">
                 <form id="form-create-invoice" method="post">
