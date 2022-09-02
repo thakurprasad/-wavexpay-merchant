@@ -69,14 +69,14 @@
                     <div class="col-sm-1">
                         <div class="form-group">
                             <label for="first_name">&nbsp;</label><br>
-                            <button class="btn btn-md btn-info" type="button" name="action" onclick="search_payment_link()">Submit</button>
+                            <button class="btn btn-sm btn-info" type="button" name="action" onclick="search_payment_link()">Submit</button>
                         </div>
                     </div>
 
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="first_name">&nbsp;</label><br>
-                            <button class="btn btn-md btn-primary" type="button" name="action" onclick="reset_page()">Reset</button>
+                            <button class="btn btn-sm btn-primary" type="button" name="action" onclick="reset_page()">Reset</button>
                         </div>
                     </div>
                 </div>
