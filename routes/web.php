@@ -24,6 +24,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\DisputeController;
 use App\Http\Controllers\GeneralSettingController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\AffiliateController;
 
 
 
@@ -39,10 +40,20 @@ Route::get('/logout', 'LoginController@logout')->name('logout');
 
 Route::post('sign-up-merchant-step-one',  [RegisterController::class, 'SignUpMerchantStepOne'])->name('sign-up-merchant-step-one');
 
-Route::get('register-as-partner',  [RegisterController::class, 'RegisterAsPartner']);
-Route::get('partner-dashboard',  [PageController::class, 'partnerDashboard']);
+
 
 Route::post('sign-up-merchant-step-two',  [RegisterController::class, 'SignUpMerchantStepTwo'])->name('sign-up-merchant-step-two');
+
+
+
+
+
+Route::get('partner-dashboard',  [PageController::class, 'partnerDashboard']);
+Route::get('affiliate-accounts',  [AffiliateController::class, 'affiliateAccounts']);
+
+
+
+
 
 Route::group(['middleware' => ['token.check']], function() {
     Route::resource('customer', CustomerController::class);

@@ -1,5 +1,5 @@
 {{-- extend layout --}}
-@extends('layouts.admin')
+@extends('newlayout.app')
 
 {{-- page title --}}
 @section('title','Home')
@@ -11,8 +11,7 @@
 {{-- page content --}}
 @section('content')
 	
-	
-
+<div class="container-fluid">
     <div class="card">
 		<div class="card-header">
 			<div class="pull-left">
@@ -27,6 +26,7 @@
 			</div>
         </div>		
 	</div>
+</div>
 
 
 	

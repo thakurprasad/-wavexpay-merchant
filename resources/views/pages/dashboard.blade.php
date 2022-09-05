@@ -27,7 +27,7 @@
 
    
     <div class="row">
-        <div class="col-xl-5">
+        <div class="col-xl-6">
             <label for="first_name" style="color:#00008B;"><strong>Payment Date Range</strong><For></For></label>
             <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 80%">
                 <i class="fa fa-calendar"></i>&nbsp;
@@ -37,7 +37,7 @@
         <div class="col-xl-2">
             
         </div>
-        <div class="col-xl-5">
+        <div class="col-xl-4">
             <label for="first_name" style="color:#00008B;"><strong>Transaction Filter</strong><For></For></label>
             <select class="form-control" style="width: 100%;" id="status_filter">
                 <option value="authorized">Successful</option>
