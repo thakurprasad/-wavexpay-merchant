@@ -301,7 +301,7 @@ body {font-family: Arial;}
                 <td>₹{{$payment->amount}}</td>
                 <td>{{$payment->payment_id}}</td>
                 <td>{{ltrim($diff->format("%R%a days"),"-")}} ago</td>
-                <td><span class="badge badge-primary">{{$payment->status}}</span></td>
+                <td><span class="badge badge-info">{{$payment->status}}</span></td>
               </tr>
               @endforeach
               @endif
