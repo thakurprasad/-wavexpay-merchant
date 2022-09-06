@@ -130,8 +130,24 @@ class PageController extends Controller
         /*************************** End Bar Chart Data For Payment ********************************/
 
         $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
+
+
+        $payment_min_max_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
+            DB::raw("(MIN(amount)) as min_amount"),
+            DB::raw("MAX(amount) as max_amount")
+        )
+        ->whereYear('payment_created_at', date('Y'))
+        ->get();
+        if(!empty($payment_min_max_data))
+        {
+            $min_max_transacion='['.$payment_min_max_data[0]->min_amount.','.$payment_min_max_data[0]->max_amount.']';
+        }
+        else 
+        {
+            $min_max_transacion='[0,0]';
+        }
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action','min_max_transacion'));
     }
 
 
@@ -267,7 +283,15 @@ class PageController extends Controller
         $disputes = DB::table('disputes')->whereBetween('created_at', [$start_date, $end_date])->get();
         $refunds = DB::table('refunds')->whereBetween('created_at', [$start_date, $end_date])->get();
 
-        $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
+        if(count($payments)>0)
+        {
+            $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
+        }
+        else
+        {
+            $success_perc = 0;
+        }
+        
         //end success percentage calculation
         
 
