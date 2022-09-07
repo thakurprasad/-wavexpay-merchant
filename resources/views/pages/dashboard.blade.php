@@ -312,12 +312,28 @@ body {font-family: Arial;}
         <div id="Paris" class="tabcontent">
           <table class="table table-responsive">
             <tbody>
+              @if(!empty($settlements->items))
+              @foreach($settlements->items as $settlement)
+              <?php
+              $date1=date_create("now");
+              $date2=date_create($settlement['created_at']);
+              $diff=date_diff($date1,$date2);
+              ?>
               <tr>
-                <td>₹10</td>
-                <td>pay_KANL7jrLo9W2oo</td>
-                <td>11 days ago	</td>
-                <td>failed</td>
+                <td>₹{{number_format($settlement['fees']/100,2)}}</td>
+                <td>{{$settlement['id']}}</td>
+                <td>{{ltrim($diff->format("%R%a days"),"-")}} ago</td>
+                <td><span class="badge badge-info">{{$settlement['status']}}</span></td>
               </tr>
+              @endforeach
+              @else 
+              <tr>
+                <td>&nbsp;</td>
+                <td>No Data Found</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              @endif
             </tbody>
           </table>
         </div>
@@ -325,12 +341,21 @@ body {font-family: Arial;}
         <div id="Tokyo" class="tabcontent">
           <table class="table table-responsive">
             <tbody>
+              @if(!empty($refunds))
+              @foreach($refunds as $refund)
+              <?php
+              $date1=date_create("now");
+              $date2=date_create($refund['created_at']);
+              $diff=date_diff($date1,$date2);
+              ?>
               <tr>
-                <td>₹10</td>
-                <td>pay_KANL7jrLo9W2oo</td>
-                <td>11 days ago	</td>
-                <td>failed</td>
+                <td>₹{{number_format($refund->amount,2)}}</td>
+                <td>{{$refund->payment_id}}</td>
+                <td>{{ltrim($diff->format("%R%a days"),"-")}} ago</td>
+                <td>{{$refund->status}}</td>
               </tr>
+              @endforeach
+              @endif
             </tbody>
           </table>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Razorpay\Api\Api;
 use DB;
 
 class PageController extends Controller
@@ -31,6 +32,8 @@ class PageController extends Controller
 
         $payments = DB::table('payments')->where('merchant_id',$merchant_id)->get();
         $orders = DB::table('orders')->where('merchant_id',$merchant_id)->get();
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $settlements = $api->settlement->all();
         $disputes = DB::table('disputes')->get();
         $refunds = DB::table('refunds')->get();
         $users = DB::table('users')->get();
@@ -147,7 +150,7 @@ class PageController extends Controller
             $min_max_transacion='[0,0]';
         }
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action','min_max_transacion'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action','min_max_transacion','settlements'));
     }
 
 
