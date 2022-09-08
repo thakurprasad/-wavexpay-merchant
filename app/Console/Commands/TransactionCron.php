@@ -72,9 +72,9 @@ class TransactionCron extends Command
             foreach($all_payments->items as $payment){
                 $get_payment_details = DB::table('payments')->where('payment_id',$payment->id)->first();
                 if(!empty($get_payment_details)){
-                    DB::table('payments')->where('payment_id',$payment->id)->update(array('amount'=>$payment->amount,'email'=>$payment->email,'contact'=>$payment->contact,'payment_created_at'=>date('Y-m-d',$payment->created_at),'status'=> $payment->status,'created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')));
+                    DB::table('payments')->where('payment_id',$payment->id)->update(array('amount'=>$payment->amount,'email'=>$payment->email,'contact'=>$payment->contact,'payment_created_at'=>date('Y-m-d',$payment->created_at),'status'=> $payment->status,'payment_method'=>$payment->method,'created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')));
                 }else{
-                    DB::table('payments')->insert(array('payment_id'=>$payment->id,'amount'=>$payment->amount,'email'=>$payment->email,'contact'=>$payment->contact,'payment_created_at'=>date('Y-m-d',$payment->created_at),'status'=> $payment->status,'created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')));
+                    DB::table('payments')->insert(array('payment_id'=>$payment->id,'amount'=>$payment->amount,'email'=>$payment->email,'contact'=>$payment->contact,'payment_created_at'=>date('Y-m-d',$payment->created_at),'status'=> $payment->status,'payment_method'=>$payment->method,'created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')));
                 }
             }
         }

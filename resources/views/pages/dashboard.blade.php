@@ -46,6 +46,7 @@ body {font-family: Arial;}
 /* Style the tab content */
 .tabcontent {
   display: none;
+  height: 354px;
   padding: 6px 12px;
   -webkit-animation: fadeEffect 1s;
   animation: fadeEffect 1s;
@@ -85,7 +86,7 @@ body {font-family: Arial;}
     <div class="row">
         <div class="col-xl-6">
             <label for="first_name" style="color:#00008B;"><strong>Payment Date Range</strong><For></For></label>
-            <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 80%">
+            <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 66%">
                 <i class="fa fa-calendar"></i>&nbsp;
                 <span></span> <i class="fa fa-caret-down"></i>
             </div>
@@ -95,7 +96,7 @@ body {font-family: Arial;}
         </div>
         <div class="col-xl-4">
             <label for="first_name" style="color:#00008B;"><strong>Transaction Filter</strong><For></For></label>
-            <select class="form-control" style="width: 100%;" id="status_filter">
+            <select style="background: #fff; cursor: pointer; padding: 8px 10px; border: 1px solid #ccc; width: 100%" id="status_filter">
                 <option value="authorized">Successful</option>
                 <option value="pending">Pending</option>
                 <option value="all">All</option>
@@ -192,7 +193,7 @@ body {font-family: Arial;}
     <div class="row">
 
     <!-- Area Chart -->
-    <div class="col-xl-6 col-lg-6">
+    <div class="col-xl-12 col-lg-12">
         <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -248,12 +249,38 @@ body {font-family: Arial;}
     </div>
 
 
+    <div class="col-xl-6 col-lg-6">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold" style="color: #00008B;">Payment Method Payment Overview</h6>
+            <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Dropdown Header:</div>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-area">
+                <canvas id="mymethodChart"></canvas>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
     <!-- Pie Chart -->
     <div class="col-xl-6 col-lg-6">
       <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Minimum and Maximum Transaction</h6>
+        <h6 class="m-0 font-weight-bold" style="color: #00008B;">Minimum and Maximum Transaction</h6>
           <div class="dropdown no-arrow">
             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -287,7 +314,7 @@ body {font-family: Arial;}
           </div>
         </div>
 
-        <div id="London" class="tabcontent">
+        <div id="London" style="heght:354px;" class="tabcontent active">
           <table class="table table-responsive">
             <tbody>
               @if(!empty($payments))
@@ -379,11 +406,12 @@ body {font-family: Arial;}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript">
 $(function() {
-
+    $(".firstclass").addClass('active');
+    document.getElementById("London").style.display = "block";
     /*var start = moment().subtract(29, 'days');
     var end = moment();
-	var start = moment().startOf('month');*/
-	var start = moment();
+	  var start = moment().startOf('month');*/
+	  var start = moment();
     var end = moment();
 
     function cb(start, end) {
@@ -405,8 +433,8 @@ $(function() {
 
     cb(start, end);
 
-    $(".firstclass").click();
-    $(".firstclass").addClass('active');
+    //$(".firstclass").click();
+    
 
 });
 
@@ -428,6 +456,7 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 			console.log(data);    
 			create_ajax_payment_chart(data.paymentxvalue1,data.paymentyvalue1);
 			create_ajax_order_chart(data.orderxvalue1,data.orderyvalue1);
+      create_ajax_method_chart(data.paymentmethodxvalue,data.paymentmethodyvalue);
 			$("#order_count").html(data.total_order);
 			$("#total_payment_amount").html('₹'+(data.total_payment_amount).toFixed(2));
 			$("#success_rate_container").html(data.success_perc+'<sup style="font-size: 20px">%</sup>');
@@ -687,6 +716,129 @@ function create_ajax_order_chart(oxValues,oyValues){
 	}
 
 }
+
+
+function create_ajax_method_chart(pxValues,pyValues){
+  console.log(pxValues);
+	var canv = document.createElement("canvas");
+	canv.width = 200;
+	canv.height = 200;
+	canv.setAttribute('id', 'chart-line2');
+	document.body.appendChild(canv);
+	var C = document.getElementById(canv.getAttribute('id'));
+	if (C.getContext) 
+	{              
+    	if (C.getContext) 
+		{
+      var ctxmethod3 = document.getElementById("mymethodChart");
+      var myBarChart3 = new Chart(ctxmethod3, {
+        type: 'bar',
+        data: {
+          labels: (pxValues.trim()).split(','),
+          datasets: [{
+            label: "Revenue",
+            backgroundColor: "#6f42c1",
+            hoverBackgroundColor: "#2e59d9",
+            borderColor: "#4e73df",
+            data: (pyValues.trim()).split(','),
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          layout: {
+            padding: {
+              left: 10,
+              right: 25,
+              top: 25,
+              bottom: 0
+            }
+          },
+          scales: {
+            xAxes: [{
+              time: {
+                unit: 'Method'
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 6
+              },
+              maxBarThickness: 25,
+            }],
+            yAxes: [{
+              ticks: {
+                min: 0,
+                max: 500,
+                maxTicksLimit: 5,
+                padding: 10,
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                  return '₹' + number_format(value);
+                }
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            titleMarginBottom: 10,
+            titleFontColor: '#00008B',
+            titleFontSize: 14,
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            caretPadding: 10,
+            callbacks: {
+              label: function(tooltipItem, chart) {
+                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                return datasetLabel + ': ₹' + number_format(tooltipItem.yLabel);
+              }
+            }
+          },
+        }
+      });
+
+
+
+
+
+			/*var ctx = $("#chart-line2");
+			var myLineChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: (oxValues.trim()).split(','),
+					datasets: [{
+						data: (oyValues.trim()).split(','),
+						label: "Order Payment Data",
+						borderColor: "#"+Math.floor((Math.random() * 100) + 1)+"8af7",
+						backgroundColor:'#'+Math.floor((Math.random() * 100) + 1)+'458af7',
+						fill: false
+					}]
+				},
+				options: {
+					title: {
+						display: true,
+						text: 'Daily wise Monthly Order (in INR)'
+					}
+				}
+			});*/
+		}
+	}
+}
 </script>
 
 
@@ -871,6 +1023,91 @@ var myBarChart = new Chart(ctx2, {
         ticks: {
           min: 0,
           max: 15000,
+          maxTicksLimit: 5,
+          padding: 10,
+          // Include a dollar sign in the ticks
+          callback: function(value, index, values) {
+            return '₹' + number_format(value);
+          }
+        },
+        gridLines: {
+          color: "rgb(234, 236, 244)",
+          zeroLineColor: "rgb(234, 236, 244)",
+          drawBorder: false,
+          borderDash: [2],
+          zeroLineBorderDash: [2]
+        }
+      }],
+    },
+    legend: {
+      display: false
+    },
+    tooltips: {
+      titleMarginBottom: 10,
+      titleFontColor: '#00008B',
+      titleFontSize: 14,
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+      callbacks: {
+        label: function(tooltipItem, chart) {
+          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+          return datasetLabel + ': ₹' + number_format(tooltipItem.yLabel);
+        }
+      }
+    },
+  }
+});
+
+
+
+// Bar Chart Example
+var ctxmethod = document.getElementById("mymethodChart");
+var myBarChart2 = new Chart(ctxmethod, {
+  type: 'bar',
+  data: {
+    labels: {!! $paymentmethodxvalue !!},
+    datasets: [{
+      label: "Revenue",
+      backgroundColor: "#6f42c1",
+      hoverBackgroundColor: "#2e59d9",
+      borderColor: "#4e73df",
+      data: {{$paymentmethodyvalue}},
+    }],
+  },
+  options: {
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        left: 10,
+        right: 25,
+        top: 25,
+        bottom: 0
+      }
+    },
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'Method'
+        },
+        gridLines: {
+          display: false,
+          drawBorder: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        },
+        maxBarThickness: 25,
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 500,
           maxTicksLimit: 5,
           padding: 10,
           // Include a dollar sign in the ticks

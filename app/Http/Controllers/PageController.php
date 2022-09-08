@@ -38,7 +38,35 @@ class PageController extends Controller
         $refunds = DB::table('refunds')->get();
         $users = DB::table('users')->get();
 
+
+
+
+        /*****************payment value calculation for payment method graph***********************/
+        $payment_by_method_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
+            DB::raw("(SUM(amount)) as total_amount"),
+            DB::raw("payment_method as method")
+        )
+        ->whereYear('payment_created_at', date('Y'))
+        ->groupBy('method')
+        ->get();
         
+        $paymentmethodxvalue='[';
+        $paymentmethodyvalue='[';
+        foreach($payment_by_method_data as $methoddata)
+        {
+            $paymentmethodxvalue.="'".$methoddata->method."'".",";
+            $paymentmethodyvalue.=$methoddata->total_amount.',';
+        }
+        $paymentmethodxvalue=rtrim($paymentmethodxvalue,",");
+        $paymentmethodxvalue.=']';
+
+        $paymentmethodyvalue=rtrim($paymentmethodyvalue,",");
+        $paymentmethodyvalue.=']';
+        /*****************End of payment value calculation for payment method graph***********************/
+
+
+
+
 
         /*****************payment value calculation for payment line graph***********************/
         $payment_current_month_data = DB::table('payments')->where('merchant_id',$merchant_id)->whereMonth('payment_created_at', date('m'))
@@ -150,7 +178,7 @@ class PageController extends Controller
             $min_max_transacion='[0,0]';
         }
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action','min_max_transacion','settlements'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action','min_max_transacion','settlements','paymentmethodxvalue','paymentmethodyvalue'));
     }
 
 
@@ -222,6 +250,27 @@ class PageController extends Controller
         $orderyvalue1='';
 
         $merchant_id =  session()->get('merchant');
+
+
+        /*****************payment value calculation for payment method graph***********************/
+        $payment_by_method_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
+            DB::raw("(SUM(amount)) as total_amount"),
+            DB::raw("payment_method as method")
+        )
+        ->whereYear('payment_created_at', date('Y'))
+        ->groupBy('method')
+        ->get();
+        
+        $paymentmethodxvalue='';
+        $paymentmethodyvalue='';
+        foreach($payment_by_method_data as $methoddata)
+        {
+            $paymentmethodxvalue.=$methoddata->method.",";
+            $paymentmethodyvalue.=$methoddata->total_amount.',';
+        }
+        $paymentmethodxvalue=rtrim($paymentmethodxvalue,",");
+        $paymentmethodyvalue=rtrim($paymentmethodyvalue,",");
+        /*****************End of payment value calculation for payment method graph***********************/
 
 
         if($status_filter=='' || $status_filter=='all'){
@@ -298,7 +347,7 @@ class PageController extends Controller
         //end success percentage calculation
         
 
-        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'orderxvalue1'=>$orderxvalue1,'orderyvalue1'=>$orderyvalue1,'total_order'=>$total_order,'total_payment_amount'=>$total_payment_amount,'success_perc'=>$success_perc));
+        return response()->json(array('paymentxvalue1'=>$paymentxvalue1,'paymentyvalue1'=>$paymentyvalue1,'orderxvalue1'=>$orderxvalue1,'orderyvalue1'=>$orderyvalue1,'total_order'=>$total_order,'total_payment_amount'=>$total_payment_amount,'success_perc'=>$success_perc,'paymentmethodxvalue'=>$paymentmethodxvalue,'paymentmethodyvalue'=>$paymentmethodyvalue));
     }
 
 
