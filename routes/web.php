@@ -51,7 +51,7 @@ Route::post('sign-up-merchant-step-two',  [RegisterController::class, 'SignUpMer
 Route::get('partner-dashboard',  [PageController::class, 'partnerDashboard']);
 Route::get('affiliate-accounts',  [AffiliateController::class, 'affiliateAccounts']);
 
-
+Route::post('create-referral-link',  [AffiliateController::class, 'createReferralLink'])->name('create-referral-link');
 
 
 
