@@ -100,6 +100,16 @@ class RegisterController extends Controller
             $register_session_array['action'] = $request->action;
             $action = $request->action;
         }
+        else if(isset($request->action) && $request->action=='reference')
+        {
+            $ref_no = $request->ref_no;
+            $get_merchant_details = DB::table('merchants')->where('referral_link_text',$ref_no)->first();
+            $referred_by = $get_merchant_details->id;
+            $referral_id = $ref_no;
+            $register_session_array['referral_id'] = $referral_id;
+            $register_session_array['referred_by'] = $referred_by;
+            $action = 'referral';
+        }
         Session::put('register_session_array',$register_session_array);
         return view('auth.register2',compact('action'));
     }
@@ -119,6 +129,11 @@ class RegisterController extends Controller
         if(isset($input['action']) && $input['action']!='' && $input['action']=='become_a_partner')
         {
             $insertarray['is_partner'] = 'yes';
+        }
+        else if(isset($input['action']) && $input['action']!='' && $input['action']=='referral')
+        {
+            $insertarray['referral_id'] = $register_session_array['referral_id'];
+            $insertarray['referred_by'] = $register_session_array['referred_by'];
         }
         $insertarray['created_at'] = date('Y-m-d H:i:s');
 
@@ -187,7 +202,17 @@ class RegisterController extends Controller
 
     public function RegisterAsPartner(Request $request)
     {
-        $action = 'become_a_partner';
-        return view('auth.register',compact('action'));
+        if(isset($request->ref) && $request->ref!='')
+        {
+            $action = 'reference';
+            $ref_no = $request->ref;
+        }
+        else 
+        {
+            $action = 'become_a_partner';
+            $ref_no = '';
+        }
+        
+        return view('auth.register',compact('action','ref_no'));
     }
 }

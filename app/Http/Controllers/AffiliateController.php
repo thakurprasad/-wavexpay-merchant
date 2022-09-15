@@ -30,4 +30,26 @@ class AffiliateController extends Controller
         return response()->json(array('link_text'=>$link_text));
     }
 
+    public function sendInvite(Request $request)
+    {
+        $email = $request->email;
+        $affiliate_name = $request->affiliate_name;
+        $contact_number = $request->contact_number;
+
+
+        $merchant_id =  session()->get('merchant');
+        $merchant_details = DB::table('merchants')->where('id',$merchant_id)->first();
+        $link = $merchant_details->referral_link_text;
+
+        $to = $email;
+        $subject = "Wavexpay Invitation";
+        $txt = "Hi,".$affiliate_name." You are invited to join in wavexpay following <a href='".$link."'>This Link</a>";
+        $headers = "From: info@wavexpay.com" . "\r\n" .
+        "CC: subhassahaniflancer@gmail.com";
+
+        mail($to,$subject,$txt,$headers);
+
+        return response()->json(array('msg'=>'Invitation Mail Sent Succesfully'));
+    }
+
 }

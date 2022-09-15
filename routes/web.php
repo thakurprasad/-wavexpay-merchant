@@ -44,7 +44,7 @@ Route::post('sign-up-merchant-step-one',  [RegisterController::class, 'SignUpMer
 
 Route::post('sign-up-merchant-step-two',  [RegisterController::class, 'SignUpMerchantStepTwo'])->name('sign-up-merchant-step-two');
 
-
+Route::get('register-as-partner', [RegisterController::class, 'RegisterAsPartner'])->name('register-as-partner');
 
 
 
@@ -150,5 +150,7 @@ Route::group(['middleware' => ['token.check']], function() {
 
     Route::post('changedisplayname',  [UserController::class, 'changeDisplayName'])->name('changedisplayname');
     Route::post('changecontactnumber',  [UserController::class, 'changeContactNumber'])->name('changecontactnumber');
+
+    Route::post('send-invite',  [AffiliateController::class, 'sendInvite'])->name('send-invite');
 });
 

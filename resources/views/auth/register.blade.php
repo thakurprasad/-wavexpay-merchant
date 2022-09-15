@@ -56,6 +56,7 @@
                               <form method="post" id="step_one_form" action="{{ url('/sign-up-merchant-step-one') }}">
                                 @csrf
                                 <input type="hidden" value="<?php if(isset($action)) { echo $action; } ?>" name="action">
+                                <input type="hidden" value="<?php if(isset($ref_no)) { echo $ref_no; } ?>" name="ref_no">
                                 <div class="form-group">
                                   <label for="exampleInputbusiness1">Business Type</label>
                                   <select class="form-control" name="business_type" id="exampleInputBusiness1" required>

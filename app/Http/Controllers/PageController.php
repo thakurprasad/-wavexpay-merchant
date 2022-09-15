@@ -160,7 +160,15 @@ class PageController extends Controller
         //var barColors = ["red", "green","blue","orange","brown", "black", "beige", "yellow"];
         /*************************** End Bar Chart Data For Payment ********************************/
 
-        $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
+        if(count($payments)>0)
+        {
+            $success_perc = number_format(((count($payments)*100)/(count($payments)+count($orders)+count($disputes)+count($refunds))),2);
+        }
+        else 
+        {
+            $success_perc = 0;
+        }
+        
 
 
         $payment_min_max_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
@@ -430,6 +438,7 @@ class PageController extends Controller
         unset($input['aadhar_front']);
         unset($input['aadhar_back']);
         unset($input['_token']);
+        unset($input['action']);
 
         DB::table('merchant_users')->where('merchant_id',$input['merchant_id'])->update($input);
 
