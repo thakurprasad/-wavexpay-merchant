@@ -20,12 +20,12 @@
     <li class="nav-item active">
       <a class="nav-link" href="{{url('partner-dashboard')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span style="color:{{ in_array(Request::segment(2),array('','home')) ? '#FFFFFF;' : '' }}">Dashboard</span></a>
+        <span style="color:{{ in_array(Request::segment(1),array('','partner-dashboard')) ? '#FFFFFF;' : '' }}">Dashboard</span></a>
     </li>
-    <li class="nav-item {{ in_array(Request::segment(2),array('affiliate-accounts')) ? 'active;' : '' }}">
+    <li class="nav-item {{ in_array(Request::segment(1),array('affiliate-accounts')) ? 'active;' : '' }}">
       <a class="nav-link" href="{{url('affiliate-accounts')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span style="color:{{ in_array(Request::segment(2),array('affiliate-accounts')) ? '#FFFFFF;' : '' }}">Affiliate Accounts</span></a>
+        <span style="color:{{ in_array(Request::segment(1),array('affiliate-accounts')) ? '#FFFFFF;' : '' }}">Affiliate Accounts</span></a>
     </li>
     @else
     <li class="nav-item active">

@@ -75,16 +75,27 @@
             <table class="table table-bordered table-responsive-sm" id="myTable">
                 <thead>
                     <tr>
-                    <th scope="col">Payment Link Id</th>
-                    <th scope="col">Created Date</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Reference Id</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Payment Links</th>
+                    <th scope="col">Account Name</th>
+                    <th scope="col">Account Id</th>
+                    <th scope="col">Registered Email</th>
+                    <th scope="col">Activation Status</th>
+                    <th scope="col">Actions </th>
+                    <th scope="col">Added On</th>
                     </tr>
                 </thead>
-                <tbody id="table_container">
-                    
+                <tbody id="table_container">                    
+                    @if(!empty($referred_merchant))
+                    @foreach($referred_merchant as $merchant)
+                    <tr>
+                        <td scope="col">{{$merchant->merchant_name}}</td>
+                        <td scope="col">{{$merchant->merchant_id}}</td>
+                        <td scope="col">{{$merchant->email}}</td>
+                        <td scope="col"><span class="badge badge-warning">Activation Required</span></td>
+                        <td scope="col"><button type="button" class="btn btn-sm btn-info">Resened Kyc Request</button></td>
+                        <td scope="col">{{date('j F,Y',strtotime($merchant->created_at))}}</td>
+                    </tr>
+                    @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -136,17 +147,17 @@
                     </div>
                     </div>
 
-                    <div id="London" style="height: 280px;" class="tabcontent active">
+                    <div id="London" style="height: 300px;" class="tabcontent active">
                         <div class="row">
                             <div class="col-md-12">
                                 <label>Account Name</label>
                                 <input type="text" class="form-control" name="affiliate_name" placeholder="Affiliate name" id="affiliate_name" />
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12" style="margin-top: 15px;">
                                 <label>Email Address</label>
                                 <input type="email" class="form-control" name="email" id="email" placeholder="Email Id" />
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12" style="margin-top: 15px;">
                                 <label>Contact Number</label>
                                 <input type="text" class="form-control" name="contact_number" id="contact_number" placeholder="Contact Number" />
                             </div>
