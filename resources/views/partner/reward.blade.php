@@ -55,7 +55,7 @@
                         <th scope="col">Account Name</th>
                         <th scope="col">Total Earning</th>
                         <th scope="col">Transaction Amount</th>
-                        <th scope="col">No Of Active Account</th>
+                        <!--<th scope="col">No Of Active Account</th>-->
                         <th scope="col">No Of Transactions</th>
                     </tr>
                 </thead>
@@ -64,15 +64,38 @@
                     @foreach($all_merchants as $merchant)
 
                     @php 
-                    
+                    $ids = Helper::getIdArray($merchant->referral_link_text);
+                    $id_array = [];
+                    $count = 0;
+                    if(count($ids)>0)
+                    {
+                        foreach($ids as $key=>$val)
+                        {
+                            $id_array[$count] = $key;
+                            $count++;
+                        }
+                    }
+                    $total_earning = $count*$merchant->reward_value;
+
+                    $get_payment_data = Helper::get_payment_details_by_merchant($merchant->id);
+
+                    if($get_payment_data[0]->transactionamount!='')
+                    {
+                        $transactionamount = $get_payment_data[0]->transactionamount;
+                    }
+                    else 
+                    {
+                        $transactionamount = 0.00;
+                    }
+
                     @endphp
 
                     <tr>
                         <td scope="col">{{$merchant->merchant_name}}</td>
-                        <td scope="col">&nbsp;</td>
-                        <td scope="col">&nbsp;</td>
-                        <td scope="col">&nbsp;</td>
-                        <td scope="col">&nbsp;</td>
+                        <td scope="col">₹{{$total_earning}}</td>
+                        <td scope="col">₹{{$transactionamount}}</td>
+                        <!--<td scope="col">&nbsp;</td>-->
+                        <td scope="col">{{$get_payment_data[0]->total_count}}</td>
                     </tr>
                     @endforeach
                     @endif

@@ -239,6 +239,15 @@ class Helper
         return $item_details;
     }
 
+    public static function get_payment_details_by_merchant($merchant_id){
+        $data = DB::table("payments")
+	    ->select(DB::raw("SUM(amount) as transactionamount"),DB::raw("COUNT(amount) as total_count"))
+	    ->where('merchant_id',$merchant_id)
+	    ->get();
+
+        return $data;
+    }
+
 
     public static function getIdArray($link){
 		$child_details = DB::table('merchants')->where('referral_id', $link)->get();  
