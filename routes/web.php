@@ -152,5 +152,7 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('changecontactnumber',  [UserController::class, 'changeContactNumber'])->name('changecontactnumber');
 
     Route::post('send-invite',  [AffiliateController::class, 'sendInvite'])->name('send-invite');
+
+    Route::get('rewards',  [AffiliateController::class, 'rewards'] );
 });
 

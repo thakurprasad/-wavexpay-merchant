@@ -239,4 +239,21 @@ class Helper
         return $item_details;
     }
 
+
+    public static function getIdArray($link){
+		$child_details = DB::table('merchants')->where('referral_id', $link)->get();  
+		$children = array();
+	
+		if(count($child_details)>0) {
+			# It has children, let's get them.
+			$i=0;
+			foreach($child_details as $details) {
+				# Add the child to the list of children, and get its subchildren
+				$children[$details->id] = Helper::getIdArray($details->id);
+				$i++;
+			}
+		}
+		return $children;
+	}
+
 }

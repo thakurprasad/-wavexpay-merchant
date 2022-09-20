@@ -7,6 +7,7 @@ use Razorpay\Api\Api;
 use DateTime;
 use Illuminate\Support\Facades\Crypt;
 use DB;
+use Helper;
 
 class AffiliateController extends Controller
 {
@@ -112,5 +113,30 @@ class AffiliateController extends Controller
 
         return response()->json(array('msg'=>'Invitation Mail Sent Succesfully'));
     }
+
+
+    public function rewards()
+    {
+        $merchant_id =  session()->get('merchant');
+        $merchant_details = DB::table('merchants')->where('id',$merchant_id)->first();
+        $link = $merchant_details->referral_link_text;
+        $ids = Helper::getIdArray($link);
+        $id_array = [];
+        $count = 0;
+        if(count($ids)>0)
+        {
+            foreach($ids as $key=>$val)
+            {
+                $id_array[$count] = $key;
+                $count++;
+            }
+        }
+
+        $all_merchants = DB::table('merchants')->wherein('id',$id_array)->get();
+
+        //print_r($all_merchants);exit;
+        return view('partner.reward',compact('all_merchants','merchant_details'));
+    }
+
 
 }

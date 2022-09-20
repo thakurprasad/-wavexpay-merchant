@@ -30,9 +30,9 @@
     @endif
     <div class="card">
         <div class="card-body">
-            <a href="#" data-toggle="modal" data-target="#modal1" onclick="create_referral_link()">Share Referral Link</a>
+            <a href="#" data-toggle="modal" data-target="#modal1" onclick="create_referral_link()"><strong>Share Referral Link</strong></a>
             &nbsp;&nbsp;
-            <a class="btn btn-sm btn-primary" style="color: white; cursor: pointer;" data-toggle="modal" data-target="#modal2">+Create Affiliate Accounts</a>
+            <a class="btn btn-sm btn-primary" style="color: white; cursor: pointer;" data-toggle="modal" data-target="#modal2"><strong>+Create Affiliate Accounts</strong></a>
         </div>
         <form class="col s12" method="POST" id="search-form" action="<?php url('/') ?>/searchinvoice">
             @csrf
@@ -63,6 +63,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="first_name">&nbsp;</label><br>
+                            <button class="btn btn-sm btn-success" type="button" name="action" onclick="search()">Search</button>
                             <button class="btn btn-sm btn-primary" type="button" name="action" onclick="reset_page()">Reset</button>
                         </div>
                     </div>

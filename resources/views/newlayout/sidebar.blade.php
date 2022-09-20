@@ -27,6 +27,11 @@
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span style="color:{{ in_array(Request::segment(1),array('affiliate-accounts')) ? '#FFFFFF;' : '' }}">Affiliate Accounts</span></a>
     </li>
+    <li class="nav-item {{ in_array(Request::segment(1),array('affiliate-accounts')) ? 'active;' : '' }}">
+      <a class="nav-link" href="{{url('rewards')}}">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span style="color:{{ in_array(Request::segment(1),array('rewards')) ? '#FFFFFF;' : '' }}">Rewards</span></a>
+    </li>
     @else
     <li class="nav-item active">
       <a class="nav-link" href="{{route('home')}}">
