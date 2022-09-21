@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use DB;
+use Illuminate\Support\Facades\Crypt;
 
 class PaymentLinkController extends Controller
 {
@@ -133,7 +134,10 @@ class PaymentLinkController extends Controller
             $db_customer_contact = $response->customer->contact;
         }
 
-        DB::table('payment_link')->insert(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>'true','description' => $response->description, 'customer_email' => $db_customer_email, 'customer_contact' => $db_customer_contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
+        $merchant_id = session()->get('merchant');
+        $link_text = substr(Crypt::encryptString($merchant_id.'/'.date('Y-m-d H:i:s').rand(10000,99999)),5,10);
+
+        DB::table('payment_link')->insert(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>'true','description' => $response->description, 'customer_email' => $db_customer_email, 'customer_contact' => $db_customer_contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'link_text'=>$link_text, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
 
         return response()->json(array("success" => 1));  
         
@@ -344,5 +348,13 @@ class PaymentLinkController extends Controller
 
     public function openStandardPaymentLink(){
         return view('pages.paymentlinks.standardPaymentlink');
+    }
+
+
+    public function openPaymentLinkPage(Request $request)
+    {
+        $link_text = request()->segment(count(request()->segments()));
+        $get_link_by_text = DB::table('payment_link')->where('link_text',$link_text)->first();
+        
     }
 }

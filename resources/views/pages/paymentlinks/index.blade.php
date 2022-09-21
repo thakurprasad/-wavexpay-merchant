@@ -117,7 +117,8 @@
                         <td>{{number_format($link->amount,2)}}</td>
                         <td>{{$link->reference_id}}</td>
                         <td>{{$contact}}({{$email}})</td>
-                        <td>{{$link->short_url}}</td>
+                        <!--<td>{{$link->short_url}}</td>-->
+                        <td>{{url('/').'/i/pl/'.$link->link_text}}</td>
                     </tr>
                     @endforeach
                     @endif

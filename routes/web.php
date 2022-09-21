@@ -122,6 +122,7 @@ Route::group(['middleware' => ['token.check']], function() {
 
     Route::get('create-payment-links',  [PaymentLinkController::class, 'openPaymentLink'] );
     Route::get('create-standard-payment-links',  [PaymentLinkController::class, 'openStandardPaymentLink'] );
+    Route::get('/i/pl/{link}', [PaymentLinkController::class, 'openPaymentLinkPage']);
 
 
     Route::get('general-settings',  [GeneralSettingController::class, 'index'] )->name('general-settings');
