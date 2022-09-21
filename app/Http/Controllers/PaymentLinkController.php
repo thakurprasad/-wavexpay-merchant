@@ -354,7 +354,14 @@ class PaymentLinkController extends Controller
     public function openPaymentLinkPage(Request $request)
     {
         $link_text = request()->segment(count(request()->segments()));
-        $get_link_by_text = DB::table('payment_link')->where('link_text',$link_text)->first();
-        
+        $get_payment_link_details_by_text = DB::table('payment_link')->where('link_text',$link_text)->first();
+
+        $merchant_id =  session()->get('merchant');
+        $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
+        $display_name = $merchant_users_details->display_name;
+
+
+        //return view('pages.paymentlinks.checkout',compact('get_payment_link_details_by_text','display_name'));
+        return view('pages.paymentlinks.checkoutall',compact('get_payment_link_details_by_text','display_name'));
     }
 }

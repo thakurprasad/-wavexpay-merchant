@@ -1,0 +1,248 @@
+.blue-box-checkout {
+    background: #2e4cea;
+    color: #ffffff;
+    padding: 15px 20px 10px;
+    margin: 10px 0px 5px;
+}
+
+.darkwv {
+    height: 25px;
+    background: #140bb4;
+}
+.blue-box-checkout-page{
+   background: #2e4cea; 
+  
+}
+.border-left-wv{
+ border-left: 1px solid #ccc;   
+}
+.border-right-wv{
+ border-right: 1px solid #ccc;   
+}
+
+.logo img {
+    background: #ffffff;
+    padding: 7px;
+    margin: 25px 20px 10px;
+    border-radius: 4px;
+    width: 100px;
+    position: relative;
+    z-index: 1;
+}
+.wv-frm span.input-group-text {
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #ffffff;
+    border-radius: 0;
+    padding: 0px;
+}
+input.phone-ch.form-control {
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #ffffff;
+    border-radius: 0;
+    padding: 0px;
+}
+.space-form {
+    padding-top: 30px;
+}
+select#exampleFormControlSelect1{
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #ffffff;
+    border-radius: 0;
+    padding: 0px;
+}
+.wv2-lb label {
+    font-size: 14px;
+    margin: 9px 0px 0px;
+}
+.wv3-txt p{
+    text-align: center;
+       
+} 
+
+.wv3-btn {
+    background: #2e4cea;
+    color: #ffffff;
+    text-align: center;
+
+    overflow: hidden;
+    box-shadow: 0px 0px 7px 1px #ccc;
+   
+}
+.wv3-txt {
+    position: fixed;
+    bottom: 2px;
+    overflow: hidden;
+    width: 380px;
+    padding: 0px;
+     
+   
+}
+
+.wv3-btn p {
+    padding: 15px 10px 2px;
+
+}
+.wv3-btn a {
+    color: #ffffff;
+    text-transform: uppercase;
+  text-decoration: none;
+}
+.wv4-height{
+    height: 50vh;
+   
+}
+.wv-border {
+    
+     border-bottom: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    
+}
+.allwv{
+   
+    margin-bottom: 65px;
+}
+.borderwv{
+     border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+.boxwv {
+    border: 1px solid #ccc;
+    padding: 12px 20px 0px;
+    margin-top: 20px;
+}
+.boxwv span.email {
+    font-size: 14px;
+}
+.boxwv p {
+    font-size: 14px;
+}
+span.seperater {
+    padding: 0px 2px 0px 5px;
+}
+.boxwv .fa-pencil-square-o {
+    font-size: 22px;
+    position: relative;
+    color: #1818ef;
+    top: 3px;
+}
+.space-wv2 {
+    padding-top: 25px;
+}
+.space-wv2 span.wv-check2 {
+   font-size: 14px;
+}
+.space-wv2 span.wv-check2 {
+    font-size: 13px;
+    color: #656565;
+}
+.wv2-text p {
+    font-size: 17px;
+    margin-bottom: 0px;
+    font-weight: 500;
+    line-height: 20px;
+}
+.boxwv-2 {
+    
+     border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 12px;
+    margin-top: 10px;
+}
+.boxwv-2inner {
+    display: flex;
+}
+.img-wv2 {
+    width: 12%;
+}
+.wv2-text{
+    width: 88%; 
+}
+.wv2-text span {
+    font-size: 13px;
+    color: #656565;
+}
+.img-wv2 img {
+    width: 27px;
+}
+.boxwv-3 {
+    display: flex;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 12px;
+
+}
+.boxwv-4 {
+    display: flex;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 12px;
+
+}
+.upiwv-inner1 img {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.upiwv {
+    display: flex;
+    margin: 20px 5px 0px;
+    text-align: center;
+}
+.upiwv-inner1 span {
+    font-size: 12px;
+    display: block;
+     color: #656565;
+}
+.upiwv-inner1 {
+    padding: 4px 16px;
+}
+
+.borderwv-checkout {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 50px;
+}
+
+@media (max-width: 767px) {
+ 
+ .wv3-txt {
+    position: fixed;
+    bottom: 2px;
+    overflow: hidden;
+    width: 100%;
+    padding: 0px;
+}
+
+.wv4-height {
+    height: 40vh;
+}
+.col-md-8.mob-text {
+    width: 70%;
+}
+.col-md-4.mob-logo {
+    width: 30%;
+
+}
+.mob-logo-num{
+     width: 30%;
+    }
+
+.mob-text-text{
+    width: 70%; 
+}
+}
+
