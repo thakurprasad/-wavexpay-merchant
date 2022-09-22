@@ -155,5 +155,7 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('send-invite',  [AffiliateController::class, 'sendInvite'])->name('send-invite');
 
     Route::get('rewards',  [AffiliateController::class, 'rewards'] );
+
+    Route::get('paylink-checkout',  [PaymentLinkController::class, 'paylinkCheckout'] );
 });
 

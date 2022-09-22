@@ -361,7 +361,22 @@ class PaymentLinkController extends Controller
         $display_name = $merchant_users_details->display_name;
 
 
-        //return view('pages.paymentlinks.checkout',compact('get_payment_link_details_by_text','display_name'));
-        return view('pages.paymentlinks.checkoutall',compact('get_payment_link_details_by_text','display_name'));
+        return view('pages.paymentlinks.checkout',compact('get_payment_link_details_by_text','display_name','link_text'));
+        //return view('pages.paymentlinks.checkoutall',compact('get_payment_link_details_by_text','display_name'));
+    }
+
+    public function paylinkCheckout(Request $request)
+    {
+        $phone = $request->phone;
+        $email = $request->email;
+
+        $link_text = $request->link_text;
+        $get_payment_link_details_by_text = DB::table('payment_link')->where('link_text',$link_text)->first();
+
+        $merchant_id =  session()->get('merchant');
+        $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
+        $display_name = $merchant_users_details->display_name;
+
+        return view('pages.paymentlinks.checkoutall',compact('phone','email','display_name','get_payment_link_details_by_text'));
     }
 }

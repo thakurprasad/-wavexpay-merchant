@@ -32,7 +32,7 @@
                   </div>
                   <div class="col-md-12 darkwv"></div>
                   <div class="col-md-12">
-                    <div class="boxwv"> <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i> +919450317617 <span class="seperater">|</span> <span class="email">neeraj@gmail.com</span></p></div>
+                    <div class="boxwv"> <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i> +91{{$phone}} <span class="seperater">|</span> <span class="email">{{$email}}</span></p></div>
                   </div>
                   <div class="col-md-12 space-wv2">
                     <span class="wv-check2"> CARDS,UPI & MORE</span>
