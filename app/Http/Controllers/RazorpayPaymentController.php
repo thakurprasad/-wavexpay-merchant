@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use App\Models\CheckoutPaymentsRazorpay;
 use Illuminate\Support\Facades\Crypt;
+use DB;
 
 class RazorpayPaymentController extends Controller
 {
@@ -19,10 +20,11 @@ class RazorpayPaymentController extends Controller
 	}
 
     public function storePayment(Request $request){
-        print_r($request->all());exit;
 		$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         //Fetch payment information by razorpay_payment_id
-        $payment = $api->payment->fetch($request->input('razorpay_payment_id'));
+        $payment = $api->payment->fetch($request->input('razorpay_payment_id'));        
+        //print_r($payment);exit;
+
         if (!empty($payment) && $payment['status'] == 'captured') {
             $paymentId = $payment['id'];
             $amount = $payment['amount'];
@@ -34,6 +36,8 @@ class RazorpayPaymentController extends Controller
             $method = $payment['method'];
             $bank = $payment['bank'];
             $wallet = $payment['wallet'];
+            $email = $payment['email'];
+            $contact = $payment['contact'];
             $bankTranstionId = isset($payment['acquirer_data']['bank_transaction_id']) ? $payment['acquirer_data']['bank_transaction_id'] : '';
         } else {
             return redirect()->back()->with('error', 'Something went wrong, Please try again later!');
@@ -52,11 +56,26 @@ class RazorpayPaymentController extends Controller
             $payment->wallet = $wallet;
             $payment->bank_transaction_id = $bankTranstionId;
             $saved = $payment->save();
+
+            $payment_table_array = array(
+                'merchant_id' => session()->get('merchant'),
+                'payment_id' => $paymentId,
+                'amount' => $amount/100,
+                'email' => $email,
+                'contact' => $contact,
+                'payment_created_at' => date('Y-m-d H:i:s'),
+                'status' => $status,
+                'payment_method' => $method,
+                'created_at' => date('Y-m-d H:i:s')
+            );
+
+            DB::table('payments')->insert($payment_table_array);
+
         } catch (Exception $e) {
             $saved = false;
         }
         if ($saved) {
-            return redirect()->back()->with('success', __('Payment Detail store successfully!'));
+            return redirect('/transactions/payments')->with('success', __('Payment Detail store successfully!'));
         } else {
             return back()->withInput()->with('error', __('Something went wrong, Please try again later!'));
         }
