@@ -28,7 +28,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $.ajax({
+        /*$.ajax({
             type: "post",
             url: "orderid-generate",
             data: $("#addPaymentForm").serialize(),
@@ -39,8 +39,8 @@
                 }
 
                 var options = {
-                    "key": "rzp_test_YRAqXZOYgy9uyf", // Enter the Key ID generated from the Dashboard
-                    "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "key": "rzp_test_YRAqXZOYgy9uyf",
+                    "amount": amount,
                     "currency": "INR",
                     "name": "{{ config('app.account_name') }}",
                     "description": "Test",
@@ -71,7 +71,21 @@
                 $("#form-div").hide();
                 rzp1.open();
             },
-         });
+         });*/
+         $.ajax({
+             type:'POST',
+             url:'/cashfreeorder',
+             data:{
+               '_token = ',
+               price:amount,
+               amount:amount,
+               currency:'INR'
+             }
+             success:function(data) {
+                $(".payment").appent(data);
+                ('.redirectForm').submit();
+             }
+          });
       }
          
       </script>
