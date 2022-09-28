@@ -338,30 +338,7 @@ body {font-family: Arial;}
 
         <div id="Paris" class="tabcontent">
           <table class="table table-responsive">
-            <tbody>
-              @if(!empty($settlements->items))
-              @foreach($settlements->items as $settlement)
-              <?php
-              $date1=date_create("now");
-              $date2=date_create($settlement['created_at']);
-              $diff=date_diff($date1,$date2);
-              ?>
-              <tr>
-                <td>₹{{number_format($settlement['fees']/100,2)}}</td>
-                <td>{{$settlement['id']}}</td>
-                <td>{{ltrim($diff->format("%R%a days"),"-")}} ago</td>
-                <td><span class="badge badge-info">{{$settlement['status']}}</span></td>
-              </tr>
-              @endforeach
-              @else 
-              <tr>
-                <td>&nbsp;</td>
-                <td>No Data Found</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-              @endif
-            </tbody>
+            
           </table>
         </div>
 
