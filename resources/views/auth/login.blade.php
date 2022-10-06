@@ -10,6 +10,11 @@
         </div>
       <p class="login-box-msg">{{ __('Login') }} to start your session</p>
 
+      
+      @if($errors->any())
+        <p class="login-box-msg" style="color:red;">{{$errors->first()}}</p>
+      @endif
+
       <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="input-group mb-3">
