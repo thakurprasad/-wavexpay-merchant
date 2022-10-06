@@ -28,7 +28,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        /*$.ajax({
+        $.ajax({
             type: "post",
             url: "orderid-generate",
             data: $("#addPaymentForm").serialize(),
@@ -71,8 +71,8 @@
                 $("#form-div").hide();
                 rzp1.open();
             },
-         });*/
-         $.ajax({
+         });
+         /*$.ajax({
              type:'POST',
              url:'/cashfreeorder',
              data:{
@@ -85,7 +85,7 @@
                 $(".payment").appent(data);
                 ('.redirectForm').submit();
              }
-          });
+          });*/
       }
          
       </script>
