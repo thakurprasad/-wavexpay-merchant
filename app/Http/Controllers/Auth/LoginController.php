@@ -79,7 +79,7 @@ class LoginController extends Controller
             // 200
             $header = $response->getHeader('content-type');
             // 'application/json; charset=utf8'
-            $res  =  json_decode($response->getBody(),true);
+           return $res  =  json_decode($response->getBody(),true);
 
             //print_r($res);exit;
 
@@ -105,7 +105,7 @@ class LoginController extends Controller
                 echo "okk";exit;
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { 
             return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
         }
 
