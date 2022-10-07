@@ -60,7 +60,16 @@ class LoginController extends Controller
 
         $remember_me = $request->has('remember') ? true : false;
         $merchant_users = DB::table('merchant_users')->where('email',$request->input('email'))->first();
-        $merchants = DB::table('merchants')->where('id',$merchant_users->merchant_id)->first();
+
+        if(isset($merchant_users->merchant_id) && $merchant_users->merchant_id!='')
+        {
+            $merchants = DB::table('merchants')->where('id',$merchant_users->merchant_id)->first();
+        }
+        else 
+        {
+            return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
+        }
+        
         $merchant_salt = $merchants->access_salt;
         try {
             $client = new Client(['base_uri' => env('API_BASE_URL')]);
@@ -102,7 +111,6 @@ class LoginController extends Controller
                     return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
                 }
             }else{
-                echo "okk";exit;
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
         } catch (\Exception $e) { 
