@@ -187,7 +187,8 @@ class RegisterController extends Controller
                 {
                     return redirect('/partner-dashboard');
                 }
-                return redirect('/complete-sign-up');
+                //return redirect('/complete-sign-up');
+                return redirect('/');
             }else{
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
