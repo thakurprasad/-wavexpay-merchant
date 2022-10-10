@@ -381,6 +381,14 @@ body {font-family: Arial;}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="{{ asset('newdesign/vendor/chart.js/Chart.min.js') }}"></script>
+<!-- Page level custom scripts -->
+<script src="{{ asset('newdesign/js/demo/chart-area-demo.js') }}"></script>
+<script src="{{ asset('newdesign/js/demo/chart-pie-demo.js') }}"></script>
+
+
 <script type="text/javascript">
 $(function() {
     $(".firstclass").addClass('active');
