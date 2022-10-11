@@ -113,8 +113,10 @@ class LoginController extends Controller
             }else{
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
-        } catch (\Exception $e) { 
-            return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password | '. $e->getMessage()]);
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+            return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
         }
 
     }

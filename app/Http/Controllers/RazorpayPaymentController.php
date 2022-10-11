@@ -16,7 +16,8 @@ class RazorpayPaymentController extends Controller
 		
 		$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $order = $api->order->create(array('receipt' => 'order_rcptid'.$link_text, 'amount' => $request->input('price') * 100, 'currency' => 'INR')); // Creates order
-        return response()->json(['order_id' => $order['id']]);
+        //return response()->json(['order_id' => $order['id']]);
+        return $this->sendResponse(['order_id' => $order['id']], 'Data retrieved successfully.');
 	}
 
     public function storePayment(Request $request){
@@ -57,6 +58,16 @@ class RazorpayPaymentController extends Controller
             $payment->bank_transaction_id = $bankTranstionId;
             $saved = $payment->save();
 
+
+            /*$to = "".$session_array['txtEmail'].", admin@gauvansh.com";
+            $subject = "Wavexpay Payment";
+            $message="<h1>Thank You!!</h1>";
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= 'From: <info@gauvansh.com>' . "\r\n";
+            mail($to,$subject,$message,$headers);*/
+
+
             $payment_table_array = array(
                 'merchant_id' => session()->get('merchant'),
                 'payment_id' => $paymentId,
@@ -72,6 +83,7 @@ class RazorpayPaymentController extends Controller
             DB::table('payments')->insert($payment_table_array);
 
         } catch (Exception $e) {
+            return $e->getMessage();
             $saved = false;
         }
         if ($saved) {

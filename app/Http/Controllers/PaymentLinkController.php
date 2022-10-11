@@ -20,7 +20,8 @@ class PaymentLinkController extends Controller
         //$all_links = $api->paymentLink->all();
         //@if(!empty($all_links->payment_links))
         //@foreach($all_links->payment_links as $link)
-        $all_links = DB::table('payment_link')->get();
+        $merchant_id =  session()->get('merchant');
+        $all_links = DB::table('payment_link')->where('merchant_id',$merchant_id)->get();
 
         return view('pages.paymentlinks.index', compact('pageConfigs','breadcrumbs','all_links'));
     }
