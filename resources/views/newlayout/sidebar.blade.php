@@ -53,11 +53,11 @@
     </a>
     <div id="collapseOne" class="collapse {{ in_array(Request::segment(2),array('payments','refunds','batch-refunds','orders','disputes')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(2) === 'payments' ? 'active' : null }}" href="{{ route('transactions/payments') }}"><strong>Payments</strong></a>
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(2) === 'refunds' ? 'active' : null }}" href="{{ route('transactions/refunds') }}"><strong>Refunds</strong></a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(2) === 'payments' ? 'active' : null }}" href="{{ route('transactions/payments') }}">Payments</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(2) === 'refunds' ? 'active' : null }}" href="{{ route('transactions/refunds') }}">Refunds</a>
         <!--<a style="color:#00008B;" class="collapse-item {{ Request::segment(2) === 'batch-refunds' ? 'active' : null }}" href="javascript:void(0)"><strong>Batch Refunds</strong></a>-->
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(2) === 'orders' ? 'active' : null }}" href="{{ route('transactions/orders') }}"><strong>Orders</strong></a>
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(2) === 'disputes' ? 'active' : null }}" href="{{ route('transactions/disputes') }}"><strong>Disputes</strong></a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(2) === 'orders' ? 'active' : null }}" href="{{ route('transactions/orders') }}">Orders</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(2) === 'disputes' ? 'active' : null }}" href="{{ route('transactions/disputes') }}">Disputes</a>
         </div>
     </div>
     </li>
@@ -91,8 +91,8 @@
     </a>
     <div id="collapseThree" class="collapse {{ in_array(Request::segment(1),array('payment-links','payment-pages')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'payment-links' ? 'active' : null }}" href="{{ route('payment-links') }}"><strong>Payment Links</strong></a>
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'payment-pages' ? 'active' : null }}" href="{{ route('payment-pages') }}"><strong>Payment Pages</strong></a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'payment-links' ? 'active' : null }}" href="{{ route('payment-links') }}">Payment Links</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'payment-pages' ? 'active' : null }}" href="{{ route('payment-pages') }}">Payment Pages</a>
         </div>
     </div>
     </li>
@@ -113,7 +113,7 @@
     </a>
     <div id="collapseFour" class="collapse {{ in_array(Request::segment(1),array('invoices','items')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'invoices' ? 'active' : null }}" href="{{ route('invoices') }}"><strong>Invoices</strong></a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'invoices' ? 'active' : null }}" href="{{ route('invoices') }}">Invoices</a>
         <!--<a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'items' ? 'active' : null }}" href="{{ route('items') }}"><strong>Items</strong></a>-->
         </div>
     </div>
@@ -157,10 +157,10 @@
     </a>
     <div id="collapseFive" class="collapse {{ in_array(Request::segment(1),array('reports')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportA' ? 'active' : null }}" href="#"><strong>Transaction Report</strong></a>
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportB' ? 'active' : null }}" href="#"><strong>Settlement Report</strong></a>
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportC' ? 'active' : null }}" href="#"><strong>Refund Report</strong></a>
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportD' ? 'active' : null }}" href="#"><strong>Chargeback & <br>Dispute Report</strong></a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportA' ? 'active' : null }}" href="#">Transaction Report</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportB' ? 'active' : null }}" href="#">Settlement Report</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportC' ? 'active' : null }}" href="#">Refund Report</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportD' ? 'active' : null }}" href="#">Chargeback & <br>Dispute Report</a>
         </div>
     </div>
     </li>

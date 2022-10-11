@@ -46,16 +46,7 @@
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value="" disabled selected>Choose your option</option>
-                            <option value="authorized">Authorized</option>
-                            <option value="captured">Captured</option>
-                            <option value="refunded">Refunded</option>
-                            <option value="failed">Failed</option>
-                            </select>
-                    </div>
+                    <x-dropdown />
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">

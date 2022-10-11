@@ -34,10 +34,9 @@
             data: $("#addPaymentForm").serialize(),
             success: function (data) {
                 var order_id = '';
-                if (data.order_id) {
-                    order_id = data.order_id;
+                if (data.data.order_id) {
+                    order_id = data.data.order_id;
                 }
-
                 var options = {
                     "key": "rzp_test_YRAqXZOYgy9uyf",
                     "amount": amount,
