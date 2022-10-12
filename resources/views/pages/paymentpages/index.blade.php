@@ -93,6 +93,7 @@
                 <thead>
                     <tr>
                     <th scope="col">Title</th>
+                    <th scope="col">Amount</th>
                     <th scope="col">Total Sales</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Units Sold</th>
@@ -107,6 +108,7 @@
                     @foreach($res as $page)
                     <tr>
                         <td><a style="cursor:pointer;" data-toggle="modal" data-target="#modal1" onclick="show_payment_page('{{ $page->id }}')">{{$page->page_title}}</a></th>
+                        <td>{{ $page->amount }}</td>
                         <td>0</td>
                         <td>{!! $page->page_content !!}</td>
                         <td>0</td>

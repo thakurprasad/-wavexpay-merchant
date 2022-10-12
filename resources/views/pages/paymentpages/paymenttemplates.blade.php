@@ -26,7 +26,7 @@
                      <div class="col-md-12 payment-short">
                         <h2>Pick a Payment Template</h2>
                         <div class="modal-header">
-                           <span class="close congrts-close">&times;</span>
+                           <a href="{{ route('payment-pages') }}"><span class="close congrts-close">&times;</span></a>
                         </div>
                         <!--<div class="col-md-4">
                         </div>

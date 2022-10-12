@@ -30,25 +30,31 @@ class OrderController extends Controller
         $notes = $request->notes;
         $html = '';
         
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        //$all_orders = $api->order->all();
+        /*$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        //$all_orders = $api->order->all();*/
         $merchant_id =  session()->get('merchant');
-        $all_orders = DB::table('orders')->where('merchant_id',$merchant_id)->get();
+        $query = DB::table('orders')->where('merchant_id',$merchant_id);
+        if($order_id!=''){
+            $query->where('order_id',$order_id);
+        }if($reciept!=''){
+            $query->where('receipt',$reciept);
+        }if($status!=''){
+            $query->where('status',$status);
+        }
+        $all_orders = $query->get();
 
         if(!empty($all_orders)){
             foreach($all_orders as $order){
-                if(($order_id==$order->id && $order->id!='') || ($reciept==$order->receipt && $order->receipt!='') ||  ($status==$order->status && $order->status!='')){
-                    $html.='<tr>
-                        <th scope="row">'.$order->id.'</th>
-                        <td>'.number_format($order->amount,2).'</td>
-                        <td>'.$order->attempts.'</td>
-                        <td>'.$order->receipt.'</td>
-                        <td>'.$order->created_at.'</td>
-                        <td>
-                            <a class="waves-effect waves-light btn-small">'.$order->status.'</a>
-                        </td>
-                    </tr>';
-                }
+                $html.='<tr>
+                    <th scope="row">'.$order->order_id.'</th>
+                    <td>'.number_format($order->amount,2).'</td>
+                    <td>'.$order->attempts.'</td>
+                    <td>'.$order->receipt.'</td>
+                    <td>'.$order->created_at.'</td>
+                    <td>
+                        <a class="waves-effect waves-light btn-small">'.$order->status.'</a>
+                    </td>
+                </tr>';
             }
         }
         return response()->json(array('html'=>$html));

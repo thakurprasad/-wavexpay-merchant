@@ -83,21 +83,21 @@
                     <th scope="col">Attempts</th>
                     <th scope="col">Receipt</th>
                     <th scope="col">Created At</th>
-                    <!--<th scope="col">Status</th>-->
+                    <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody id="table_container">
                     @if(!empty($all_orders))
                     @foreach($all_orders as $order)
                     <tr>
-                        <td>{{$order->id}}</td>
+                        <td>{{$order->order_id}}</td>
                         <td>{{number_format($order->amount,2)}}</td>
                         <td>{{$order->attempts}}</td>
                         <td>{{$order->receipt}}</td>
                         <td>{{$order->created_at}}</td>
-                        <!--<td>
+                        <td>
                             <a class="waves-effect waves-light btn-small">{{$order->status}}</a>
-                        </td>-->
+                        </td>
                     </tr>
                     @endforeach
                     @endif

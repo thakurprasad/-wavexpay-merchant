@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Razorpay\Api\Api;
+use App\Models\Merchant;
+use App\Models\MerchantUser;
 use DB;
 
 class PageController extends Controller
@@ -233,16 +235,14 @@ class PageController extends Controller
         $breadcrumbs = [
             ['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Pages"], ['name' => "User Profile"],
         ];
-        //Pageheader set true for breadcrumbs
         $merchant_id =  session()->get('merchant');
-        $merchant_details = DB::table('merchants')->where('id',$merchant_id)->first();
-        $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
+        
+        $merchant_details = Merchant::select('merchants.*','merchant_users.*')->join('merchant_users', 'merchant_users.merchant_id', '=', 'merchants.id')->where('merchants.id',$merchant_id)->get();
 
-        /*print_r($merchant_details);
-        print_r($merchant_users_details);exit;*/
+        $merchant_details = $merchant_details[0];
 
         $pageConfigs = ['pageHeader' => true];
-        return view('pages.merchant-profile', compact('merchant_details','merchant_users_details'));
+        return view('pages.merchant-profile', compact('merchant_details'));
     }
 
     public function getSuccessTransactionGraphData(Request $request)
@@ -454,6 +454,46 @@ class PageController extends Controller
     public function partnerDashboard(Request $request)
     {
         return view('pages.partner_dashboard');
+    }
+
+    public function merchantDetailsUpdate(Request $request)
+    {
+        $input = $request->all();
+        $merchant_id = $request->merchant_id;
+        unset($input['merchant_id']);
+        unset($input['_token']);
+        foreach($input as $key=>$val)
+        {
+            if($val!='')
+            {
+                if($key=='aadhar_front_image')
+                {
+                    if ($request->hasFile('aadhar_front_image')){
+                        $file2 = $request->file('aadhar_front_image');
+                        $filename2 = date('YmdHi').$file2->getClientOriginalName();
+                        $image_path2 = public_path().'/uploads/aadharimage/';
+                        $file2->move($image_path2, $filename2);
+                        MerchantUser::where('merchant_id',$merchant_id)->update(array('aadhar_front_image'=>$filename2));
+                    }
+                }
+
+                else if($key=='aadhar_back_image')
+                {
+                    if ($request->hasFile('aadhar_back_image')){
+                        $file3 = $request->file('aadhar_back_image');
+                        $filename3 = date('YmdHi').$file3->getClientOriginalName();
+                        $image_path3 = public_path().'/uploads/aadharimage/';
+                        $file3->move($image_path3, $filename3);
+                        MerchantUser::where('merchant_id',$merchant_id)->update(array('aadhar_back_image'=>$filename3));
+                    } 
+                }
+                else 
+                {
+                    MerchantUser::where('merchant_id',$merchant_id)->update(array($key=>$val));
+                }
+            }
+        }
+        return redirect()->back() ->with('success','Updated successfully');
     }
 
 }
