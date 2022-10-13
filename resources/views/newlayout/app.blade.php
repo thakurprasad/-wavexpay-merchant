@@ -18,7 +18,7 @@
   <!-- Custom styles for this template-->
   <link href="{{ asset('newdesign/css/sb-admin-2.min.css') }}" rel="stylesheet">
   <link href="{{ asset('newdesign/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
+<link href="{{ asset('css/global-custom.css') }}" rel="stylesheet">
   @yield('page-style')
 
 </head>
