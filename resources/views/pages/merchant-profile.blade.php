@@ -8,25 +8,8 @@
 <div class="section">
   <div class="card">
     <div class="card-content">
-
-      @if ($message = Session::get('success'))
-      <div class="alert alert-success">
-        <ul class="margin-bottom-none padding-left-lg">
-          <li>{{ $message }}</li>
-        </ul>
-      </div>
-      @endif
-      @if ($errors->any())
-      <div class="alert alert-danger">
-        <strong>Whoops!</strong> There were some problems with your input.<br><br>
-        <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-        </ul>
-      </div>
-      @endif
-
+      @include('alerts.message')
+    
       <ul class="nav nav-tabs">
         <li id="generalli"><a id="gsettingclick" data-toggle="tab" href="#home">General Info</a></li>
         <li id="kycli"><a id="ksettingclick" data-toggle="tab" href="#menu1">Kyc Info</a></li>
@@ -35,6 +18,7 @@
       <div class="tab-content" style="padding-left:20px;">
         <div id="home" class="tab-pane fade in active">
           <div class="row">      
+            {{$merchant_details}}
             <form method="post" id="merchant_edit_form1">
               @csrf
               @method('PATCH')        

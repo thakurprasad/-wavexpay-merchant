@@ -73,7 +73,7 @@ class LoginController extends Controller
         $merchant_salt = $merchants->access_salt;
         try {
             $client = new Client(['base_uri' => env('API_BASE_URL')]);
-            $api_end_point = '/api/merchants/login';
+            $api_end_point = 'api/merchants/login';
             $response = $client->request('POST',$api_end_point,[
                 'form_params' => [
                     'email' => $request->input('email'),
@@ -82,7 +82,7 @@ class LoginController extends Controller
                 ]
             ]);
 
-            //dd($response);
+           // dd($response);
 
             $status_code = $response->getStatusCode();
             // 200
@@ -113,6 +113,7 @@ class LoginController extends Controller
             }else{
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
+
         } catch (\Exception $e) {
             return $e->getMessage();
             return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);

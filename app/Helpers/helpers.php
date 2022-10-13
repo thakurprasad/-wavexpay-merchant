@@ -265,4 +265,20 @@ class Helper
 		return $children;
 	}
 
+    /**
+     * Custom decrypt method
+     * */
+    public static function _decrypt($data){
+        return decrypt($data);
+    }
+    
+    
+    /**
+     * Custom encrypt method
+     * */
+    public static function _encrypt($data){
+        return encrypt($data);
+    }
+
+
 }
