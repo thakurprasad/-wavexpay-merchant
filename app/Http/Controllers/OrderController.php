@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
@@ -19,7 +20,7 @@ class OrderController extends Controller
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $options = ['count'=>50, 'skip'=>0];
         //$all_orders = $api->order->all($options);
-        $all_orders = DB::table('orders')->where('merchant_id',$merchant_id)->get();
+        $all_orders = Order::where('merchant_id',$merchant_id)->get();
         return view('pages.transaction.orders', compact('pageConfigs','breadcrumbs','all_orders'));
     }
 
@@ -33,7 +34,7 @@ class OrderController extends Controller
         /*$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         //$all_orders = $api->order->all();*/
         $merchant_id =  session()->get('merchant');
-        $query = DB::table('orders')->where('merchant_id',$merchant_id);
+        $query = Order::where('merchant_id',$merchant_id);
         if($order_id!=''){
             $query->where('order_id',$order_id);
         }if($reciept!=''){

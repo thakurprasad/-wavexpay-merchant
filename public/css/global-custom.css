@@ -1,3 +1,40 @@
 ul#accordionSidebar li > a {
     color: white;
 }
+
+.merchant-kyc {
+    padding-left:40px;
+}
+
+.merchant-kyc-table {
+    width:210%;
+}
+
+
+.nav-tabs {
+    list-style-type: none;
+    margin: 0;
+    padding: 10;
+    overflow: hidden;
+    background-color: #00008B;
+  }
+  
+  .nav-tabs li {
+    float: left;
+  }
+  
+  .nav-tabs li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .nav-tabs li a:hover:not(.active) {
+    background-color: #111;
+  }
+  
+  .nav-tabs .active {
+    background-color: #4e73df;
+  }
