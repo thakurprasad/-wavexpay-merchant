@@ -131,6 +131,7 @@ class PaymentPageController extends Controller
             "support_email" => $request["support_email"],
             "support_phone" => $request["support_contact"],
             "term_conditions" => $request["terms_and_condition"],
+            "amount" => $request["amount"],
             "payment_form_json" => $form_json,
             "custom_url" => $request["custom_url"],
             "theme" => $request["theme"],
@@ -138,7 +139,8 @@ class PaymentPageController extends Controller
             "successful_custom_message" => $request["custom_msg_area"],
             "successful_redirect_url" => $request["redirect_to_website"],
             "facebook_pixel" => $request["facebook_pixel"],
-            "google_analytics" => $request["google_analytics"]
+            "google_analytics" => $request["google_analytics"],
+            "created_at" => date('Y-m-d H:i:s')
         );
 
         /*$client = new Client(['base_uri' => env('API_BASE_URL')]);

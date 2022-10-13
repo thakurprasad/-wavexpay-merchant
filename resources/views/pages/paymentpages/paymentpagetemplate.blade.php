@@ -92,17 +92,23 @@
                         <div  id="main-view" class="slider-view">
                            <h4>Payment Details</h4>
                            <div class="title-underline"></div>
-                           
-                           <div class="form-group row">
-                              <label for="inputbusiness1" id="email_label" class="col-sm-3 col-form-label">Email</label>
-                              <div class="col-sm-1"></div>
-                              <div class="col-sm-8">                                
-                                 <a data-toggle="modal" data-target="#modal1" onclick="change_label_name('email')"><input type="email" name="email" id="fb_link" class="form-control name-text"></a>
-                                    <input type="hidden" name="label[]" value="email" id="email_label_value">
-                                    <input type="hidden" name="labeltype[]" value="text">
-                                    <input type="hidden" name="labelTypevalue[]" value="">
+                              <div class="form-group row">
+                                 <label for="inputbusiness1" id="email_label" class="col-sm-3 col-form-label">Amount</label>
+                                 <div class="col-sm-1"></div>
+                                 <div class="col-sm-8">                                
+                                    <input type="text" name="amount" id="amount" class="form-control name-text"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                 </div>
                               </div>
-                           </div>
+                              <div class="form-group row">
+                                 <label for="inputbusiness1" id="email_label" class="col-sm-3 col-form-label">Email</label>
+                                 <div class="col-sm-1"></div>
+                                 <div class="col-sm-8">                                
+                                    <a data-toggle="modal" data-target="#modal1" onclick="change_label_name('email')"><input type="email" name="email" id="fb_link" class="form-control name-text"></a>
+                                       <input type="hidden" name="label[]" value="email" id="email_label_value">
+                                       <input type="hidden" name="labeltype[]" value="text">
+                                       <input type="hidden" name="labelTypevalue[]" value="">
+                                 </div>
+                              </div>
                               <div class="form-group row">
                                  <label for="inputbusiness1" id="phone_label" class="col-sm-3 col-form-label">Phone</label>
                                  <div class="col-sm-1"></div>
@@ -581,7 +587,12 @@
                alert('Terms condition Can not be blank');
                return false;
             }
-
+            var amount = $("#amount").val();
+            if(amount=='')
+            {
+               alert('Amount Can not be blank');
+               return false;
+            }
 
             var template_id = $("#template_id").val();
             var custom_url = $("#custom_url").val();

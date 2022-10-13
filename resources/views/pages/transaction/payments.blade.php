@@ -89,17 +89,19 @@
                     <th scope="col">Email</th>
                     <th scope="col">Contact</th>
                     <th scope="col">Created At</th>
+                    <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody id="table_container">
                     @if(!empty($all_payments))
                     @foreach($all_payments as $payment)
                     <tr>
-                        <td>{{$payment->id}}</td>
+                        <td>{{$payment->payment_id}}</td>
                         <td>{{$payment->amount}}</td>
                         <td>{{$payment->email}}</td>
                         <td>{{$payment->contact}}</td>
                         <td>{{$payment->created_at}}</td>
+                        <td>{{$payment->status}}</td>
                     </tr>
                     @endforeach
                     @endif

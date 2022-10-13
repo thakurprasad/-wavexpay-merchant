@@ -77,6 +77,7 @@
                         <div  id="main-view" class="slider-view">
                            <h4>Payment Details</h4>
                            <div class="title-underline"></div>
+                           
                            @php 
                             $field_details = json_decode($get_payment_page_details->payment_form_json);
                             //print_r($field_details);exit;
@@ -91,6 +92,7 @@
                             {
                                 $total+=$details[2];
                             }
+                            
                            @endphp
                            <div class="form-group row">
                               <label for="inputbusiness1" class="col-sm-3 col-form-label">{{ucwords($details[0])}}</label>
@@ -102,6 +104,10 @@
                            @endforeach
                            @endif
 
+                           @php 
+                           $total+=$get_payment_page_details->amount;
+                           @endphp
+
                            <br clear="all">
 
                            <div class="form-footer-payment">
@@ -109,7 +115,7 @@
                                  <img id="fin-logo" src="{{ url('/') }}/payment_page/img/pay_methods_branding.png" class="img-responsive">
                               </div>
                               <div class="col-md-6 pay-left">
-                                 <button class="btn btn-gradient ruppes-btn">Pay <span style="margin-left: 4px;"><b class="currency-symbol">₹</b> {{number_format($total,2)}}</span></button>
+                                 <button class="btn btn-gradient ruppes-btn">Pay <span style="margin-left: 4px;"><b class="currency-symbol">₹</b> {{number_format($get_payment_page_details->amount,2)}}</span></button>
                               </div>
                            </div>
                         </div>
