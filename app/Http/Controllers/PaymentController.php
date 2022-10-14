@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
+use App\Models\Payment;
 use DateTime;
 
 class PaymentController extends Controller
@@ -20,7 +21,7 @@ class PaymentController extends Controller
         $all_payments = $api->payment->all();
         //print_r($all_payments);exit;
         //Pageheader set true for breadcrumbs
-        $all_payments = DB::table('payments')->where('merchant_id',$merchant_id)->get();
+        $all_payments = Payment::where('merchant_id',$merchant_id)->get();
         $pageConfigs = ['pageHeader' => true];
         return view('pages.transaction.payments', compact('breadcrumbs','pageConfigs', 'all_payments'));
     }
@@ -35,7 +36,7 @@ class PaymentController extends Controller
 
         $html = '';
         $merchant_id =  session()->get('merchant');
-        $query = DB::table('payments')->where('merchant_id',$merchant_id);
+        $query = Payment::where('merchant_id',$merchant_id);
         if($payment_id!=''){
             $query->where('payment_id',$payment_id);
         }if($email!=''){

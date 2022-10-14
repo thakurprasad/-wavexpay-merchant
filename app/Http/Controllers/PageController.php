@@ -7,6 +7,7 @@ use Razorpay\Api\Api;
 use App\Models\Merchant;
 use App\Models\MerchantUser;
 use DB;
+use Illuminate\Support\Facades\Crypt;
 
 class PageController extends Controller
 {
@@ -456,11 +457,10 @@ class PageController extends Controller
         return view('pages.partner_dashboard');
     }
 
-    public function merchantDetailsUpdate(Request $request)
+    public function merchantDetailsUpdate(Request $request,$merchant_id)
     {
         $input = $request->all();
-        $merchant_id = $request->merchant_id;
-        unset($input['merchant_id']);
+        $merchant_id = Crypt::decryptString($merchant_id);
         unset($input['_token']);
         foreach($input as $key=>$val)
         {
@@ -491,6 +491,28 @@ class PageController extends Controller
                 {
                     MerchantUser::where('merchant_id',$merchant_id)->update(array($key=>$val));
                 }
+            }
+        }
+        return redirect()->back() ->with('success','Updated successfully');
+    }
+
+    public function merchantGeneralUpdate(Request $request,$merchant_id)
+    {
+        $input = $request->all();
+        $merchant_id = Crypt::decryptString($merchant_id);
+        unset($input['_token']);
+        foreach($input as $key=>$val)
+        {
+            if($val!='')
+            {
+                if($key=='display_name')       
+                {
+                    MerchantUser::where('id',$merchant_id)->update(array($key=>$val)); 
+                }                        
+                else 
+                {
+                    Merchant::where('id',$merchant_id)->update(array($key=>$val)); 
+                }              
             }
         }
         return redirect()->back() ->with('success','Updated successfully');

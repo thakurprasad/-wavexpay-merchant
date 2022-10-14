@@ -40,7 +40,7 @@
                   <section class="stage-1">
                      <div class="col-md-12 top-bar">
                         <div class="col-md-2 logo-wave">
-                           <h4>WAVEXPAY</h4>
+                            <img src="{{ asset('images/logo/wave_x_pay.png') }}" title="{{ config('app.name', 'Laravel') }}" style="max-width: 140px;">
                         </div>
                         <div class="col-md-6">
                         </div>

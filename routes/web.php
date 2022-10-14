@@ -60,7 +60,8 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::get('/my-account', [PageController::class, 'merchantProfile']);
     Route::get('/home', [PageController::class, 'dashboard'])->name('home');
     Route::get('/', [PageController::class, 'dashboard']);
-    Route::post('merchant_details_update',  [PageController::class, 'merchantDetailsUpdate']);
+    Route::post('merchant_details_update/{id}',  [PageController::class, 'merchantDetailsUpdate']);
+    Route::post('merchant_general_update/{id}',  [PageController::class, 'merchantGeneralUpdate']);
 
     Route::get('/pages.merchant.com/{url}', [PaymentPageController::class, 'paymentPageFront'])->name('pages.merchant.com/{url}');
 

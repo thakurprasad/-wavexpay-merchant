@@ -5,10 +5,10 @@
     <div class="card-body login-card-body">
         <div class="login-logo">
 
-                <img src="{{ asset("/images/logo/logo.png") }}" title="{{ config('app.name', 'Laravel') }}" style="border:0;align:center;margin-left: auto; margin-right: auto; width: 15%; ">
+                <img src="{{ asset('images/logo/wave_x_pay.png') }}" title="{{ config('app.name', 'Laravel') }}" style="border:0;align:center;margin-left: auto; margin-right: auto; width: 30%; ">
 
         </div>
-      <p class="login-box-msg">{{ __('Login') }} to start your session</p>
+      <p class="login-box-msg">{{ __('Login') }} to Merchent Dashboard</p>
 
       
       @if($errors->any())
