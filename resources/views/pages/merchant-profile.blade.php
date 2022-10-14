@@ -18,7 +18,6 @@
       <div class="tab-content" style="padding-left:20px;">
         <div id="home" class="tab-pane fade in active">
           <div class="row">      
-            {{$merchant_details}}
             <form method="post" id="merchant_edit_form1">
               @csrf
               @method('PATCH')        
