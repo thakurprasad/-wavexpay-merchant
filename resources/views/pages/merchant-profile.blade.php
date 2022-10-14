@@ -89,6 +89,7 @@
               <div class="col-md-12 merchant-kyc">
                 <table class="table table-striped merchant-kyc-table">                 
                   <tbody>
+                    <tr><td colspan="2" class="headingRow">Business Overview</td></tr>
                     <tr>
                       <td>Business Name</td>
                       <td>{{ $merchant_details->business_category }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('business_category')">edit</i>
@@ -103,6 +104,7 @@
                       <td>Business Description</td>
                       <td>{{ $merchant_details->business_description }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('business_description')">edit</i><textarea style="display:none;" class="form-control" name="business_description" id="business_description"></textarea><button style="display: none;" id="update_button_business_description" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_business_description" onclick="hide_input('business_description')">cancel</a></td>
                     </tr>
+                    <tr><td colspan="2" class="headingRow">Business Details</td></tr>
                     <tr>
                       <td>PAN Holder Name</td>
                       <td>{{ $merchant_details->pan_holder_name }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('pan_holder_name')">edit</i>{!! Form::text('pan_holder_name', null, array('id' => 'pan_holder_name', 'placeholder' => 'Pan Holder Name','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_pan_holder_name" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_pan_holder_name" onclick="hide_input('pan_holder_name')">cancel</a></td>
@@ -123,6 +125,7 @@
                       <td>Billing State</td>
                       <td>{{ $merchant_details->billing_state }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('billing_state')">edit</i>{!! Form::text('billing_state', null, array('id' => 'billing_state', 'placeholder' => 'Billing State','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_billing_state" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_billing_state" onclick="hide_input('billing_state')">cancel</a></td>
                     </tr>
+                    <tr><td colspan="2" class="headingRow">Personal Bank Account</td></tr>
                     <tr>
                       <td>Bneficiary Name</td>
                       <td>{{ $merchant_details->beneficiary_name }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('beneficiary_name')">edit</i>{!! Form::text('beneficiary_name', null, array('id' => 'beneficiary_name', 'placeholder' => 'Beneficiary Name','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_beneficiary_name" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_beneficiary_name" onclick="hide_input('beneficiary_name')">cancel</a></td>
@@ -135,6 +138,7 @@
                       <td>Ifsc Code</td>
                       <td>{{ $merchant_details->ifsc_code }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('ifsc_code')">edit</i>{!! Form::text('ifsc_code', null, array('id' => 'ifsc_code', 'placeholder' => 'Ifsc Code','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_ifsc_code" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_ifsc_code" onclick="hide_input('ifsc_code')">cancel</a></td>
                     </tr>
+                    <tr><td colspan="2" class="headingRow">Documents</td></tr>
                     <tr>
                       <td>Aadhar Number</td>
                       <td>{{ $merchant_details->aadhar_no }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('aadhar_no')">edit</i>{!! Form::text('aadhar_no', null, array('id' => 'aadhar_no', 'placeholder' => 'Aadhar No','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_aadhar_no" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_aadhar_no" onclick="hide_input('aadhar_no')">cancel</a></td>
@@ -148,6 +152,7 @@
                         @else 
                         <img id="blah" src="#" alt="your image"  style="height:100px; width:100px;" />
                         @endif
+                        <button style="display: none;" id="update_button_aadhar_front" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button>
                       </td>
                     </tr>
                     <tr>
@@ -159,6 +164,7 @@
                         @else 
                         <img id="blah2" src="#" alt="your image"  style="height:100px; width:100px;" />
                         @endif
+                        <button style="display: none;" id="update_button_aadhar_back" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button>
                       </td>
                     </tr>
                     <tr id="update_row()">
@@ -176,7 +182,50 @@
     </div>
   </div>
 </div>
-<input type="hidden" id="edit_count" value="0">
+
+
+<div class="modal" id="modal1" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="padding: 20px;">
+      <div class="modal-header">
+        <h5 class="modal-title">Aadhar front image</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row text-center">
+          <img id="aadhar_front_image_container" src="#" alt="your image"  style="height:300px; width:300px;" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="modal2" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="padding: 20px;">
+      <div class="modal-header">
+        <h5 class="modal-title">Aadhar Back image</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row text-center">
+          <img id="aadhar_back_image_container" src="#" alt="your image"  style="height:300px; width:300px;" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 
@@ -278,22 +327,26 @@ function readURL(input) {
 
         reader.onload = function (e1) {
             $('#blah').attr('src', e1.target.result);
+            $("#modal1").modal('show');
+            $('#aadhar_front_image_container').attr('src', e1.target.result);
         }
-
         reader.readAsDataURL(input.files[0]);
     }
+    $('#update_button_aadhar_front').show();
 }
 
 function readURL2(input) {
     if (input.files && input.files[0]) {
-        var reader2 = new FileReader();
+      var reader2 = new FileReader();
 
-        reader2.onload = function (e2) {
-            $('#blah2').attr('src', e2.target.result);
-        }
-
-        reader2.readAsDataURL(input.files[0]);
+      reader2.onload = function (e2) {
+          $('#blah2').attr('src', e2.target.result);
+          $("#modal2").modal('show');
+          $('#aadhar_back_image_container').attr('src', e2.target.result);
+      }
+      reader2.readAsDataURL(input.files[0]);
     }
+    $('#update_button_aadhar_back').show();
 }
 
 function show_input(input_id)

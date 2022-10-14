@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use DB;
+use App\Models\PaymentLink;
 use Illuminate\Support\Facades\Crypt;
 
 class PaymentLinkController extends Controller
@@ -13,31 +14,22 @@ class PaymentLinkController extends Controller
         $breadcrumbs = [
             ['link' => "payment-links", 'name' => "Payment Links"]
         ];
-        //Pageheader set true for breadcrumbs
-        $pageConfigs = ['pageHeader' => true];
-
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        //$all_links = $api->paymentLink->all();
-        //@if(!empty($all_links->payment_links))
-        //@foreach($all_links->payment_links as $link)
         $merchant_id =  session()->get('merchant');
-        $all_links = DB::table('payment_link')->where('merchant_id',$merchant_id)->get();
-
-        return view('pages.paymentlinks.index', compact('pageConfigs','breadcrumbs','all_links'));
+        $all_links = PaymentLink::where('merchant_id',$merchant_id)->get();
+        return view('pages.paymentlinks.index', compact('breadcrumbs','all_links'));
     }
 
 
     public function searchPaymentLink(Request $request){
-       $payment_link_id = $request->payment_link_id;
-       $batch_id = $request->batch_id;
-       $reference_id = $request->reference_id;
-       $customer_contact = $request->customer_contact;
-       $customer_email = $request->customer_email;
-       $notes = $request->notes;
+        $payment_link_id = $request->payment_link_id;
+        $batch_id = $request->batch_id;
+        $reference_id = $request->reference_id;
+        $customer_contact = $request->customer_contact;
+        $customer_email = $request->customer_email;
+        $notes = $request->notes;
 
-       //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-       //$all_links = $api->paymentLink->all();
-        $query = DB::table('payment_link');
+        $merchant_id =  session()->get('merchant');
+        $query = PaymentLink::where('merchant_id',$merchant_id);
         if($reference_id!=''){
             $query->where('reference_id',$reference_id);
         }if($customer_contact!=''){
@@ -48,12 +40,9 @@ class PaymentLinkController extends Controller
             $query->where('payment_link_id',$payment_link_id);
         }
         $result = $query->get();
-        //print_r($result);exit;
         $all_links = $result;
 
         $html = '';
-        /*if(!empty($all_links->payment_links)){
-            foreach($all_links->payment_links as $link){*/
         if(!empty($all_links)){
             foreach($all_links as $link){
                 $s_customer_contact = '';
@@ -148,35 +137,46 @@ class PaymentLinkController extends Controller
     public function getPaymentLink(Request $request){
         
         $id = $request->link_id;
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $link_details = $api->paymentLink->fetch($id);
+        /*$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $link_details = $api->paymentLink->fetch($id);*/
+        $link_details = PaymentLink::where('payment_link_id',$id)->first();
+        $customer_email = 'N/A';
+        $customer_contact = 'N/A';
+        if(isset($link_details->customer_email) && $link_details->customer_email!='')
+        {
+            $customer_email = $link_details->customer_email;
+        }
+        if(isset($link_details->customer_contact) && $link_details->customer_contact!='')
+        {
+            $customer_contact = $link_details->customer_contact;
+        }
         
-        if($link_details->notify->email==1){
+        if($link_details->notify_email==1){
             $estatus = 'yes';
         }else{
             $estatus = 'no';
         }
 
-        if($link_details->notify->sms==1){
+        if($link_details->notify_sms==1){
             $sstatus = 'yes';
         }else{
             $sstatus = 'no';
         }
 
-        if($link_details->expire_by==0){
+        if(isset($link_details->expire_by) && $link_details->expire_by==0){
             $is_expire = 'no';
         }else{
             $is_expire = 'yes';
         }
 
-        if($link_details->accept_partial == '1'){
+        if($link_details->accept_partial == 1){
             $part_pay = 'yes &nbsp;&nbsp;<a style="margin-left:20px;cursor:pointer;"  class="btn btn-sm btn-warning" onclick="part_pay(\''.$id.'\',1)">Disable</a>';
         }else{
             $part_pay = 'no &nbsp;&nbsp;<a style="margin-left:20px;cursor:pointer;"  class="btn btn-sm btn-success" onclick="part_pay(\''.$id.'\',0)">Enable</a>';
         }
 
         $notehtml = '';
-        if(!empty($link_details->notes)){
+        if(isset($link_details->notes) && !empty($link_details->notes)){
             foreach($link_details->notes as $key=>$val){
                 $notehtml.='<div class="row"><div class="col-sm-3">'.$key.'</div><div class="col-sm-3">'.$val.'</div><div class="col-sm-6"></div></div>';
             }
@@ -199,18 +199,18 @@ class PaymentLinkController extends Controller
             </div>
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Reference Id</label>  <br><input type="text" class="form-control" value="'.$link_details->reference_id.'" id="c_r_c"><a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal3" onclick="ch_r_id(\''.$id.'\')">Change Reference Id</a>
+                <label>Reference Id</label>  <br><input type="text" class="form-control" readonly value="'.$link_details->reference_id.'" id="c_r_c"><a class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal3" onclick="ch_r_id(\''.$id.'\')">Change Reference Id</a>
             </div>
             </div>
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Customer Email</label>  <br><input type="text" readonly class="form-control" value="'.$link_details->customer->email.'" />
+                <label>Customer Email</label>  <br><input type="text" readonly class="form-control" value="'.$customer_email.'" />
             </div>
             </div>
             <div class="col-sm-6">
             <div class="form-group">
                 <span id="customer_contact"></span>
-                <label>Customer Contact</label>  <br><input type="text" readonly class="form-control" value="'.$link_details->customer->contact.'" />
+                <label>Customer Contact</label>  <br><input type="text" readonly class="form-control" value="'.$customer_contact.'" />
             </div>
             </div>
             <div class="col-sm-3">
@@ -227,7 +227,7 @@ class PaymentLinkController extends Controller
             <div class="form-group">
                 <label>Expiry?  <strong>'.$is_expire.'</strong><br>';
                 if($is_expire=='yes'){
-                    $html.='<strong>'.date('d/m/Y',$link_details->expire_by).'</strong><a class="btn btn-sm btn-warning" style="margin-left:10px;" data-toggle="modal" data-target="#modal5" onclick="edit_expiry_date(\''.$id.'\')">Change</a>';
+                    $html.='<strong>'.date('d/m/Y',strtotime($link_details->expire_by)).'</strong><a class="btn btn-sm btn-warning" style="margin-left:10px;" data-toggle="modal" data-target="#modal5" onclick="edit_expiry_date(\''.$id.'\')">Change</a>';
                 }
                 $html.='</label>
                 <span id="isexpiry"></span>
@@ -253,9 +253,7 @@ class PaymentLinkController extends Controller
     public function changeRefIdProcess(Request $request){
         $plid = $request['plid'];
         $update_reference_id = $request['update_reference_id'];
-
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        if($api->paymentLink->fetch($plid)->edit(array("reference_id"=>$update_reference_id))){
+        if(PaymentLink::where('payment_link_id',$plid)->update(array('reference_id'=>$request['update_reference_id']))){
             return response()->json(array("success" => 1, "update_reference_id"=> $update_reference_id));  
         }else{
             return response()->json(array("success" => 0, "msg"=> "OOps!Something Error Happened!!"));  
@@ -305,12 +303,11 @@ class PaymentLinkController extends Controller
         $lid = $request['lid'];
         $status = $request['status'];
         if($status==1){
-            $update_status = false;
+            $update_status = 0;
         }else{
-            $update_status = true;
+            $update_status = 1;
         }
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        if($api->paymentLink->fetch($lid)->edit(array("accept_partial"=>$update_status))){
+        if(PaymentLink::where('payment_link_id',$lid)->update(array("accept_partial"=>$update_status))){
             return response()->json(array("success" => 1));  
         }else{
             return response()->json(array("success" => 0));  
@@ -320,8 +317,7 @@ class PaymentLinkController extends Controller
     public function changeExpDate(Request $request){
         $paylinkid = $request['paylinkid'];
         $expiry_dt = $request['expiry_dt'];
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        if($api->paymentLink->fetch($paylinkid)->edit(array("expire_by"=>strtotime($expiry_dt)))){
+        if(PaymentLink::where('payment_link_id',$paylinkid)->update(array("expire_by"=>$expiry_dt))){
             return response()->json(array("success" => 1));  
         }else{
             return response()->json(array("success" => 0));  

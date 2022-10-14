@@ -176,9 +176,11 @@ class PaymentPageController extends Controller
     {
         $unique_id = request()->segment(count(request()->segments()));
         $decrypted = Crypt::decryptString($unique_id);
+        $merchant_id =  session()->get('merchant');
         $get_payment_page_details = DB::table('payment_page')->where('unique_id',$decrypted)->first();
-
-        return view('pages.paymentpages.payment_front_view', compact('get_payment_page_details'));
+        $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
+        $display_name = $merchant_users_details->display_name;
+        return view('pages.paymentpages.payment_front_view', compact('get_payment_page_details','display_name'));
 
     }
 

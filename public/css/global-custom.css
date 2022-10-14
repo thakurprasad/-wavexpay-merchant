@@ -4,10 +4,17 @@ ul#accordionSidebar li > a {
 
 .merchant-kyc {
     padding-left:40px;
+    margin-top: 20px;
 }
 
 .merchant-kyc-table {
     width:210%;
+    
+}
+
+.headingRow {
+  background-color: #4e73df;
+  color: #ffffff;
 }
 
 
