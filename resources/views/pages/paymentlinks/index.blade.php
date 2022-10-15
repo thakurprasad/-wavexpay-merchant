@@ -14,20 +14,7 @@
 </div>
 @endsection
 @section('content')
-    @if ($message = Session::get('success'))
-    <div class="alert alert-success">
-        <ul class="margin-bottom-none padding-left-lg">
-            <li>{{ $message }}</li>
-        </ul>
-    </div>
-    @endif
-    @if ($message = Session::get('error'))
-    <div class="alert alert-danger">
-        <ul class="margin-bottom-none padding-left-lg">
-            <li>{{ $message }} </li>
-        </ul>
-    </div>
-    @endif
+    @include('alerts.message')
     <div class="card">
         <div class="card-body">
             <a class="btn btn-sm btn-primary" href="{{ url('/create-payment-links') }}">Create Payment Link</a>
@@ -112,7 +99,7 @@
                     }
                     @endphp
                     <tr>
-                        <td><!--<a style="cursor:pointer; color: blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a>--><a style="cursor:pointer; color: blue;">{{$link->payment_link_id}}</a></td>
+                        <td><a style="cursor:pointer; color: blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a></td>
                         <td>{{date('Y-m-d H:i:s',strtotime($link->created_at))}}</td>
                         <td>{{number_format($link->amount,2)}}</td>
                         <td>{{$link->reference_id}}</td>

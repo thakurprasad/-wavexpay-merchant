@@ -4,6 +4,8 @@ namespace App\Helpers;
 use App\Models\UserType;
 use Config;
 use DB;
+use Razorpay\Api\Api;
+use App\Models\MerchantKey;
 
 class Helper
 {
@@ -280,5 +282,66 @@ class Helper
         return encrypt($data);
     }
 
+    /**
+     * Switch payment getway
+     * $get_key = api_key|api_secret
+     * */
+    public static function weveXpay($get_key){
+
+        $api_key = session('merchant_key');
+        $api_secret = session('merchant_secret');
+
+        $merchant = MerchantKey::select('merchants.*', 'merchants.merchant_payment_method')
+        ->join('merchants', 'merchants.id', '=', 'merchant_keys.merchnat_id')
+        ->where([
+                'merchant_keys.api_key'=> $api_key,
+                'merchant_keys.api_secret' => $api_secret
+            ])->first();
+        
+        
+
+        if($merchant){
+            $razorpay_api_key = 'rzp_test_YRAqXZOYgy9uyf'; 
+            $razorpay_api_secret = 'uSaaMQw3jHK0MPtOnXCSSg51';
+
+            $cashfree_api_key = ''; 
+            $cashfree_api_secret = '';
+
+            if($merchant->merchant_payment_method == 'razorpay'){
+                if($get_key == 'api_key'){
+                    return $razorpay_api_key;
+                }else if($get_key == 'api_secret'){
+                    return $razorpay_api_secret;
+                }else{
+                     die('Error: invalid key type $get_key accept only - api_key|api_secret');;
+                }
+            }else if($merchant->merchant_payment_method == 'cashfree'){
+                 if($get_key == 'api_key'){
+                    return $cashfree_api_key;
+                }else if($get_key == 'api_secret'){
+                    return $cashfree_api_secret;
+                }else{
+                   die('Error: invalid key type $get_key accept only - api_key|api_secret ');;
+                }
+            }else{
+                die('Error: invalid merchant payment method. accept only razorpay ');
+            }
+
+            
+        }else{
+            die("Invalid api key or api secret");
+        }
+    } // end function of wavexpay
+
+    /**
+     * return Helper::api_key();
+        return Helper::api_secret();
+     * */
+    public static function api_key(){
+        return Helper::weveXpay('api_key');
+    }
+    public static function api_secret(){
+        return Helper::weveXpay('api_secret');
+    }
 
 }

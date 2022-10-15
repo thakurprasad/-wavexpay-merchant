@@ -20,20 +20,7 @@
 
 {{-- page content --}}
 @section('content')
-@if ($message = Session::get('success'))
-<div class="alert alert-success">
-    <ul class="margin-bottom-none padding-left-lg">
-        <li>{{ $message }}</li>
-    </ul>
-</div>
-@endif
-@if ($message = Session::get('error'))
-<div class="alert alert-danger">
-    <ul class="margin-bottom-none padding-left-lg">
-        <li>{{ $message }} </li>
-    </ul>
-</div>
-@endif
+@include('alerts.message')
     <div class="card">
         <div class="card-body">
             <a href="{{ url('/newinvoice') }}" class="btn btn-md btn-warning" style="color: #FFFFFF;background-color:#00008B;"><i class="fas fa-plus"></i> Create Invoice</a>

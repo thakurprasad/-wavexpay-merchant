@@ -23,7 +23,7 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        $api = new Api($api_key, $api_secret);
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         /*$all_invoices = $api->invoice->all();
         $all_customers = $api->customer->all();
         $all_items = $api->Item->all();*/
@@ -184,7 +184,7 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        $api = new Api($api_key, $api_secret);
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $itemidArray['item_id'] = array();
         foreach($request['tableitem'] as $items){

@@ -8,6 +8,7 @@ use App\Models\Merchant;
 use App\Models\MerchantUser;
 use DB;
 use Illuminate\Support\Facades\Crypt;
+use Helper;
 
 class PageController extends Controller
 {
