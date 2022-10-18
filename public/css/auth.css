@@ -1,0 +1,39 @@
+   .container-full{
+        height: 100vh;
+    }
+    .auth-left-panel{
+        background-image: url('images/login/auth-background.png');
+       /* background-image: url('https://esellerhub.techjockey.com/assets/v4/images/auth-background.png'); */
+    }
+    ul.auth-left-panel-points {
+      list-style-image: url('images/login/white_tick.svg');
+      /*list-style-image: url('https://esellerhub.techjockey.com/assets/v4/images/white_tick.svg'); */
+    }
+    ul.auth-left-panel-points > li:not(:last-child) { 
+       margin-bottom: 10px;  
+       font-size: 14px;
+    }
+
+    .auth-left-panel-buttom-points {
+        float: left;
+        width: 100%;
+        color: white;
+        text-align: center;
+        padding: 20px 25px 15px 25px;
+        background-color: #F69321;
+        position: absolute;
+        bottom: 0px;
+    }
+    .border-lr {
+        border-left: 2px solid;
+        border-right: 2px solid;
+    }
+
+    input[type=password], input[type=email], input[type=text] {
+        font-size: 30px;
+    }
+    .logo-img{
+        width: 200px;
+        padding: 20px;
+    }
+
