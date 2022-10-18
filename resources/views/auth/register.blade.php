@@ -8,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+
     <title>Wavexpay - Register</title>
+
     <!-- Custom fonts for this template-->
     <link href="{{ asset('newdesign/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
@@ -17,31 +19,96 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('newdesign/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+<style type="text/css">
+    .auth-left-panel{
+        background-image: url('images/login/auth-background.png');
+       /* background-image: url('https://esellerhub.techjockey.com/assets/v4/images/auth-background.png'); */
+    }
+    ul.auth-left-panel-points {
+      list-style-image: url('images/login/white_tick.svg');
+      /*list-style-image: url('https://esellerhub.techjockey.com/assets/v4/images/white_tick.svg'); */
+    }
+</style>
 </head>
 
 <body>
-    <div class="container">
+
+    <div class="container-full">
+
         <!-- Outer Row -->
-        <div class="row">
+        <div class="row_">
+
             <div class="col-md-12">
                 <form method="post" id="step_one_form" action="{{ url('/sign-up-merchant-step-one') }}">
                 @csrf
-                    <div class="card border-0 shadow-lg my-5">
+                    <div >
+                    <!--<div class="card border-0 shadow-lg my-5">-->
                         <div class="card-body p-0">
                             <!-- Nested Row within Card Body -->
                             <div class="row">
-                                <div class="col-lg-6 text-white-900 bg-gradient-primary" style="height:520px;">
-                                    <img src="{{ asset('/images/logo/wave_x_pay.png') }}" title="{{ config('app.name', 'Laravel') }}" style="border:0;align:center;margin: 10px; width: 25%; ">
-                                </div>
-                                <div class="col-lg-6" style="margin-top:80px;">
-                                    <div class="p-5">
-                                        <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Sign Up With Wavexpay!</h1>
+                                <div class="auth-left-panel col-lg-6 bg-gradient-primary" style="height:100vh;">
+                                    <img src="{{ asset('/images/logo/wave_x_pay.png') }}" title="{{ config('app.name', 'Laravel') }}" class="logo-img">
+                                    
+                                    <div style="color: white;width: 80%; margin-left:10%; margin-top: 3%;">
+                                        <h2>
+                                            UNIQUE SMART ROUTING PAYMENT GATEWAY                                             
+                                        </h2>
+                                        <h4>"The Future of Fintech Industries"</h4>
+                                        <br>
+                                        <ul class="auth-left-panel-points">
+                                            <li>
+                                                <strong>HIGH SUCCESS RATIO</strong><br>
+                                                Choose your favorite mode at the time of payment done.
+                                            </li>
+                                            
+                                            <li>
+                                                <strong>SMART ROUTING</strong><br>
+                                                Route your payment with industries best PG for better growth.
+                                            </li>
+                                               <li>
+                                                <strong>120+ PAYMENT OPTION</strong><br>
+                                                We offer almost payment option to merchant Inclusing UPI.
+                                            </li>
+                                               <li>
+                                                <strong>24/7 SUPPORT CENTER</strong><br>
+                                                We have Hudge Soft-Tech Resourcess for merchant Support.
+                                            </li>
+                                            <li>
+                                                <strong>LOW PRICING</strong><br>
+                                                We Offer industries best rate for all mode of Transaction.
+                                            </li>
+                                            <li>
+                                                <strong>ACCOUNT MANAGER</strong><br>
+                                               We are providing dedicated account manager for each merchant.
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="row auth-left-panel-buttom-points">
+                                        <div class="col-md-4">
+                                           <h3>382</h3>Registered merchents
                                         </div>
-                                        
+                                        <div class="col-md-4 border-lr">
+                                           <h3>25,874</h3>No Of Transactions
+                                        </div>
+                                        <div class="col-md-4">
+                                             <h3>2,400</h3>TXN/SEC Handling Capability
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-lg-6" style="padding-top: 12%;">
+                                    <div class="row">
+                                    <div class="col-md-8 offset-2">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">Sign Up</h1>
+                                        </div>
+                                        <form class="user">
                                             <div class="form-group">
                                                 <label for="exampleInputbusiness1">Business Type</label>
-                                                <select class="form-control" name="business_type" id="business_type" required>
+                                                <select class="form-control" name="business_type" id="exampleInputBusiness1" required>
                                                     <option value="" disabled selected>Select</option>
                                                     <option value="registered">Registered</option>
                                                     <option value="notregistered">Not Yet Registered</option>
@@ -49,7 +116,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleFormControlSelect1">Registerd business</label>
-                                                <select class="form-control" name="business_category" id="business_category" required>
+                                                <select class="form-control" name="business_category" id="exampleFormControlSelect1" required>
                                                     <option value="proprietorship">Proprietorship</option>
                                                     <option value="partnership">Partnership</option>
                                                     <option value="privatelimited">Private Limited</option>
@@ -58,8 +125,16 @@
                                                     <option value="trust">Trust</option>
                                                 </select>
                                             </div>
-                                            <button type="button" id="submit_button" onclick="submit_form()" class="btn-wavex btn btn-primary">Next</button>
-                                        
+                                            
+                                            <button type="button" id="submit_button" onclick="submit_form()" class="btn btn-lg btn-primary btn-user btn-block">
+                                                Register
+                                            </button>
+                                        </form>
+                                        <div class="text-center" style="padding-top: 20px;">
+                                            Don’t have an account?
+                                            <a class="small" href="{{url('register')}}">Create Account</a>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -84,9 +159,9 @@
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
     <script>
       function submit_form() {
-        var business_type = $("#business_type").val();
-        var business_category = $("#business_category").val();
-        if(business_type==null){
+        var exampleInputBusiness1 = $("#exampleInputBusiness1").val();
+        var exampleFormControlSelect1 = $("#exampleFormControlSelect1").val();
+        if(exampleInputBusiness1==null){
           alert('business type is required');
           return false;
         }
@@ -101,7 +176,8 @@
           }
         , 1000);
       }
-    </script>
+      </script>
+
 </body>
 
 </html>
