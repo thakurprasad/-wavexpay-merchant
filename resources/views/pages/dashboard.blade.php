@@ -324,27 +324,13 @@ body {font-family: Arial;}
               <?php
               $date1=date_create("now");
               $date2=date_create($payment->payment_created_at);
-              $diff=date_diff($date1,$date2);
-
-              //Helper
-              if($payment->status=='authorized')
-              {
-                $s_color = 'warning';
-              }
-              else if($payment->status=='failed')
-              {
-                $s_color = 'danger';
-              }
-              else if($payment->status=='captured')
-              {
-                $s_color = 'success';
-              }
-              ?>
+              $diff=date_diff($date1,$date2); ?>
+              
               <tr>
                 <td>₹{{$payment->amount}}</td>
                 <td>{{$payment->payment_id}}</td>
                 <td>{{ltrim($diff->format("%R%a days"),"-")}} ago</td>
-                <td><span class="badge badge-{{$s_color}}">{{$payment->status}}</span></td>
+                <td>{!! Helper::badge($payment->status) !!}</td>
               </tr>
               @endforeach
               @endif
