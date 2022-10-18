@@ -16,6 +16,7 @@ body {font-family: Arial;}
   overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
+  
 }
 
 /* Style the buttons inside the tab */
@@ -48,6 +49,7 @@ body {font-family: Arial;}
   display: none;
   height: 354px;
   padding: 6px 12px;
+  overflow:scroll;
   -webkit-animation: fadeEffect 1s;
   animation: fadeEffect 1s;
 }
@@ -323,12 +325,26 @@ body {font-family: Arial;}
               $date1=date_create("now");
               $date2=date_create($payment->payment_created_at);
               $diff=date_diff($date1,$date2);
+
+              //Helper
+              if($payment->status=='authorized')
+              {
+                $s_color = 'warning';
+              }
+              else if($payment->status=='failed')
+              {
+                $s_color = 'danger';
+              }
+              else if($payment->status=='captured')
+              {
+                $s_color = 'success';
+              }
               ?>
               <tr>
                 <td>₹{{$payment->amount}}</td>
                 <td>{{$payment->payment_id}}</td>
                 <td>{{ltrim($diff->format("%R%a days"),"-")}} ago</td>
-                <td><span class="badge badge-info">{{$payment->status}}</span></td>
+                <td><span class="badge badge-{{$s_color}}">{{$payment->status}}</span></td>
               </tr>
               @endforeach
               @endif
@@ -833,8 +849,8 @@ function create_ajax_method_chart(pxValues,pyValues){
       $('#status_filter').on('change', function () {
           var url = $(this).val(); 
           if (url) { 
-              //window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
-			  window.open('{{ url("/") }}/transactions/payments/status?status='+url, '_blank');
+              window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
+			        //window.open('{{ url("/") }}/transactions/payments/status?status='+url, '_blank');
           }
           return false;
       });

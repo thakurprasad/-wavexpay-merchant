@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 use App\Models\UserType;
+use App\Models\Merchant;
 use Config;
 use DB;
 
@@ -235,9 +236,13 @@ class Helper
     } 
 
     public static function get_merchant_details($merchant_id){
-        $item_details = DB::table('merchants')->where('id',$merchant_id)->first();
-        return $item_details;
+        //$item_details = DB::table('merchants')->where('id',$merchant_id)->first();
+        $data = Merchant::select('merchants.*','merchant_users.*')->join('merchant_users', 'merchant_users.merchant_id', '=', 'merchants.id')->where('merchants.id',$merchant_id)->get();
+        $data = $data[0];
+        return $data;
     }
+
+    
 
     public static function get_payment_details_by_merchant($merchant_id){
         $data = DB::table("payments")
