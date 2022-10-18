@@ -81,7 +81,7 @@
 
         </div>
 		<div class="card-body">
-			<table class="table table-bordered table-responsive-sm" id="myTable2">
+			<table class="table table-bordered table-striped table-responsive-sm" id="myTable2">
 				<thead>
                     <tr>
                     <th scope="col">Payment Id</th>
@@ -101,7 +101,7 @@
                         <td>{{$payment->email}}</td>
                         <td>{{$payment->contact}}</td>
                         <td>{{$payment->created_at}}</td>
-                        <td>{{$payment->status}}</td>
+                        <td>{!! Helper::badge($payment->status) !!}</td>
                     </tr>
                     @endforeach
                     @endif

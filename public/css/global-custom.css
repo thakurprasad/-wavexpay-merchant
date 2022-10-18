@@ -13,7 +13,7 @@ ul#accordionSidebar li > a {
 }
 
 .headingRow {
-  background-color: #4e73df;
+  background-color: #858796;
   color: #ffffff;
 }
 
@@ -44,4 +44,8 @@ ul#accordionSidebar li > a {
   
   .nav-tabs .active {
     background-color: #4e73df;
+  }
+
+  #profile_table td .gap {
+    padding-left: 230px;
   }

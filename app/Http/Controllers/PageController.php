@@ -28,9 +28,9 @@ class PageController extends Controller
         ];
 
         $action = $request->action;
-
         $merchant_id =  session()->get('merchant');
-
+        $merchant_details = Merchant::where('id',$merchant_id)->first();
+        $is_kyc_completed = $merchant_details->is_kyc_completed;
         $dashboard_header = DB::table('dashboardheader')->first();
 
         $payments = DB::table('payments')->where('merchant_id',$merchant_id)->get();
@@ -188,8 +188,11 @@ class PageController extends Controller
         {
             $min_max_transacion='[0,0]';
         }
+
+
+
         
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action','min_max_transacion','settlements','paymentmethodxvalue','paymentmethodyvalue'));
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action','min_max_transacion','settlements','paymentmethodxvalue','paymentmethodyvalue','is_kyc_completed','merchant_id'));
     }
 
 
@@ -440,6 +443,8 @@ class PageController extends Controller
         unset($input['aadhar_back']);
         unset($input['_token']);
         unset($input['action']);
+
+        $input['is_kyc_completed'] = 'yes';
 
         DB::table('merchant_users')->where('merchant_id',$input['merchant_id'])->update($input);
 

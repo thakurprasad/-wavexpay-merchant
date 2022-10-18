@@ -16,7 +16,6 @@
    <body>
       <div class="container">
       <div class="row">
-        
          <!-- Trigger/Open The Modal -->
          <button id="myBtn" style="display:none;">Open Modal</button>
          <!-- The Modal -->

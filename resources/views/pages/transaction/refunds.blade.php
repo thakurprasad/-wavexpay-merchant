@@ -86,7 +86,7 @@
         </div>
 
 		<div class="card-body">
-			<table class="table table-bordered table-responsive-sm"  id="myTable">
+			<table class="table table-bordered table-striped table-responsive-sm"  id="myTable">
 				<thead>
                     <tr>
                     <th scope="col">Refund Id</th>

@@ -10,8 +10,12 @@
     <div class="card-content">
       @include('alerts.message')
       <ul class="nav nav-tabs">
-        <li id="generalli"><a id="gsettingclick" data-toggle="tab" href="#home">General Info</a></li>
-        <li id="kycli"><a id="ksettingclick" data-toggle="tab" href="#menu1">Kyc Info</a></li>
+        <li id="generalli"><a id="gsettingclick" data-toggle="tab" href="#home">Profile</a></li>
+        <li id="tbli"><a id="tbclick" data-toggle="tab" href="#menu2">Trusted Badge</a></li>
+        <li id="cli"><a id="cclick" data-toggle="tab" href="#menu3">Credits</a></li>
+        <li id="bli"><a id="bliclick" data-toggle="tab" href="#menu4">Balances</a></li>
+        <li id="bli"><a id="bliclick" data-toggle="tab" href="#menu5">Manage Team</a></li>
+        <li id="mtli"><a id="mtclick" data-toggle="tab" href="#menu6">Support</a></li>
       </ul>
       <div class="tab-content" style="padding-left:20px;">
         <div id="home" class="tab-pane fade in active">
@@ -19,10 +23,8 @@
             {!! Form::model($merchant_details, ['id' => 'merchant_edit_form1', 'method' => 'POST','url' => ['merchant_general_update', Crypt::encryptString($merchant_details->id) ]]) !!}       
               <div class="col-md-12 merchant-kyc">
                 <table class="table table-striped merchant-kyc-table"> 
-                  <thead>
-                    
-                  </thead>
                   <tbody>
+                    <tr><td colspan="2" class="headingRow">Merchant ID : {{$merchant_details->access_salt}}</td></tr>
                     <tr>
                       <td>Contact Name</td>
                       <td>{{ $merchant_details->contact_name }}</td>
@@ -80,100 +82,108 @@
               </div>    
             {!! Form::close() !!}
           </div>
-        </div>
-        <div id="menu1" class="tab-pane fade">
-        <div class="row">  
+        
+          <div class="row">  
             <!--<form method="post" id="merchant_edit_form" action="{{ url('merchant_details_update') }}" enctype="multipart/form-data">-->
             {!! Form::model($merchant_details, ['id' => 'merchant_edit_form', 'method' => 'POST','url' => ['merchant_details_update', Crypt::encryptString($merchant_details->id) ]]) !!}
-              
-              <div class="col-md-12 merchant-kyc">
-                <table class="table table-striped merchant-kyc-table">                 
-                  <tbody>
-                    <tr><td colspan="2" class="headingRow">Business Overview</td></tr>
-                    <tr>
-                      <td>Business Name</td>
-                      <td>{{ $merchant_details->business_category }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('business_category')">edit</i>
-                      {!! Form::text('business_category', null, array('id' => 'business_category', 'placeholder' => 'Business Category','class' => 'form-control', 'style' => 'display:none;')) !!}
-                      <button style="display: none;" id="update_button_business_category" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_business_category" onclick="hide_input('business_category')">cancel</a></td>
-                    </tr>
-                    <tr>
-                      <td>Business Type</td>
-                      <td>{{ $merchant_details->business_type }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('business_type')">edit</i>{!! Form::text('business_type', null, array('id' => 'business_type', 'placeholder' => 'Business Type','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_business_type" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_business_type" onclick="hide_input('business_type')">cancel</a></td>
-                    </tr>
-                    <tr>
-                      <td>Business Description</td>
-                      <td>{{ $merchant_details->business_description }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('business_description')">edit</i><textarea style="display:none;" class="form-control" name="business_description" id="business_description"></textarea><button style="display: none;" id="update_button_business_description" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_business_description" onclick="hide_input('business_description')">cancel</a></td>
-                    </tr>
-                    <tr><td colspan="2" class="headingRow">Business Details</td></tr>
-                    <tr>
-                      <td>PAN Holder Name</td>
-                      <td>{{ $merchant_details->pan_holder_name }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('pan_holder_name')">edit</i>{!! Form::text('pan_holder_name', null, array('id' => 'pan_holder_name', 'placeholder' => 'Pan Holder Name','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_pan_holder_name" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_pan_holder_name" onclick="hide_input('pan_holder_name')">cancel</a></td>
-                    </tr>
-                    <tr>
-                      <td>Billing Label</td>
-                      <td>{{ $merchant_details->billing_label }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('billing_label')">edit</i>{!! Form::text('billing_label', null, array('id' => 'billing_label', 'placeholder' => 'Billing Label','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_billing_label" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_billing_label" onclick="hide_input('billing_label')">cancel</a></td>
-                    </tr>
-                    <tr>
-                      <td>Billing Address</td>
-                      <td>{{ $merchant_details->billing_address }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('billing_address')">edit</i>{!! Form::text('billing_address', null, array('id' => 'billing_address', 'placeholder' => 'Billing Address','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_billing_address" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_billing_address" onclick="hide_input('billing_address')">cancel</a></td>
-                    </tr>
-                    <tr>
-                      <td>Billing City</td>
-                      <td>{{ $merchant_details->billing_city }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('billing_city')">edit</i>{!! Form::text('billing_city', null, array('id' => 'billing_city', 'placeholder' => 'Billing City','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_billing_city" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_billing_city" onclick="hide_input('billing_city')">cancel</a></td>
-                    </tr>
-                    <tr>
-                      <td>Billing State</td>
-                      <td>{{ $merchant_details->billing_state }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('billing_state')">edit</i>{!! Form::text('billing_state', null, array('id' => 'billing_state', 'placeholder' => 'Billing State','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_billing_state" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_billing_state" onclick="hide_input('billing_state')">cancel</a></td>
-                    </tr>
-                    <tr><td colspan="2" class="headingRow">Personal Bank Account</td></tr>
-                    <tr>
-                      <td>Bneficiary Name</td>
-                      <td>{{ $merchant_details->beneficiary_name }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('beneficiary_name')">edit</i>{!! Form::text('beneficiary_name', null, array('id' => 'beneficiary_name', 'placeholder' => 'Beneficiary Name','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_beneficiary_name" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_beneficiary_name" onclick="hide_input('beneficiary_name')">cancel</a></td>
-                    </tr>
-                    <tr>
-                      <td>Account Number</td>
-                      <td>{{ $merchant_details->account_number }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('account_number')">edit</i>{!! Form::text('account_number', null, array('id' => 'account_number', 'placeholder' => 'Account Number','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_account_number" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_account_number" onclick="hide_input('account_number')">cancel</a></td>
-                    </tr>
-                    <tr>
-                      <td>Ifsc Code</td>
-                      <td>{{ $merchant_details->ifsc_code }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('ifsc_code')">edit</i>{!! Form::text('ifsc_code', null, array('id' => 'ifsc_code', 'placeholder' => 'Ifsc Code','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_ifsc_code" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_ifsc_code" onclick="hide_input('ifsc_code')">cancel</a></td>
-                    </tr>
-                    <tr><td colspan="2" class="headingRow">Documents</td></tr>
-                    <tr>
-                      <td>Aadhar Number</td>
-                      <td>{{ $merchant_details->aadhar_no }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('aadhar_no')">edit</i>{!! Form::text('aadhar_no', null, array('id' => 'aadhar_no', 'placeholder' => 'Aadhar No','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_aadhar_no" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_aadhar_no" onclick="hide_input('aadhar_no')">cancel</a></td>
-                    </tr>
-                    <tr>
-                      <td>Aadhar Front Image</td>
-                      <td>
-                        <input type="file" name="aadhar_front_image" accept="image/*" class="form-control" id="aadhar_front_image">
-                        @if(isset($merchant_details->aadhar_front_image) && $merchant_details->aadhar_front_image!='')
-                        <img id="blah" src="{{url('/')}}/uploads/aadharimage/{{$merchant_details->aadhar_front_image}}" alt="your image"  style="height:100px; width:100px;" />
-                        @else 
-                        <img id="blah" src="#" alt="your image"  style="height:100px; width:100px;" />
-                        @endif
-                        <button style="display: none;" id="update_button_aadhar_front" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Aadhar Back Image</td>
-                      <td>
-                        <input type="file" name="aadhar_back_image" accept="image/*" class="form-control" id="aadhar_back_image">
-                        @if(isset($merchant_details->aadhar_back_image) && $merchant_details->aadhar_back_image!='')
-                        <img id="blah2" src="{{url('/')}}/uploads/aadharimage/{{$merchant_details->aadhar_back_image}}" alt="your image"  style="height:100px; width:100px;" />
-                        @else 
-                        <img id="blah2" src="#" alt="your image"  style="height:100px; width:100px;" />
-                        @endif
-                        <button style="display: none;" id="update_button_aadhar_back" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button>
-                      </td>
-                    </tr>
-                    <tr id="update_row()">
-                      <td style="background-color:white;">&nbsp;&nbsp;</td>
-                      <td style="background-color:white;"><button style="display: none;" id="update_button" type="button" onclick="form_submit()" class="btn btn-primary">Update</button></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>        
+            <div class="col-md-12 merchant-kyc">
+              <table class="table table-striped merchant-kyc-table" id="profile_table"> 
+                <tbody>
+                  <tr><td colspan="2" class="headingRow">Business Details</td></tr>
+                  <tr>
+                    <td>PAN Holder Name</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->pan_holder_name }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('pan_holder_name')">edit</i>{!! Form::text('pan_holder_name', null, array('id' => 'pan_holder_name', 'placeholder' => 'Pan Holder Name','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_pan_holder_name" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_pan_holder_name" onclick="hide_input('pan_holder_name')">cancel</a></td>
+                  </tr>
+                  <tr>
+                    <td>Billing Label</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->billing_label }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('billing_label')">edit</i>{!! Form::text('billing_label', null, array('id' => 'billing_label', 'placeholder' => 'Billing Label','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_billing_label" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_billing_label" onclick="hide_input('billing_label')">cancel</a></td>
+                  </tr>
+                  <tr>
+                    <td>Billing Address</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->billing_address }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('billing_address')">edit</i>{!! Form::text('billing_address', null, array('id' => 'billing_address', 'placeholder' => 'Billing Address','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_billing_address" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_billing_address" onclick="hide_input('billing_address')">cancel</a></td>
+                  </tr>
+                  <tr>
+                    <td>Billing City</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->billing_city }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('billing_city')">edit</i>{!! Form::text('billing_city', null, array('id' => 'billing_city', 'placeholder' => 'Billing City','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_billing_city" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_billing_city" onclick="hide_input('billing_city')">cancel</a></td>
+                  </tr>
+                  <tr>
+                    <td>Billing State</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->billing_state }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('billing_state')">edit</i>{!! Form::text('billing_state', null, array('id' => 'billing_state', 'placeholder' => 'Billing State','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_billing_state" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_billing_state" onclick="hide_input('billing_state')">cancel</a></td>
+                  </tr>
+                  <tr><td colspan="2" class="headingRow">GST Details</td></tr>
+                  <tr>
+                    <td>GST No.</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->gst_no }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('gst_no')">edit</i>{!! Form::text('gst_no', null, array('id' => 'gst_no', 'placeholder' => 'GST NO','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_gst_no" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_gst_no" onclick="hide_input('gst_no')">cancel</a></td>
+                  </tr>
+                  <tr>
+                    <td>Razorpay GST No</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->razorpay_gst_no }}</td>
+                  </tr>
+                  <tr><td colspan="2" class="headingRow">Bank Account</td></tr>
+                  <tr>
+                    <td>Bneficiary Name</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->beneficiary_name }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('beneficiary_name')">edit</i>{!! Form::text('beneficiary_name', null, array('id' => 'beneficiary_name', 'placeholder' => 'Beneficiary Name','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_beneficiary_name" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_beneficiary_name" onclick="hide_input('beneficiary_name')">cancel</a></td>
+                  </tr>
+                  <tr>
+                    <td>Account Number</td>
+                    <td style="padding-left:230px;"">{{ $merchant_details->account_number }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('account_number')">edit</i>{!! Form::text('account_number', null, array('id' => 'account_number', 'placeholder' => 'Account Number','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_account_number" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_account_number" onclick="hide_input('account_number')">cancel</a></td>
+                  </tr>
+                  <tr>
+                    <td>Ifsc Code</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->ifsc_code }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('ifsc_code')">edit</i>{!! Form::text('ifsc_code', null, array('id' => 'ifsc_code', 'placeholder' => 'Ifsc Code','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_ifsc_code" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_ifsc_code" onclick="hide_input('ifsc_code')">cancel</a></td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td style="padding-left:230px;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td>User Name</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Login Email</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->email }}</td>
+                  </tr>
+                  <tr>
+                    <td>Role</td>
+                    <td style="padding-left:230px;">Owner</td>
+                  </tr>
+                  <!--<tr><td colspan="2" class="headingRow">Documents</td></tr>
+                  <tr>
+                    <td>Aadhar Number</td>
+                    <td style="padding-left:230px;">{{ $merchant_details->aadhar_no }}&nbsp;&nbsp;<i class="fas fa-edit"  style="cursor:pointer;" onclick="show_input('aadhar_no')">edit</i>{!! Form::text('aadhar_no', null, array('id' => 'aadhar_no', 'placeholder' => 'Aadhar No','class' => 'form-control', 'style' => 'display:none;')) !!}<button style="display: none;" id="update_button_aadhar_no" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button><a style="display:none; cursor:pointer;" id="cancel_aadhar_no" onclick="hide_input('aadhar_no')">cancel</a></td>
+                  </tr>
+                  <tr>
+                    <td>Aadhar Front Image</td>
+                    <td style="padding-left:230px;">
+                      <input type="file" name="aadhar_front_image" accept="image/*" class="form-control" id="aadhar_front_image">
+                      @if(isset($merchant_details->aadhar_front_image) && $merchant_details->aadhar_front_image!='')
+                      <img id="blah" src="{{url('/')}}/uploads/aadharimage/{{$merchant_details->aadhar_front_image}}" alt="your image"  style="height:100px; width:100px;" />
+                      @else 
+                      <img id="blah" src="#" alt="your image"  style="height:100px; width:100px;" />
+                      @endif
+                      <button style="display: none;" id="update_button_aadhar_front" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Aadhar Back Image</td>
+                    <td style="padding-left:230px;">
+                      <input type="file" name="aadhar_back_image" accept="image/*" class="form-control" id="aadhar_back_image">
+                      @if(isset($merchant_details->aadhar_back_image) && $merchant_details->aadhar_back_image!='')
+                      <img id="blah2" src="{{url('/')}}/uploads/aadharimage/{{$merchant_details->aadhar_back_image}}" alt="your image"  style="height:100px; width:100px;" />
+                      @else 
+                      <img id="blah2" src="#" alt="your image"  style="height:100px; width:100px;" />
+                      @endif
+                      <button style="display: none;" id="update_button_aadhar_back" type="button" onclick="form_submit()" class="btn btn-sm btn-primary">Update</button>
+                    </td>
+                  </tr>-->
+                  <tr id="update_row()">
+                    <td style="background-color:white;">&nbsp;&nbsp;</td>
+                    <td style="background-color:white;"><button style="display: none;" id="update_button" type="button" onclick="form_submit()" class="btn btn-primary">Update</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>        
             <!--</form>-->    
             {!! Form::close() !!}
           </div>

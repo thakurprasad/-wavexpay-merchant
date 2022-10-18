@@ -75,7 +75,7 @@
 
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-responsive-sm" id="myTable">
+            <table class="table table-bordered table-striped table-responsive-sm" id="myTable">
                 <thead>
                     <tr>
                     <th scope="col">Order Id</th>
@@ -95,9 +95,7 @@
                         <td>{{$order->attempts}}</td>
                         <td>{{$order->receipt}}</td>
                         <td>{{$order->created_at}}</td>
-                        <td>
-                            <a class="waves-effect waves-light btn-small">{{$order->status}}</a>
-                        </td>
+                        <td>{!! Helper::badge($order->status) !!}</td>
                     </tr>
                     @endforeach
                     @endif
