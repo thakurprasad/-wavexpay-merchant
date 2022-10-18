@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 use App\Models\UserType;
+use App\Models\Merchant;
 use Config;
 use DB;
 use Razorpay\Api\Api;
@@ -237,9 +238,13 @@ class Helper
     } 
 
     public static function get_merchant_details($merchant_id){
-        $item_details = DB::table('merchants')->where('id',$merchant_id)->first();
-        return $item_details;
+        //$item_details = DB::table('merchants')->where('id',$merchant_id)->first();
+        $data = Merchant::select('merchants.*','merchant_users.*')->join('merchant_users', 'merchant_users.merchant_id', '=', 'merchants.id')->where('merchants.id',$merchant_id)->get();
+        $data = $data[0];
+        return $data;
     }
+
+    
 
     public static function get_payment_details_by_merchant($merchant_id){
         $data = DB::table("payments")
@@ -343,5 +348,38 @@ class Helper
     public static function api_secret(){
         return Helper::weveXpay('api_secret');
     }
+
+    /**
+     * use paramters to Call Function 
+     * 'authorized', 'wait', 'coming soon' 
+     * 'failed', 'error', 'pending'
+     * 'captured', 'success', 'completed'
+     * 
+     * <span class="badge badge-primary">Primary</span>
+        <span class="badge badge-secondary">Secondary</span>
+        <span class="badge badge-success">Success</span>
+        <span class="badge badge-danger">Danger</span>
+        <span class="badge badge-warning">Warning</span>
+        <span class="badge badge-info">Info</span>
+        <span class="badge badge-light">Light</span>
+        <span class="badge badge-dark">Dark</span>
+
+     * */
+    public static function badge($string){
+        $class = 'dark';
+        if(in_array($string, ['authorized', 'wait', 'coming soon'])){
+             $class = 'warning';
+        }
+        if(in_array($string, ['failed', 'error', 'pending'])){
+             $class = 'danger';
+        }
+        if(in_array($string, ['captured', 'success', 'completed'])){
+            $class = 'success';
+        }
+
+          return "<span class='badge badge-".$class."'>$string</span>";
+    }
+
+
 
 }

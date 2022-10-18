@@ -1,21 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <!-- Meta -->
-      <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-      <title>wavexpay</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- Styles -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-      <link href="{{ url('/') }}/register_section/css/style.css" rel="stylesheet" type="text/css"/>
-      <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
-      <script>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Wavexpay - Register</title>
+    <!-- Custom fonts for this template-->
+    <link href="{{ asset('newdesign/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ asset('newdesign/css/sb-admin-2.min.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" id="step_one_form" action="{{ url('/sign-up-merchant-step-one') }}">
+                @csrf
+                    <div class="card border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <div class="col-lg-6 text-white-900 bg-gradient-primary" style="height:520px;">
+                                    <img src="{{ asset('/images/logo/wave_x_pay.png') }}" title="{{ config('app.name', 'Laravel') }}" style="border:0;align:center;margin: 10px; width: 25%; ">
+                                </div>
+                                <div class="col-lg-6" style="margin-top:80px;">
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">Sign Up With Wavexpay!</h1>
+                                        </div>
+                                        
+                                            <div class="form-group">
+                                                <label for="exampleInputbusiness1">Business Type</label>
+                                                <select class="form-control" name="business_type" id="business_type" required>
+                                                    <option value="" disabled selected>Select</option>
+                                                    <option value="registered">Registered</option>
+                                                    <option value="notregistered">Not Yet Registered</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Registerd business</label>
+                                                <select class="form-control" name="business_category" id="business_category" required>
+                                                    <option value="proprietorship">Proprietorship</option>
+                                                    <option value="partnership">Partnership</option>
+                                                    <option value="privatelimited">Private Limited</option>
+                                                    <option value="publiclimited">Public Limited</option>
+                                                    <option value="llp">LLP</option>
+                                                    <option value="trust">Trust</option>
+                                                </select>
+                                            </div>
+                                            <button type="button" id="submit_button" onclick="submit_form()" class="btn-wavex btn btn-primary">Next</button>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('newdesign/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('newdesign/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('newdesign/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('newdesign/js/sb-admin-2.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+    <script>
       function submit_form() {
-        var exampleInputBusiness1 = $("#exampleInputBusiness1").val();
-        var exampleFormControlSelect1 = $("#exampleFormControlSelect1").val();
-        if(exampleInputBusiness1==null){
+        var business_type = $("#business_type").val();
+        var business_category = $("#business_category").val();
+        if(business_type==null){
           alert('business type is required');
           return false;
         }
@@ -30,69 +101,7 @@
           }
         , 1000);
       }
-      </script>
-   </head>
-   <body>
-      <div class="wavexpay-all">
-         <div class="wavexpay-root">
-            <div class="container">
-               <div class="row">
-                  <section class="stage-1">
-                     <div class="col-md-12 top-bar">
-                        <div class="col-md-2 logo-wave">
-                            <img src="{{ asset('images/logo/wave_x_pay.png') }}" title="{{ config('app.name', 'Laravel') }}" style="max-width: 140px;">
-                        </div>
-                        <div class="col-md-6">
-                        </div>
-                        <div class="col-md-4 login-right">
-                           <p class="user-a">Already a user?</p>
-                           <a class="btn-login" href="#">Login</a>
-                        </div>
-                     </div>
-                     <div class="col-md-12 stage-2">
-                          <div class="col-md-5">
-                            <div class="form">
-                              <h3 class="bottom-space"> What's your business type?</h3>
-                              <form method="post" id="step_one_form" action="{{ url('/sign-up-merchant-step-one') }}">
-                                @csrf
-                                <input type="hidden" value="<?php if(isset($action)) { echo $action; } ?>" name="action">
-                                <input type="hidden" value="<?php if(isset($ref_no)) { echo $ref_no; } ?>" name="ref_no">
-                                <div class="form-group">
-                                  <label for="exampleInputbusiness1">Business Type</label>
-                                  <select class="form-control" name="business_type" id="exampleInputBusiness1" required>
-                                    <option value="" disabled selected>Select</option>
-                                    <option value="registered">Registered</option>
-                                    <option value="notregistered">Not Yet Registered</option>
-                                  </select>
-                                </div>
-                                <div class="form-group">
-                                  <label for="exampleFormControlSelect1">Registerd business</label>
-                                  <select class="form-control" name="business_category" id="exampleFormControlSelect1" required>
-                                    <option value="proprietorship">Proprietorship</option>
-                                    <option value="partnership">Partnership</option>
-                                    <option value="privatelimited">Private Limited</option>
-                                    <option value="publiclimited">Public Limited</option>
-                                    <option value="llp">LLP</option>
-                                    <option value="trust">Trust</option>
-                                  </select>
-                                </div>
-                                <button type="button" id="submit_button" onclick="submit_form()" class="btn-wavex btn btn-primary">Next</button>
-                              </form>
-                            </div>
-                        </div>
-                        <div class="col-md-6 stage-2-choose">
-                           <h5>Why choose Wavexpay?</h5>
-                           <p>50,00,000+ businesses trust their payments with Razorpay</p>
-                           <img src="{{ url('/') }}/register_section/img/client-logos.png" class="img-responsive">
-                           <p class="need">Need help? We are just a click away. Contact Us</p>
-                        </div>
-                        <div class="col-md-1">
-                        </div>
-                     </div>
-                  </section>
-               </div>
-            </div>
-         </div>
-      </div>
-   </body>
+    </script>
+</body>
+
 </html>

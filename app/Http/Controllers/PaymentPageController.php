@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Session;
 use DB;
+use App\Models\Merchant;
+use App\Models\MerchantUser;
 
 class PaymentPageController extends Controller
 {
