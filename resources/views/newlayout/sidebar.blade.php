@@ -1,4 +1,4 @@
-<ul class="navbar-nav sidebar accordion" id="accordionSidebar" style="background-color:#00008B; height:550px;  overflow:scroll;width: 18rem !important;scrollbar-width: thin;">
+<ul class="navbar-nav sidebar accordion" id="accordionSidebar" style="background-color:#00008B;">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo url('/') ?>/home">
