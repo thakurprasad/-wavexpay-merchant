@@ -19,9 +19,16 @@
       </ul>
       <div class="tab-content">
 
-        <div id="home" class="tab-pane active">
+        <div id="home" style="padding: 40px;" class="tab-pane active">
           <div class="row">                         
             <div class="col-md-12">
+              <div class="card shadow mb-4">
+                <div class="card-body">
+                  <h5 class="card-title"><strong>2-Step verification</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+                  <p class="card-text">Add an extra layer of security to your account by using a one-time verification code in addition to your password each time you log in.<br clear="all">
+                  <strong>Note:</strong> You can setup 2FA for your team from <a href="">manage team</a> page</p>
+                </div>
+              </div>
               <table class="table table-striped"> 
                 <tbody>
                   {!! Form::model($merchant_details, ['id' => 'merchant_edit_form1', 'method' => 'POST','url' => ['merchant_general_update', Crypt::encryptString($merchant_details->id) ]]) !!}
