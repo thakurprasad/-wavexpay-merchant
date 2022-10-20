@@ -240,7 +240,7 @@
 
               <div class="card shadow mb-4">
                 <div class="card-body">
-                  <h5 class="card-title"><strong>2-Step verification to the team</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80"></h5>
+                  <h5 class="card-title"><strong>2-Step verification to the team</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
                   <p class="card-text">2-step verification will be enforced to all the team members who have access to this Dashboard.
                   <strong>Note:</strong> This setting requires 2-step verification set up on your account.</p>
                 </div>
@@ -292,10 +292,17 @@
 
         <div id="menu6" class="tab-pane">
           <div class="row">                         
-            <div class="col-md-12">
-              Support Tickets
-            </div>    
-          </div>
+            <div class="col-md-2"></div>                       
+            <div class="col-md-8" style="padding-top:20px;">
+              <div class="card shadow mb-4">
+                <div class="card-body">
+                  <strong>There are no queries yet!</strong><br clear="all">
+                  You can view your raised queries here and track its status.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2"></div>      
+          </div>    
         </div>
 
       </div>
