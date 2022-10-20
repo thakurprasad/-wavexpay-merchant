@@ -67,3 +67,8 @@ ul#accordionSidebar li > a {
     outline: none;
     transition: .15s,.3s border;
   }
+
+  ul#accordionSidebar li.nav-item  a:hover {
+      background: #F69321 !important;
+      color: white !important;
+  }
