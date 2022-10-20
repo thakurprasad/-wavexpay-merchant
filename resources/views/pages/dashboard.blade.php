@@ -11,12 +11,7 @@
 @endsection
 @section('content')
 <div class="container-fluid">
-    <!-- Page Heading 
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-    </div>
-    -->
+  
     <x-notification/>
     <div class="row" style="margin:30px 0px;border: 1px solid #ccc;padding: 18px 0;box-shadow: 0px 0 22px -8px;margin-top: 40px;background-color: white;">
         <div class="col-xl-6">
@@ -53,8 +48,9 @@ if(!empty($payments))
 @endphp 
         <x-my-card type="1" title="New Order" value="{{count($orders)}}" icon="calendar" />
         <x-my-card type="2" title="Total Payments Amount" value="{{number_format($total_amount,2)}}" icon="dollar-sign" />
-        <x-my-card type="3" title="Success Rate" value="{{$success_perc}}%" icon="clipboard-list" />
+
         <x-my-card type="4" title="Total Transactions" value="1008" icon="chart-area" />
+        <x-my-card type="3" title="Success Rate" value="{{$success_perc}}%" icon="clipboard-list" />
     </div>
 
     <!-- Content Row -->

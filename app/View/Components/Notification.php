@@ -9,12 +9,12 @@ use App\Models\Dashboardheader;
 class Notification extends Component
 {
     
-    //$title = '';
-    //$description = '';
+    public $title = '';
+    public $description = '';
     public function __construct($title = '', $description = '')
     {
-         //$this->title = $title;
-         //$this->description = $description;
+         $this->title = $title;
+         $this->description = $description;
     }
 
     /**
@@ -25,8 +25,14 @@ class Notification extends Component
     public function render()
     {
         $data = Dashboardheader::find(1);
-        $title = $data->title;
-        $description = $data->description;
-        return view('components.notification', ['title' => $title, 'description' => $description]);
+        
+        
+        if(empty($this->title)){
+            $this->title = $data->title;    
+        }
+        if(empty($this->description)){
+            $this->description = $data->description;
+        }
+        return view('components.notification', ['title' => $this->title, 'description' => $this->description]);
     }
 }
