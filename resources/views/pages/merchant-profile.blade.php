@@ -240,7 +240,7 @@
 
               <div class="card shadow mb-4">
                 <div class="card-body">
-                  <h5 class="card-title"><strong>2-Step verification to the team</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs"></h5>
+                  <h5 class="card-title"><strong>2-Step verification to the team</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80"></h5>
                   <p class="card-text">2-step verification will be enforced to all the team members who have access to this Dashboard.
                   <strong>Note:</strong> This setting requires 2-step verification set up on your account.</p>
                 </div>
