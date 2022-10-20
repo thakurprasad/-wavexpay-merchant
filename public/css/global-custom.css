@@ -72,3 +72,8 @@ ul#accordionSidebar li > a {
       background: #F69321 !important;
       color: white !important;
   }
+
+    ul#accordionSidebar li.nav-item  a.active {
+      background: #F69321 !important;
+      color: white !important;
+  }
