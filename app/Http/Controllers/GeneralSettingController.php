@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use DB;
+use App\Models\GeneralSetting;
+use App\Models\MerchantKey;
 
 class GeneralSettingController extends Controller
 {
     public function index(Request $request){
-        $general_settings = DB::table('general_settings')->get();
-        return view('pages.settings.index', compact('general_settings'));
+        $merchant_id =  session()->get('merchant');
+        $general_settings = GeneralSetting::where('merchant_id',$merchant_id)->first();
+        $key_details = MerchantKey::where('merchnat_id',$merchant_id)->first();
+        return view('pages.settings.index', compact('general_settings','key_details'));
     }
 
     public function getGeneralSetting(Request $request)
