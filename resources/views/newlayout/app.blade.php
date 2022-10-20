@@ -111,6 +111,7 @@
 
   <!-- Page level custom scripts -->
   <script src="{{ asset('newdesign/js/demo/datatables-demo.js') }}"></script>
+  <script src="{{ asset('newdesign/js/global-functions.js') }}"></script>
 
 
 

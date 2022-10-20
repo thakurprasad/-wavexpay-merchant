@@ -167,5 +167,8 @@ Route::group(['middleware' => ['token.check']], function() {
 
     Route::post('cashfreeorder', [App\Http\Controllers\CashfreeOrderController::class, 'create']);
     Route::post('cashfreepayments/thankyou', [App\Http\Controllers\CashfreePaymentController::class, 'success']);
+
+    Route::get('set-gateway-mode/{mode}', [App\Http\Controllers\SetGatwayController::class, 'setGatwayMode']);
+
 });
 

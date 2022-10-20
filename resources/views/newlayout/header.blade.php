@@ -99,42 +99,49 @@
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="{{url('my-account')}}">
-                  <div class="row">
-                    <div class="col-md-3"><img src="http://localhost/laravel/wavexpay-merchant/public/images/logo/wave_x_pay.png" width="70px;" height="70px;"></div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-3">
-                      {{$get_merchant_details->display_name}}<br clear="all">
-                      {{$get_merchant_details->access_salt}}<br clear="all">
-                      <span class="badge badge-warning">Copy Merchant Id</span>
+
+                  <div class="row col-md-12">
+                    <div class="col-md-3 rounded-circle" style="border:1px solid #ccc;">
+                        <img src="{{ url('images/logo/wave_x_pay.png') }}" width="100%">
+                    </div>
+                    <div class="col-md-9">
+                        {{$get_merchant_details->display_name}}<br>
+                        <br>
+                        <div class="input-group">
+                            <input id="profile_merchent_id" type="text" class="form-control bg-light border-0 small" value="{{$get_merchant_details->access_salt}}">
+                            <div class="input-group-append">
+                                <button onclick="copyText('profile_merchent_id')" class="btn btn-primary" type="button">
+                                    <i class="fas fa-copy fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
                   </div>
-                </a>
 
                 <div class="dropdown-divider"></div>
 
 
-                <a class="dropdown-item" href="#">
-                  <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-3"><input type="radio" style="accent-color: green;" name="mode" id="mode" value="live">Live</div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-3"><input type="radio" style="accent-color: yellow;" name="mode" id="mode" value="test">Test</div>
-                    <div class="col-md-2"></div>
+                  <div class="row col-md-12">
+                    <div class="col-md-5 offset-md-1">
+                        <a  href="{{url('set-gateway-mode/live') }}" style="width: 97%;cursor: pointer;" class="btn btn-success btn-sm" title="Active Live Merchant Dashboard">
+                        <input type="radio" style="accent-color: green;" name="mode" onclick="setMode('live')" value="live" {{ session()->get('mode') =='live'? 'checked' : ''  }}> Live</a>
+                    </div>
+                    <div class="col-md-5">
+                        <a href="{{url('set-gateway-mode/test') }}" style="width: 97%;cursor: pointer;" class="btn btn-info btn-sm" title="Active Test Merchant Dashboard"><input type="radio" style="accent-color: green;" name="mode" onclick="setMode('test')" value="test" {{ session()->get('mode') =='test'? 'checked' : ''  }}> Test</a>
+                    </div>
                   </div>
-                </a>
+
 
                 <div class="dropdown-divider"></div>
 
 
-                <a class="dropdown-item" href="{{url('my-account')}}">
-                  <div class="row">
+                  <div class="row col-md-12">
                     <div class="col-md-6">
                       <strong>Logged In As</strong><br clear="all">
                       {{$get_merchant_details->email}}<br clear="all">
                     </div>
                   </div>
-                </a>
 
                 <div class="dropdown-divider"></div>
 
@@ -162,3 +169,4 @@
     </ul>
 
 </nav>
+
