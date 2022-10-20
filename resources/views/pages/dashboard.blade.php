@@ -8,65 +8,6 @@
     overflow-y: auto;
 }
 </style>
-
-
-<style>
-body {font-family: Arial;}
-
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-  
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 16px;
-  transition: 0.3s;
-  font-size: 17px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-  width: 100%;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #00008B;
-  width: 100%;
-  color: #FFFFFF;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  height: 354px;
-  padding: 6px 12px;
-  overflow:scroll;
-  -webkit-animation: fadeEffect 1s;
-  animation: fadeEffect 1s;
-}
-
-/* Fade in tabs */
-@-webkit-keyframes fadeEffect {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
-@keyframes fadeEffect {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-</style>
 @endsection
 @section('content')
 <div class="container-fluid">
@@ -233,17 +174,15 @@ if(!empty($payments))
     </div>
 
     <div class="col-xl-6 col-lg-6">
-      <div class="card shadow mb-4">
-        <div class="tab">
-          <div class="row">
-            <div class="col-lg-4"><button class="tablinks firstclass" onclick="openCity(event, 'London')">Payment</button></div>
-            <div class="col-lg-4"><button class="tablinks" onclick="openCity(event, 'Paris')">Settlement</button></div>
-            <div class="col-lg-4"><button class="tablinks" onclick="openCity(event, 'Tokyo')">Refund</button></div>
-          </div>
-        </div>
 
-        <div id="London" style="heght:354px;" class="tabcontent active">
-          <table class="table table-responsive">
+      <ul class="nav nav-tabs">
+        <li id="generalli"><a id="gsettingclick" data-toggle="tab" href="#menu1">Payment</a></li>
+        <li id="tbli"><a id="tbclick" data-toggle="tab" href="#menu2">Settlement</a></li>
+        <li id="cli"><a id="cclick" data-toggle="tab" href="#menu3">Refund</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="menu1" class="tab-pane active">
+          <table class="table table-responsive table-striped">
             <tbody>
               @if(!empty($payments))
               @foreach($payments as $payment)
@@ -259,19 +198,17 @@ if(!empty($payments))
                 <td>{!! Helper::badge($payment->status) !!}</td>
               </tr>
               @endforeach
+              @else 
+              <tr><td colspan="4">No Data Found</td></tr>
               @endif
             </tbody>
           </table>
         </div>
-
-        <div id="Paris" class="tabcontent">
-          <table class="table table-responsive">
-            
-          </table>
+        <div id="menu2" class="tab-pane fade in active">
+          Settlements
         </div>
-
-        <div id="Tokyo" class="tabcontent">
-          <table class="table table-responsive">
+        <div id="menu3" class="tab-pane fade in active">
+          <table class="table table-responsive table-striped">
             <tbody>
               @if(!empty($refunds))
               @foreach($refunds as $refund)
@@ -287,6 +224,8 @@ if(!empty($payments))
                 <td>{{$refund->status}}</td>
               </tr>
               @endforeach
+              @else 
+              <tr><td colspan="4">No Data Found</td></tr>
               @endif
             </tbody>
           </table>
@@ -314,7 +253,6 @@ if(!empty($payments))
   <div class="modal-content popup-wavex-form">
       <div class="row">
         <div class="col-md-12">
-            <span class="close white">&times;</span>
             <!-- Sidebar --->
             <div class="col-md-3 sidebarwave">
               <div class="left-sidebarwave">
@@ -629,13 +567,6 @@ if(!empty($payments))
 
 <script type="text/javascript">
 $(function() {
-    $(".firstclass").addClass('active');
-    document.getElementById("London").style.display = "block";
-
-
-    
-
-
     /*var start = moment().subtract(29, 'days');
     var end = moment();
 	  var start = moment().startOf('month');*/
@@ -660,10 +591,6 @@ $(function() {
     }, cb);
 
     cb(start, end);
-
-    //$(".firstclass").click();
-    
-
 });
 
 
@@ -758,7 +685,6 @@ function create_ajax_payment_chart(xValues,yValues){
                     ticks: {
                     maxTicksLimit: 5,
                     padding: 10,
-                    // Include a dollar sign in the ticks
                     callback: function(value, index, values) {
                         return '₹' + number_format(value);
                     }
@@ -798,30 +724,6 @@ function create_ajax_payment_chart(xValues,yValues){
                 }
             }
             });
-
-
-
-
-			/*var ctx = $("#chart-line");
-			var myLineChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: (xValues.trim()).split(','),
-					datasets: [{
-						data: (yValues.trim()).split(','),
-						label: "Monthly Payment Data",
-						borderColor: "#"+Math.floor((Math.random() * 100) + 1)+"8af7",
-						backgroundColor:'#'+Math.floor((Math.random() * 100) + 1)+'458af7',
-						fill: false
-					}]
-				},
-				options: {
-					title: {
-						display: true,
-						text: 'Daily wise Monthly Payment (in INR)'
-					}
-				}
-			});*/
 		}
 	}
 }
@@ -882,7 +784,6 @@ function create_ajax_order_chart(oxValues,oyValues){
                     max: 15000,
                     maxTicksLimit: 5,
                     padding: 10,
-                    // Include a dollar sign in the ticks
                     callback: function(value, index, values) {
                         return '₹' + number_format(value);
                     }
@@ -921,30 +822,6 @@ function create_ajax_order_chart(oxValues,oyValues){
             }
             });
 
-
-
-
-
-			/*var ctx = $("#chart-line2");
-			var myLineChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: (oxValues.trim()).split(','),
-					datasets: [{
-						data: (oyValues.trim()).split(','),
-						label: "Order Payment Data",
-						borderColor: "#"+Math.floor((Math.random() * 100) + 1)+"8af7",
-						backgroundColor:'#'+Math.floor((Math.random() * 100) + 1)+'458af7',
-						fill: false
-					}]
-				},
-				options: {
-					title: {
-						display: true,
-						text: 'Daily wise Monthly Order (in INR)'
-					}
-				}
-			});*/
 		}
 	}
 
@@ -1006,7 +883,6 @@ function create_ajax_method_chart(pxValues,pyValues){
                 max: 500,
                 maxTicksLimit: 5,
                 padding: 10,
-                // Include a dollar sign in the ticks
                 callback: function(value, index, values) {
                   return '₹' + number_format(value);
                 }
@@ -1045,30 +921,6 @@ function create_ajax_method_chart(pxValues,pyValues){
         }
       });
 
-
-
-
-
-			/*var ctx = $("#chart-line2");
-			var myLineChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: (oxValues.trim()).split(','),
-					datasets: [{
-						data: (oyValues.trim()).split(','),
-						label: "Order Payment Data",
-						borderColor: "#"+Math.floor((Math.random() * 100) + 1)+"8af7",
-						backgroundColor:'#'+Math.floor((Math.random() * 100) + 1)+'458af7',
-						fill: false
-					}]
-				},
-				options: {
-					title: {
-						display: true,
-						text: 'Daily wise Monthly Order (in INR)'
-					}
-				}
-			});*/
 		}
 	}
 }
@@ -1171,7 +1023,6 @@ var myLineChart = new Chart(ctx, {
         ticks: {
           maxTicksLimit: 5,
           padding: 10,
-          // Include a dollar sign in the ticks
           callback: function(value, index, values) {
             return '₹' + number_format(value);
           }
@@ -1444,23 +1295,18 @@ function openCity(evt, cityName) {
 <script>
     // Get the modal
     var modal = document.getElementById("myModal");
-    
     // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
-    
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
-    
     // When the user clicks the button, open the modal 
     btn.onclick = function() {
       modal.style.display = "block";
     }
-    
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
       modal.style.display = "none";
     }
-    
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
       if (event.target == modal) {
@@ -1469,7 +1315,25 @@ function openCity(evt, cityName) {
     }
 </script>
 <script>
-    function openCity(evt, cityName) {
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+    $("#defaultOpen").addClass('active');
+    
+
+    $( document ).ready(function() {
+      $("#gsettingclick").click();
+      $("#generalli").addClass('active');
+      $("#menu1").show();
+      var btn = document.getElementById("myBtn");
+      @if($is_kyc_completed=='no')
+      btn.click();
+      @endif
+      
+  });
+
+
+
+  function openCity(evt, cityName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");
       for (i = 0; i < tabcontent.length; i++) {
@@ -1573,19 +1437,6 @@ function openCity(evt, cityName) {
       }
       
   }
-    
-    // Get the element with id="defaultOpen" and click on it
-    document.getElementById("defaultOpen").click();
-    $("#defaultOpen").addClass('active');
-    
-
-    $( document ).ready(function() {
-      var btn = document.getElementById("myBtn");
-      @if($is_kyc_completed=='no')
-      btn.click();
-      @endif
-      
-  });
 
 
   function submit_signup_form()

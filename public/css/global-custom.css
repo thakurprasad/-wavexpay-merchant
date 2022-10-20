@@ -50,4 +50,20 @@ ul#accordionSidebar li > a {
     padding-left: 230px;
   }
 
-  
+
+  .Button--primary{
+    background-color: #528ff0;
+    color: #fff;
+    border: #347ced;
+    
+  }
+
+  .Button {
+    color: #414141;
+    padding: 10px 20px;
+    line-height: 16px;
+    border-radius: 2px;
+    border: 1px solid #e6e7e8;
+    outline: none;
+    transition: .15s,.3s border;
+  }
