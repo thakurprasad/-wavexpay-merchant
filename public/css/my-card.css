@@ -1,0 +1,30 @@
+/**
+   * Dashboard card styles
+   * */
+    .my-card {
+      min-height: 125px;
+      box-shadow: 0 0 10px 0;
+      color: white !important;
+      cursor: pointer;
+   }
+   .my-card fas  , .my-card strong {
+      color: white;
+   }
+
+   .my-card-1 {
+      background-image: -webkit-linear-gradient(-103deg, #d34918 0%, #d73516 35%, #e3878f 76%, #e73351 100%);
+   }
+
+
+   .my-card-2 {
+       min-height: 125px;
+       background-image: -webkit-linear-gradient(-103deg, #4e67e9 0%, #5770f5 35%, #c4cae7 76%, #6479ef 100%);
+   }
+
+   .my-card-3 {
+      background-image: -webkit-linear-gradient(-103deg, #92d4f5 0%, #09aeff 35%, #2177a1 76%, #67b3d952 100%);
+   }
+
+   .my-card-4 {
+      background-image: -webkit-linear-gradient(-103deg, #d17710e6 0%, #f18204 35%, #ddc5a9 76%, #a16d31 100%)
+   }

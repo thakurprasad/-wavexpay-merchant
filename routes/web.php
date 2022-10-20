@@ -27,7 +27,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AffiliateController;
 
 
-
+Route::get('testing', function(){ return view('pages.testing');}  );
 Auth::routes(['verify' => true]);
 
 Route::get('change-password', [ChangePasswordController::class, 'index']);

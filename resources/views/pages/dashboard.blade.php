@@ -2,6 +2,7 @@
 @section('page-style')
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link href="{{ url('/') }}/dashboard-signup/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="{{ url('/css/my-card.css') }}" rel="stylesheet" type="text/css"/>
 <style>
 .modal {
     overflow-y: auto;
@@ -10,26 +11,10 @@
 @endsection
 @section('content')
 <div class="container-fluid">
-    <!-- Page Heading 
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-    </div>
-    -->
-    @if(isset($dashboard_header) && $dashboard_header->title!='')
-	<div class="alert alert-primary alert-dismissible fade show" role="alert" style="background-color:#4e73df;color:#FFFFFF;">
-		<strong>@php if(isset($dashboard_header) && $dashboard_header->title!='') { echo $dashboard_header->title; } @endphp!</strong> @php if(isset($dashboard_header) && $dashboard_header->description!='') { echo $dashboard_header->description; } @endphp.
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
-	@endif
-
-
-   
-    <div class="row">
+  
+    <x-notification/>
+    <div class="row" style="margin:30px 0px;border: 1px solid #ccc;padding: 18px 0;box-shadow: 0px 0 22px -8px;margin-top: 40px;background-color: white;">
         <div class="col-xl-6">
-            <label for="first_name" style="color:#00008B;"><strong>Payment Date Range</strong><For></For></label>
             <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 66%">
                 <i class="fa fa-calendar"></i>&nbsp;
                 <span></span> <i class="fa fa-caret-down"></i>
@@ -39,102 +24,38 @@
             
         </div>
         <div class="col-xl-4">
-            <label for="first_name" style="color:#00008B;"><strong>Transaction Filter</strong><For></For></label>
             <select style="background: #fff; cursor: pointer; padding: 8px 10px; border: 1px solid #ccc; width: 100%" id="status_filter">
-                <option value="authorized">Successful</option>
+              <option>-- Select Transaction --</option>
+                <option value="authorized" selected>Successful</option>
                 <option value="pending">Pending</option>
                 <option value="all">All</option>
             </select>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-xl12">
-            &nbsp;
-        </div>
-    </div>
-    
 
-    <!-- Content Row -->
-    <div class="row">
+   <div class="col-12" > &nbsp;</div>
 
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body">
-            <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><strong>New Orders</strong></div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><strong>{{count($orders)}}</strong></div>
-            </div>
-            <div class="col-auto">
-                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-            </div>
-            </div>
-        </div>
-        </div>
-    </div>
+   
+@php
+$total_amount=0;
+if(!empty($payments))
+{
+    foreach($payments as $payment)
+    {
+        $total_amount+=$payment->amount;
+    }
+}
+@endphp 
+        <x-my-card type="1" title="New Order" value="{{count($orders)}}" icon="calendar" />
+        <x-my-card type="2" title="Total Payments Amount" value="{{number_format($total_amount,2)}}" icon="dollar-sign" />
 
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-        <div class="card-body">
-            @php
-            $total_amount=0;
-            if(!empty($payments))
-            {
-                foreach($payments as $payment)
-                {
-                    $total_amount+=$payment->amount;
-                }
-            }
-            @endphp
-            <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><strong>Total Payments Amount</strong></div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><strong>₹{{number_format($total_amount,2)}}</strong></div>
-            </div>
-            <div class="col-auto">
-                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-            </div>
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-        <div class="card-body">
-            <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><strong>Success Rate</strong></div>
-                <div class="row no-gutters align-items-center">
-                <div class="col-auto">
-                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><strong>{{$success_perc}}%</strong></div>
-                </div>
-                <div class="col">
-                    <div class="progress progress-sm mr-2">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="col-auto">
-                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-            </div>
-            </div>
-        </div>
-        </div>
-    </div>
-
-    
-
+        <x-my-card type="4" title="Total Transactions" value="1008" icon="chart-area" />
+        <x-my-card type="3" title="Success Rate" value="{{$success_perc}}%" icon="clipboard-list" />
     </div>
 
     <!-- Content Row -->
 
-    <div class="row">
+    <div class="row" style="margin-top:20px;">
 
     <!-- Area Chart -->
     <div class="col-xl-12 col-lg-12">
@@ -687,9 +608,14 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 			create_ajax_payment_chart(data.paymentxvalue1,data.paymentyvalue1);
 			create_ajax_order_chart(data.orderxvalue1,data.orderyvalue1);
       create_ajax_method_chart(data.paymentmethodxvalue,data.paymentmethodyvalue);
-			$("#order_count").html(data.total_order);
+			/*$("#order_count").html(data.total_order);
 			$("#total_payment_amount").html('₹'+(data.total_payment_amount).toFixed(2));
 			$("#success_rate_container").html(data.success_perc+'<sup style="font-size: 20px">%</sup>');
+            */
+            $("#card_value_1").html(data.total_order);
+            $("#card_value_2").html('₹'+(data.total_payment_amount).toFixed(2));
+            $("#card_value_3").html(data.success_perc+'<sup style="font-size: 20px">%</sup>');
+
         }
     });
 });
