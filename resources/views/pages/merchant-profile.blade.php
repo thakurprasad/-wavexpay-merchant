@@ -19,9 +19,16 @@
       </ul>
       <div class="tab-content">
 
-        <div id="home" class="tab-pane active">
+        <div id="home" style="padding: 40px;" class="tab-pane active">
           <div class="row">                         
-            <div class="col-md-12">
+            <div class="col-md-8 offset-md-2">
+              <div class="card shadow mb-4">
+                <div class="card-body">
+                  <h5 class="card-title"><strong>2-Step verification</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+                  <p class="card-text">Add an extra layer of security to your account by using a one-time verification code in addition to your password each time you log in.<br clear="all">
+                  <strong>Note:</strong> You can setup 2FA for your team from <a href="">manage team</a> page</p>
+                </div>
+              </div>
               <table class="table table-striped"> 
                 <tbody>
                   {!! Form::model($merchant_details, ['id' => 'merchant_edit_form1', 'method' => 'POST','url' => ['merchant_general_update', Crypt::encryptString($merchant_details->id) ]]) !!}
@@ -148,8 +155,9 @@
         </div>
 
         <div id="menu2" class="tab-pane">
-          <div class="row">                         
-            <div class="col-md-6" style="font-weight: 900;font-size: 28px;line-height: 36px;color: #0d2462;font-family: Lato; margin-top:20px;padding-left: 40px;">
+          <div class="row">     
+            <div class="col-md-2"></div>                 
+            <div class="col-md-4" style="font-weight: 900;font-size: 28px;line-height: 36px;color: #0d2462;font-family: Lato; margin-top:20px;padding-left: 40px;">
               <h5 >Join the Waitlist And Be A Wavexpay <br clear="all">Trusted Business Soon!!</h5>
               <p style="font-weight: 600;font-size: 18px;margin-top: 8px;line-height: 23px;color: #777b89;padding-left: 20px;">What Does The Batch Stand For</p>
               <ul>
@@ -159,16 +167,16 @@
               </ul>
               <button class="Button--primary Button">Join the waitlist</button>
             </div>    
-            <div class="col-md-6">
+            <div class="col-md-4">
               <img src="https://cdn.razorpay.com/dashboard/dist/css/assets/trustedbadge/not_eligible_waitlisted_delisted.svg" class="intro-image">
             </div> 
+            <div class="col-md-2"></div>   
           </div>
         </div>
 
         <div id="menu3" class="tab-pane">
           <div class="row">  
-            <div class="col-md-2"></div>                       
-            <div class="col-md-8" style="padding-top:20px;">
+            <div class="col-md-8 offset-md-2" style="padding-top:20px;">
 
               <div class="card shadow mb-4">
                 <div class="card-body">
@@ -201,14 +209,12 @@
               </div>
 
             </div>    
-            <div class="col-md-2"></div>
           </div>
         </div>
 
         <div id="menu4" class="tab-pane">
           <div class="row">                         
-            <div class="col-md-2"></div>                       
-            <div class="col-md-8" style="padding-top:20px;">
+            <div class="col-md-8 offset-md-2" style="padding-top:20px;">
 
               <div class="card shadow mb-4">
                 <div class="card-body">
@@ -235,8 +241,7 @@
 
         <div id="menu5" class="tab-pane">
           <div class="row">                         
-            <div class="col-md-2"></div>                       
-            <div class="col-md-8" style="padding-top:20px;">
+            <div class="col-md-8 offset-md-2" style="padding-top:20px;">
 
               <div class="card shadow mb-4">
                 <div class="card-body">
@@ -286,14 +291,12 @@
               </div>
 
             </div>    
-            <div class="col-md-2"></div>    
           </div>
         </div>
 
         <div id="menu6" class="tab-pane">
           <div class="row">                         
-            <div class="col-md-2"></div>                       
-            <div class="col-md-8" style="padding-top:20px;">
+            <div class="col-md-8 offset-md-2" style="padding-top:20px;">
               <div class="card shadow mb-4">
                 <div class="card-body">
                   <strong>There are no queries yet!</strong><br clear="all">
@@ -301,7 +304,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-2"></div>      
           </div>    
         </div>
 
@@ -309,50 +311,6 @@
     </div>
   </div>
 </div>
-
-
-<!--<div class="modal" id="modal1" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content" style="padding: 20px;">
-      <div class="modal-header">
-        <h5 class="modal-title">Aadhar front image</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row text-center">
-          <img id="aadhar_front_image_container" src="#" alt="your image"  style="height:300px; width:300px;" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal" id="modal2" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content" style="padding: 20px;">
-      <div class="modal-header">
-        <h5 class="modal-title">Aadhar Back image</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row text-center">
-          <img id="aadhar_back_image_container" src="#" alt="your image"  style="height:300px; width:300px;" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>-->
 @endsection
 
 

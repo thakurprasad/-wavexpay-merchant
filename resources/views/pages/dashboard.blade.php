@@ -169,42 +169,86 @@ if(!empty($payments))
       </div>
     </div>
 
+  <!-- Pie Chart -->
     <div class="col-xl-6 col-lg-6">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold" style="color: #00008B;">Resent Transaction</h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body" style="padding:0px">
+            
 
       <ul class="nav nav-tabs">
-        <li id="generalli"><a id="gsettingclick" data-toggle="tab" href="#menu1">Payment</a></li>
-        <li id="tbli"><a id="tbclick" data-toggle="tab" href="#menu2">Settlement</a></li>
-        <li id="cli"><a id="cclick" data-toggle="tab" href="#menu3">Refund</a></li>
+        <li id="generalli">
+          <a id="gsettingclick" data-toggle="tab" href="#menu1">Payment</a>
+        </li>
+        <li id="tbli">
+          <a id="tbclick" data-toggle="tab" href="#menu2">Settlement</a>
+        </li>
+        <li id="cli">
+          <a id="cclick" data-toggle="tab" href="#menu3">Refund</a>
+        </li>
       </ul>
-      <div class="tab-content">
-        <div id="menu1" class="tab-pane active">
-          <table class="table table-responsive table-striped">
-            <tbody>
+      <div class="tab-content" style="height: 308px; overflow-y: scroll; overflow-x: hidden;">
+        <div id="menu1" class="tab-pane fade in active show">
+          <table class="table table-bordered table-responsive_ table-striped">
+              <tr>
+                <th>Amount</th>
+                <th>Payment id</th>
+                <th>Created At</th>
+                <th>Status</th>
+              </tr>            
               @if(!empty($payments))
               @foreach($payments as $payment)
               <?php
               $date1=date_create("now");
               $date2=date_create($payment->payment_created_at);
               $diff=date_diff($date1,$date2); ?>
-              
-              <tr>
-                <td>₹{{$payment->amount}}</td>
-                <td>{{$payment->payment_id}}</td>
-                <td>{{ltrim($diff->format("%R%a days"),"-")}} ago</td>
-                <td>{!! Helper::badge($payment->status) !!}</td>
-              </tr>
-              @endforeach
-              @else 
+                <tr>
+                  <td>₹{{$payment->amount}}</td>
+                  <td>{{$payment->payment_id}}</td>
+                  <td>{{ltrim($diff->format("%R%a days"),"-")}} ago</td>
+                  <td>{!! Helper::badge($payment->status) !!}</td>
+                </tr>
+                @endforeach
+                @else 
               <tr><td colspan="4">No Data Found</td></tr>
               @endif
+          </table>
+        </div>
+        <div id="menu2" class="tab-pane fade in ">
+          <table class="table table-responsive table-striped">
+             <tr>
+                <th>Amount</th>
+                <th>Payment id</th>
+                <th>Created At</th>
+                <th>Status</th>
+              </tr> 
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
             </tbody>
           </table>
         </div>
-        <div id="menu2" class="tab-pane fade in active">
-          Settlements
-        </div>
-        <div id="menu3" class="tab-pane fade in active">
+        <div id="menu3" class="tab-pane fade in">
           <table class="table table-responsive table-striped">
+             <tr>
+                <th>Amount</th>
+                <th>Payment id</th>
+                <th>Created At</th>
+                <th>Status</th>
+              </tr> 
             <tbody>
               @if(!empty($refunds))
               @foreach($refunds as $refund)
@@ -227,7 +271,13 @@ if(!empty($payments))
           </table>
         </div>
       </div>
+
+        </div>
+      </div>
     </div>
+
+
+    
 
     </div>
 

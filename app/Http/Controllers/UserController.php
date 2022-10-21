@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\GeneralSetting;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -201,6 +202,39 @@ class UserController extends Controller
         $contact_number = $request->contact_number;
 
         DB::table('merchants')->where('id',$merchant_id)->update(array('contact_phone'=>$contact_number));
+        return response()->json(array('success'=>1));
+    }
+
+    public function changeThemeColor(Request $request)
+    {
+        $merchant_id =  session()->get('merchant');
+        $theme_color = $request->theme_color;
+
+        GeneralSetting::where('merchant_id',$merchant_id)->update(array('theme_color'=>$theme_color));
+        return response()->json(array('success'=>1));
+    }
+
+    public function changeThemeLogo(Request $request)
+    {
+        $input = $request->all();
+        $merchant_id =  session()->get('merchant');
+        if ($files = $request->file('theme_logo')) {
+            // Define upload path
+            $destinationPath = public_path('/images/logo/'); // upload path
+            // Upload Orginal Image
+            $uploadedImage = 'logo_'.date('YmdHis') . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $uploadedImage);
+        }
+        GeneralSetting::where('id',$merchant_id)->update(array('logo'=>$uploadedImage));
+        return response()->json(array('success'=>1));
+    }
+
+    public function changeThemeLanguage(Request $request)
+    {
+        $merchant_id =  session()->get('merchant');
+        $theme_language = $request->theme_language;
+
+        GeneralSetting::where('merchant_id',$merchant_id)->update(array('language'=>$theme_language));
         return response()->json(array('success'=>1));
     }
 

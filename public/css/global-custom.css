@@ -77,3 +77,16 @@ ul#accordionSidebar li > a {
       background: #F69321 !important;
       color: white !important;
   }
+
+/*dashboard tab style**/
+.nav-tabs {
+    background-color: #25A8E0;
+}
+.nav-tabs .active {
+    background-color: #F69321;
+}
+
+ul.nav-tabs li a:hover {
+    background: #F69321 !important;
+}
+

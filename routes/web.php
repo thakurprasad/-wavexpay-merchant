@@ -153,6 +153,10 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('changedisplayname',  [UserController::class, 'changeDisplayName'])->name('changedisplayname');
     Route::post('changecontactnumber',  [UserController::class, 'changeContactNumber'])->name('changecontactnumber');
 
+    Route::post('changethemecolor',  [UserController::class, 'changeThemeColor'])->name('changethemecolor');
+    Route::post('changethemelogo',  [UserController::class, 'changeThemeLogo'])->name('changethemelogo');
+    Route::post('changethemelanguage',  [UserController::class, 'changeThemeLanguage'])->name('changethemelanguage');
+
     Route::post('send-invite',  [AffiliateController::class, 'sendInvite'])->name('send-invite');
 
     Route::get('rewards',  [AffiliateController::class, 'rewards'] );
