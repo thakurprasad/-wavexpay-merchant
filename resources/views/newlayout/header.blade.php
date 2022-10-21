@@ -94,17 +94,18 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{$get_merchant_details->merchant_name}}</span>
+                <i class="fas fa-user"></i>
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
 
-                  <div class="row col-md-12">
-                    <div class="col-md-3 rounded-circle" style="border:1px solid #ccc;">
+                  <div class="row col-12">
+                    <div class="col-3 rounded-circle" style="border:1px solid #ccc;">
                         <img src="{{ url('images/logo/wave_x_pay.png') }}" width="100%">
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-9">
+                        <b>{{$get_merchant_details->merchant_name}}</b><br>
                         {{$get_merchant_details->display_name}}<br>
                         <br>
                         <div class="input-group">
@@ -123,11 +124,11 @@
 
 
                   <div class="row col-md-12">
-                    <div class="col-md-5 offset-md-1">
+                    <div class="col-md-5 offset-md-1 m-b-5">
                         <a  href="{{url('set-gateway-mode/live') }}" style="width: 97%;cursor: pointer;" class="btn btn-success btn-sm" title="Active Live Merchant Dashboard">
                         <input type="radio" style="accent-color: green;" name="mode" onclick="setMode('live')" value="live" {{ session()->get('mode') =='live'? 'checked' : ''  }}> Live</a>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-5 m-b-5">
                         <a href="{{url('set-gateway-mode/test') }}" style="width: 97%;cursor: pointer;" class="btn btn-info btn-sm" title="Active Test Merchant Dashboard"><input type="radio" style="accent-color: green;" name="mode" onclick="setMode('test')" value="test" {{ session()->get('mode') =='test'? 'checked' : ''  }}> Test</a>
                     </div>
                   </div>

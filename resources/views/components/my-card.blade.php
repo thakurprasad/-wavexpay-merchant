@@ -1,5 +1,5 @@
 
-<div class="col-3">
+<div class="my-new-card col-md-3 col-sm-12 col-lg-3">
      <div id="card_{{ $type }}" class="card shadow my-card my-card-{{$type}}">
          <div class="card-body">
              <div class="row no-gutters align-items-center">

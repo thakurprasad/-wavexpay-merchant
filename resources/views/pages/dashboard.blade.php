@@ -14,17 +14,16 @@
   
     <x-notification/>
     <div class="row" style="margin:30px 0px;border: 1px solid #ccc;padding: 18px 0;box-shadow: 0px 0 22px -8px;margin-top: 40px;background-color: white;">
-        <div class="col-xl-6">
-            <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 66%">
+        <div class="col-md-4 col-lg-4 col-sm-12">
+            <div id="reportrange" style="cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; ">
                 <i class="fa fa-calendar"></i>&nbsp;
                 <span></span> <i class="fa fa-caret-down"></i>
             </div>
         </div>
-        <div class="col-xl-2">
-            
-        </div>
-        <div class="col-xl-4">
-            <select style="background: #fff; cursor: pointer; padding: 8px 10px; border: 1px solid #ccc; width: 100%" id="status_filter">
+        <div class="col-md-5"></div>
+
+        <div class="col-md-3 col-lg-3 col-sm-12">
+            <select class="form-control" id="status_filter">
               <option>-- Select Transaction --</option>
                 <option value="authorized" selected>Successful</option>
                 <option value="pending">Pending</option>
@@ -186,7 +185,7 @@ if(!empty($payments))
             
 
       <ul class="nav nav-tabs">
-        <li id="generalli">
+        <li id="generalli" style="background: transparent;">
           <a id="gsettingclick" data-toggle="tab" href="#menu1">Payment</a>
         </li>
         <li id="tbli">
@@ -196,7 +195,7 @@ if(!empty($payments))
           <a id="cclick" data-toggle="tab" href="#menu3">Refund</a>
         </li>
       </ul>
-      <div class="tab-content" style="height: 308px; overflow-y: scroll; overflow-x: hidden;">
+      <div class="tab-content sidebar-menu-scroll" style="height: 308px; overflow-y: scroll; overflow-x: hidden;padding: 6px;">
         <div id="menu1" class="tab-pane fade in active show">
           <table class="table table-bordered table-responsive_ table-striped">
               <tr>
@@ -224,7 +223,7 @@ if(!empty($payments))
           </table>
         </div>
         <div id="menu2" class="tab-pane fade in ">
-          <table class="table table-responsive table-striped">
+          <table class="table table-bordered table-responsive_ table-striped">
              <tr>
                 <th>Amount</th>
                 <th>Payment id</th>
@@ -233,7 +232,7 @@ if(!empty($payments))
               </tr> 
             <tbody>
               <tr>
-                <td></td>
+                <td>1.</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -242,7 +241,7 @@ if(!empty($payments))
           </table>
         </div>
         <div id="menu3" class="tab-pane fade in">
-          <table class="table table-responsive table-striped">
+          <table class="table table-bordered table-responsive_ table-striped">
              <tr>
                 <th>Amount</th>
                 <th>Payment id</th>
