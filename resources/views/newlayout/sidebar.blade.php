@@ -1,7 +1,7 @@
 <ul class="navbar-nav sidebar accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/home') }}">
+    <a class="sidebar-brand d-flex align-items-center" href="{{ url('/home') }}">
       <div class="sidebar-brand-icon rotate-n-0">
         <img src="<?php echo url('/') ?>/images/logo/logo-2.png" width="100%;">
       </div>
