@@ -20,7 +20,7 @@
 
         <div id="config" style="padding: 40px;" class="tab-pane active">
           <div class="row">                         
-            <div class="col-md-10 offset-md-1">
+            <div class="col-md-9 offset-md-1">
               <div class="card shadow mb-4">
                 <div class="card-body">
                   <div class="row">
@@ -136,19 +136,102 @@
 			  </div>
 
 
+			  <div class="card shadow mb-4">
+				<div class="card-body">
+					<h5 class="card-title"><strong>Payment Capture</strong>  <a href="#">Know more</a></h5>
+					<div class="card shadow mb-4">
+						<div class="card-body">
+							<h5 class="card-title"><strong>Automatic Capture</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+							<p class="card-text">Payments will be captured automatically if authorised by bank within 5 days</p>
+						</div>
+					</div>
+					<p class="card-text">What is Capturing Payments? <a href="#">Show Details.</a></p>
+					<hr />
+					<p><strong>Note :</strong>Capture settings are applicable only if Orders API is used to create the payment. Capture values passed in the Orders API will override these settings if there is any conflict.</p>
+				</div>
+			  </div>
+
+
+			  <div class="card shadow mb-4">
+				<div class="card-body">
+					<h5 class="card-title"><strong>Default Refund Speed</strong>  &nbsp;&nbsp;<a href="#">Know more</a>  &nbsp;&nbsp;<a href="#">API Referrence Guide</a></h5>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card shadow mb-4">
+								<div class="card-body">
+									<h5 class="card-title"><strong>Normal Refund</strong></h5>
+									<p class="card-text">Your customer will get refunds in 5-7 days.</p><br>
+									<button>Normal Speed</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="card shadow mb-4">
+								<div class="card-body">
+									<h5 class="card-title"><strong>Instant Refund</strong></h5>
+									<p class="card-text">At a minimal fee, your customer will get refunds instantly.</p>
+									<button>Optimum Speed</button>
+								</div>
+							</div>
+						</div>
+					</div>					
+				</div>
+			  </div>
+
+
+			  <div class="card shadow mb-4">
+				<div class="card-body">
+					<h5 class="card-title">Email Notification</h5>
+					<p class="card-text">Enter email addresses that will receive email notifications regarding payments, settlements, daily payment reports, webhooks, etc. (You can enter multiple email addresses separated by a comma.)</p><br>
+					<div class="row"><div class="col-md-10"><input type="text" class="form-control" name="email_notification" value="{{$merchant_details->email}}"></div><div class="col-md-2"><button type="button" class="btn btn-sm btn-primary">Save Changes</button></div></div>
+				</div>
+			  </div>
+
+			  <div class="card shadow mb-4">
+				<div class="card-body">
+					<h5 class="card-title"><strong>SMS Notification</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+					<p class="card-text">Receive notifications from Razorpay via SMS on your +91 - {{$merchant_details->contact_phone}}.</p>
+				</div>
+			  </div>
+
+			  <div class="card shadow mb-4">
+				<div class="card-body">
+					<h5 class="card-title"><strong>Skip Mandate Summary Page for Cards</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+					<p class="card-text">Skip showing mandate summary page for credit and debit card payments to your users.</p>
+				</div>
+			  </div>
+
+
             </div>    
           </div>
         </div>
 
         <div id="webhook" class="tab-pane">
           <div class="row">     
-            Webhook
+		  	<div class="col-md-9 offset-md-1" style="padding-top:20px;">
+				<x-notification title="Your Feedback Matters" description="Hello, Developer! Would you like to take a few seconds to help us improve your experience with Razorpay?" />
+				<table class="table table-striped"> 
+					<thead>
+						<tr>
+							<th>URL</th>
+							<th>Status</th>
+							<th>Events</th>
+							<th>Last Updated</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="4">No Data Found</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
           </div>
         </div>
 
         <div id="apikeys" class="tab-pane">
           <div class="row">  
-            <div class="col-md-8 offset-md-2" style="padding-top:20px;">
+            <div class="col-md-9 offset-md-1" style="padding-top:20px;">
               <div class="card shadow mb-4">
                 <div class="card-body">
 					<table class="table table-striped"> 
@@ -177,7 +260,7 @@
 
         <div id="reminder" class="tab-pane">
           <div class="row">                         
-            <div class="col-md-8 offset-md-2" style="padding-top:20px;">
+            <div class="col-md-9 offset-md-1" style="padding-top:20px;">
 				<div class="card shadow mb-4">
 					<div class="card-body">
 						<h5 class="card-title"><strong>Payment Links reminders</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
@@ -190,9 +273,139 @@
 
         <div id="pm" class="tab-pane">
           <div class="row">                         
-            <div class="col-md-8 offset-md-2" style="padding-top:20px;">
+            <div class="col-md-9 offset-md-1" style="padding-top:20px;">
 
-              Payment Methods
+				<div class="row">
+					<div class="col-3" style="padding: 0px;">
+						<div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+						<a onclick="set_background_color('home','profile','messages','settings','wallet','paylater','ip')" style="border: 1px solid #e6e7e8; width: 100%; background-color: #dddddd;" class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Cards</a>
+
+						<a onclick="set_background_color('profile','home','messages','settings','wallet','paylater','ip')" style="border: 1px solid #e6e7e8; width: 100%;" class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">UPI/QR</a>
+
+						<!--<a onclick="set_background_color('messages','home','profile','settings','wallet','paylater','ip')" style="border: 1px solid #e6e7e8; width: 100%;" class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">NetBanking</a>-->
+
+						<a onclick="set_background_color('settings','home','profile','messages','wallet','paylater','ip')" style="border: 1px solid #e6e7e8; width: 100%;" class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">EMI</a>
+						<a onclick="set_background_color('wallet','home','profile','messages','settings','paylater','ip')" style="border: 1px solid #e6e7e8; width: 100%;" class="nav-link" id="v-pills-wallet-tab" data-toggle="pill" href="#v-pills-wallet" role="tab" aria-controls="v-pills-wallet" aria-selected="false">WALLET</a>
+
+						<a onclick="set_background_color('paylater','home','profile','messages','settings','wallet','ip')" style="border: 1px solid #e6e7e8; width: 100%;" class="nav-link" id="v-pills-paylater-tab" data-toggle="pill" href="#v-pills-paylater" role="tab" aria-controls="v-pills-paylater" aria-selected="false">Pay Later</a>
+
+						<a onclick="set_background_color('ip','home','profile','messages','settings','wallet','paylater')" style="border: 1px solid #e6e7e8; width: 100%;" class="nav-link" id="v-pills-ip-tab" data-toggle="pill" href="#v-pills-ip" role="tab" aria-controls="v-pills-ip" aria-selected="false">International Payments</a>
+
+						</div>
+					</div>
+					<div class="col-9">
+						<div class="tab-content" id="v-pills-tabContent">
+						<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+							<div class="card shadow mb-4">
+								<div class="card-body">
+									Domestic Cards<br clear="all"><br clear="all">
+									<table class="table table-striped">
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/visa.jpg" width="50px;"></td><td><strong>Visa Cards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/mastercard.png" width="50px;"></td><td><strong>Mastercards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/rupay.jpg" width="50px;"></td><td><strong>Rupaycards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/maestro.jpg" width="50px;"></td><td><strong>Maestro</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/AmexCard.png" width="50px;"></td><td><strong>Amexcards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+							<div class="card shadow mb-4">
+								<div class="card-body">
+									UPI<br clear="all"><br clear="all">
+									<table class="table table-striped">
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/upi.png" width="50px;"></td><td><strong>UPI</strong><br>Gpay,Phonepay,Paytm&more..</td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">NetBanking</div>
+
+
+						<div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+							<div class="card shadow mb-4">								
+								<div class="card-body">
+									Debit Card EMI<br clear="all"><br clear="all">
+									<table class="table table-striped">
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/hdfc.png" width="50px;"></td><td><strong>HDFC BANK</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+									</table>
+
+									Credit Card EMI<br clear="all">
+									<table class="table table-striped">
+										<tr><td><strong>Credit Cards</strong></td><td>Credit Cards</td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+									</table>
+
+									Cardless EMI<br clear="all">
+									<table class="table table-striped">
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/zest.jpg" width="50px;"></td><td><strong>Zestmoney</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/es.png" width="50px;"></td><td><strong>Early Salary</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/InstaCred.png" width="50px;"></td><td><strong>Instacred</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/axio.png" width="50px;"></td><td><strong>Axio</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="tab-pane fade" id="v-pills-wallet" role="tabpanel" aria-labelledby="v-pills-wallet-tab">
+							<div class="card shadow mb-4">								
+								<div class="card-body">
+									Wallet<br clear="all"><br clear="all">
+									<table class="table table-striped">
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/amazonpay.png" width="50px;"></td><td><strong>Amazon Pay</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/paytm.png" width="50px;"></td><td><strong>Paytm</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/phonepe.png" width="50px;"></td><td><strong>Phonepe</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/airtelmoney.png" width="50px;"></td><td><strong>Airtel Money</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/freecharge.png" width="50px;"></td><td><strong>Freecharge</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/jiomoney.png" width="50px;"></td><td><strong>Jiomoney</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/olamoney.png" width="50px;"></td><td><strong>Olamoney</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/payzapp.png" width="50px;"></td><td><strong>Payzapp</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/mobikwik.png" width="50px;"></td><td><strong>Mobikwik</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="tab-pane fade" id="v-pills-paylater" role="tabpanel" aria-labelledby="v-pills-paylater-tab">
+							<div class="card shadow mb-4">								
+								<div class="card-body">
+									Paylater<br clear="all"><br clear="all">
+									<table class="table table-striped">
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/flexipay.png" width="50px;"></td><td><strong>Flexi Pay</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/icici.jpg" width="50px;"></td><td><strong>Icici</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="<?php echo url('/') ?>/images/icon/simpl.png" width="50px;"></td><td><strong>Simpl</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="tab-pane fade" id="v-pills-ip" role="tabpanel" aria-labelledby="v-pills-ip-tab">
+							<div class="card shadow mb-4">								
+								<div class="card-body">
+									International Payments<br clear="all"><br clear="all">
+									<div class="card shadow mb-4">
+										<div class="card-body">
+											<h5 class="card-title"><strong>International Cards</strong>  <button class="btn btn-sm btn-info">REQUEST</button></h5>
+											<p class="card-text">On Payment Gateways Links and Invoices.</p>
+										</div>
+									</div>
+
+									Apps<br clear="all">
+									<div class="card shadow mb-4">
+										<div class="card-body">
+											<h5 class="card-title"><strong>Paypal</strong>  <button class="btn btn-sm btn-info">Link Account</button></h5>
+											<p class="card-text">Accept International Payments using PayPal on Razorpay Checkout</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
 
             </div>    
           </div>
@@ -220,6 +433,16 @@
   padding: 20px;
   font-size: 10px;
   text-align: center;
+}
+</style>
+
+<style>
+a:hover {
+  background-color: #dddddd;
+}
+
+a:active {
+  background-color: #dddddd;
 }
 </style>
 @endsection
@@ -319,6 +542,10 @@ function save_theme_language()
 	console.log(formData);
 }
 
-
+function set_background_color(aid1,aid2,aid3,aid4,aid5,aid6,aid7)
+{
+	$("#v-pills-"+aid1+"-tab").css("background-color", "#dddddd");
+	$( "#v-pills-"+aid2+"-tab,#v-pills-"+aid3+"-tab,#v-pills-"+aid4+"-tab,#v-pills-"+aid5+"-tab,#v-pills-"+aid6+"-tab,#v-pills-"+aid7+"-tab" ).css("background-color", "#ffffff");
+}
 </script>
 @endsection

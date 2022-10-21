@@ -7,6 +7,9 @@ use Razorpay\Api\Api;
 use DB;
 use App\Models\GeneralSetting;
 use App\Models\MerchantKey;
+use App\Models\MerchantUser;
+use App\Models\Merchant;
+
 
 class GeneralSettingController extends Controller
 {
@@ -14,7 +17,9 @@ class GeneralSettingController extends Controller
         $merchant_id =  session()->get('merchant');
         $general_settings = GeneralSetting::where('merchant_id',$merchant_id)->first();
         $key_details = MerchantKey::where('merchnat_id',$merchant_id)->first();
-        return view('pages.settings.index', compact('general_settings','key_details'));
+        $merchant_details = Merchant::select('merchants.*','merchant_users.*')->join('merchant_users', 'merchant_users.merchant_id', '=', 'merchants.id')->where('merchants.id',$merchant_id)->get();
+        $merchant_details=$merchant_details[0];
+        return view('pages.settings.index', compact('general_settings','key_details','merchant_details'));
     }
 
     public function getGeneralSetting(Request $request)
