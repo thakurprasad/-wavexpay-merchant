@@ -1,3 +1,8 @@
+/**
+ * Theme colors
+ * Orange: #F69321;
+ * Blue #25A8E0;
+ * */
 ul#accordionSidebar li > a {
     color: white;
 }
@@ -77,3 +82,82 @@ ul#accordionSidebar li > a {
       background: #F69321 !important;
       color: white !important;
   }
+
+/*dashboard tab style**/
+.nav-tabs {
+    background-color: #25A8E0;
+}
+.nav-tabs .active {
+    background-color: #F69321;
+}
+
+ul.nav-tabs li a:hover {
+    background: #F69321 !important;
+}
+
+ul.navbar-nav.sidebar.accordion{
+  background-color: #25A8E0;
+}
+
+/**main munu font size*/
+.sidebar .nav-item .nav-link span{
+  font-size: 1.02rem;
+}
+
+ul.navbar-nav.sidebar.accordion {
+    position: sticky;
+    z-index: 99999;
+    height: 100vh;
+    top: 0 !important;
+}
+
+.sidebar-menu-scroll{
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.sidebar-menu-scroll::-webkit-scrollbar {
+    width: 12px;
+}
+
+.sidebar-menu-scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+
+.sidebar-menu-scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+.m-b-1{
+  margin-bottom: 1px;
+}
+.m-b-2{
+  margin-bottom: 2px;
+}
+.m-b-3{
+  margin-bottom: 3px;
+}
+.m-b-4{
+  margin-bottom: 4px;
+}
+.m-b-5{
+  margin-bottom: 5px;
+}
+.m-b-6{
+  margin-bottom: 6px;
+}
+.m-b-7{
+  margin-bottom: 7px;
+}
+.m-b-8{
+  margin-bottom: 8px;
+}
+.m-b-9{
+  margin-bottom: 9px;
+}
+.m-b-10{
+  margin-bottom: 10px;
+}
