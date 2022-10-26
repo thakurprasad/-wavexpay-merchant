@@ -1,6 +1,6 @@
 
 <div class="box-shadow alert alert-info alert-dismissible fade show" role="alert">
-   <a href="#" class="btn btn-info btn-circle btn-lg">
+   <a href="#" class="btn btn-info btn-circle btn-lg_">
     <i class="fas fa-info-circle"></i>
     </a>
     <strong>{{$title}}</strong> {{$description }}
@@ -9,7 +9,8 @@
     </button>
 </div>
 <style type="text/css">
-   .box-shadow{
-      box-shadow: 0 3px 16px 1px;   
-   }
+
+.box-shadow {
+    box-shadow: 0 2px 3px -2px !important;
+}
 </style>

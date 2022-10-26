@@ -58,30 +58,29 @@
                                         <br>
                                         <ul class="auth-left-panel-points">
                                             <li>
-                                                <strong>HIGH SUCCESS RATIO</strong><br>
-                                                Choose your favorite mode at the time of payment done.
-                                            </li>
-                                            
-                                            <li>
                                                 <strong>SMART ROUTING</strong><br>
                                                 Route your payment with industries best PG for better growth.
                                             </li>
-                                               <li>
-                                                <strong>120+ PAYMENT OPTION</strong><br>
-                                                We offer almost payment option to merchant Inclusing UPI.
-                                            </li>
-                                               <li>
-                                                <strong>24/7 SUPPORT CENTER</strong><br>
-                                                We have Hudge Soft-Tech Resourcess for merchant Support.
+                                            <li>
+                                                <strong>HIGH SUCCESS RATIO</strong><br>
+                                                Choose your favorite mode at the time of payment done.
                                             </li>
                                             <li>
+                                                <strong>120+ PAYMENT OPTIONS</strong><br>
+                                                We offer almost payment option to merchant Inclusing UPI.
+                                            </li>
+                                            <li>
+                                                <strong>Instant Activation</strong>
+                                                Complete Your KYC Digitaly, No Physical Paper Required.
+                                            </li>
+                                            <!--<li>
                                                 <strong>LOW PRICING</strong><br>
                                                 We Offer industries best rate for all mode of Transaction.
                                             </li>
                                             <li>
                                                 <strong>ACCOUNT MANAGER</strong><br>
                                                We are providing dedicated account manager for each merchant.
-                                            </li>
+                                            </li> -->
                                         </ul>
                                     </div>
 
@@ -99,7 +98,7 @@
 
 
                                 </div>
-                                <div class="col-lg-6" style="padding-top: 12%;">
+                                <div class="col-lg-6" style="padding-top: 8.5%;">
                                     <div class="row">
                                     <div class="col-md-8 offset-2">
                                         <div class="text-center">
