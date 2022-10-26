@@ -195,3 +195,7 @@ img.close-icon {
   background-color: #08c !important;
   color: #fff !important;
 }
+
+#wrapper #content-wrapper {
+    background-color: #b3c3f378;
+}

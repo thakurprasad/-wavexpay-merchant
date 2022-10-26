@@ -48,7 +48,7 @@
                             <!-- Nested Row within Card Body -->
                             <div class="row">
                                 <div class="auth-left-panel col-lg-6 bg-gradient-primary" style="height:100vh;">
-                                    <img src="{{ asset('/images/logo/wave_x_pay.png') }}" title="{{ config('app.name', 'Laravel') }}" class="logo-img">
+                                    <a href="https://wavexpay.com"><img src="{{ asset('/images/logo/wave_x_pay.png') }}" title="{{ config('app.name', 'Laravel') }}" class="logo-img"></a>
                                     
                                     <div style="color: white;width: 80%; margin-left:10%; margin-top: 3%;">
                                         <h2>
