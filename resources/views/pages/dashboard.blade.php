@@ -198,12 +198,16 @@ if(!empty($payments))
       <div class="tab-content sidebar-menu-scroll" style="height: 308px; overflow-y: scroll; overflow-x: hidden;padding: 6px;">
         <div id="menu1" class="tab-pane fade in active show">
           <table class="table table-bordered table-responsive_ table-striped">
-              <tr>
-                <th>Amount</th>
-                <th>Payment id</th>
-                <th>Created At</th>
-                <th>Status</th>
-              </tr>            
+              <thead>
+                <tr>
+                  <th>Amount</th>
+                  <th>Payment id</th>
+                  <th>Created At</th>
+                  <th>Status</th>
+                </tr>               
+              </thead>
+              <tbody>
+             
               @if(!empty($payments))
               @foreach($payments as $payment)
               <?php
@@ -220,16 +224,19 @@ if(!empty($payments))
                 @else 
               <tr><td colspan="4">No Data Found</td></tr>
               @endif
+              </tbody>
           </table>
         </div>
         <div id="menu2" class="tab-pane fade in ">
           <table class="table table-bordered table-responsive_ table-striped">
+             <thead>
              <tr>
                 <th>Amount</th>
                 <th>Payment id</th>
                 <th>Created At</th>
                 <th>Status</th>
               </tr> 
+              </thead>
             <tbody>
               <tr>
                 <td>1.</td>
@@ -242,12 +249,14 @@ if(!empty($payments))
         </div>
         <div id="menu3" class="tab-pane fade in">
           <table class="table table-bordered table-responsive_ table-striped">
+             <thead>
              <tr>
                 <th>Amount</th>
                 <th>Payment id</th>
                 <th>Created At</th>
                 <th>Status</th>
               </tr> 
+              </thead>
             <tbody>
               @if(!empty($refunds))
               @foreach($refunds as $refund)
@@ -981,7 +990,7 @@ function create_ajax_method_chart(pxValues,pyValues){
       $('#status_filter').on('change', function () {
           var url = $(this).val(); 
           if (url) { 
-              window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
+            //  window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
 			        //window.open('{{ url("/") }}/transactions/payments/status?status='+url, '_blank');
           }
           return false;

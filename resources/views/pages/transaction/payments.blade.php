@@ -1,5 +1,6 @@
-@extends('newlayout.app')
+@extends('newlayout.app-advance')
 @section('content')
+
 <div class="container-fluid">
     <!-- Page Heading -->
     <!-- DataTales Example -->
@@ -7,8 +8,11 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">All Payments</h6>
         </div>
-        <div class="card-body">
-            <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchpayments">
+        <div class="card-body"> 
+
+        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="GET" /> 
+
+            <form style="display:none;"> class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchpayments">
                 @csrf
                 <div class="card-body">
                     <div class="row">

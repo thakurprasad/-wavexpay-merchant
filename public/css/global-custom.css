@@ -176,7 +176,7 @@ nav.navbar.navbar-expand.navbar-light.bg-white.topbar.mb-4.static-top.shadow {
 }
 
 
-.table-striped tbody tr:nth-of-type(odd) {
+.table-striped tbody tr:nth-of-type(odd) , .table tbody tr:nth-of-type(odd) {
     background-color: rgb(0 0 0 / 14%);
 }
 
@@ -198,4 +198,14 @@ img.close-icon {
 
 #wrapper #content-wrapper {
     background-color: #b3c3f378;
+}
+
+.table thead tr {
+    background: #030550e0;
+    font-weight: bold;
+    color: white;
+}
+.table thead tr:hover {
+    background: #030550e0 !important;
+    color: white  !important;
 }
