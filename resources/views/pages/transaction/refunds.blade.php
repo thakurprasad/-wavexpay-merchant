@@ -1,4 +1,4 @@
-@extends('newlayout.app')
+@extends('newlayout.app-advance')
 @section('content')
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -8,6 +8,24 @@
             <h6 class="m-0 font-weight-bold text-primary">All Refunds</h6>
         </div>
         <div class="card-body">
+
+        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="POST"> 
+
+            @section('advance_filters')
+             
+               <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="first_name">Refund Id</label>
+                                <input placeholder="Refund Id" name="refund_id" id="refund_id" type="text" class="form-control">
+                            </div>
+                        </div>
+
+            @endsection
+
+          
+        </x-filter-component>
+
+
             <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/search_refund">
                 @csrf
                 <div class="card-body">

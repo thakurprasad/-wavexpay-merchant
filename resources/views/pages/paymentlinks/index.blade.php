@@ -14,7 +14,14 @@
 </div>
 @endsection
 @section('content')
+<div class="container-fluid">    
+    <div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Payment Link</h6>
+    </div>
+<div class="card-body"> 
     @include('alerts.message')
+
     <div class="card">
         <div class="card-body">
             <a class="btn btn-sm btn-primary" href="{{ url('/create-payment-links') }}">Create Payment Link</a>
@@ -393,7 +400,9 @@
   </div>
 </div>
 
-
+</div>
+</div>
+</div>
 
 @endsection
 

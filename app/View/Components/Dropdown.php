@@ -11,9 +11,10 @@ class Dropdown extends Component
      *
      * @return void
      */
-    public function __construct()
+    public $status = '';
+    public function __construct($status = '')
     {
-        //
+        $this->status = $status;
     }
 
     /**
@@ -23,6 +24,20 @@ class Dropdown extends Component
      */
     public function render()
     {
-        return view('components.dropdown');
+        $options = [];
+        if($this->status == 'payments'){
+            $options = ['authorized' => 'Authorized', 'captured' => 'Captured', 
+                        'refunded' => 'Refunded', 'failed' => 'Failed'];
+        }
+        if($this->status == 'refunds'){
+            $options = ['created'=>'Created', 'accepted'=>'Accepted', 'paid'=>'Paid'];
+        }
+        if($this->status == '..'){
+            $options = [];
+        }
+        if($this->status == ''){
+            return false;
+        }
+        return view('components.dropdown', ['options'=> $options]);
     }
 }

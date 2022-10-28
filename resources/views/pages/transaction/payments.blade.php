@@ -1,5 +1,6 @@
-@extends('newlayout.app')
+@extends('newlayout.app-advance')
 @section('content')
+
 <div class="container-fluid">
     <!-- Page Heading -->
     <!-- DataTales Example -->
@@ -7,8 +8,27 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">All Payments</h6>
         </div>
-        <div class="card-body">
-            <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchpayments">
+        <div class="card-body"> 
+
+        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="POST" status="payments"> 
+
+            @section('advance_filters')
+               <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="payment_id">Payment Id</label>
+                            <input type="text" name="payment_id" class="form-control" id="payment_id" placeholder="Payment Id">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" type="email" class="form-control" id="email" placeholder="Email">
+                        </div>
+                    </div>
+            @endsection
+        </x-filter-component>
+
+            <form style="display:none;"> class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchpayments">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -90,7 +110,7 @@
 @section('page-script')
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
-function search_payment(){
+function search_data(){
     $("#table_container").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });

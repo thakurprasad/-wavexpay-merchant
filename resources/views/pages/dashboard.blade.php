@@ -13,8 +13,8 @@
 <div class="container-fluid">
   
     <x-notification/>
-    <div class="row" style="margin:30px 0px;border: 1px solid #ccc;padding: 18px 0;box-shadow: 0px 0 22px -8px;margin-top: 40px;background-color: white;">
-        <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="row" style="margin:30px 0px;border: 1px solid #ccc;padding: 18px 0;box-shadow: 0px 0 22px -8px;margin-top: 30px;background-color: white;">
+        <div class="col-md-5 col-lg-4 col-sm-12">
             <div id="reportrange" style="cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; ">
                 <i class="fa fa-calendar"></i>&nbsp;
                 <span></span> <i class="fa fa-caret-down"></i>
@@ -46,7 +46,7 @@ if(!empty($payments))
 }
 @endphp 
         <x-my-card type="1" title="New Order" value="{{count($orders)}}" icon="calendar" />
-        <x-my-card type="2" title="Total Payments Amount" value="{{number_format($total_amount,2)}}" icon="dollar-sign" />
+        <x-my-card type="2" title="Total Payments Amount" value="{{number_format($total_amount,2)}}" icon="rupee-sign" />
 
         <x-my-card type="4" title="Total Transactions" value="1008" icon="chart-area" />
         <x-my-card type="3" title="Success Rate" value="{{$success_perc}}%" icon="clipboard-list" />
@@ -198,12 +198,16 @@ if(!empty($payments))
       <div class="tab-content sidebar-menu-scroll" style="height: 308px; overflow-y: scroll; overflow-x: hidden;padding: 6px;">
         <div id="menu1" class="tab-pane fade in active show">
           <table class="table table-bordered table-responsive_ table-striped">
-              <tr>
-                <th>Amount</th>
-                <th>Payment id</th>
-                <th>Created At</th>
-                <th>Status</th>
-              </tr>            
+              <thead>
+                <tr>
+                  <th>Amount</th>
+                  <th>Payment id</th>
+                  <th>Created At</th>
+                  <th>Status</th>
+                </tr>               
+              </thead>
+              <tbody>
+             
               @if(!empty($payments))
               @foreach($payments as $payment)
               <?php
@@ -220,16 +224,19 @@ if(!empty($payments))
                 @else 
               <tr><td colspan="4">No Data Found</td></tr>
               @endif
+              </tbody>
           </table>
         </div>
         <div id="menu2" class="tab-pane fade in ">
           <table class="table table-bordered table-responsive_ table-striped">
+             <thead>
              <tr>
                 <th>Amount</th>
                 <th>Payment id</th>
                 <th>Created At</th>
                 <th>Status</th>
               </tr> 
+              </thead>
             <tbody>
               <tr>
                 <td>1.</td>
@@ -242,12 +249,14 @@ if(!empty($payments))
         </div>
         <div id="menu3" class="tab-pane fade in">
           <table class="table table-bordered table-responsive_ table-striped">
+             <thead>
              <tr>
                 <th>Amount</th>
                 <th>Payment id</th>
                 <th>Created At</th>
                 <th>Status</th>
               </tr> 
+              </thead>
             <tbody>
               @if(!empty($refunds))
               @foreach($refunds as $refund)
@@ -297,9 +306,12 @@ if(!empty($payments))
   <!-- Modal content -->           
   <div class="modal-content popup-wavex-form">
       <div class="row">
+          <div class="col-md-12" style="text-align:right;">
+          <img  id="close_modal" class="close-icon" src="{{ url('images\icon\close-64.png') }}">
+        </div>
         <div class="col-md-12">
             <!-- Sidebar --->
-            <div class="col-md-3 sidebarwave">
+            <div class="col-md-3 sidebarwave" style="padding-top:0">
               <div class="left-sidebarwave">
                   <div class="tab">
                     <button class="tablinks" onclick="openCity(event, 'Contact')" id="defaultOpen">
@@ -376,7 +388,7 @@ if(!empty($payments))
                   <div class="bottom-footer-kyc">
                     <div class="col-md-8"></div>
                     <div class="col-md-4">
-                        <a class="btn btn-md btn-primary" onclick="openCity(event, 'Business')">Save & Next</a>
+                        <button class="btn btn-md btn-primary" onclick="openCity(event, 'Business')">Save & Next</button>
                     </div>
                   </div>
               </div>
@@ -1350,6 +1362,9 @@ function openCity(evt, cityName) {
     }
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
+      modal.style.display = "none";
+    }
+    document.getElementById("close_modal").onclick = function() {
       modal.style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it

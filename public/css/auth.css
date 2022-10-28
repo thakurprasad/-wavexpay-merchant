@@ -19,7 +19,7 @@
         width: 100%;
         color: white;
         text-align: center;
-        padding: 20px 25px 15px 25px;
+        padding: 10px 25px 10px 25px;
         background-color: #F69321;
         position: absolute;
         bottom: 0px;
@@ -30,7 +30,7 @@
     }
 
     input[type=password], input[type=email], input[type=text] {
-        font-size: 20px;
+        font-size: 17px;
     }
     .logo-img{
         width: 200px;
