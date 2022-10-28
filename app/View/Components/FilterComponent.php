@@ -14,15 +14,12 @@ class FilterComponent extends Component
     public $form_id = "search_form";
     public $method = "POST";
     public $action = "";
-    public $advance_filters =[
-        /*'name'=> 'Name',
-        'mobile' => 'Mobile',
-        'Address' => 'Address' */
-    ];
-    public function __construct($form_id="search_form", $method = 'POST', $action = '')
+    public $status = '';
+    public function __construct($form_id="search_form", $method = 'POST', $action = '', $status = '')
     {
         $this->form_id = $form_id;
         $this->method  = $method;
+        $this->status  = $status;
         $this->action  = url($action);
     }
 

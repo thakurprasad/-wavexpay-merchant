@@ -10,7 +10,7 @@
         </div>
         <div class="card-body"> 
 
-        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="POST" > 
+        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="POST" status="payments"> 
             @section('advance_filters')
                <div class="col-sm-3">
                         <div class="form-group">
@@ -109,7 +109,7 @@
 @section('page-script')
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
-function search_payment(){
+function search_data(){
     $("#table_container").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });

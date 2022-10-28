@@ -16,16 +16,16 @@
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <x-dropdown type="payment" />
+                    <x-dropdown status="{{$status}}" />
                 </div>
                 <div class="col-sm-2">
-                    <div class="form-group pad-30" >
-                        <button type="button" class="btn btn-primary btn-block"  onclick="search_payment()">Serach</button>
+                    <div class="form-group pad-30">
+                        <button type="button" class="btn btn-primary btn-block"  onclick="search_data()" id="filter_data_btn">Serach</button>
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group pad-30">
-                        <button type="button" class="btn btn-secondary btn-block"  onclick="reset_page()">Reset</button>
+                        <button type="button" class="btn btn-secondary btn-block"  onclick="reset_page()" id="filter_reset_btn">Reset</button>
                     </div>
                 </div>
             </div>
