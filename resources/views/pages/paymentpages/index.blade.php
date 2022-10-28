@@ -14,6 +14,10 @@
 </div>
 @endsection
 @section('content')
+<div class="container-fluid"> 
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Payment Page</h6>
+    </div>
     @include('alerts.message')
     <!--<div class="card">
         <div class="card-body">
@@ -199,6 +203,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 @endsection
