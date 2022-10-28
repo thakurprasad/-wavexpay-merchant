@@ -5,6 +5,7 @@ use DB;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use App\Models\Order;
+use Helper;
 
 class OrderController extends Controller
 {
@@ -29,6 +30,8 @@ class OrderController extends Controller
         $reciept = $request->reciept;
         $status = $request->status;
         $notes = $request->notes;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
         $html = '';
         
         /*$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
@@ -41,6 +44,8 @@ class OrderController extends Controller
             $query->where('receipt',$reciept);
         }if($status!=''){
             $query->where('status',$status);
+        }if($start_date!='' && $end_date!=''){
+            $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         }
         $all_orders = $query->get();
 
@@ -53,7 +58,7 @@ class OrderController extends Controller
                     <td>'.$order->receipt.'</td>
                     <td>'.$order->created_at.'</td>
                     <td>
-                        <a class="waves-effect waves-light btn-small">'.$order->status.'</a>
+                        <a class="waves-effect waves-light btn-small">'.Helper::badge($order->status).'</a>
                     </td>
                 </tr>';
             }

@@ -9,11 +9,9 @@
             <h6 class="m-0 font-weight-bold text-primary">All Payments</h6>
         </div>
         <div class="card-body"> 
-
-        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="POST" status="payments"> 
-
-            @section('advance_filters')
-               <div class="col-sm-3">
+            <x-filter-component form_id="search_form" action="transactions/searchpayments" method="POST" status="payments"> 
+                @section('advance_filters')
+                <div class="col-sm-3">
                         <div class="form-group">
                             <label for="payment_id">Payment Id</label>
                             <input type="text" name="payment_id" class="form-control" id="payment_id" placeholder="Payment Id">
@@ -25,10 +23,10 @@
                             <input type="text" name="email" type="email" class="form-control" id="email" placeholder="Email">
                         </div>
                     </div>
-            @endsection
-        </x-filter-component>
+                @endsection
+            </x-filter-component>
 
-            <form style="display:none;"> class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchpayments">
+            <!--<form style="display:none;"> class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchpayments">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -74,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form>-->
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -95,7 +93,7 @@
                             <td>{{$payment->amount}}</td>
                             <td>{{$payment->email}}</td>
                             <td>{{$payment->contact}}</td>
-                            <td>{{$payment->created_at}}</td>
+                            <td>{{date('Y-m-d',strtotime($payment->created_at))}}</td>
                             <td>{!! Helper::badge($payment->status) !!}</td>
                         </tr>
                         @endforeach
@@ -114,9 +112,12 @@ function search_data(){
     $("#table_container").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });
+
+    var start_date = $('#daterangepicker').data('daterangepicker').startDate.format('YYYY-MM-DD');
+    var end_date = $('#daterangepicker').data('daterangepicker').endDate.format('YYYY-MM-DD');
     $.ajax({
         url: '{{url("searchpayment")}}',
-        data: $("#search_form").serialize(),
+        data: $("#search_form").serialize()+'&start_date='+start_date+'&end_date='+end_date,
         type: "POST",
         headers: {
             'X-CSRF-Token': '{{ csrf_token() }}',

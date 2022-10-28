@@ -32,12 +32,13 @@ class Dropdown extends Component
         if($this->status == 'refunds'){
             $options = ['created'=>'Created', 'accepted'=>'Accepted', 'paid'=>'Paid'];
         }
-        if($this->status == '..'){
-            $options = [];
+        if($this->status == 'orders'){
+            $options = ['created'=>'Created', 'attempted'=>'Attempted', 'paid'=>'Paid'];
         }
-        if($this->status == ''){
-            return false;
+        if($this->status == 'disputes'){
+            $options = ['open'=>'Open', 'under_review'=>'Under Review', 'lost'=>'Lost','won'=>'Won', 'closed'=>'Closed'];
         }
+
         return view('components.dropdown', ['options'=> $options]);
     }
 }

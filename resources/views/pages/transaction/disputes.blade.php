@@ -1,19 +1,6 @@
 {{--@extends('layouts.admin')--}}
-@extends('newlayout.app')
+@extends('newlayout.app-advance')
 @section('title','Disputes')
-@section('content_header')
-<div class="row mb-2">
-	<div class="col-sm-6">
-	<h1>Orders Management</h1>
-	</div>
-	<div class="col-sm-6">
-	<ol class="breadcrumb float-sm-right">
-		<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-		<li class="breadcrumb-item active">Orders</li>
-	</ol>
-	</div>
-</div>
-@endsection
 @section('content')
     <div class="container-fluid">    
     <div class="card shadow mb-4">
@@ -37,7 +24,23 @@
     </div>
     @endif
         <div class="card">
-            <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchorder">
+            <x-filter-component form_id="search_form" action="transactions/searchdispute" method="POST" status="disputes"> 
+                @section('advance_filters')
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="first_name">Dispute Id</label>
+                        <input placeholder="Dispute Id" name="dispute_id" id="dispute_id" type="text" class="form-control">
+                    </div>  
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="first_name">Payment Id</label>
+                        <input placeholder="Payment Id" name="payment_id" id="payment_id" type="text" class="form-control">
+                    </div>
+                </div>
+                @endsection
+            </x-filter-component>
+            <!--<form style="display:none;" class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchorder">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -97,14 +100,14 @@
                     <button type="button" class="btn btn-primary"  onclick="search_dispute()">Submit</button>
                     <button type="button" class="btn btn-info"  onclick="reset_page()">Reset</button>
                 </div>
-            </form>
+            </form>-->
         </div>
         <div class="card">
             <div class="card-body">
 
             </div>
             <div class="card-body">
-                <table class="table table-bordered table-striped table-responsive-sm" id="myTable">
+                <table class="table table-bordered table-striped table-responsive-sm" id="dataTable">
                     <thead>
                         <tr>
                         <th scope="col">Dispute Id</th>
@@ -127,7 +130,7 @@
                             <td>{{date("jS F, Y", $dispute['respond_by'])}}</td>
                             <td>{{date("jS F, Y", $dispute['created_at'])}}</td>
                             <td>
-                                <a class="waves-effect waves-light btn-small">{{$dispute['status']}}</a>
+                                <a class="waves-effect waves-light btn-small">{!! Helper::badge($dispute['status']) !!}</a>
                             </td>
                         </tr>
                         @endforeach
@@ -140,23 +143,10 @@
   </div>
 </div>        
 @endsection
-
-
-@section('page-style')
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-@endsection
 @section('page-script')
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
-$(document).ready( function () {
-    $('#myTable').DataTable({
-        "searching": false
-    });
-} );
-
-
-function search_dispute(){
+function search_data(){
     $("#table_container").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });

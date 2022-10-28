@@ -8,25 +8,19 @@
             <h6 class="m-0 font-weight-bold text-primary">All Refunds</h6>
         </div>
         <div class="card-body">
-
-        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="POST"> 
-
-            @section('advance_filters')
-             
-               <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="first_name">Refund Id</label>
-                                <input placeholder="Refund Id" name="refund_id" id="refund_id" type="text" class="form-control">
-                            </div>
-                        </div>
-
-            @endsection
-
-          
-        </x-filter-component>
+            <x-filter-component form_id="search_form" action="transactions/search_refund" method="POST" status="refunds"> 
+                @section('advance_filters')
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="first_name">Refund Id</label>
+                        <input placeholder="Refund Id" name="refund_id" id="refund_id" type="text" class="form-control">
+                    </div>
+                </div>
+                @endsection
+            </x-filter-component>
 
 
-            <form class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/search_refund">
+            <!--<form style="display:none;" class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/search_refund">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -68,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form>-->
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -104,7 +98,7 @@
 @section('page-script')
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
-function search_refund(){
+function search_data(){
     $("#table_container").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });

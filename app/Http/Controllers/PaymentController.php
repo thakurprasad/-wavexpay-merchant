@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use App\Models\Payment;
 use DateTime;
+use Helper;
 
 class PaymentController extends Controller
 {
@@ -58,7 +59,7 @@ class PaymentController extends Controller
                     <td>'.$payment->contact.'</td>
                     <td>'.date('Y-m-d',strtotime($payment->created_at)).'</td>
                     <td>
-                        <a class="waves-effect waves-light btn-small">'.$payment->status.'</a>
+                        <a class="waves-effect waves-light btn-small">'.Helper::badge($payment->status).'</a>
                     </td>
                 </tr>';
             }
