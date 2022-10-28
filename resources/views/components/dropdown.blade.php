@@ -8,6 +8,6 @@
             <option value="captured">Captured</option>
             <option value="refunded">Refunded</option>
             <option value="failed">Failed</option>
-            </select>
+        </select>
     </div>
 </div>

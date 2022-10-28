@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <x-dropdown />
+                    <x-dropdown type="payment" />
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group pad-30" >
