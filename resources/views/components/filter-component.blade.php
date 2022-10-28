@@ -4,7 +4,8 @@
  * 
  * */
  ?>
-
+ @yield('style')
+ @yield('style')
   <form  method="{{ $method }}" action="{{$action}}" id="{{ $form_id }}">
   
         @csrf 
@@ -47,7 +48,7 @@
                             <input type="text" name="email" type="email" class="form-control" id="email" placeholder="Email">
                         </div>
                     </div>
-
+                    @yield('advance_filters')
                     @foreach($advance_filters as $input=>$label)
                     <div class="col-sm-3">
                         <div class="form-group">

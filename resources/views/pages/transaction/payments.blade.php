@@ -10,7 +10,11 @@
         </div>
         <div class="card-body"> 
 
-        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="GET" /> 
+        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="GET" > 
+            @section('advance_filters')
+              <h1>Other Filter Controls...</h2>
+            @endsection
+        </x-filter-component>
 
             <form style="display:none;"> class="col s12" id="search_form" method="POST" action="<?php url('/') ?>/transactions/searchpayments">
                 @csrf
