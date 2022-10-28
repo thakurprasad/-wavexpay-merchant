@@ -13,7 +13,7 @@
         <x-filter-component form_id="search_form" action="transactions/searchpayments" method="POST" status="payments"> 
 
             @section('advance_filters')
-               <div class="col-sm-3">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <label for="payment_id">Payment Id</label>
                             <input type="text" name="payment_id" class="form-control" id="payment_id" placeholder="Payment Id">
