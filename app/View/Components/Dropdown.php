@@ -11,7 +11,7 @@ class Dropdown extends Component
      *
      * @return void
      */
-    public $status = 'payments';
+    public $status = '';
     public function __construct($status = '')
     {
         $this->status = $status;
@@ -30,9 +30,14 @@ class Dropdown extends Component
                         'refunded' => 'Refunded', 'failed' => 'Failed'];
         }
         if($this->status == 'refunds'){
+            $options = ['created'=>'Created', 'accepted'=>'Accepted', 'paid'=>'Paid'];
+        }
+        if($this->status == '..'){
             $options = [];
         }
-      
+        if($this->status == ''){
+            return false;
+        }
         return view('components.dropdown', ['options'=> $options]);
     }
 }
