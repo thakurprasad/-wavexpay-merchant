@@ -10,9 +10,20 @@
         </div>
         <div class="card-body"> 
 
-        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="GET" > 
+        <x-filter-component form_id="search_form" action="transactions/searchpayments" method="POST" > 
             @section('advance_filters')
-              <h1>Other Filter Controls...</h2>
+               <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="payment_id">Payment Id</label>
+                            <input type="text" name="payment_id" class="form-control" id="payment_id" placeholder="Payment Id">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" type="email" class="form-control" id="email" placeholder="Email">
+                        </div>
+                    </div>
             @endsection
         </x-filter-component>
 

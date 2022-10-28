@@ -5,7 +5,7 @@
  * */
  ?>
  @yield('style')
- @yield('style')
+ @yield('script')
   <form  method="{{ $method }}" action="{{$action}}" id="{{ $form_id }}">
   
         @csrf 
@@ -34,30 +34,8 @@
                 <input type="button" onclick="show_hide('hide')" name="advance-filters" class="btn btn-link btn-sm hide-advance-filters" value="Hide Advance Filters" style="display: none;">
             </div>
             <div class="advance-filters" style="display:none;">
-                <div class="row col-md-12"> 
-                   
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="payment_id">Payment Id</label>
-                            <input type="text" name="payment_id" class="form-control" id="payment_id" placeholder="Payment Id">
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" name="email" type="email" class="form-control" id="email" placeholder="Email">
-                        </div>
-                    </div>
+                <div class="row col-md-12">                   
                     @yield('advance_filters')
-                    @foreach($advance_filters as $input=>$label)
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="{{ $input }}">{{ $label }}</label>
-                            <input type="text" name="{{ $input }}" class="form-control" id="{{ $input }}" placeholder="{{ $label }}">
-                        </div>
-                    </div>
-                    @endforeach
-
                 </div>
             </div>
  
