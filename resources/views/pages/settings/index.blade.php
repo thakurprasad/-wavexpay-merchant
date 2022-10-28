@@ -35,7 +35,8 @@
 											<div class="row">
 												<div class="col-sm-6">
 													<label for="end_date">Theme Colour</label>
-													<input type="color" name="theme_color" class="form-control" id="theme_color">
+													<input type="color" value="@php 
+													if($general_settings->theme_color!='') { echo $general_settings->theme_color; } @endphp" name="theme_color" class="form-control" id="theme_color">
 													<p>
 													Choose a theme color for your brand.
 													The default theme color will be used if none is specified.
@@ -70,13 +71,13 @@
 												<div class="col-sm-6">
 													<label for="end_date">Default Language</label>
 													<select class="form-control" name="theme_language" id="theme_language">
-														<option value="ben">Bengali</option>
-														<option value="hi">Hindi</option>
-														<option value="mar">Marathi</option>
-														<option value="guj">Gujarati</option>
-														<option value="tam">Tamil</option>
-														<option value="tel">Telugu</option>
-														<option value="en" selected="">English</option>												
+														<option value="ben" @if($general_settings->language=='ben') selected @endif>Bengali</option>
+														<option value="hi" @if($general_settings->language=='hi') selected @endif>Hindi</option>
+														<option value="mar" @if($general_settings->language=='mar') selected @endif>Marathi</option>
+														<option value="guj" @if($general_settings->language=='guj') selected @endif>Gujarati</option>
+														<option value="tam" @if($general_settings->language=='tam') selected @endif>Tamil</option>
+														<option value="tel" @if($general_settings->language=='tel') selected @endif>Telugu</option>
+														<option value="en" @if($general_settings->language=='en') selected @endif>English</option>												
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -96,9 +97,14 @@
 						<br clear="all">
 						<div class="card shadow mb-4" style="padding: 10px;">
 							<div class="card-body">
-								<div class="row" id="headingrow" style="background-color: rgb(82, 143, 240); padding: 20px;">
+								<div class="row" id="headingrow" style="background-color:@php 
+													if($general_settings->theme_color!='') { echo $general_settings->theme_color; } else { echo 'background-color: rgb(82, 143, 240)'; } @endphp; padding: 20px;">
 									<div class="col-md-6">
+										@if($general_settings->logo!='')
+										<img id="blah" src="<?php echo url('/') ?>/images/logo/{{$general_settings->logo}}" height="70px;" width="70px;">
+										@else 
 										<img id="blah" src="<?php echo url('/') ?>/images/logo/wave_x_pay.png" height="70px;" width="70px;">
+										@endif
 									</div>
 									<div class="col-md-6" style="text-align: center;margin: auto;padding: 10px;color: #ffffff;">Manoj Verma<br>Order Id<br>₹1</div>
 								</div>
@@ -130,7 +136,7 @@
 
 			  <div class="card shadow mb-4">
 				<div class="card-body">
-					<h5 class="card-title"><strong>Flash Checkout</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+					<h5 class="card-title"><strong>Flash Checkout</strong>  <input type="checkbox" @if($general_settings->falsh_checkout=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="flash_checkout" data-style="android"></h5>
 					<p class="card-text">Securely save the card details of your customers, with Razorpay's Flash Checkout.</p>
 				</div>
 			  </div>
@@ -141,7 +147,7 @@
 					<h5 class="card-title"><strong>Payment Capture</strong>  <a href="#">Know more</a></h5>
 					<div class="card shadow mb-4">
 						<div class="card-body">
-							<h5 class="card-title"><strong>Automatic Capture</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+							<h5 class="card-title"><strong>Automatic Capture</strong>  <input type="checkbox" @if($general_settings->auto_capture=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="auto_capture" data-style="android"></h5>
 							<p class="card-text">Payments will be captured automatically if authorised by bank within 5 days</p>
 						</div>
 					</div>
@@ -159,7 +165,7 @@
 						<div class="col-md-6">
 							<div class="card shadow mb-4">
 								<div class="card-body">
-									<h5 class="card-title"><strong>Normal Refund</strong></h5>
+									<h5 class="card-title"><strong>Normal Refund</strong>  <input type="radio" name="refund" id="normal_refund" value="normal" @if($general_settings->refund_type=='normal') checked @endif style="margin-left:150px;"></h5>
 									<p class="card-text">Your customer will get refunds in 5-7 days.</p><br>
 									<button>Normal Speed</button>
 								</div>
@@ -168,7 +174,7 @@
 						<div class="col-md-6">
 							<div class="card shadow mb-4">
 								<div class="card-body">
-									<h5 class="card-title"><strong>Instant Refund</strong></h5>
+									<h5 class="card-title"><strong>Instant Refund</strong>  <input type="radio" name="refund" id="instant_refund" value="instant" @if($general_settings->refund_type=='instant') checked @endif style="margin-left:150px;"></h5>
 									<p class="card-text">At a minimal fee, your customer will get refunds instantly.</p>
 									<button>Optimum Speed</button>
 								</div>
@@ -183,20 +189,20 @@
 				<div class="card-body">
 					<h5 class="card-title">Email Notification</h5>
 					<p class="card-text">Enter email addresses that will receive email notifications regarding payments, settlements, daily payment reports, webhooks, etc. (You can enter multiple email addresses separated by a comma.)</p><br>
-					<div class="row"><div class="col-md-10"><input type="text" class="form-control" name="email_notification" value="{{$merchant_details->email}}"></div><div class="col-md-2"><button type="button" class="btn btn-sm btn-primary">Save Changes</button></div></div>
+					<div class="row"><div class="col-md-10"><input type="text" class="form-control" name="email_notification" id="emailnotofication" value="{{$general_settings->notification_email}}"></div><div class="col-md-2"><button type="button" id="email_notification" class="btn btn-sm btn-primary">Save Change</button></div></div>
 				</div>
 			  </div>
 
 			  <div class="card shadow mb-4">
 				<div class="card-body">
-					<h5 class="card-title"><strong>SMS Notification</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+					<h5 class="card-title"><strong>SMS Notification</strong>  <input type="checkbox" @if($general_settings->sms_notification=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="smsnotification" data-style="android"></h5>
 					<p class="card-text">Receive notifications from Razorpay via SMS on your +91 - {{$merchant_details->contact_phone}}.</p>
 				</div>
 			  </div>
 
 			  <div class="card shadow mb-4">
 				<div class="card-body">
-					<h5 class="card-title"><strong>Skip Mandate Summary Page for Cards</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+					<h5 class="card-title"><strong>Skip Mandate Summary Page for Cards</strong>  <input type="checkbox" @if($general_settings->skip_mandate=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" id="shipmandate" data-offstyle="outline-danger"  data-style="android"></h5>
 					<p class="card-text">Skip showing mandate summary page for credit and debit card payments to your users.</p>
 				</div>
 			  </div>
@@ -246,7 +252,7 @@
 						<tbody>
 							<tr>
 								<td>{{ $key_details->api_key }}</td>
-								<td>{{ date('J f,Y',strtotime($key_details->created_at)) }}</td>
+								<td>{{ date('d F,Y',strtotime($key_details->created_at)) }}</td>
 								<td>Never</td>
 								<td><button type="button" class="btn btn-xs btn-info">Regenerate API key</button></td>
 							</tr>
@@ -263,7 +269,7 @@
             <div class="col-md-9 offset-md-1" style="padding-top:20px;">
 				<div class="card shadow mb-4">
 					<div class="card-body">
-						<h5 class="card-title"><strong>Payment Links reminders</strong>  <input type="checkbox" checked data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger"  data-style="android"></h5>
+						<h5 class="card-title"><strong>Payment Links reminders</strong>  <input type="checkbox" @if($general_settings->payment_link_reminder=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="payment_link_reminder" data-style="android"></h5>
 						<p class="card-text">Send collection reminders to customers automatically if a payment link hasnt been paid.</p>
 					</div>
 				</div>
@@ -547,5 +553,172 @@ function set_background_color(aid1,aid2,aid3,aid4,aid5,aid6,aid7)
 	$("#v-pills-"+aid1+"-tab").css("background-color", "#dddddd");
 	$( "#v-pills-"+aid2+"-tab,#v-pills-"+aid3+"-tab,#v-pills-"+aid4+"-tab,#v-pills-"+aid5+"-tab,#v-pills-"+aid6+"-tab,#v-pills-"+aid7+"-tab" ).css("background-color", "#ffffff");
 }
+
+
+$(function() {
+    $('#flash_checkout').change(function() {
+        var status = $(this).prop('checked') == true ? 'yes' : 'no';
+		if(confirm('Are You Sure?'))
+		{
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				url: "{{ url('changeflashcheckout') }}",
+				data: {'status': status},
+				headers: {
+					'X-CSRF-Token': '{{ csrf_token() }}',
+				},
+				success: function(data){
+				if(data.flash_checkout=='yes'){
+					alert('Flash Checkout Activated Successfully!!');
+				}else{
+					alert('Flash Checkout Deactivated Successfully!!');
+				}
+				}
+			});
+		}
+    });
+
+
+	$('#auto_capture').change(function() {
+        var status = $(this).prop('checked') == true ? 'yes' : 'no';
+		if(confirm('Are You Sure?'))
+		{
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				url: "{{ url('changeautocapture') }}",
+				data: {'status': status},
+				headers: {
+					'X-CSRF-Token': '{{ csrf_token() }}',
+				},
+				success: function(data){
+				if(data.auto_capture=='yes'){
+					alert('Auto Capture Activated Successfully!!');
+				}else{
+					alert('Auto Capture Deactivated Successfully!!');
+				}
+				}
+			});
+		}
+    });
+
+
+	$('#normal_refund , #instant_refund').click(function () {
+		var refund_type = $(this).val();
+		if(confirm('Are You Sure?'))
+		{
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				url: "{{ url('changerefundtype') }}",
+				data: {'refund_type': refund_type},
+				headers: {
+					'X-CSRF-Token': '{{ csrf_token() }}',
+				},
+				success: function(data){
+					alert('Refund Type Changed Successfully!!');
+				}
+			});
+		}
+		
+	});
+
+	$('#smsnotification').change(function() {
+        var status = $(this).prop('checked') == true ? 'yes' : 'no';
+		if(confirm('Are You Sure?'))
+		{
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				url: "{{ url('changesmsnotification') }}",
+				data: {'status': status},
+				headers: {
+					'X-CSRF-Token': '{{ csrf_token() }}',
+				},
+				success: function(data){
+				if(data.sms_notification=='yes'){
+					alert('SMS Notification Activated Successfully!!');
+				}else{
+					alert('SMS Notification Deactivated Successfully!!');
+				}
+				}
+			});
+		}
+    });
+
+
+	$('#email_notification').click(function () {
+		var emailnotofication = $('#emailnotofication').val();
+		if(confirm('Are You Sure?'))
+		{
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				url: "{{ url('changeemailnotification') }}",
+				data: {'emailnotofication': emailnotofication},
+				headers: {
+					'X-CSRF-Token': '{{ csrf_token() }}',
+				},
+				success: function(data){
+					if(data.success==1)
+					{
+						alert('Notification Email Changed Successfully!!');
+					}				
+				}
+			});
+		}
+		
+	});
+
+
+	$('#shipmandate').change(function() {
+        var status = $(this).prop('checked') == true ? 'yes' : 'no';
+		if(confirm('Are You Sure?'))
+		{
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				url: "{{ url('changeskipmandate') }}",
+				data: {'status': status},
+				headers: {
+					'X-CSRF-Token': '{{ csrf_token() }}',
+				},
+				success: function(data){
+				if(data.skip_mandate=='yes'){
+					alert('Skip Mandate Activated Successfully!!');
+				}else{
+					alert('Skip Mandate Deactivated Successfully!!');
+				}
+				}
+        	});
+		}
+    });
+
+
+	$('#payment_link_reminder').change(function () {
+		var status = $(this).prop('checked') == true ? 'yes' : 'no';
+		if(confirm('Are You Sure?'))
+		{
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				url: "{{ url('changereminder') }}",
+				data: {'status': status},
+				headers: {
+					'X-CSRF-Token': '{{ csrf_token() }}',
+				},
+				success: function(data){
+					if(data.success==1)
+					{
+						alert('Payment Link Reminder Changed Successfully!!');
+					}				
+				}
+			});
+		}
+	});
+
+
+});
 </script>
 @endsection

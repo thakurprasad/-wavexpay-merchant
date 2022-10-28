@@ -978,8 +978,8 @@ function create_ajax_method_chart(pxValues,pyValues){
       $('#status_filter').on('change', function () {
           var url = $(this).val(); 
           if (url) { 
-              window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
-			        //window.open('{{ url("/") }}/transactions/payments/status?status='+url, '_blank');
+              //window.location = '{{ url("/") }}/transactions/payments/status?status='+url; // redirect
+			        window.open('{{ url("/") }}/transactions/payments/status?status='+url, '_blank');
           }
           return false;
       });

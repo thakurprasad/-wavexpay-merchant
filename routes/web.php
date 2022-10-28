@@ -130,6 +130,14 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::get('general-settings/{id}',  [GeneralSettingController::class, 'getGeneralSetting'] );
     Route::post('updategeneralsetting/{id}',  [GeneralSettingController::class, 'updateGeneralSetting']);
 
+    Route::post('changeflashcheckout',  [GeneralSettingController::class, 'changeFlashCheckout'])->name('changeflashcheckout');
+    Route::post('changeautocapture',  [GeneralSettingController::class, 'changeAutoCapture'])->name('changeautocapture');Route::post('changerefundtype',  [GeneralSettingController::class, 'changeRefundType'])->name('changerefundtype');
+    Route::post('changeemailnotification',  [GeneralSettingController::class, 'changeEmailNotification'])->name('changeemailnotification');
+    Route::post('changesmsnotification',  [GeneralSettingController::class, 'changeSmsNotification'])->name('changesmsnotification');
+    Route::post('changeskipmandate',  [GeneralSettingController::class, 'changeSkipMandate'])->name('changeSkipMandate');
+    Route::post('changereminder',  [GeneralSettingController::class, 'changeReminder'])->name('changereminder');
+    
+
     //Payment Pages routes
     Route::get('payment-pages',  [PaymentPageController::class, 'index'] )->name('payment-pages');
     Route::post('get-payment-templates',  [PaymentPageController::class, 'getPaymentTemplates'] );

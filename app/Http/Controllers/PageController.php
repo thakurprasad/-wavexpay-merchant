@@ -47,7 +47,7 @@ class PageController extends Controller
 
 
         /*****************payment value calculation for payment method graph***********************/
-        $payment_by_method_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
+        $payment_by_method_data = Payment::where('merchant_id',$merchant_id)->select(
             DB::raw("(SUM(amount)) as total_amount"),
             DB::raw("payment_method as method")
         )
@@ -74,14 +74,14 @@ class PageController extends Controller
 
 
         /*****************payment value calculation for payment line graph***********************/
-        $payment_current_month_data = DB::table('payments')->where('merchant_id',$merchant_id)->whereMonth('payment_created_at', date('m'))
+        $payment_current_month_data = Payment::where('merchant_id',$merchant_id)->whereMonth('payment_created_at', date('m'))
         ->whereYear('payment_created_at', date('Y'))
         ->get(['amount','payment_created_at']);
 
         //print_r($payment_current_month_data);exit;
 
-        $paymentmaxValue = DB::table('payments')->where('merchant_id',$merchant_id)->orderBy('amount', 'desc')->value('amount');
-        $paymentminValue = DB::table('payments')->where('merchant_id',$merchant_id)->orderBy('amount', 'asc')->value('amount');
+        $paymentmaxValue = Payment::where('merchant_id',$merchant_id)->orderBy('amount', 'desc')->value('amount');
+        $paymentminValue = Payment::where('merchant_id',$merchant_id)->orderBy('amount', 'asc')->value('amount');
 
         $paymentxvalue1='[';
         $paymentyvalue1='[';
@@ -140,7 +140,7 @@ class PageController extends Controller
         /*************************** Bar Chart Data For Payment ************************************/
         $xValue='[';
         $yValue='[';
-        $payment_month_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
+        $payment_month_data = Payment::where('merchant_id',$merchant_id)->select(
             DB::raw("(SUM(amount)) as total_amount"),
             DB::raw("MONTHNAME(payment_created_at) as month_name")
         )
@@ -176,7 +176,7 @@ class PageController extends Controller
         
 
 
-        $payment_min_max_data = DB::table('payments')->where('merchant_id',$merchant_id)->select(
+        $payment_min_max_data = Payment::where('merchant_id',$merchant_id)->select(
             DB::raw("(MIN(amount)) as min_amount"),
             DB::raw("MAX(amount) as max_amount")
         )
