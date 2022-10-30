@@ -38,6 +38,15 @@ class Dropdown extends Component
         if($this->status == 'disputes'){
             $options = ['open'=>'Open', 'under_review'=>'Under Review', 'lost'=>'Lost','won'=>'Won', 'closed'=>'Closed'];
         }
+        if($this->status == 'settlements'){
+            $options = ['created'=>'Created', 'processed'=>'Processed', 'failed'=>'Failed'];
+        }
+        if($this->status == 'paymentlinks'){
+            $options = ['created'=>'Created', 'partially_paid'=>'Partially Paid', 'expired'=>'Expired','cancelled'=>'Cancelled','paid'=>'Paid'];
+        }
+        if($this->status == 'paymentpages'){
+            $options = ['Active'=>'Active', 'Inactive'=>'Inactive'];
+        }
 
         return view('components.dropdown', ['options'=> $options]);
     }

@@ -367,13 +367,13 @@ class Helper
      * */
     public static function badge($string){
         $class = 'dark';
-        if(in_array($string, ['authorized', 'wait', 'coming soon', 'created'])){
+        if(in_array($string, ['authorized', 'wait', 'coming soon', 'created','partially_paid'])){
              $class = 'warning';
         }
-        if(in_array($string, ['failed', 'error', 'pending'])){
+        if(in_array($string, ['failed', 'error', 'pending','expired','cancelled'])){
              $class = 'danger';
         }
-        if(in_array($string, ['captured', 'success', 'completed', 'paid'])){
+        if(in_array($string, ['captured', 'success', 'completed', 'paid','processed'])){
             $class = 'success';
         }
 

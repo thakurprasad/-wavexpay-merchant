@@ -144,6 +144,7 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::get('payment-template/{id}',  [PaymentPageController::class, 'showPaymentTemplates'] );
     Route::post('savepaymentpage',  [PaymentPageController::class, 'savePaymentPage'] );
     Route::post('get-payment-page-details',  [PaymentPageController::class, 'getPaymentPageDetails'] );
+    Route::post('searchpaymentpage',  [PaymentPageController::class, 'searchPaymentPage'])->name('searchpaymentpage');
 
 
     Route::get('create-payment-pages',  [PaymentPageController::class, 'openPaymentTemplateType'] );

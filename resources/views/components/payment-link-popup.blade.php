@@ -7,9 +7,9 @@
       <div class="col-md-12">
          <div class="row">
             <!-- Trigger/Open The Modal -->
-             <div class="card-body">
+             
                <button id="myBtn" class="btn btn-sm btn-info">Create Payment Link</button>
-            </div>
+            
             <!-- The Modal -->
             <div id="myModal" class="modal">
                <!-- Modal content -->

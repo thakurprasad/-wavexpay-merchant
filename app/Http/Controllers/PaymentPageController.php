@@ -8,6 +8,7 @@ use Session;
 use DB;
 use App\Models\Merchant;
 use App\Models\MerchantUser;
+use App\Models\PaymentPage;
 
 class PaymentPageController extends Controller
 {
@@ -18,7 +19,7 @@ class PaymentPageController extends Controller
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
 
-        $client = new Client(['base_uri' => env('API_BASE_URL')]);
+        /*$client = new Client(['base_uri' => env('API_BASE_URL')]);
         $api_end_point = 'api/merchants/payment-pages';
         $token = Session::get('token');
         $merchant_salt = env('MERCHANT_SALT');
@@ -34,11 +35,9 @@ class PaymentPageController extends Controller
             'status' => 'Active'
         ]);
         $res  =  json_decode($response->getBody(),true);
-        $res  =  $res['data']['data'];
-
-        $res  =  DB::table('payment_page')->get();
-
-
+        $res  =  $res['data']['data'];*/
+        $merchant_id =  session()->get('merchant');
+        $res  =  PaymentPage::where('merchant_id',$merchant_id)->get();
         return view('pages.paymentpages.index', compact('breadcrumbs','pageConfigs', 'res'));
     }
 
@@ -162,7 +161,7 @@ class PaymentPageController extends Controller
         $save_array['merchant_id'] = session('merchant');
         $save_array['page_url'] = $page_url;
         $save_array['unique_id'] = $unique_id;
-        DB::table('payment_page')->insert($save_array);
+        PaymentPage::create($save_array);
         
         //$status_code = $response->getStatusCode();
         return response()->json(array('success'=>1));
@@ -170,7 +169,7 @@ class PaymentPageController extends Controller
 
     public function getPaymentPageDetails(Request $request){
         $id = $request->id;
-        $get_payment_page_details = DB::table('payment_page')->where('id',$id)->first();
+        $get_payment_page_details = PaymentPage::where('id',$id)->first();
         return response()->json(array('page_title'=>$get_payment_page_details->page_title,'status'=>$get_payment_page_details->status,'custom_url'=>$get_payment_page_details->custom_url,'created_at'=>$get_payment_page_details->created_at,''));
     }
 
@@ -179,8 +178,8 @@ class PaymentPageController extends Controller
         $unique_id = request()->segment(count(request()->segments()));
         $decrypted = Crypt::decryptString($unique_id);
         $merchant_id =  session()->get('merchant');
-        $get_payment_page_details = DB::table('payment_page')->where('unique_id',$decrypted)->first();
-        $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
+        $get_payment_page_details = PaymentPage::where('unique_id',$decrypted)->first();
+        $merchant_users_details = MerchantUser::where('merchant_id',$merchant_id)->first();
         $display_name = $merchant_users_details->display_name;
         return view('pages.paymentpages.payment_front_view', compact('get_payment_page_details','display_name'));
 
@@ -195,9 +194,53 @@ class PaymentPageController extends Controller
     public function showPaymentPageTemplates()
     {
         $merchant_id =  session()->get('merchant');
-        $merchant_details = DB::table('merchants')->where('id',$merchant_id)->first();
-        $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
+        $merchant_details = Merchant::where('id',$merchant_id)->first();
+        $merchant_users_details = MerchantUser::where('merchant_id',$merchant_id)->first();
         $display_name = $merchant_users_details->display_name;
         return view('pages.paymentpages.paymentpagetemplate',compact('display_name'));
+    }
+
+
+    public function searchPaymentPage(Request $request)
+    {
+        $status = $request->status;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        $html = '';
+        $merchant_id =  session()->get('merchant');
+        $query = PaymentPage::where('merchant_id',$merchant_id);
+        if($status!=''){
+            $query->where('status',$status);
+        }if($start_date!='' && $end_date!=''){
+            $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
+        }
+        $result = $query->get();
+
+        if(!empty($result)){
+            foreach($result as $page){
+                $html.='<tr>
+                    <td><a style="cursor:pointer;" data-toggle="modal" data-target="#modal1" onclick="show_payment_page(\''.$page->id.'\')">'.$page->page_title.'</a></th>
+                    <td>'.$page->amount.'</td>
+                    <td>0</td>
+                    <td>'.$page->page_content.'</td>
+                    <td>0</td>
+                    <td>'.$page->custom_url.'</td>
+                    <td>'.date('Y-m-d',strtotime($page->created_at)).'</td>
+                    <td><button class="btn btn-sm btn-info" onclick="copy(\''.$page->page_url.'\')">Copy Url</button></td>
+                    <td>';
+                        if($page->status=='Inactive')
+                        {
+                        $html.='<span class="badge badge-danger">'.$page->status.'</span>';
+                        }
+                        else
+                        {
+                        $html.='<span class="badge badge-success">'.$page->status.'</span>';
+                        }
+                    $html.='</td>
+                </tr>';
+            }
+        }
+        return response()->json(array('html'=>$html));
     }
 }

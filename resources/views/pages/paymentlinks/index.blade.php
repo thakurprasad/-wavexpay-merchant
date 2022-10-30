@@ -1,37 +1,16 @@
 @extends('newlayout.app-advance')
-@section('title','Payment Links')
-@section('content_header')
-<div class="row mb-2">
-	<div class="col-sm-6">
-	<h1>Payment Link Management</h1>
-	</div>
-	<div class="col-sm-6">
-	<ol class="breadcrumb float-sm-right">
-		<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-		<li class="breadcrumb-item active">Payment Link</li>
-	</ol>
-	</div>
-</div>
-@endsection
 @section('content')
-<div class="container-fluid">    
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <!-- DataTales Example -->
     <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Payment Link</h6>
-    </div>
-<div class="card-body"> 
-    @include('alerts.message')
-
-    <div class="card">
-        <?php /*<div class="card-body">
-            <a class="btn btn-sm btn-primary" href="{{ url('/create-payment-links') }}">Create Payment Link</a>
-        </div> */ ?>
-        <x-payment-link-popup />
-
-        <form style="display:;" class="col s12" method="POST" id="search-form" action="<?php url('/') ?>/searchinvoice">
-            @csrf
-            <div class="card-body">
-                <div class="row">                 
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All Payment Links</h6>
+        </div>
+        <div class="card-body"> 
+            <x-payment-link-popup /><br />
+            <x-filter-component form_id="search_form" action="searchpaymentlink" method="POST" status="paymentlinks"> 
+                @section('advance_filters')
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="first_name">Payment Link Id</label>
@@ -60,217 +39,69 @@
                             <input placeholder="Customer Email" name="customer_email" id="customer_email" type="text" class="form-control">
                         </div>   
                     </div>
+                @endsection
+            </x-filter-component>
 
-                    
-                    <div class="col-sm-1">
-                        <div class="form-group">
-                            <label for="first_name">&nbsp;</label><br>
-                            <button class="btn btn-sm btn-info" type="button" name="action" onclick="search_payment_link()">Submit</button>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="first_name">&nbsp;</label><br>
-                            <button class="btn btn-sm btn-primary" type="button" name="action" onclick="reset_page()">Reset</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Payment Link Id</th>
+                            <th scope="col">Created Date</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Reference Id</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Payment Links</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_container">
+                        @if(!empty($all_links))
+                        @foreach($all_links as $link)
+                        @php 
+                        $contact = 'N/A';
+                        $email = 'N/A';
+                        if(isset($link->customer_contact) && $link->customer_contact!='')
+                        {
+                            $contact = $link->customer_contact;
+                        }
+                        if(isset($link->customer_email) && $link->customer_email!='')
+                        {
+                            $email = $link->customer_email;
+                        }
+                        @endphp
+                        <tr>
+                            <td><a style="cursor:pointer; color: blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a></td>
+                            <td>{{date('Y-m-d H:i:s',strtotime($link->created_at))}}</td>
+                            <td>{{number_format($link->amount,2)}}</td>
+                            <td>{{$link->reference_id}}</td>
+                            <td>{{$contact}}({{$email}})</td>
+                            <!--<td>{{$link->short_url}}</td>-->
+                            <td>{!! Helper::badge(url('/').'/i/pl/'.$link->link_text) !!}</td>
+                        </tr>
+                        @endforeach
+                        @endif
+                    </tbody>                        
+                </table>
             </div>
-        </form>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <table class="table table-bordered table-responsive-sm" id="myTable">
-                <thead>
-                    <tr>
-                    <th scope="col">Payment Link Id</th>
-                    <th scope="col">Created Date</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Reference Id</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Payment Links</th>
-                    </tr>
-                </thead>
-                <tbody id="table_container">
-                    @if(!empty($all_links))
-                    @foreach($all_links as $link)
-                    @php 
-                    $contact = 'N/A';
-                    $email = 'N/A';
-                    if(isset($link->customer_contact) && $link->customer_contact!='')
-                    {
-                        $contact = $link->customer_contact;
-                    }
-                    if(isset($link->customer_email) && $link->customer_email!='')
-                    {
-                        $email = $link->customer_email;
-                    }
-                    @endphp
-                    <tr>
-                        <td><a style="cursor:pointer; color: blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a></td>
-                        <td>{{date('Y-m-d H:i:s',strtotime($link->created_at))}}</td>
-                        <td>{{number_format($link->amount,2)}}</td>
-                        <td>{{$link->reference_id}}</td>
-                        <td>{{$contact}}({{$email}})</td>
-                        <!--<td>{{$link->short_url}}</td>-->
-                        <td>{{url('/').'/i/pl/'.$link->link_text}}</td>
-                    </tr>
-                    @endforeach
-                    @endif
-                </tbody>
-            </table>
         </div>
     </div>
-
-<div id="modal1" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content" style="width: 600px;">
-      <div class="modal-header">
-        <h5 class="modal-title">New Payment Link</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="form-create-payment-link" method="post">
-            <div class="row" id="clid">
-                <input type="hidden" id="show_hide_status" name="show_hide_status" value="hide">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Payment For <For></For></label>
-                        <input placeholder="Payment Description" name="payment_description" id="payment_description" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Amount*</label>
-                        <input placeholder="Amount" name="amount" id="amount" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <input placeholder="Reference Id" name="reference_id" id="reference_id" type="hidden" class="form-control" value="{{ rand(10000,20000) }}">
-
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <span id="show_hide_advanced_info">
-                            <button class="btn btn-info btn-sm" type="button" onclick="show_advanced_info()">
-                                + Show Advanced Information
-                            </button>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="row" id="details_span" style="display:none;">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Reference Id <For></For></label>
-                        <input placeholder="Reference Id" name="reference_id" id="reference_id" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Customer Name <For></For></label>
-                        <input placeholder="Customer Name" name="customer_name" id="customer_name" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Customer Email <For></For></label>
-                        <input placeholder="Customer Email" name="customer_email" id="customer_email" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Customer Contact <For></For></label>
-                        <input placeholder="Customer Contact" name="customer_contact" id="customer_contact" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Notify Via Email</label>
-                        <select class="form-control" name="notify_via_email" id="notify_via_email">
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Notify Via SMS</label>
-                        <select class="form-control" name="notify_via_sms" id="notify_via_sms">
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Expiry?</label>
-                        <select class="form-control" name="isexpiry" id="isexpiry" onchange="setexpirydate()">
-                            <option value="">Select</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Expiry <For></For></label>
-                        <input name="expiry_date" id="expiry_date" type="date" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="first_name">Partial Payments?</label>
-                        <select class="form-control" name="partial_paymet" id="partial_paymet">
-                            <option value="">Select</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                </div>
-                </div>
-
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <a class="waves-effect waves-light" style="cursor:pointer;" onclick="add_notes()"><strong>+ Add Notes</strong></a>
-                        <span id="add_note_container">
-                        </span>
-                        <span id="afetr_edit_note_container"></span>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="button" onclick="create_payment_link()">create</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 
-<div class="modal" id="modal2" tabindex="-1" role="dialog">
+<div class="modal" id="modal2" tabindex="-1" role="dialog" style="z-index: 9999999;">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" style="padding: 20px;">
-      <div class="modal-header">
+      <div class="modal-header" style="background-color:#337ab7">
         <h5 class="modal-title">Payment Link</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+        <br />
         <div class="row" id="link_details_container">
                 
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -278,16 +109,17 @@
 
 
 
-<div id="modal3" class="modal" tabindex="-1" role="dialog">
+<div id="modal3" class="modal" tabindex="-1" role="dialog" style="z-index: 10000000;">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" style="background-color:#337ab7">
         <h5 class="modal-title">Change Reference Id</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+        <br />
         <form id="ref_id_change_form">
             <div class="row">
                 <div class="col-sm-12">
@@ -304,24 +136,22 @@
             <span id="msg"></span>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
     </div>
   </div>
 </div>
 
 
-<div id="modal4" class="modal" tabindex="-1" role="dialog">
+<div id="modal4" class="modal" tabindex="-1" role="dialog" style="z-index: 10000000;">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" style="background-color:#337ab7">
         <h5 class="modal-title" id="modal4_heading">Add Notes</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+        <br />
         <form id="edit_note_form">
             <input type="hidden" id="editplid" name="editplid">
             <div class="row" id="edit_note_container">
@@ -334,9 +164,6 @@
                 </div>
             </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -368,16 +195,17 @@
 
 
 
-<div id="modal5" class="modal" tabindex="-1" role="dialog">
+<div id="modal5" class="modal" tabindex="-1" role="dialog" style="z-index: 10000000;">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" style="background-color:#337ab7">
         <h5 class="modal-title">Change Expiry Date</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+        <br />
         <div class="row" id="">
             <form id="exp_date_change_form">
                 <div class="col-sm-12">
@@ -395,40 +223,25 @@
             </form>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
     </div>
   </div>
 </div>
 
-</div>
-</div>
-</div>
 
-@endsection
-
-@section('page-style')
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 @endsection
 @section('page-script')
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
-$(document).ready( function () {
-    $('#myTable').DataTable({
-        "searching": false
-    });
-} );
-
-
-function search_payment_link(){
+function search_data(){
     $("#table_container").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });
+
+    var start_date = $('#daterangepicker').data('daterangepicker').startDate.format('YYYY-MM-DD');
+    var end_date = $('#daterangepicker').data('daterangepicker').endDate.format('YYYY-MM-DD');
     $.ajax({
         url: '{{url("searchpaymentlink")}}',
-        data: $("#search-form").serialize(),
+        data: $("#search_form").serialize()+'&start_date='+start_date+'&end_date='+end_date,
         type: "POST",
         headers: {
             'X-CSRF-Token': '{{ csrf_token() }}',
@@ -436,13 +249,32 @@ function search_payment_link(){
         success: function(data){
             $("#table_container").LoadingOverlay("hide", true);
             $("#table_container").html(data.html);
-            $('#myTable').DataTable();
         }
     });
 }
 
-function reload_page(){
+function reset_page(){
     location.reload();
+}
+
+
+function show_notes(link_id){
+    $('#modal2').modal('show');
+    $("#link_details_container").LoadingOverlay("show", {
+        background  : "rgba(165, 190, 100, 0.5)"
+    });
+    $.ajax({
+        url: '{{url("getpaymentlink")}}',
+        data: {'link_id' : link_id },
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){
+            $("#link_details_container").LoadingOverlay("hide", true);
+            $("#link_details_container").html(data.html);
+        }
+    });
 }
 
 
@@ -486,25 +318,6 @@ function create_payment_link(){
                 location.reload();
             }
             
-        }
-    });
-}
-
-function show_notes(link_id){
-    $('#modal2').modal('show');
-    $("#link_details_container").LoadingOverlay("show", {
-        background  : "rgba(165, 190, 100, 0.5)"
-    });
-    $.ajax({
-        url: '{{url("getpaymentlink")}}',
-        data: {'link_id' : link_id },
-        type: "POST",
-        headers: {
-            'X-CSRF-Token': '{{ csrf_token() }}',
-        },
-        success: function(data){
-            $("#link_details_container").LoadingOverlay("hide", true);
-            $("#link_details_container").html(data.html);
         }
     });
 }
@@ -676,6 +489,5 @@ function hide_advanced_info(){
     $("#show_hide_status").val('hide');
     $("#show_hide_advanced_info").html('<button class="btn btn-info btn-sm" type="button" onclick="show_advanced_info()"> + Show Advanced Information</button>');
 }
-
 </script>
 @endsection

@@ -7,6 +7,7 @@ use Razorpay\Api\Api;
 use DB;
 use App\Models\PaymentLink;
 use Illuminate\Support\Facades\Crypt;
+use Helper;
 
 class PaymentLinkController extends Controller
 {
@@ -27,6 +28,8 @@ class PaymentLinkController extends Controller
         $customer_contact = $request->customer_contact;
         $customer_email = $request->customer_email;
         $notes = $request->notes;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
 
         $merchant_id =  session()->get('merchant');
         $query = PaymentLink::where('merchant_id',$merchant_id);
@@ -38,6 +41,8 @@ class PaymentLinkController extends Controller
             $query->where('customer_email',$customer_email);
         }if($payment_link_id!=''){
             $query->where('payment_link_id',$payment_link_id);
+        }if($start_date!='' && $end_date!=''){
+            $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         }
         $result = $query->get();
         $all_links = $result;
@@ -59,7 +64,7 @@ class PaymentLinkController extends Controller
                     <td>'.number_format($link->amount,2).'</td>
                     <td>'.$link->reference_id.'</td>
                     <td>'.$s_customer_contact.'('.$s_customer_email.')'.'</td>
-                    <td>'.$link->short_url.'</td>
+                    <td>'.Helper::badge($link->short_url).'</td>
                 </tr>';
             }
         }

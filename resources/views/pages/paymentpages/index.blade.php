@@ -1,132 +1,70 @@
-@extends('newlayout.app')
-@section('title','Payment Pages')
-@section('content_header')
-<div class="row mb-2">
-	<div class="col-sm-6">
-	<h1>Payment Pages</h1>
-	</div>
-	<div class="col-sm-6">
-	<ol class="breadcrumb float-sm-right">
-		<li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-		<li class="breadcrumb-item active">Payment Pages</li>
-	</ol>
-	</div>
-</div>
-@endsection
+@extends('newlayout.app-advance')
 @section('content')
-<div class="container-fluid"> 
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Payment Page</h6>
-    </div>
-    @include('alerts.message')
-    <!--<div class="card">
-        <div class="card-body">
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All Payment Pages</h6>
+        </div>
+        <div class="card-body"> 
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <a class="btn btn-md btn-info" data-toggle="modal" data-target="#modal2" onclick="create_payment_page()">Create Payment Page</a>
+                    <a class="btn btn-sm btn-info" href="{{ url('/create-payment-pages') }}">Create Payment Page</a>
                     </div>
                 </div>
             </div>
-        </div>                   
-        
-        <form class="col s12" method="POST" id="search-form">
-            @csrf
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select class="form-control" name="status">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="first_name">Title</label>
-                            <input placeholder="Title" name="title" id="title" type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-12"></div>
-                    <div class="col-sm-1">
-                        <div class="form-group">
-                            <br>
-                            <button class="btn btn-sm btn-info" type="button" name="action" onclick="search_pages()">Submit</button>
-                        </div>
-                    </div>
+            <x-filter-component form_id="search_form" action="searchpaymentpage" method="POST" status="paymentpages"> 
+            </x-filter-component>
 
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <br>
-                            <button class="btn btn-sm btn-primary" type="button" name="action" onclick="reload_page()">Reset</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Total Sales</th>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">Units Sold</th>
+                            <th scope="col">Page Url</th>
+                            <th scope="col">Created On</th>
+                            <th scope="col">Payment Url</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_container">
+                        @if(!empty($res))
+                        @foreach($res as $page)
+                        <tr>
+                            <td><a style="cursor:pointer;" data-toggle="modal" data-target="#modal1" onclick="show_payment_page('{{ $page->id }}')">{{$page->page_title}}</a></th>
+                            <td>{{ $page->amount }}</td>
+                            <td>0</td>
+                            <td>{!! $page->page_content !!}</td>
+                            <td>0</td>
+                            <td>{{ $page->custom_url }}</td>
+                            <td>{{ date('Y-m-d',strtotime($page->created_at)) }}</td>
+                            <td><button class="btn btn-sm btn-info" onclick="copy('{{$page->page_url}}')">Copy Url</button></td>
+                            <td>
+                                @if($page->status=='Inactive')
+                                <span class="badge badge-danger">{{ $page->status }}</span>
+                                @else
+                                <span class="badge badge-success">{{ $page->status }}</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                        @endif
+                    </tbody>                        
+                </table>
             </div>
-        </form>
-    </div>-->
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <!--<a class="btn btn-md btn-info" data-toggle="modal" data-target="#modal2" onclick="create_payment_page()">Create Payment Page</a>-->
-                        <a class="btn btn-sm btn-primary" href="{{ url('/create-payment-pages') }}">Create Payment Page</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <table class="table table-bordered table-responsive-sm" id="myTable">
-                <thead>
-                    <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Total Sales</th>
-                    <th scope="col">Item Name</th>
-                    <th scope="col">Units Sold</th>
-                    <th scope="col">Page Url</th>
-                    <th scope="col">Created On</th>
-                    <th scope="col">Payment Url</th>
-                    <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody id="table_container">
-                    @if(!empty($res))
-                    @foreach($res as $page)
-                    <tr>
-                        <td><a style="cursor:pointer;" data-toggle="modal" data-target="#modal1" onclick="show_payment_page('{{ $page->id }}')">{{$page->page_title}}</a></th>
-                        <td>{{ $page->amount }}</td>
-                        <td>0</td>
-                        <td>{!! $page->page_content !!}</td>
-                        <td>0</td>
-                        <td>{{ $page->custom_url }}</td>
-                        <td>{{ date('Y-m-d',strtotime($page->created_at)) }}</td>
-                        <td><button class="btn btn-sm btn-info" onclick="copy('{{$page->page_url}}')">Copy Url</button></td>
-                        <td>
-                            @if($page->status=='Inactive')
-                            <span class="badge red">{{ $page->status }}</span>
-                            @else
-                            <span class="badge blue">{{ $page->status }}</span>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                    @endif
-                </tbody>
-            </table>
-            </p>
         </div>
     </div>
+</div>
 
 
 
-
-
-<!-- Modal Structure -->
 <div id="modal1" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -139,6 +77,7 @@
       <div class="modal-body">
       <form id="form-payment-page" method="post">
             <input type="hidden" id="edit_id">
+            <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="first_name">Page Url</label>
@@ -161,7 +100,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label id="con">Created On </label><br><br><span name="created_on" id="created_on"></span>
+                    <label id="con">Created On </label><br><span name="created_on" id="created_on"></span>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -170,7 +109,7 @@
                     <input name="expires_on" id="expires_on" type="date" class="form-control" required>
                 </div>    
             </div>
-            
+            </div>
             <div class="col-sm-3" id="save_button">  
                 <div class="form-group">                        
                     <button class="btn btn-sm btn-info" id="create_customer_btn" type="button" name="action" onclick="save_payment_page()">Save</button>
@@ -204,37 +143,39 @@
     </div>
   </div>
 </div>
-</div>
-
-@endsection
 
 
-@section('page-style')
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
 @endsection
 @section('page-script')
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
-$(document).ready( function () {
-    $('#myTable').DataTable();
-} );
+function search_data(){
+    $("#table_container").LoadingOverlay("show", {
+        background  : "rgba(165, 190, 100, 0.5)"
+    });
 
-
-function create_payment_page(){
-    $("#template-container").LoadingOverlay("show");
+    var start_date = $('#daterangepicker').data('daterangepicker').startDate.format('YYYY-MM-DD');
+    var end_date = $('#daterangepicker').data('daterangepicker').endDate.format('YYYY-MM-DD');
     $.ajax({
-        url: '{{url("get-payment-templates")}}',
+        url: '{{url("searchpaymentpage")}}',
+        data: $("#search_form").serialize()+'&start_date='+start_date+'&end_date='+end_date,
         type: "POST",
         headers: {
             'X-CSRF-Token': '{{ csrf_token() }}',
         },
         success: function(data){
-            $("#template-container").LoadingOverlay("hide", true);
-            $("#template-container").html(data.html);
+            $("#table_container").LoadingOverlay("hide", true);
+            $("#table_container").html(data.html);
+            $('#myTable').DataTable();
         }
     });
 }
+
+function reset_page(){
+    location.reload();
+}
+
 
 
 function show_payment_page(id){
