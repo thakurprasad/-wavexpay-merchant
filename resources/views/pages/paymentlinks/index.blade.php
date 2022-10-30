@@ -1,4 +1,4 @@
-@extends('newlayout.app')
+@extends('newlayout.app-advance')
 @section('title','Payment Links')
 @section('content_header')
 <div class="row mb-2">
@@ -23,10 +23,12 @@
     @include('alerts.message')
 
     <div class="card">
-        <div class="card-body">
+        <?php /*<div class="card-body">
             <a class="btn btn-sm btn-primary" href="{{ url('/create-payment-links') }}">Create Payment Link</a>
-        </div>
-        <form class="col s12" method="POST" id="search-form" action="<?php url('/') ?>/searchinvoice">
+        </div> */ ?>
+        <x-payment-link-popup />
+
+        <form style="display:;" class="col s12" method="POST" id="search-form" action="<?php url('/') ?>/searchinvoice">
             @csrf
             <div class="card-body">
                 <div class="row">                 
