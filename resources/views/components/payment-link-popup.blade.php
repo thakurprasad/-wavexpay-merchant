@@ -19,6 +19,7 @@
                         <h5 class="modal-title">New Payment Link</h5>                   
                      </div>
                      <div class="modal-body">
+                     <span id="create_error" style="color:red;display:none;"></span>
                      <form id="form-create-payment-link" method="post">
                            <div class="row" id="clid">
                               <input type="hidden" id="show_hide_status" name="show_hide_status" value="hide">

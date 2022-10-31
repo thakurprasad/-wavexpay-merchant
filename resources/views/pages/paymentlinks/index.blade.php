@@ -313,6 +313,9 @@ function create_payment_link(){
         return false;
     }
 
+    $("#create_error").html('');
+    $("#create_error").hide();
+
     $("#clid").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });
@@ -325,11 +328,15 @@ function create_payment_link(){
         },
         success: function(data){
             if(data.success==1){
-                alert('Payment Link Created');
                 $("#clid").LoadingOverlay("hide", true);
+                alert('Payment Link Created');
                 $("#form-create-payment-link")[0].reset();
                 $('#modal1').modal('hide');
                 location.reload();
+            }else{
+                $("#clid").LoadingOverlay("hide", true);
+                $("#create_error").show();
+                $("#create_error").html(data.error);
             }
             
         }
