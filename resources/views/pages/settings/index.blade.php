@@ -5,7 +5,15 @@
 
 {{-- page content --}}
 @section('content')
-<div class="section">
+<div class="container-fluid">    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Settings</h6>
+        </div>
+        <div class="card-body"> 
+
+
+<div class="section_">
   <div class="card">
     <div class="card-content">
       @include('alerts.message')
@@ -18,7 +26,7 @@
       </ul>
       <div class="tab-content">
 
-        <div id="config" style="padding: 40px;" class="tab-pane active">
+        <div id="config" style="padding-top: 20px;" class="tab-pane active">
           <div class="row">                         
             <div class="col-md-9 offset-md-1">
               <div class="card shadow mb-4">
@@ -28,7 +36,7 @@
 						<h6>Account Setting</h6>
 						<br clear="all">
 						<div class="row">
-							<div class="card shadow mb-4">
+							<div class="card shadow mb-4" style="padding-bottom: 8px;">
 								<div class="card-body">									
 									<div class="col-sm-12">
 										<div class="form-group">
@@ -96,18 +104,22 @@
 						<br clear="all">
 						<br clear="all">
 						<div class="card shadow mb-4" style="padding: 10px;">
-							<div class="card-body">
+							<div class="card-body" style="padding: 8px; padding-top: 0;padding-bottom: 0;">
 								<div class="row" id="headingrow" style="background-color:@php 
-													if($general_settings->theme_color!='') { echo $general_settings->theme_color; } else { echo 'background-color: rgb(82, 143, 240)'; } @endphp; padding: 20px;">
-									<div class="col-md-6">
+													if($general_settings->theme_color!='') { echo $general_settings->theme_color; } else { echo 'background-color: rgb(82, 143, 240)'; } @endphp; padding: 10px;">
+									<div class="col-md-6" style="padding-top:10px;">
 										@if($general_settings->logo!='')
-										<img id="blah" src="<?php echo url('/') ?>/images/logo/{{$general_settings->logo}}" height="70px;" width="70px;">
+										<img id="blah" src="<?php echo url('/') ?>/images/logo/{{$general_settings->logo}}" width="99%">
 										@else 
-										<img id="blah" src="<?php echo url('/') ?>/images/logo/wave_x_pay.png" height="70px;" width="70px;">
+										<img id="blah" src="<?php echo url('/') ?>/images/logo/wave_x_pay.png" width="99%">
 										@endif
 									</div>
 									<div class="col-md-6" style="text-align: center;margin: auto;padding: 10px;color: #ffffff;">Manoj Verma<br>Order Id<br>₹1</div>
 								</div>
+								<div class="row" style="border: 1px solid #cccccc78;">
+										<img src="{{ url('newdesign/img/payment-style.png') }}" style="width: 100%;">
+								</div>
+								<?php /*
 								<div class="row">
 									<input type="text" name="phone" class="form-control" id="phone" readonly placeholder="Phone">											
 								</div>
@@ -124,7 +136,7 @@
 										<div class="grid-item">EMI</div>
 										<div class="grid-item">QR</div>  
 									</div>
-								</div>									
+								</div> */ ?>									
 							</div>
 						</div>
 					</div>
@@ -422,6 +434,12 @@
     </div>
   </div>
 </div>
+
+
+
+        </div> <!--/ container-fluid -->
+    </div> <!--/ card -->
+</div> <!--/ card-body -->
 @endsection
 
 

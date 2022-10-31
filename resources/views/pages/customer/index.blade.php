@@ -20,6 +20,13 @@
 
 {{-- page content --}}
 @section('content')
+<div class="container-fluid">    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Customers</h6>
+        </div>
+        <div class="card-body"> 
+
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <ul class="margin-bottom-none padding-left-lg">
@@ -34,19 +41,12 @@
             </ul>
         </div>
     @endif
-    <div class="card">
-		<div class="card-header">
-			<div class="pull-left">
-
-	        </div>
-	        <div class="pull-right">
-
-	            <a class="btn btn-success" style="color: #FFFFFF;background-color:#00008B;" data-toggle="modal" data-target="#customerModal" onclick="crt_cust()"><i class="fas fa-plus"></i> Create New Customer</a>
-
-	        </div>
+    <div class="card_">
+		<div class="col-md-12 row" style="margin-bottom: 30px;">
+	            <a class="btn btn-primary " style="color:white;cursor: pointer;" data-toggle="modal" data-target="#customerModal" onclick="crt_cust()"><i class="fas fa-plus"></i> Create New Customer</a>
         </div>
 
-		<div class="card-body">
+		<div class="card-body_">
 			<table class="table table-bordered table-responsive-sm"  id="myTable">
 				<thead>
 					<tr class="text-center">
@@ -138,6 +138,11 @@
     </div>
   </div>
 </div>
+
+
+        </div> <!--/ container-fluid -->
+    </div> <!--/ card -->
+</div> <!--/ card-body -->
 @endsection
 
 

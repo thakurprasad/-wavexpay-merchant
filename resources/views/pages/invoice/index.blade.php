@@ -20,6 +20,14 @@
 
 {{-- page content --}}
 @section('content')
+
+<div class="container-fluid">    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Invoice</h6>
+        </div>
+        <div class="card-body"> 
+
 @include('alerts.message')
     <div class="card">
         <div class="card-body">
@@ -130,6 +138,10 @@
             </table>
         </div>
     </div>
+
+        </div> <!--/ container-fluid -->
+    </div> <!--/ card -->
+</div> <!--/ card-body -->    
 @endsection
 
 
