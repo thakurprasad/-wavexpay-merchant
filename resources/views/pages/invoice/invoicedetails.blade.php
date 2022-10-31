@@ -1,24 +1,4 @@
-{{-- extend layout --}}
-@extends('layouts.admin')
-
-{{-- page title --}}
-@section('title','Invoice')
-
-@section('content_header')
-<div class="row mb-2">
-	<div class="col-sm-6">
-	<h1>Invoice Management</h1>
-	</div>
-	<div class="col-sm-6">
-	<ol class="breadcrumb float-sm-right">
-		<li class="breadcrumb-item"><a href="{{ route('home')}}">Home</a></li>
-		<li class="breadcrumb-item active"><a href="{{ route('invoices')}}">Invoice</a></li>
-	</ol>
-	</div>
-</div>
-@endsection
-
-{{-- page content --}}
+@extends('newlayout.app-advance')
 @section('content')
 @if ($message = Session::get('success'))
 <div class="alert alert-success">
@@ -34,7 +14,7 @@
     </ul>
 </div>
 @endif
-    <div class="card">
+    <div class="card" style="padding:15px;">
         <div class="card-body">
             <div class="row">
                 <form id="form-edit-invoice" method="post">
@@ -43,7 +23,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="first_name">Invoice #</label>
-                                <input placeholder="Invoice #" name="invoice_no" id="invoice_no" type="text" class="form-control" required value="{{$invoice_details->id}}" readonly>
+                                <input placeholder="Invoice #" name="invoice_no" id="invoice_no" type="text" class="form-control" required value="{{$invoice_details->invoice_id}}" readonly>
                                 <span class="text-danger" id="nameError"></span>
                             </div>
                         </div>

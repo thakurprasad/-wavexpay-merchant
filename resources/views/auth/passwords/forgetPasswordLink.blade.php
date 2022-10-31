@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Wavexpay - Login</title>
+    <title>Wavexpay - Forget Password</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('newdesign/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -40,9 +40,9 @@
         <div class="row_">
 
             <div class="col-md-12">
-                
-                <form method="POST" action="{{ route('login') }}">
+                <form action="{{ route('reset.password.post') }}" method="POST">
                 @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
                     <div >
                     <!--<div class="card border-0 shadow-lg my-5">-->
                         <div class="card-body p-0">
@@ -101,38 +101,38 @@
                                 </div>
                                 <div class="col-lg-6" style="padding-top: 8.5%;">
                                     <div class="row">
-                                    <div class="col-md-8 offset-2">
-                                        @if (Session::has('message'))
-                                            <div class="alert alert-success" role="alert">
-                                                {{ Session::get('message') }}
-                                            </div>
-                                        @endif
-                                        <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Sign In</h1>
-                                        </div>
-                                        <form class="user">
-                                            <div class="form-group">
-                                                <input type="email" name="email" value="{{ old('email') }}" class="form-control form-control-user" id="email" aria-describedby="emailHelp" placeholder="Enter Email Id" required autocomplete="email" autofocus>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" id="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" required autocomplete="current-password">
-                                            </div>
-                                            <div class="form-group row col-md-12">
-                                                <div class="col-md-6">
-                                                    <label> 
-                                                        <input type="checkbox" id="customCheck"> Remember Me </label>
+                                        <div class="col-md-8 offset-2">
+                                            <div class="text-center">
+                                                <h1 class="h4 text-gray-900 mb-4">Reset Password</h1>
+                                            </div>                                             
+                                            <form class="user">
+                                                <div class="form-group">
+                                                    <input type="email" name="email" value="{{ old('email') }}" class="form-control form-control-user" id="email_address" aria-describedby="emailHelp" placeholder="Enter Email Id" required autocomplete="email" autofocus>
+                                                    @if ($errors->has('email'))
+                                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                    @endif
                                                 </div>
-                                                <div class="col-md-6 text-right"> <a class="small" href="{{route('forget.password.get')}}">Forgot Password ?</a></div>
-                                            </div>
-                                            <button href="index.html" class="btn btn-lg btn-primary btn-user btn-block">
-                                                Login
-                                            </button>
-                                        </form>
-                                        <div class="text-center" style="padding-top: 20px;">
-                                            Don’t have an account?
-                                            <a class="small" href="{{url('register')}}">Create Account</a>
+
+                                                <div class="form-group">
+                                                    <input type="password" name="password" value="{{ old('password') }}" class="form-control form-control-user" id="password" aria-describedby="emailHelp" placeholder="Enter New Password" required autocomplete="email" autofocus>
+                                                    @if ($errors->has('password'))
+                                                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                                                    @endif
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" class="form-control form-control-user" id="password-confirm" aria-describedby="emailHelp" placeholder="Enter New Confirm Password" required autocomplete="email" autofocus>
+                                                    @if ($errors->has('password_confirmation'))
+                                                    <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
+                                                    @endif
+                                                </div>
+
+
+                                                <button type="submit" class="btn btn-lg btn-primary btn-user btn-block">
+                                                    Reset Password
+                                                </button>
+                                            </form>                                            
                                         </div>
-                                    </div>
                                     </div>
                                 </div>
                             </div>

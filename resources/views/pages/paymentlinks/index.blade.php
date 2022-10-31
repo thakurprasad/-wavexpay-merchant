@@ -70,13 +70,13 @@
                         }
                         @endphp
                         <tr>
-                            <td><a style="cursor:pointer; color: blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a></td>
+                            <td><a style="cursor:pointer;color:blue;" onclick="show_notes('{{$link->payment_link_id}}')">{{$link->payment_link_id}}</a></td>
                             <td>{{date('Y-m-d H:i:s',strtotime($link->created_at))}}</td>
                             <td>{{number_format($link->amount,2)}}</td>
                             <td>{{$link->reference_id}}</td>
                             <td>{{$contact}}({{$email}})</td>
                             <!--<td>{{$link->short_url}}</td>-->
-                            <td>{!! Helper::badge(url('/').'/i/pl/'.$link->link_text) !!}</td>
+                            <td><a class="btn btn-sm btn-primary" href="javascript:void(0)" onclick="copy('{{$link->link_text}}')">Copy Link</a></td>
                         </tr>
                         @endforeach
                         @endif
@@ -299,6 +299,20 @@ function cancel_div(count){
 }
 
 function create_payment_link(){
+    var payment_description = $("#payment_description").val();
+    var amount = $("#amount").val();
+
+    if(payment_description=='')
+    {
+        alert('Please fill up payment for');
+        return false;
+    }
+    if(amount=='')
+    {
+        alert('Please fill up amount field');
+        return false;
+    }
+
     $("#clid").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });
@@ -488,6 +502,18 @@ function hide_advanced_info(){
     $("#details_span").hide();
     $("#show_hide_status").val('hide');
     $("#show_hide_advanced_info").html('<button class="btn btn-info btn-sm" type="button" onclick="show_advanced_info()"> + Show Advanced Information</button>');
+}
+
+
+function copy(url) {
+    var dummy = document.createElement('input'),
+    text = url;
+    document.body.appendChild(dummy);
+    dummy.value = "{{ url('/') }}/i/pl/"+text;
+    dummy.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummy);
+    alert('Url Copied');
 }
 </script>
 @endsection

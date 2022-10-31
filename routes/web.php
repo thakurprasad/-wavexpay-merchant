@@ -25,6 +25,7 @@ use App\Http\Controllers\DisputeController;
 use App\Http\Controllers\GeneralSettingController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AffiliateController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
 Route::get('testing', function(){ return view('pages.testing');}  );
@@ -52,6 +53,13 @@ Route::get('partner-dashboard',  [PageController::class, 'partnerDashboard']);
 Route::get('affiliate-accounts',  [AffiliateController::class, 'affiliateAccounts']);
 
 Route::post('create-referral-link',  [AffiliateController::class, 'createReferralLink'])->name('create-referral-link');
+
+
+//Forget Password Routes
+Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 
 

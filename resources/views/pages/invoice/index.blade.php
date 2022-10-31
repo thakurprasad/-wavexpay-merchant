@@ -1,34 +1,16 @@
-{{-- extend layout --}}
-@extends('newlayout.app')
-
-{{-- page title --}}
-@section('title','Invoice')
-
-@section('content_header')
-<div class="row mb-2">
-	<div class="col-sm-6">
-	<h1>Invoice Management</h1>
-	</div>
-	<div class="col-sm-6">
-	<ol class="breadcrumb float-sm-right">
-		<li class="breadcrumb-item"><a href="{{ route('home')}}">Home</a></li>
-		<li class="breadcrumb-item active">Invoice</li>
-	</ol>
-	</div>
-</div>
-@endsection
-
-{{-- page content --}}
+@extends('newlayout.app-advance')
 @section('content')
-@include('alerts.message')
-    <div class="card">
-        <div class="card-body">
-            <a href="{{ url('/newinvoice') }}" class="btn btn-md btn-warning" style="color: #FFFFFF;background-color:#00008B;"><i class="fas fa-plus"></i> Create Invoice</a>
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All Invoices</h6>
         </div>
-        <form class="col s12" method="POST" id="search-form" action="<?php url('/') ?>/searchinvoice">
-            @csrf
-            <div class="card-body">
-                <div class="row">
+        <div class="card-body"> 
+            <x-filter-component form_id="search_form" action="searchinvoice" method="POST" status="invoices"> 
+                @section('advance_filters')
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="first_name">Invoice Id</label>
@@ -54,101 +36,76 @@
                             <input placeholder="Customer Email" name="customer_email" id="customer_email" type="text" class="form-control">
                         </div>
                     </div>
+                @endsection
+            </x-filter-component>
 
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="first_name">Notes</label>
-                            <input placeholder="Notes" name="notes" id="notes" type="text" class="form-control">
-                        </div>
-                    </div>  
-                </div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Invoice Id</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Reciept No</th>
+                            <th scope="col">Created At</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Payment Links</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_container">
+                        @if(!empty($all_invoices))
+                        @foreach($all_invoices as $invoice)
+                        @php 
+                            $qty = explode(',',$invoice->item_qty);
+                            $customer_details = Helper::get_customer_details($invoice->customer_id);  
+                            $items = explode(',',$invoice->item_id);
+                            $amount = 0;
+                            $count = 0;
+                            foreach($items as $iid){
+                                $item_details = Helper::get_item_details($iid);
+                                
+                                
+                                $amount+=($item_details->amount)*$qty[$count];
+                                $count++;
+                            } 
+
+                            if(isset($invoice->receipt) && $invoice->receipt!=''){
+                                $reciept = $invoice->receipt;
+                            }else{
+                                $reciept = '';
+                            }
+                        @endphp
+                        <tr>
+                            <td><a style="color: blue;" href="{{ url('/invoice',$invoice->invoice_id) }}">{{ $invoice->invoice_id }}</a></td>
+                            <td>{{ number_format($amount,2) }}</td>
+                            <td>{{ $reciept }}</td>
+                            <td>{{ $invoice->created_at }}</td>
+                            <td>{{ $customer_details->name}} ({{$customer_details->contact}} / {{$customer_details->email}})	</td>
+                            <td>{{$invoice->short_url}}</td>
+                            <td>{!! Helper::badge($invoice->status) !!}</td>
+                        </tr>
+                        @endforeach
+                        @endif
+                    </tbody>                        
+                </table>
             </div>
-            <div class="card-footer">
-                <button type="button" class="btn btn-primary"  onclick="search_invoice()">Submit</button>
-                <button type="button" class="btn btn-info"  onclick="reload_page()">Reset</button>
-            </div>
-        </form>
-    </div>
-    <div class="card">
-        <div class="card-body">
-
-        </div>
-		<div class="card-body">
-            <table class="table table-bordered table-responsive-sm" id="datatable">
-                <thead>
-                    <tr>
-                    <th scope="col">Invoice Id</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Reciept No</th>
-                    <th scope="col">Created At</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Payment Links</th>
-                    <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody id="table_container">
-                    @if(!empty($all_invoices))
-                    @foreach($all_invoices as $invoice)
-                    @php 
-                        $qty = explode(',',$invoice->item_qty);
-                        $customer_details = Helper::get_customer_details($invoice->customer_id);  
-                        $items = explode(',',$invoice->item_id);
-                        $amount = 0;
-                        $count = 0;
-                        foreach($items as $iid){
-                            $item_details = Helper::get_item_details($iid);
-                            
-                            
-                            $amount+=($item_details->amount)*$qty[$count];
-                            $count++;
-                        } 
-
-                        if(isset($invoice->receipt) && $invoice->receipt!=''){
-                            $reciept = $invoice->receipt;
-                        }else{
-                            $reciept = '';
-                        }
-                    @endphp
-                    <tr>
-                        <td><a style="color: blue;" href="{{ url('/invoice',$invoice->invoice_id) }}">{{ $invoice->invoice_id }}</a></td>
-                        <td>{{ number_format($amount,2) }}</td>
-                        <td>{{ $reciept }}</td>
-                        <td>{{ $invoice->created_at }}</td>
-                        <td>{{ $customer_details->name}} ({{$customer_details->contact}} / {{$customer_details->email}})	</td>
-                        <td>{{$invoice->short_url}}</td>
-                        <td>
-                            @if($invoice->status=='cancelled')
-                            <span class="new badge red">{{$invoice->status}}</span>
-                            @else
-                            <span class="new badge blue">{{$invoice->status}}</span>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                    @endif
-                </tbody>
-            </table>
         </div>
     </div>
-@endsection
-
-
-@section('page-style')
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+</div>
 @endsection
 @section('page-script')
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
-
-
-function search_invoice(){
+function search_data(){
     $("#table_container").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });
+
+    var start_date = $('#daterangepicker').data('daterangepicker').startDate.format('YYYY-MM-DD');
+    var end_date = $('#daterangepicker').data('daterangepicker').endDate.format('YYYY-MM-DD');
     $.ajax({
         url: '{{url("searchinvoice")}}',
-        data: $("#search-form").serialize(),
+        data: $("#search_form").serialize()+'&start_date='+start_date+'&end_date='+end_date,
         type: "POST",
         headers: {
             'X-CSRF-Token': '{{ csrf_token() }}',
@@ -156,12 +113,11 @@ function search_invoice(){
         success: function(data){
             $("#table_container").LoadingOverlay("hide", true);
             $("#table_container").html(data.html);
-            $('#myTable').DataTable();
         }
     });
 }
 
-function reload_page(){
+function reset_page(){
     location.reload();
 }
 </script>

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use DB;
 use App\Helpers\Helper;
+use App\Models\Invoice;
+use App\Models\Item;
+use App\Models\Customer;
 
 class InvoiceController extends Controller
 {
@@ -16,20 +19,11 @@ class InvoiceController extends Controller
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
 
-        //rzp_live_WtpbTT2s2aJ3Ky
-        //uSaaMQw3jHK0MPtOnXCSSg51
-
-        $api_key = session('merchant_key');
-        $api_secret = session('merchant_secret');
-
-
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        /*$all_invoices = $api->invoice->all();
-        $all_customers = $api->customer->all();
-        $all_items = $api->Item->all();*/
-        $all_invoices = DB::table('invoices')->get();
-        $all_customers = DB::table('customers')->get();
-        $all_items = DB::table('items')->get();
+        
+        $merchant_id =  session()->get('merchant');
+        $all_invoices = Invoice::where('merchant_id',$merchant_id)->get();
+        $all_customers = Customer::where('merchant_id',$merchant_id)->get();
+        $all_items = Item::all();
 
         //print_r(array(array('item_id'=>'item_DRt61i2NnL8oy6')));exit;
         
@@ -41,6 +35,9 @@ class InvoiceController extends Controller
         $receipt = $request->reciept_number;
         $customer_contact = $request->customer_contact;
         $customer_email = $request->customer_email;
+        $status = $request->status;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
 
         $query = DB::table('invoices');
         if($invoice_id!=''){
@@ -51,18 +48,15 @@ class InvoiceController extends Controller
             $query->where('customer_email',$customer_email);
         }if($customer_email!=''){
             $query->where('customer_email',$customer_email);
+        }if($status!=''){
+            $query->where('status',$status);
+        }if($start_date!='' && $end_date!=''){
+            $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         }
         $result = $query->get();
         //print_r($result);exit;
         $all_invoices = $result;
 
-
-
-        //$api_key = session('merchant_key');
-        //$api_secret = session('merchant_secret');
-        //$api = new Api($api_key, $api_secret);
-        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        //$all_invoices = $api->invoice->all();
 
         $html = '';
         if(!empty($all_invoices)){
@@ -75,18 +69,18 @@ class InvoiceController extends Controller
                     $amount+=$item_details->amount;
                 } 
                 $html.='<tr>
-                    <th scope="row">'.$invoice->id.'</th>
+                    <th scope="row"><a style="color: blue;" href="'.url('/invoice',$invoice->invoice_id).'">'.$invoice->invoice_id.'</a> </th>
                     <td>'.number_format($amount,2).'</td>
-                    <td>'.$invoice->receipt.'</td>
+                    <td>'.$invoice->reciept.'</td>
                     <td>'.$invoice->created_at.'</td>
                     <td>'.$customer_details->name.' ('.$customer_details->contact.'/ '.$customer_details->email.')</td>
                     <td>'.$invoice->short_url.'</td>
                     <td>';
                         if($invoice->status=='cancelled'){
-                            $html.='<span class="new badge red">'.$invoice->status.'</span>';
+                            $html.='<span class="new badge red">'.Helper::badge($invoice->status).'</span>';
                         }
                         else{
-                            $html.='<span class="new badge blue">'.$invoice->status.'</span>';
+                            $html.='<span class="new badge blue">'.Helper::badge($invoice->status).'</span>';
                         }
                         $html.='</td>
                 </tr>';
@@ -101,17 +95,9 @@ class InvoiceController extends Controller
         ];
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
-
-        $api_key = session('merchant_key');
-        $api_secret = session('merchant_secret');
-
-
-        $api = new Api($api_key, $api_secret);
-        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-
-        $all_customers = DB::table('customers')->get();
-
-        $all_items = DB::table('items')->get();
+        $merchant_id =  session()->get('merchant');
+        $all_customers = Customer::where('merchant_id',$merchant_id)->get();
+        $all_items = Item::all();
         
         return view('pages.invoice.newinvoice', compact('breadcrumbs','pageConfigs','all_customers','all_items'));
     }
@@ -122,19 +108,16 @@ class InvoiceController extends Controller
 
         $response = $api->Item->create(array("name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR"));
 
-        DB::table('items')->insert(array("item_id"=>$response->id,"name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR","created_at"=>NOW()));
-
+        Item::create(array("item_id"=>$response->id,"name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR","created_at"=>NOW()));
 
         return response()->json(array('success'=>1,'msg'=>'Item Created SUccessfully!!'));
     }
 
     public function getItem(Request $request){
         $item_id = $request->item_id;
-        $api_key = session('merchant_key');
-        $api_secret = session('merchant_secret');
-
-
-        $api = new Api($api_key, $api_secret);
+        //$api_key = session('merchant_key');
+        //$api_secret = session('merchant_secret');
+        //$api = new Api($api_key, $api_secret);
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         //$item_details = $api->Item->fetch($item_id);
         $item_details = DB::table('items')->where('item_id',$item_id)->first();

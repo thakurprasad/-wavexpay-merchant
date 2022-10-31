@@ -75,6 +75,7 @@ class PaymentLinkController extends Controller
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
 
         $accept_partial = false;
+        $db_accept_partial = 0;
         $email = false;
         $sms = false;
         $reference_id = rand(10000,99999);
@@ -83,6 +84,7 @@ class PaymentLinkController extends Controller
 
         if(isset($request['partial_paymet']) && $request['partial_paymet']=='yes'){
             $accept_partial = true;
+            $db_accept_partial = 1;
         }
 
         if(isset($request['notify_via_email']) && $request['notify_via_email']=='yes'){
@@ -132,7 +134,7 @@ class PaymentLinkController extends Controller
         $merchant_id = session()->get('merchant');
         $link_text = substr(Crypt::encryptString($merchant_id.'/'.date('Y-m-d H:i:s').rand(10000,99999)),5,10);
 
-        DB::table('payment_link')->insert(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>'true','description' => $response->description, 'customer_email' => $db_customer_email, 'customer_contact' => $db_customer_contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'link_text'=>$link_text, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
+        DB::table('payment_link')->insert(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>$db_accept_partial,'description' => $response->description, 'customer_email' => $db_customer_email, 'customer_contact' => $db_customer_contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'link_text'=>$link_text, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
 
         return response()->json(array("success" => 1));  
         

@@ -47,7 +47,9 @@ class Dropdown extends Component
         if($this->status == 'paymentpages'){
             $options = ['Active'=>'Active', 'Inactive'=>'Inactive'];
         }
-
+        if($this->status == 'invoices'){
+            $options = ['draft'=>'Draft', 'issued'=>'Issued','partially_paid'=>'Partially Paid','paid'=>'Paid','cancelled'=>'Cancelled','expired'=>'Expired','deleted'=>'Deleted'];
+        }
         return view('components.dropdown', ['options'=> $options]);
     }
 }
