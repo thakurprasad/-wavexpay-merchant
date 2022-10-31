@@ -72,7 +72,8 @@ class LoginController extends Controller
         
         $merchant_salt = $merchants->access_salt;
         try {
-            $client = new Client(['base_uri' => env('API_BASE_URL')]);
+            //dd(__LINE__);
+            $client = new Client(['base_uri' => env('API_BASE_URL')]);          
             $api_end_point = 'api/merchants/login';
             $response = $client->request('POST',$api_end_point,[
                 'form_params' => [
@@ -82,7 +83,6 @@ class LoginController extends Controller
                 ]
             ]);
 
-           // dd($response);
 
             $status_code = $response->getStatusCode();
             // 200
