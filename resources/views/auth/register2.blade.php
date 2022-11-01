@@ -106,6 +106,7 @@
                                         <div class="text-center">
                                             <h1 class="h4 text-gray-900 mb-4">Sign Up (Step 2)</h1>
                                         </div>
+                                        <span id="existerror" style="color: red; dislay:none;"></span>
                                         <form class="user">
                                             <div class="form-group">
                                               <label for="exampleInputName1">Your name</label>
@@ -164,16 +165,38 @@
           alert('Phone Number is required');
           return false;
         }
-        setTimeout(
-          function() {
-            $("#submit_button").LoadingOverlay("show");
-            setTimeout(
-              function() {
-                $("#step_two_form").submit();
+
+        $.ajax({
+          url: '{{url("checkemailexistence")}}',
+          data: {'email':email},
+          type: "POST",
+          headers: {
+              'X-CSRF-Token': '{{ csrf_token() }}',
+          },
+          success: function(data){
+              if(data.success==1)
+              {
+                $("#existerror").show();
+                $("#existerror").html('Email Already Exist, Please Continue With Other Email!');
+                return false;
               }
-            , 1000);
+              else 
+              {
+                $("#existerror").html('');
+                $("#existerror").hide();
+                setTimeout(
+                  function() {
+                    $("#submit_button").LoadingOverlay("show");
+                    setTimeout(
+                      function() {
+                        $("#step_two_form").submit();
+                      }
+                    , 1000);
+                  }
+                , 1000);
+              }
           }
-        , 1000);
+        });
       }
     </script>
 </body>

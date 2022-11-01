@@ -6,7 +6,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">All Invoices</h6>
+            <h6 class="m-0 font-weight-bold text-primary">All Invoices   <a style="float: right;" class="btn btn-sm btn-primary" href="{{url('newinvoice')}}">Create Invoice</a></h6>
         </div>
         <div class="card-body"> 
             <x-filter-component form_id="search_form" action="searchinvoice" method="POST" status="invoices"> 

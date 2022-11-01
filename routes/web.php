@@ -42,7 +42,7 @@ Route::get('/logout', 'LoginController@logout')->name('logout');
 Route::post('sign-up-merchant-step-one',  [RegisterController::class, 'SignUpMerchantStepOne'])->name('sign-up-merchant-step-one');
 
 
-
+Route::post('checkemailexistence', [RegisterController::class, 'checkEmailExistence'])->name('checkemailexistence');
 Route::post('sign-up-merchant-step-two',  [RegisterController::class, 'SignUpMerchantStepTwo'])->name('sign-up-merchant-step-two');
 
 Route::get('register-as-partner', [RegisterController::class, 'RegisterAsPartner'])->name('register-as-partner');

@@ -119,6 +119,14 @@
                                                 <button type="submit" class="btn btn-lg btn-primary btn-user btn-block">
                                                     Send Password Reset Link
                                                 </button>
+                                                <div class="form-group row col-md-12">
+                                                    <div class="col-md-6">
+                                                        <a class="small" href="{{route('login')}}">Have an account? Login</a>
+                                                    </div>
+                                                    <div class="col-md-6 text-right"> 
+                                                        <a class="small" href="{{route('register')}}">Don’t have an account? Create</a>
+                                                    </div>
+                                                </div>
                                             </form>                                            
                                         </div>
                                     </div>

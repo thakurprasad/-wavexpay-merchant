@@ -480,7 +480,7 @@ class PageController extends Controller
                         $filename2 = date('YmdHi').$file2->getClientOriginalName();
                         $image_path2 = public_path().'/uploads/aadharimage/';
                         $file2->move($image_path2, $filename2);
-                        MerchantUser::where('merchant_id',$merchant_id)->update(array('aadhar_front_image'=>$filename2));
+                        MerchantUser::where('id',$merchant_id)->update(array('aadhar_front_image'=>$filename2));
                     }
                 }
 
@@ -491,12 +491,12 @@ class PageController extends Controller
                         $filename3 = date('YmdHi').$file3->getClientOriginalName();
                         $image_path3 = public_path().'/uploads/aadharimage/';
                         $file3->move($image_path3, $filename3);
-                        MerchantUser::where('merchant_id',$merchant_id)->update(array('aadhar_back_image'=>$filename3));
+                        MerchantUser::where('id',$merchant_id)->update(array('aadhar_back_image'=>$filename3));
                     } 
                 }
                 else 
                 {
-                    MerchantUser::where('merchant_id',$merchant_id)->update(array($key=>$val));
+                    MerchantUser::where('id',$merchant_id)->update(array($key=>$val));
                 }
             }
         }
