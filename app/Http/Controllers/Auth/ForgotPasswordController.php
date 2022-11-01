@@ -41,9 +41,15 @@ class ForgotPasswordController extends Controller
      */
     public function submitForgetPasswordForm(Request $request)
     {
+        
         $request->validate([
             'email' => 'required|email|exists:merchant_users',
         ]);
+
+        $merchant = MerchantUser::where('email', $request->email)->first();
+        if(!$merchant){
+            return back()->with('error', 'Error: Invalid email , '.$request->email.'This email address is not registered');    
+        }
         $token = Str::random(64);
 
         $updatePassword = DB::table('password_resets')->where(['email' => $request->email])->first();
@@ -57,7 +63,8 @@ class ForgotPasswordController extends Controller
             'created_at' => Carbon::now()
           ]);
 
-        Mail::send('auth.passwords.forgetPasswordTemplate', ['token' => $token], function($message) use($request){
+        Mail::send('auth.passwords.forgetPasswordTemplate', ['token' => $token, 'merchant_name'=>$merchant->name], function($message) use($request){
+            
             $message->to($request->email);
             $message->subject('Reset Password');
         });
