@@ -55,13 +55,10 @@
       @endif
 
       @if(session()->has('success'))
-      <div class="card-alert card gradient-45deg-green-teal">
-        <div class="card-content white-text">
-          <p>
-            <i class="material-icons">check</i> <strong>SUCCESS : </strong> {{ session()->get('success') }}</p>
-        </div>
-        <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">×</span>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>SUCCESS!</strong> {{ session()->get('success') }}.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       @endif

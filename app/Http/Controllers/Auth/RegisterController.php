@@ -13,6 +13,7 @@ use DB;
 use Helper;
 use Session;
 use GuzzleHttp\Client;
+use App\Models\MerchantUser;
 
 
 
@@ -215,5 +216,20 @@ class RegisterController extends Controller
         }
         
         return view('auth.register',compact('action','ref_no'));
+    }
+
+    public function checkEmailExistence(Request $request)
+    {
+        $email = $request->email;
+        $get_merchant_by_email = MerchantUser::where('email',$email)->first();
+        //print_r($get_merchant_by_email);exit;
+        if(isset($get_merchant_by_email->email) && $get_merchant_by_email->email!='')
+        {
+            return response()->json(array('success'=>1));
+        }
+        else 
+        {
+            return response()->json(array('success'=>0));
+        }
     }
 }

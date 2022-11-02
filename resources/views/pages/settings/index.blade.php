@@ -44,7 +44,7 @@
 												<div class="col-sm-6">
 													<label for="end_date">Theme Colour</label>
 													<input type="color" value="@php 
-													if($general_settings->theme_color!='') { echo $general_settings->theme_color; } @endphp" name="theme_color" class="form-control" id="theme_color">
+													if(isset($general_settings->theme_color) && $general_settings->theme_color!='') { echo $general_settings->theme_color; } @endphp" name="theme_color" class="form-control" id="theme_color">
 													<p>
 													Choose a theme color for your brand.
 													The default theme color will be used if none is specified.
@@ -79,13 +79,13 @@
 												<div class="col-sm-6">
 													<label for="end_date">Default Language</label>
 													<select class="form-control" name="theme_language" id="theme_language">
-														<option value="ben" @if($general_settings->language=='ben') selected @endif>Bengali</option>
-														<option value="hi" @if($general_settings->language=='hi') selected @endif>Hindi</option>
-														<option value="mar" @if($general_settings->language=='mar') selected @endif>Marathi</option>
-														<option value="guj" @if($general_settings->language=='guj') selected @endif>Gujarati</option>
-														<option value="tam" @if($general_settings->language=='tam') selected @endif>Tamil</option>
-														<option value="tel" @if($general_settings->language=='tel') selected @endif>Telugu</option>
-														<option value="en" @if($general_settings->language=='en') selected @endif>English</option>												
+														<option value="ben" @if(isset($general_settings->language) && $general_settings->language=='ben') selected @endif>Bengali</option>
+														<option value="hi" @if(isset($general_settings->language) && $general_settings->language=='hi') selected @endif>Hindi</option>
+														<option value="mar" @if(isset($general_settings->language) && $general_settings->language=='mar') selected @endif>Marathi</option>
+														<option value="guj" @if(isset($general_settings->language) && $general_settings->language=='guj') selected @endif>Gujarati</option>
+														<option value="tam" @if(isset($general_settings->language) && $general_settings->language=='tam') selected @endif>Tamil</option>
+														<option value="tel" @if(isset($general_settings->language) && $general_settings->language=='tel') selected @endif>Telugu</option>
+														<option value="en" @if(isset($general_settings->language) && $general_settings->language=='en') selected @endif>English</option>												
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -106,9 +106,9 @@
 						<div class="card shadow mb-4" style="padding: 10px;">
 							<div class="card-body" style="padding: 8px; padding-top: 0;padding-bottom: 0;">
 								<div class="row" id="headingrow" style="background-color:@php 
-													if($general_settings->theme_color!='') { echo $general_settings->theme_color; } else { echo 'background-color: rgb(82, 143, 240)'; } @endphp; padding: 10px;">
+													if(isset($general_settings->theme_color) && $general_settings->theme_color!='') { echo $general_settings->theme_color; } else { echo 'background-color: rgb(82, 143, 240)'; } @endphp; padding: 10px;">
 									<div class="col-md-6" style="padding-top:10px;">
-										@if($general_settings->logo!='')
+										@if(isset($general_settings->logo) && $general_settings->logo!='')
 										<img id="blah" src="<?php echo url('/') ?>/images/logo/{{$general_settings->logo}}" width="99%">
 										@else 
 										<img id="blah" src="<?php echo url('/') ?>/images/logo/wave_x_pay.png" width="99%">
@@ -148,7 +148,7 @@
 
 			  <div class="card shadow mb-4">
 				<div class="card-body">
-					<h5 class="card-title"><strong>Flash Checkout</strong>  <input type="checkbox" @if($general_settings->falsh_checkout=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="flash_checkout" data-style="android"></h5>
+					<h5 class="card-title"><strong>Flash Checkout</strong>  <input type="checkbox" @if(isset($general_settings->falsh_checkout) && $general_settings->falsh_checkout=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="flash_checkout" data-style="android"></h5>
 					<p class="card-text">Securely save the card details of your customers, with Razorpay's Flash Checkout.</p>
 				</div>
 			  </div>
@@ -159,7 +159,7 @@
 					<h5 class="card-title"><strong>Payment Capture</strong>  <a href="#">Know more</a></h5>
 					<div class="card shadow mb-4">
 						<div class="card-body">
-							<h5 class="card-title"><strong>Automatic Capture</strong>  <input type="checkbox" @if($general_settings->auto_capture=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="auto_capture" data-style="android"></h5>
+							<h5 class="card-title"><strong>Automatic Capture</strong>  <input type="checkbox" @if(isset($general_settings->auto_capture) && $general_settings->auto_capture=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="auto_capture" data-style="android"></h5>
 							<p class="card-text">Payments will be captured automatically if authorised by bank within 5 days</p>
 						</div>
 					</div>
@@ -177,7 +177,7 @@
 						<div class="col-md-6">
 							<div class="card shadow mb-4">
 								<div class="card-body">
-									<h5 class="card-title"><strong>Normal Refund</strong>  <input type="radio" name="refund" id="normal_refund" value="normal" @if($general_settings->refund_type=='normal') checked @endif style="margin-left:150px;"></h5>
+									<h5 class="card-title"><strong>Normal Refund</strong>  <input type="radio" name="refund" id="normal_refund" value="normal" @if(isset($general_settings->refund_type) && $general_settings->refund_type=='normal') checked @endif style="margin-left:150px;"></h5>
 									<p class="card-text">Your customer will get refunds in 5-7 days.</p><br>
 									<button>Normal Speed</button>
 								</div>
@@ -186,7 +186,7 @@
 						<div class="col-md-6">
 							<div class="card shadow mb-4">
 								<div class="card-body">
-									<h5 class="card-title"><strong>Instant Refund</strong>  <input type="radio" name="refund" id="instant_refund" value="instant" @if($general_settings->refund_type=='instant') checked @endif style="margin-left:150px;"></h5>
+									<h5 class="card-title"><strong>Instant Refund</strong>  <input type="radio" name="refund" id="instant_refund" value="instant" @if(isset($general_settings->refund_type) && $general_settings->refund_type=='instant') checked @endif style="margin-left:150px;"></h5>
 									<p class="card-text">At a minimal fee, your customer will get refunds instantly.</p>
 									<button>Optimum Speed</button>
 								</div>
@@ -201,20 +201,20 @@
 				<div class="card-body">
 					<h5 class="card-title">Email Notification</h5>
 					<p class="card-text">Enter email addresses that will receive email notifications regarding payments, settlements, daily payment reports, webhooks, etc. (You can enter multiple email addresses separated by a comma.)</p><br>
-					<div class="row"><div class="col-md-10"><input type="text" class="form-control" name="email_notification" id="emailnotofication" value="{{$general_settings->notification_email}}"></div><div class="col-md-2"><button type="button" id="email_notification" class="btn btn-sm btn-primary">Save Change</button></div></div>
+					<div class="row"><div class="col-md-10"><input type="text" class="form-control" name="email_notification" id="emailnotofication" value="@php if(isset($general_settings->notification_email) && $general_settings->notification_email!='') { echo $general_settings->notification_email; } @endphp"></div><div class="col-md-2"><button type="button" id="email_notification" class="btn btn-sm btn-primary">Save Change</button></div></div>
 				</div>
 			  </div>
 
 			  <div class="card shadow mb-4">
 				<div class="card-body">
-					<h5 class="card-title"><strong>SMS Notification</strong>  <input type="checkbox" @if($general_settings->sms_notification=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="smsnotification" data-style="android"></h5>
-					<p class="card-text">Receive notifications from Razorpay via SMS on your +91 - {{$merchant_details->contact_phone}}.</p>
+					<h5 class="card-title"><strong>SMS Notification</strong>  <input type="checkbox" @if(isset($general_settings->sms_notification) && $general_settings->sms_notification=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="smsnotification" data-style="android"></h5>
+					<p class="card-text">Receive notifications from Razorpay via SMS on your +91 - @php if(isset($general_settings->contact_phone) && $general_settings->contact_phone!='') { echo $general_settings->contact_phone; } @endphp.</p>
 				</div>
 			  </div>
 
 			  <div class="card shadow mb-4">
 				<div class="card-body">
-					<h5 class="card-title"><strong>Skip Mandate Summary Page for Cards</strong>  <input type="checkbox" @if($general_settings->skip_mandate=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" id="shipmandate" data-offstyle="outline-danger"  data-style="android"></h5>
+					<h5 class="card-title"><strong>Skip Mandate Summary Page for Cards</strong>  <input type="checkbox" @if(isset($general_settings->skip_mandate) && $general_settings->skip_mandate=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" id="shipmandate" data-offstyle="outline-danger"  data-style="android"></h5>
 					<p class="card-text">Skip showing mandate summary page for credit and debit card payments to your users.</p>
 				</div>
 			  </div>
@@ -281,7 +281,7 @@
             <div class="col-md-9 offset-md-1" style="padding-top:20px;">
 				<div class="card shadow mb-4">
 					<div class="card-body">
-						<h5 class="card-title"><strong>Payment Links reminders</strong>  <input type="checkbox" @if($general_settings->payment_link_reminder=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="payment_link_reminder" data-style="android"></h5>
+						<h5 class="card-title"><strong>Payment Links reminders</strong>  <input type="checkbox" @if(isset($general_settings->payment_link_reminder) && $general_settings->payment_link_reminder=='yes') checked @endif data-toggle="toggle" data-size="xs" data-height="25" data-width="80" data-onstyle="outline-success" data-offstyle="outline-danger" id="payment_link_reminder" data-style="android"></h5>
 						<p class="card-text">Send collection reminders to customers automatically if a payment link hasnt been paid.</p>
 					</div>
 				</div>
