@@ -73,7 +73,8 @@ class LoginController extends Controller
         $merchant_salt = $merchants->access_salt;
         try {
             //dd(__LINE__);
-            $client = new Client(['base_uri' => env('API_BASE_URL')]);          
+        $client = new Client(['base_uri' => env('API_BASE_URL')]);          
+       //     $client = new Client(['base_uri' => 'http://localhost:8000']);          
             $api_end_point = 'api/merchants/login';
             $response = $client->request('POST',$api_end_point,[
                 'form_params' => [

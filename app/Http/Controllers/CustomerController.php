@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use DB;
+use App\Models\Customer;
 
 class CustomerController extends Controller
 {
@@ -26,6 +27,7 @@ class CustomerController extends Controller
     }
 
     public function index(Request $request){
+        
         //echo $this->token;exit;
         $breadcrumbs = [
             ['link' => "customer", 'name' => "Customer"]
@@ -35,7 +37,7 @@ class CustomerController extends Controller
         $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $options = ['count'=>50, 'skip'=>0];
         //$all_customers = $api->customer->all($options);
-        $all_customers = DB::table('customers')->get();
+        $all_customers = Customer::all();
         return view('pages.customer.index', compact('pageConfigs','breadcrumbs','all_customers'));
     }
 
