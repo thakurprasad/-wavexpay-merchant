@@ -39,7 +39,7 @@
               <table class="table table-striped"> 
                 <tbody>
                   {!! Form::model($merchant_details, ['id' => 'merchant_edit_form1', 'method' => 'POST','url' => ['merchant_general_update', Crypt::encryptString($merchant_details->id) ]]) !!}
-                  <tr><td colspan="2" class="headingRow">Merchant ID : {{$merchant_details->access_salt}}</td></tr>
+                  <tr><td class="headingRow">Merchant ID : {{$merchant_details->access_salt}}</td><td style="background-color:#858796;"><a style="float: right; color: #ffffff;" href="{{ route('change.password') }}">Change Password</a></td></tr>
                   <tr>
                     <td>Contact Name</td>
                     <td>{{ $merchant_details->contact_name }}</td>

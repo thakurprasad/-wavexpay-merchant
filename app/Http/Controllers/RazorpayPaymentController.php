@@ -7,13 +7,15 @@ use Razorpay\Api\Api;
 use App\Models\CheckoutPaymentsRazorpay;
 use Illuminate\Support\Facades\Crypt;
 use DB;
+use Session;
 
 class RazorpayPaymentController extends Controller
 {
     public function orderIdGenerate(Request $request){
         $merchant_id = session()->get('merchant');
         $link_text = substr(Crypt::encryptString($merchant_id.'/'.date('Y-m-d H:i:s').rand(10000,99999)),5,10);
-		
+		$payment_link_id = $request->payment_link_id;
+        Session::put('payment_link_id', $payment_link_id);
 		$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $order = $api->order->create(array('receipt' => 'order_rcptid'.$link_text, 'amount' => $request->input('price') * 100, 'currency' => 'INR')); // Creates order
         //return response()->json(['order_id' => $order['id']]);
@@ -66,7 +68,10 @@ class RazorpayPaymentController extends Controller
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
             $headers .= 'From: <info@gauvansh.com>' . "\r\n";
             mail($to,$subject,$message,$headers);*/
-
+            $payment_link_id = Session::get('payment_link_id');
+            $payment_link_table_array = array('payment_id' => $paymentId,'status' => 'paid');
+            DB::table('payment_link')->where('payment_link_id',$payment_link_id)->update($payment_link_table_array);
+            Session::forget('payment_link_id');
 
             $payment_table_array = array(
                 'merchant_id' => session()->get('merchant'),

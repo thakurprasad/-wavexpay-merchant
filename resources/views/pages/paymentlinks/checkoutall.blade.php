@@ -96,6 +96,7 @@
          <form action="{{ url('razorpaypayment') }}" method="post" id="addPaymentForm">
             @csrf
             <input type="hidden" name="price" id="payment" value="{{$get_payment_link_details_by_text->amount}}">
+            <input type="hidden" name="payment_link_id" id="payment_link_id" value="{{$get_payment_link_details_by_text->payment_link_id}}">
             <input type="hidden" name="razorpay_payment_id" value="" id="razorpay_payment_id">
             <input type="hidden" name="razorpay_order_id" value="" id="razorpay_order_id">
             <input type="hidden" name="razorpay_signature" value="" id="razorpay_signature">

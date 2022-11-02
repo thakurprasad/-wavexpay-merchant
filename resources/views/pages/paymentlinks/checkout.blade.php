@@ -21,7 +21,7 @@
                   var phone = $("#phone").val();
                   var email = $("#email").val();
                   var link_text = $("#link_text").val();
-                  window.open('{{ url("/") }}/paylink-checkout?link_text='+link_text+'&phone='+phone+'&email='+email);
+                  location.href= '{{ url("/") }}/paylink-checkout?link_text='+link_text+'&phone='+phone+'&email='+email;
                }
            </script>
       <link href="{{url('/')}}/payments/style.css" rel="stylesheet" type="text/css"/>

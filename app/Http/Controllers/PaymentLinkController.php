@@ -27,7 +27,7 @@ class PaymentLinkController extends Controller
         $reference_id = $request->reference_id;
         $customer_contact = $request->customer_contact;
         $customer_email = $request->customer_email;
-        $notes = $request->notes;
+        $status = $request->status;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
@@ -39,6 +39,8 @@ class PaymentLinkController extends Controller
             $query->where('customer_contact',$customer_contact);
         }if($customer_email!=''){
             $query->where('customer_email',$customer_email);
+        }if($status!=''){
+            $query->where('status',$status);
         }if($payment_link_id!=''){
             $query->where('payment_link_id',$payment_link_id);
         }if($start_date!='' && $end_date!=''){
@@ -50,8 +52,8 @@ class PaymentLinkController extends Controller
         $html = '';
         if(!empty($all_links)){
             foreach($all_links as $link){
-                $s_customer_contact = '';
-                $s_customer_email = '';
+                $s_customer_contact = 'N/A';
+                $s_customer_email = 'N/A';
                 if(isset($link->customer_contact) && $link->customer_contact!=''){
                     $s_customer_contact = $link->customer_contact;
                 }
@@ -64,7 +66,8 @@ class PaymentLinkController extends Controller
                     <td>'.number_format($link->amount,2).'</td>
                     <td>'.$link->reference_id.'</td>
                     <td>'.$s_customer_contact.'('.$s_customer_email.')'.'</td>
-                    <td>'.Helper::badge($link->short_url).'</td>
+                    <td>';if($link->status!='paid') { $html.='<a class="btn btn-sm btn-primary" href="javascript:void(0)" onclick="copy(\''.$link->link_text.'\')">Copy Link</a>'; } else { $html.=Helper::badge('N/A'); } $html.='</td>
+                    <td>'.Helper::badge($link->status).'</td>
                 </tr>';
             }
         }

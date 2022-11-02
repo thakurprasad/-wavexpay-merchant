@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('newlayout.app-advance')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
