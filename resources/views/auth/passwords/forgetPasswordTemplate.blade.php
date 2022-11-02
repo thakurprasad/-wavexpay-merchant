@@ -25,7 +25,7 @@ You can reset password from bellow link:
             </td>
           </tr>
         </table>
-        <p>For security, this request was received from a Wavexpay Merchent dashboard (https://wavexpay.com/merchants/forget-password) . If you did not request a password reset, please ignore this email or <a href="https://wavexpay.com/contact-us">contact support</a> if you have questions.</p>
+        <p>For security, this request was received from a Wavexpay Merchent dashboard ( {{ url('/forget-password') }} ) . If you did not request a password reset, please ignore this email or <a href="https://wavexpay.com/contact-us">contact support</a> if you have questions.</p>
         <p>Thanks,
           <br>The Wavexpay Team</p>
         <!-- Sub copy -->
