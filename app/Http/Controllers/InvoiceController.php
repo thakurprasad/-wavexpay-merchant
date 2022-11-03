@@ -176,6 +176,8 @@ class InvoiceController extends Controller
 
         $item_id = '';
         $item_qty = '';
+
+        
         foreach($request['tableitem'] as $items){
             $item_id.=$items.',';
         }
@@ -188,6 +190,21 @@ class InvoiceController extends Controller
         $item_qty = rtrim($item_qty,',');
 
 
+        $item_array = array();
+        $item_array_count = 0;
+        for($i=0;$i<count($request['tableitem']);$i++)
+        {
+            $get_item_details = DB::table('items')->where('item_id',$request['tableitem'][$i])->first();
+            $item_array[$item_array_count]['name'] = $get_item_details->name;
+            $item_array[$item_array_count]['description'] = $get_item_details->description;
+            $item_array[$item_array_count]['amount'] = $request['item_rate'][$i];
+            $item_array[$item_array_count]['currency'] = "INR";
+            $item_array[$item_array_count]['quantity'] = $request['item_qty'][$i];
+            $item_array_count++;
+        }
+
+        /*$item_array = json_encode($item_array,true);
+        print_r($item_array);exit;*/
 
 
         $customer_array = array(
@@ -232,7 +249,7 @@ class InvoiceController extends Controller
             'description' => $request['description'], 
             'date' => strtotime(date('Y-m-d H:i:s')), 
             'customer_id'=> $request['customer'],  
-            'line_items'=>array($itemidArray),
+            'line_items'=>(object)$item_array,
         );
 
         //print_r($invoice_create_array);exit;
