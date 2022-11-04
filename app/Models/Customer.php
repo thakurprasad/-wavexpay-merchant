@@ -33,4 +33,11 @@ class Customer extends Model
         return $query->where('merchant_id', $merchant_id);
     }
 
+    # use like -  Customer::with(['addresses'])->get();      
+    public function addresses()
+    { 
+         return $this->hasMany(CustomerAddress::class);
+    }    
+
+
 }

@@ -163,6 +163,7 @@ class InvoiceController extends Controller
     }
 
     public function createInvoice(Request $request){
+       // return $request->input();
         $api_key = session('merchant_key');
         $api_secret = session('merchant_secret');
 
@@ -252,7 +253,7 @@ class InvoiceController extends Controller
             'line_items'=>(object)$item_array,
         );
 
-        //print_r($invoice_create_array);exit;
+        print_r($invoice_create_array);exit;
 
         $response = $api->invoice->create($invoice_create_array);
 
