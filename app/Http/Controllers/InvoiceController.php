@@ -163,6 +163,7 @@ class InvoiceController extends Controller
     }
 
     public function createInvoice(Request $request){
+        return $request->input();
         $api_key = session('merchant_key');
         $api_secret = session('merchant_secret');
 
