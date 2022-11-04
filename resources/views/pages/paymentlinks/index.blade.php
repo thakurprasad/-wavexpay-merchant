@@ -52,6 +52,7 @@
                             <th scope="col">Reference Id</th>
                             <th scope="col">Customer</th>
                             <th scope="col">Payment Links</th>
+                            <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody id="table_container">
@@ -75,8 +76,8 @@
                             <td>{{number_format($link->amount,2)}}</td>
                             <td>{{$link->reference_id}}</td>
                             <td>{{$contact}}({{$email}})</td>
-                            <!--<td>{{$link->short_url}}</td>-->
-                            <td><a class="btn btn-sm btn-primary" href="javascript:void(0)" onclick="copy('{{$link->link_text}}')">Copy Link</a></td>
+                            <td>@if($link->status!='paid')<a class="btn btn-sm btn-primary" href="javascript:void(0)" onclick="copy('{{$link->link_text}}')">Copy Link</a>@else {!! Helper::badge('N/A') !!} @endif</td>
+                            <td>{!! Helper::badge($link->status) !!}</td>
                         </tr>
                         @endforeach
                         @endif

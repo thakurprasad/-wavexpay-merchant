@@ -39,7 +39,7 @@
               <table class="table table-striped"> 
                 <tbody>
                   {!! Form::model($merchant_details, ['id' => 'merchant_edit_form1', 'method' => 'POST','url' => ['merchant_general_update', Crypt::encryptString($merchant_details->id) ]]) !!}
-                  <tr><td colspan="2" class="headingRow">Merchant ID : {{$merchant_details->access_salt}}</td></tr>
+                  <tr><td class="headingRow">Merchant ID : {{$merchant_details->access_salt}}</td><td style="background-color:#858796;"><a data-toggle="modal" data-target="#exampleModal" style="float: right; color: #ffffff;" href="{{ route('change.password') }}">Change Password</a></td></tr>
                   <tr>
                     <td>Contact Name</td>
                     <td>{{ $merchant_details->contact_name }}</td>
@@ -323,6 +323,64 @@
         </div> <!--/ container-fluid -->
     </div> <!--/ card -->
 </div> <!--/ card-body -->
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+            <form method="POST" id="chng-pass-form">
+                @csrf 
+                <p class="text-danger errmsg" style="display:none;"></p>
+                <p class="text-success sucmsg" style="display:none;"></p>
+                <div class="form-group row">
+                    <label for="password" class="col-md-12 col-form-label">Current Password</label>
+
+                    <div class="col-md-12">
+                        <input id="password" type="password" class="form-control" name="current_password" autocomplete="current-password" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="password" class="col-md-12 col-form-label">New Password</label>
+
+                    <div class="col-md-12">
+                        <input id="new_password" type="password" class="form-control" name="new_password" autocomplete="current-password" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="password" class="col-md-12 col-form-label">New Confirm Password</label>
+
+                    <div class="col-md-12">
+                        <input id="new_confirm_password" type="password" class="form-control" name="new_confirm_password" autocomplete="current-password" required>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-0">
+                    <div class="col-md-8 offset-md-4">
+                        <button type="button" class="btn btn-primary" onclick="update_password_process()">
+                            Update Password
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 
@@ -473,6 +531,31 @@ function form_submit()
 function form_submit_general()
 {
   $("#merchant_edit_form1").submit();
+}
+
+
+function update_password_process()
+{
+  $.ajax({
+    url: '{{route("change.password")}}',
+    data: $("#chng-pass-form").serialize(),
+    type: "POST",
+    headers: {
+        'X-CSRF-Token': '{{ csrf_token() }}',
+    },
+    success: function(data){
+      if(data.success==1){
+        $(".sucmsg").show();
+        $(".errmsg").hide();
+        $(".sucmsg").html(data.msg);
+      }
+      else if(data.success==0){
+        $(".sucmsg").hide();
+        $(".errmsg").show();
+        $(".errmsg").html(data.msg);
+      }
+    }
+  });
 }
 
 </script>

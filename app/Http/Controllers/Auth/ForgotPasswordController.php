@@ -77,6 +77,10 @@ class ForgotPasswordController extends Controller
      * @return response()
      */
     public function showResetPasswordForm($token) { 
+        $updatePassword = DB::table('password_resets')->where(['token' => $token])->first();
+        if(!$updatePassword){
+            return redirect('/forget-password')->with('error', 'Token Is Not Correct! Please Try Again...');
+        }
        return view('auth.passwords.forgetPasswordLink', ['token' => $token]);
     }
 

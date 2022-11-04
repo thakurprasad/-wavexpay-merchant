@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
    
 use Illuminate\Http\Request;
-use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Models\MerchantUser;
 use DB;
+use Illuminate\Support\Facades\Validator;
   
 class ChangePasswordController extends Controller
 {
@@ -37,26 +38,32 @@ class ChangePasswordController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $rules = array([
             'current_password' => ['required'],
             'new_password' => ['required'],
             'new_confirm_password' => ['same:new_password'],
         ]);
-   
-        /*User::find(auth()->guard('merchant')->user()->id)->update(['password'=> Hash::make($request->new_password)]);*/
-        $get_merchant_by_password = DB::table('merchant_users')->where('password',Hash::make($request->current_password))->get();
+        $rules = array('current_password' => ['required'], 'new_password' => ['required'], 'new_confirm_password' => ['same:new_password']);
+        $validator = Validator::make($request->all(), $rules);
 
-
-        if(!empty($get_merchant_by_password)){
-            if($request->new_password!=$request->new_confirm_password){
-                return redirect()->back()->with('error', 'new password and confirm password password not right'); 
+        if ($validator->fails()) {
+            $error_msg = '';
+            $error = $validator->getMessageBag()->toArray();
+            foreach($error as $key=>$val)
+            {
+                $error_msg.=$val[0].'<br />';
             }
-            DB::table('merchant_users')->where('email','merchant@gmail.com')->update(['password'=> Hash::make($request->new_password)]);
-            return redirect()->back()->with('success', 'password changed successfully!!');   
-        }else{
-            return redirect()->back()->with('error', 'current password not right');   
+            return response()->json(array('success'=>0,'msg'=>$error_msg));
         }
-   
-        //dd('Password change successfully.');
+
+
+        $merchant_id =  session()->get('merchant');
+        $mdetails = MerchantUser::where('merchant_id',$merchant_id)->first();
+        if(!Hash::check($request->current_password, $mdetails->password)){
+            return response()->json(array('success'=>0,'msg'=>'Old Password Does not match!'));
+        }
+
+        MerchantUser::where('merchant_id',$merchant_id)->update(['password'=> Hash::make($request->new_password)]);
+        return response()->json(array('success'=>1,'msg'=>'Password changed successfully!'));
     }
 }
