@@ -253,7 +253,7 @@ class InvoiceController extends Controller
             'line_items'=>(object)$item_array,
         );
 
-        print_r($invoice_create_array);exit;
+        //print_r($invoice_create_array);exit;
 
         $response = $api->invoice->create($invoice_create_array);
 
