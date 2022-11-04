@@ -64,7 +64,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <h6>BILLING TO</h6>
+                                <h6>BILLING TO <a style="color:#ffffff; cursor:pointer;" class="btn btn-sm btn-primary modal-trigger" data-toggle="modal" data-target="#customeraddmodal">+ Add </a></h6>
                                 <select class="form-control" name="customer" id="customer">
                                     <option value="" disabled selected>Select A Customer</option>
                                     @if(!empty($all_customers))
@@ -230,144 +230,82 @@
                         <div class="col-sm-12">
                             <a class="btn btn-md btn-info" href="javascript:void(0)" onclick="add_line_item()">+ Add Line Item</a>
                         </div>
-                        <table class="table table-responsive-sm"><tr><td style="width: 295px;"></td><td style="width: 320px;"></td><td>Total Amount : </td><td><input type="text" clas="form-control" id="total_amt" disabled></td></tr></table>
+                        <table><tr style="background-color:#ffffff;"><td style="width: 350px;"></td><td style="width: 350px;"></td><td>Total Amount : <input type="text" clas="form-control" id="total_amt" disabled></td></tr></table>
                         <div class="col-sm-12" id="loading_div"></div>
                         <div class="col-sm-12">                       
-                            <a class="btn btn-md btn-primary" href="javascript:void(0)" onclick="save_invoice()">Save</a>
+                            <a class="btn btn-md btn-primary" style="float: middle;" href="javascript:void(0)" onclick="save_invoice()">Save</a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-<!-- Modal Structure -->
-
+</div>
 
 
 
+<x-billing-modal/>
 
-<!-- Modal -->
-<div id="billingmodal" class="modal fade" role="dialog">
+<x-shipping-modal/>
+
+
+<div class="modal fade" id="customeraddmodal" role="dialog">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Billing Address</h4>
+        <h5 class="modal-title" id="exampleModalLabel">Create Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
-        <span id="change_b_address"></span>
-        <form id="form-create-billing-address" method="post">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <textarea placeholder="Enter Billing Address 1" name="billing_address1" id="billing_address1" class="form-control" required></textarea>
-                        <span class="text-danger" id="emailError"></span>
-                    </div>
+        <form id="form-create-customer" method="post">
+            <input type="hidden" id="edit_id">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="first_name">Company Name/Individual Name</label>
+                    <input placeholder="Company Name/Individual Name" name="name" id="name" type="text" class="form-control" required>
                 </div>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <textarea placeholder="Enter Billing Address 2" name="billing_address2" id="billing_address2" class="form-control" required></textarea>
-                        <span class="text-danger" id="emailError"></span>
-                    </div>
+                <span class="text-danger" id="nameError"></span>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="first_name">Email</label>
+                    <input placeholder="Email" name="email" id="email" type="text" class="form-control" required>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <input placeholder="State" name="billing_state" id="billing_state" type="text" class="form-control" required>
-                    </div>
+                <span class="text-danger" id="emailError"></span>
+            </div>
+
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="first_name">Contact Number</label>
+                    <input placeholder="Customer Contact" name="customer_contact" id="customer_contact" type="text" class="form-control" required>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <input placeholder="City" name="billing_city" id="billing_city" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <input placeholder="Country" name="billing_country" id="billing_country" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <input placeholder="Zip" name="billing_zip" id="billing_zip" type="text" class="form-control" required>
-                    </div>
+                <span class="text-danger" id="contactNumberError"></span>
+            </div>
+
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="first_name">GSTIN</label>
+                    <input placeholder="GSTIN" name="gstin" id="gstin" type="text" class="form-control" required>
                 </div>
             </div>
 
-            <div class="col-sm-6" id="customer_button">                          
-                <button class="btn btn-md btn-info" id="create_customer_btn" type="button" name="action" onclick="add_billing_address()">+ Add Billing Address
-                </button>
+
+            <div class="col-sm-12">
+                <span id="load_msg" style="display:none;">Please wait.....</span>
             </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <span id="customer_button"><button type="button" id="create_customer_btn" onclick="create_customer()" class="btn btn-primary">Save changes</button></span>
       </div>
     </div>
   </div>
-</div>
-
-
-
-
-
-
-<div id="shippingmodal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Shipping Address</h4>
-      </div>
-    <div class="modal-body">
-       <span id="change_s_address"></span>
-        <form id="form-create-shipping-address" method="post">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <textarea placeholder="Enter Shipping Address 1" name="shipping_address1" id="shipping_address1" class="form-control" required></textarea>
-                        <span class="text-danger" id="emailError"></span>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <textarea placeholder="Enter Shipping Address 2" name="shipping_address2" id="shipping_address2" class="form-control" required></textarea>
-                        <span class="text-danger" id="emailError"></span>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <input placeholder="State" name="shipping_state" id="shipping_state" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <input placeholder="City" name="shipping_city" id="shipping_city" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <input placeholder="Country" name="shipping_country" id="shipping_country" type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <input placeholder="Zip" name="shipping_zip" id="shipping_zip" type="text" class="form-control" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6" id="customer_button">                          
-                <button class="btn btn-md btn-primary" id="create_customer_btn" type="button" name="action" onclick="add_shipping_address()">+ Add Shipping Address
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
-</div>
-
-</div>
 </div>
 @endsection
 
@@ -556,6 +494,46 @@ function save_invoice()
             }else{
                 alert('Oops!something error happened');
             } 
+        }
+    });
+}
+
+
+function create_customer() {
+    $("#load_msg").show();
+    $.ajax({
+        url: '{{url("customer")}}',
+        data: $("#form-create-customer").serialize()+"&action=invoice",
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){
+            $("#customeraddmodal").modal('hide')
+            $("#customer").html(data.customer_html);
+            $("#billing_address").html('<a style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#billingmodal">+ Add Billing Address</a>');
+            $("#shipping_address").html('<a style="cursor:pointer;" class="modal-trigger" data-toggle="modal" data-target="#shippingmodal">+ Add Shipping Address</a>');
+        },
+        error: function(response){
+            $("#load_msg").hide();
+
+            if(response.responseJSON.errors.name=== undefined){
+                $('#nameError').html('');
+            }else{
+                $('#nameError').html('<span style="color:red;">'+response.responseJSON.errors.name+'</span>');
+            }
+
+            if(response.responseJSON.errors.email===undefined){
+                $('#emailError').html('');
+            }else{
+                $('#emailError').html('<span style="color:red;">'+response.responseJSON.errors.email+'</span>');
+            }
+
+            if(response.responseJSON.errors.customer_contact===undefined){
+                $('#contactNumberError').html('');
+            }else{
+                $('#contactNumberError').html('<span style="color:red;">'+response.responseJSON.errors.customer_contact+'</span>');
+            }
         }
     });
 }
