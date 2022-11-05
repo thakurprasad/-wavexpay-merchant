@@ -30,7 +30,7 @@ class MerchantAddress extends Model
 
     public function merchant()
     {
-        return $this->belongsTo(MerchantUser::class);
+        return $this->belongsTo(Merchant::class);
     }
 
 
