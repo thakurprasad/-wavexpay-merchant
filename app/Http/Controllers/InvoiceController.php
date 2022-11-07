@@ -14,7 +14,9 @@ use App\Models\MerchantAddress;
 
 class InvoiceController extends Controller
 {
+     
     public function index(Request $request){
+      
         $breadcrumbs = [
             ['link' => "invoices", 'name' => "Invoice"]
         ];
@@ -106,7 +108,8 @@ class InvoiceController extends Controller
 
 
     public function createItem(Request $request){
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+       # $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
 
         $response = $api->Item->create(array("name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR"));
 
@@ -132,7 +135,7 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        $api = new Api($api_key, $api_secret);
+        $api = new Api(Helper::api_key(), Helper::api_secret());
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $all_items = Item::all();
 
@@ -170,7 +173,7 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $itemidArray['item_id'] = array();
         foreach($request['tableitem'] as $items){
