@@ -13,7 +13,10 @@ class WavexpayApiKey extends Model
 
   
     protected $casts = [
-        'api_key', 'api_secret'
+        'test_api_key', 
+        'test_api_secret', 
+        'live_api_key', 
+        'live_api_secret'
     ];
 
 }
