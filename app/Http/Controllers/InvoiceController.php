@@ -11,6 +11,7 @@ use App\Models\Item;
 use App\Models\Customer;
 use App\Models\CustomerAddress;
 use App\Models\MerchantAddress;
+use App\Models\WavexpayApiKey;
 
 class InvoiceController extends Controller
 {
@@ -68,9 +69,12 @@ class InvoiceController extends Controller
                 $customer_details = Helper::get_customer_details($invoice->customer_id);  
                 $items = explode(',',$invoice->item_id);
                 $amount = 0;
+                $qty = explode(',',$invoice->item_qty);
+                $count=0;
                 foreach($items as $iid){
                     $item_details = Helper::get_item_details($iid);
-                    $amount+=$item_details->amount;
+                    $amount+=$item_details->amount*$qty[$count];
+                    $count++;
                 } 
                 $html.='<tr>
                     <th scope="row"><a style="color: blue;" href="'.url('/invoice',$invoice->invoice_id).'">'.$invoice->invoice_id.'</a> </th>
@@ -173,8 +177,8 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        $api = new Api(Helper::api_key(), Helper::api_secret());
-        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        //$api = new Api(Helper::api_key(), Helper::api_secret());
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $itemidArray['item_id'] = array();
         foreach($request['tableitem'] as $items){
             $itemidArray['item_id'] = $items;
@@ -235,8 +239,11 @@ class InvoiceController extends Controller
             )
         );
 
+
+        $get_customer_details = Customer::where('customer_id',$request['customer'])->first();
+
         $billing_address_array = array(
-            "customer_id" => $request['customer'],
+            "customer_id" => $get_customer_details->id,
             "address_type" => "billing_address",
             "line_1" => $request->billing_address1,
             "line_2" => $request->billing_address2,
@@ -248,7 +255,7 @@ class InvoiceController extends Controller
         );
 
         $shipping_address_array = array(
-            'customer_id' => $request['customer'],
+            'customer_id' => $get_customer_details->id,
             "address_type" => "shipping_address",
             "line_1" => $request->shipping_address1,
             "line_2" => $request->shipping_address2,
@@ -258,6 +265,20 @@ class InvoiceController extends Controller
             "country" => $request->shipping_country,
             "created_by" => session('merchant')
         );
+
+        if($request['billing_address_id']==''){
+            CustomerAddress::create($billing_address_array);
+        }else {
+            CustomerAddress::where('id',$request['billing_address_id'])->update($billing_address_array);
+        }
+
+        if($request['shipping_address_id']==''){
+            CustomerAddress::create($shipping_address_array);
+        }else {
+            CustomerAddress::where('id',$request['shipping_address_id'])->update($shipping_address_array);
+        }
+        
+       
 
         $customer_name = '';
         $customer_email = '';
