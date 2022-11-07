@@ -9,6 +9,8 @@ use App\Helpers\Helper;
 use App\Models\Invoice;
 use App\Models\Item;
 use App\Models\Customer;
+use App\Models\CustomerAddress;
+use App\Models\MerchantAddress;
 
 class InvoiceController extends Controller
 {
@@ -231,6 +233,30 @@ class InvoiceController extends Controller
                 "state" => $request->shipping_state,
                 "country" => $request->shipping_country
             )
+        );
+
+        $billing_address_array = array(
+            "merchant_id" => session('merchant'),
+            "address_type" => "billing_address",
+            "line_1" => $request->billing_address1,
+            "line_2" => $request->billing_address2,
+            "zip" => $request->billing_zip,
+            "city" => $request->billing_city,
+            "state" => $request->billing_state,
+            "country" => $request->billing_country,
+            "created_by" => session('merchant')
+        );
+
+        $shipping_address_array = array(
+            'customer_id' => $request['customer'],
+            "address_type" => "shipping_address",
+            "line_1" => $request->shipping_address1,
+            "line_2" => $request->shipping_address2,
+            "zip" => $request->shipping_zip,
+            "city" => $request->shipping_city,
+            "state" => $request->shipping_state,
+            "country" => $request->shipping_country,
+            "created_by" => session('merchant')
         );
 
         $customer_name = '';
