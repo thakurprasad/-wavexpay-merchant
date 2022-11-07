@@ -51,9 +51,29 @@ class CustomerController extends Controller
 
         $response = $api->customer->create(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact));
 
-        DB::table('customers')->insert(array('customer_id'=> $response->id, 'merchant_id'=>session('merchant'), 'name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact,'gstin'=>$request->gstin,"created_at"=>NOW()));
+        $customer = Customer::create(array('customer_id'=> $response->id, 'merchant_id'=>session('merchant'), 'name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact,'gstin'=>$request->gstin,"created_at"=>NOW()));
 
-        return response()->json(array('msg'=>'Customer Created'));
+        if(isset($request->action) && $request->action=='invoice')
+        {
+            $all_customers = Customer::all();
+            $customer_html='<option value="">Select A Customer</option>';
+            if(!empty($all_customers)){
+                foreach($all_customers as $cust){
+                    $customer_html.='<option value="'.$cust->customer_id.'"';
+                    if($cust->id==$customer->id)
+                    {
+                        $customer_html.=' selected="selected"';
+                    }
+                    $customer_html.='><strong>'.$cust->name.'</strong> ( '.$cust->email.' )</option>';
+                }
+            }
+            return response()->json(array('customer_html'=>$customer_html));
+        }
+        else 
+        {
+            return response()->json(array('msg'=>'Customer Created'));
+        }
+        
     }
 
     public function update(Request $request){

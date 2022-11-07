@@ -12,7 +12,9 @@ use App\Models\Customer;
 
 class InvoiceController extends Controller
 {
+     
     public function index(Request $request){
+      
         $breadcrumbs = [
             ['link' => "invoices", 'name' => "Invoice"]
         ];
@@ -104,7 +106,8 @@ class InvoiceController extends Controller
 
 
     public function createItem(Request $request){
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+       # $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
 
         $response = $api->Item->create(array("name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR"));
 
@@ -120,7 +123,7 @@ class InvoiceController extends Controller
         //$api = new Api($api_key, $api_secret);
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         //$item_details = $api->Item->fetch($item_id);
-        $item_details = DB::table('items')->where('item_id',$item_id)->first();
+        $item_details = Item::where('item_id',$item_id)->first();
         return response()->json(array("amount" => $item_details->amount));
     }
 
@@ -130,18 +133,18 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        $api = new Api($api_key, $api_secret);
+        $api = new Api(Helper::api_key(), Helper::api_secret());
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $all_items = $api->Item->all();
+        $all_items = Item::all();
 
         $html='<tr id="item_row_id'.$count.'">
             <td>
                 <span id="itd'.$count.'">
                 <select name="tableitem" id="tableitem'.$count.'" onchange="select_item(\''.$count.'\')">
                     <option value="" disabled selected>Select An Item</option>';
-                    if(!empty($all_items->items)){
-                        foreach($all_items->items as $titem){
-                            $html.='<option value="'.$titem->id.'"><strong>'.$titem->name.'</option>';
+                    if(!empty($all_items)){
+                        foreach($all_items as $titem){
+                            $html.='<option value="'.$titem->item_id.'"><strong>'.$titem->name.'</option>';
                         }
                     }
                     $html.='</select>
@@ -168,7 +171,7 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $itemidArray['item_id'] = array();
         foreach($request['tableitem'] as $items){
@@ -250,11 +253,10 @@ class InvoiceController extends Controller
             'description' => $request['description'], 
             'date' => strtotime(date('Y-m-d H:i:s')), 
             'customer_id'=> $request['customer'],  
-            'customer_details'=> $customer_array ,
             'line_items'=>(object)$item_array,
         );
 
-        print_r($invoice_create_array);exit;
+        //print_r($invoice_create_array);exit;
 
         $response = $api->invoice->create($invoice_create_array);
 
@@ -264,7 +266,7 @@ class InvoiceController extends Controller
             $reciept = '';
         }
 
-        DB::table('invoices')->insert(array('invoice_id'=>$response->id,'reciept'=>$reciept,'short_url'=>$response->short_url,'type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'item_id'=>$item_id, 'item_qty' => $item_qty, 'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'merchant_id'=>session('merchant'),'status'=>$response->status,'created_at'=>date('Y-m-d H:i:s'),'issue_date'=>$request['isssue_date'],'expiry_date'=>$request['expiry_date'],'place_of_supply'=>$request['place_of_supply'],'customer_notes'=>$request->customer_notes,'description'=>$request->description));
+        Invoice::create(array('invoice_id'=>$response->id,'reciept'=>$reciept,'short_url'=>$response->short_url,'type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'item_id'=>$item_id, 'item_qty' => $item_qty, 'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'merchant_id'=>session('merchant'),'status'=>$response->status,'created_at'=>date('Y-m-d H:i:s'),'issue_date'=>$request['isssue_date'],'expiry_date'=>$request['expiry_date'],'place_of_supply'=>$request['place_of_supply'],'customer_notes'=>$request->customer_notes,'description'=>$request->description));
 
         return response()->json(array("success" => 1));    
 
@@ -281,7 +283,7 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        $api = new Api($api_key, $api_secret);
+        $api = new Api(Helper::api_key(), Helper::api_secret());
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         //$invoice_details = $api->invoice->fetch($invoiceId);
 
@@ -289,15 +291,17 @@ class InvoiceController extends Controller
         //$all_items = $api->Item->all();
         //print_r($invoice_details);exit;
 
-        $invoice_details = DB::table('invoices')->where('invoice_id',$invoiceId)->first();
-        $all_customers = DB::table('customers')->get();
-        $all_items = DB::table('items')->get();
+        $invoice_details = Invoice::where('invoice_id',$invoiceId)->first();
+        $all_customers = Customer::all();
+        $all_items = Item::all();
 
         return view('pages.invoice.invoicedetails', compact('breadcrumbs','pageConfigs','invoice_details','all_customers','all_items'));
     }
 
     public function editInvoice(Request $request){
         $invoiceId = $request->edit_id;
+
+        $invoice_no = $request->invoice_no;
 
         $itemidArray['item_id'] = array();
         foreach($request['tableitem'] as $items){
@@ -350,6 +354,19 @@ class InvoiceController extends Controller
 
 
 
+        $item_array = array();
+        $item_array_count = 0;
+        for($i=0;$i<count($request['tableitem']);$i++)
+        {
+            $get_item_details = DB::table('items')->where('item_id',$request['tableitem'][$i])->first();
+            $item_array[$item_array_count]['name'] = $get_item_details->name;
+            $item_array[$item_array_count]['description'] = $get_item_details->description;
+            $item_array[$item_array_count]['amount'] = $request['item_rate'][$i];
+            $item_array[$item_array_count]['currency'] = "INR";
+            $item_array[$item_array_count]['quantity'] = $request['item_qty'][$i];
+            $item_array_count++;
+        }
+
 
         $invoice_update_array = array (
             'type' => 'invoice',
@@ -364,19 +381,13 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        $api = new Api($api_key, $api_secret);
+        /*$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api->invoice->fetch($invoice_no)->edit($invoice_update_array);*/
 
+
+        Invoice::where('id',$invoiceId)->update(array('type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'item_id'=>$item_id, 'item_qty' => $item_qty, 'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s'),'issue_date'=>$request['issue_date'],'expiry_date'=>$request['expiry_date'],'place_of_supply'=>$request['place_of_supply'],'customer_notes'=>$request->customer_notes,'description'=>$request->desscription));
         
-
-        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-
-        //if($api->invoice->fetch($invoiceId)->edit(array('line_items' => array($itemidArray)))){
-
-            DB::table('invoices')->where('id',$invoiceId)->update(array('type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'item_id'=>$item_id, 'item_qty' => $item_qty, 'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s'),'issue_date'=>$request['issue_date'],'expiry_date'=>$request['expiry_date'],'place_of_supply'=>$request['place_of_supply'],'customer_notes'=>$request->customer_notes,'description'=>$request->desscription));
-            
-            return response()->json(array("success" => 1));    
-        /*}else{
-            return response()->json(array("success" => 0));    
-        }*/
+        return response()->json(array("success" => 1));    
+        
     }
 }

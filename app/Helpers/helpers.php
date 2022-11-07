@@ -7,6 +7,7 @@ use Config;
 use DB;
 use Razorpay\Api\Api;
 use App\Models\MerchantKey;
+use App\Models\WavexpayApiKey;
 
 class Helper
 {
@@ -290,11 +291,16 @@ class Helper
     /**
      * Switch payment getway
      * $get_key = api_key|api_secret
+     * 
+     * $razorpay_api_key = 'rzp_test_YRAqXZOYgy9uyf'; 
+     $razorpay_api_secret = 'uSaaMQw3jHK0MPtOnXCSSg51';
+
      * */
     public static function weveXpay($get_key){
 
         $api_key = session('merchant_key');
         $api_secret = session('merchant_secret');
+       
 
         $merchant = MerchantKey::select('merchants.*', 'merchants.merchant_payment_method')
         ->join('merchants', 'merchants.id', '=', 'merchant_keys.merchnat_id')
@@ -306,33 +312,23 @@ class Helper
         
 
         if($merchant){
-            $razorpay_api_key = 'rzp_test_YRAqXZOYgy9uyf'; 
-            $razorpay_api_secret = 'uSaaMQw3jHK0MPtOnXCSSg51';
+            $gateway = $merchant->merchant_payment_method;
+            $api_mode = session('mode'); # live | test
 
-            $cashfree_api_key = ''; 
-            $cashfree_api_secret = '';
+            $row = WavexpayApiKey::select('api_key', 'api_secret')->where(['mode'=> $api_mode, 'gateway'=>$gateway])->first();
 
-            if($merchant->merchant_payment_method == 'razorpay'){
+            if(!empty($row)){
                 if($get_key == 'api_key'){
-                    return $razorpay_api_key;
+                    return $row->api_key;
                 }else if($get_key == 'api_secret'){
-                    return $razorpay_api_secret;
+                    return $row->api_secret;
                 }else{
-                     die('Error: invalid key type $get_key accept only - api_key|api_secret');;
-                }
-            }else if($merchant->merchant_payment_method == 'cashfree'){
-                 if($get_key == 'api_key'){
-                    return $cashfree_api_key;
-                }else if($get_key == 'api_secret'){
-                    return $cashfree_api_secret;
-                }else{
-                   die('Error: invalid key type $get_key accept only - api_key|api_secret ');;
+                    die('Error: invalid key type $get_key accept only - api_key|api_secret ');; 
                 }
             }else{
-                die('Error: invalid merchant payment method. accept only razorpay ');
+                die('Invalid API mode or getway');
             }
 
-            
         }else{
             die("Invalid api key or api secret");
         }
