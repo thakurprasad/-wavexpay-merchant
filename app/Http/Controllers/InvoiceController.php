@@ -233,7 +233,7 @@ class InvoiceController extends Controller
         );
 
         $billing_address_array = array(
-            "merchant_id" => session('merchant'),
+            "customer_id" => $request['customer'],
             "address_type" => "billing_address",
             "line_1" => $request->billing_address1,
             "line_2" => $request->billing_address2,
@@ -280,8 +280,12 @@ class InvoiceController extends Controller
         );
 
         //print_r($invoice_create_array);exit;
+        try {
+            $response = $api->invoice->create($invoice_create_array);
+        } catch (\Exception $e) {
+            return response()->json(array('success'=>0,'error'=>$e->getMessage()));
+        }
 
-        $response = $api->invoice->create($invoice_create_array);
 
         if(isset($response->reciept) && $response->reciept!=''){
             $reciept = $response->reciept;
@@ -289,9 +293,13 @@ class InvoiceController extends Controller
             $reciept = '';
         }
 
-        Invoice::create(array('invoice_id'=>$response->id,'reciept'=>$reciept,'short_url'=>$response->short_url,'type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'item_id'=>$item_id, 'item_qty' => $item_qty, 'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'merchant_id'=>session('merchant'),'status'=>$response->status,'created_at'=>date('Y-m-d H:i:s'),'issue_date'=>$request['isssue_date'],'expiry_date'=>$request['expiry_date'],'place_of_supply'=>$request['place_of_supply'],'customer_notes'=>$request->customer_notes,'description'=>$request->description));
-
-        return response()->json(array("success" => 1));    
+        try {
+            Invoice::create(array('invoice_id'=>$response->id,'reciept'=>$reciept,'short_url'=>$response->short_url,'type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'item_id'=>$item_id, 'item_qty' => $item_qty, 'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'merchant_id'=>session('merchant'),'status'=>$response->status,'created_at'=>date('Y-m-d H:i:s'),'issue_date'=>$request['isssue_date'],'expiry_date'=>$request['expiry_date'],'place_of_supply'=>$request['place_of_supply'],'customer_notes'=>$request->customer_notes,'description'=>$request->description));
+            return response()->json(array("success" => 1));   
+        } 
+        catch (\Exception $e) {
+            return response()->json(array('success'=>0,'error'=>$e->getMessage()));
+        }
 
     }
 
@@ -299,21 +307,13 @@ class InvoiceController extends Controller
         $breadcrumbs = [
             ['link' => "invoice/".$invoiceId, 'name' => "Invoice Details"]
         ];
-        //Pageheader set true for breadcrumbs
+        
         $pageConfigs = ['pageHeader' => true];
-
-        $api_key = session('merchant_key');
-        $api_secret = session('merchant_secret');
-
-
-        $api = new Api($api_key, $api_secret);
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         //$invoice_details = $api->invoice->fetch($invoiceId);
-
         //$all_customers = $api->customer->all();
         //$all_items = $api->Item->all();
         //print_r($invoice_details);exit;
-
         $invoice_details = Invoice::where('invoice_id',$invoiceId)->first();
         $all_customers = Customer::all();
         $all_items = Item::all();

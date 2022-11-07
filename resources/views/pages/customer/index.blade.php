@@ -27,133 +27,70 @@
         </div>
         <div class="card-body"> 
 
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <ul class="margin-bottom-none padding-left-lg">
-                <li>{{ $message }}</li>
-            </ul>
-        </div>
-        @endif
-        @if ($message = Session::get('error'))
-        <div class="alert alert-danger">
-            <ul class="margin-bottom-none padding-left-lg">
-                <li>{{ $message }} </li>
-            </ul>
-        </div>
-    @endif
-    <div class="card_">
-		<div class="col-md-12 row" style="margin-bottom: 30px;">
-	            <a class="btn btn-primary " style="color:white;cursor: pointer;" data-toggle="modal" data-target="#customerModal" onclick="crt_cust()"><i class="fas fa-plus"></i> Create New Customer</a>
-        </div>
-
-		<div class="card-body_">
-			<table class="table table-bordered table-responsive-sm"  id="myTable">
-				<thead>
-					<tr class="text-center">
-                        <th>Customer Id</th>
-						<th>Customer Name</th>
-                        <th>Email</th>
-						<th>Contact</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-
-                @if(!empty($all_customers))
-                @foreach($all_customers as $value)
-				<tr>
-					<td>{{ $value->id }}</td>
-                    <td>{{ $value->name }}</td>
-					<td>{{ $value->email }}</td>
-					<td>{{ $value->contact }} </td>
-					<td class="text-center">
-                        <a class="btn btn-primary btn-sm" style="color: #FFFFFF;background-color:#4e73df;" data-toggle="modal" data-target="#customerModal" title="Edit" onclick="edit_cust('{{ $value->customer_id }}','{{ $value->name }}','{{ $value->email }}','{{ $value->contact }}','{{ $value->gstin }}')"><i class="fas fa-edit"></i></a>
-					</td>
-				</tr>
-				@endforeach
-                @endif
-				</tbody>
-			</table>
-            <br/>
-		</div>
-	</div>
-
-
-
-<div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Create Customer</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="form-create-customer" method="post">
-            <input type="hidden" id="edit_id">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label for="first_name">Company Name/Individual Name</label>
-                    <input placeholder="Company Name/Individual Name" name="name" id="name" type="text" class="form-control" required>
-                </div>
-                <span class="text-danger" id="nameError"></span>
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <ul class="margin-bottom-none padding-left-lg">
+                    <li>{{ $message }}</li>
+                </ul>
             </div>
-
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label for="first_name">Email</label>
-                    <input placeholder="Email" name="email" id="email" type="text" class="form-control" required>
-                </div>
-                <span class="text-danger" id="emailError"></span>
+            @endif
+            @if ($message = Session::get('error'))
+            <div class="alert alert-danger">
+                <ul class="margin-bottom-none padding-left-lg">
+                    <li>{{ $message }} </li>
+                </ul>
             </div>
-
-
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label for="first_name">Contact Number</label>
-                    <input placeholder="Customer Contact" name="customer_contact" id="customer_contact" type="text" class="form-control" required>
+            @endif
+            <div class="card_">
+                <div class="col-md-12 row" style="margin-bottom: 30px;">
+                        <a class="btn btn-primary " style="color:white;cursor:pointer;" data-toggle="modal" data-target="#customeraddmodal" onclick="crt_cust()"><i class="fas fa-plus"></i> Create New Customer</a>
                 </div>
-                <span class="text-danger" id="contactNumberError"></span>
-            </div>
 
+                <div class="card-body_">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Customer Id</th>
+                                <th>Customer Name</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label for="first_name">GSTIN</label>
-                    <input placeholder="GSTIN" name="gstin" id="gstin" type="text" class="form-control" required>
+                        @if(!empty($all_customers))
+                        @foreach($all_customers as $value)
+                        <tr>
+                            <td>{{ $value->id }}</td>
+                            <td>{{ $value->name }}</td>
+                            <td>{{ $value->email }}</td>
+                            <td>{{ $value->contact }} </td>
+                            <td class="text-center">
+                                <a class="btn btn-primary btn-sm" style="cursor:pointer; color: #FFFFFF;background-color:#4e73df;" data-toggle="modal" data-target="#customeraddmodal" title="Edit" onclick="edit_cust('{{ $value->customer_id }}','{{ $value->name }}','{{ $value->email }}','{{ $value->contact }}','{{ $value->gstin }}')"><i class="fas fa-edit"></i></a>
+                            </td>
+                        </tr>
+                        @endforeach
+                        @endif
+                        </tbody>
+                    </table>
+                    <br/>
                 </div>
             </div>
-
-
-            <div class="col-sm-12">
-                <span id="load_msg" style="display:none;">Please wait.....</span>
-            </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <span id="customer_button"><button type="button" id="create_customer_btn" onclick="create_customer()" class="btn btn-primary">Save changes</button></span>
-      </div>
-    </div>
-  </div>
-</div>
-
-
         </div> <!--/ container-fluid -->
     </div> <!--/ card -->
 </div> <!--/ card-body -->
+
+
+<x-add-customer-modal/>
 @endsection
 
 
 @section('page-style')
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 @endsection
 @section('page-script')
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready( function () {
-    $('#myTable').DataTable();
     $("#form-create-customer")[0].reset();
     $("#modal_heading").html('Create Customer');
     $("#customer_button").html('<button class="btn btn-primary" id="create_customer_btn" type="button" name="action" onclick="create_customer()">Create Customer </button>');

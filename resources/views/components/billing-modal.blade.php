@@ -3,7 +3,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Billing Address</h4>
+        <h6 class="modal-title">Billing Address &nbsp;&nbsp;<a class="btn btn-sm btn-primary" style="color:#ffffff;">Existing Address</a></h6>
       </div>
       <div class="modal-body">
         <span id="change_b_address"></span>

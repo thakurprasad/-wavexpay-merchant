@@ -439,7 +439,7 @@ function save_invoice()
                 alert('Invoice Saved');
                 window.location.href = "{{ url('invoices')}}";
             }else{
-                alert('Oops!something error happened');
+                alert(data.error);
             } 
         }
     });
