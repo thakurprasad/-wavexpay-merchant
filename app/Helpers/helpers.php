@@ -302,7 +302,7 @@ class Helper
         $api_secret = session('merchant_secret');
        
 
-        $merchant = MerchantKey::select('merchants.*', 'merchants.merchant_payment_method')
+        $merchant = MerchantKey::select('merchants.wavexpay_api_key_id')
         ->join('merchants', 'merchants.id', '=', 'merchant_keys.merchnat_id')
         ->where([
                 'merchant_keys.api_key'=> $api_key,
@@ -312,16 +312,34 @@ class Helper
         
 
         if($merchant){
-            $gateway = $merchant->merchant_payment_method;
+            $wavexpay_api_key_id = $merchant->wavexpay_api_key_id;
             $api_mode = session('mode'); # live | test
-
-            $row = WavexpayApiKey::select('api_key', 'api_secret')->where(['mode'=> $api_mode, 'gateway'=>$gateway])->first();
+            
+            $row = WavexpayApiKey::find($wavexpay_api_key_id);
 
             if(!empty($row)){
+                $API_KEY = '';
+                $API_SECRET = '';
+                if($api_mode == 'test'){
+                    
+                    $API_KEY = $row->test_api_key;
+                    $API_SECRET = $row->test_api_secret;
+
+                }else if($api_mode == 'live'){                
+                    
+                    $API_KEY = $row->live_api_key;
+                    $API_SECRET = $row->live_api_secret;
+
+                }else{
+
+                    die('Invalid api mode only can use test or live');
+                }
+
                 if($get_key == 'api_key'){
-                    return $row->api_key;
+                    return $API_KEY;
+
                 }else if($get_key == 'api_secret'){
-                    return $row->api_secret;
+                    return $API_SECRET;
                 }else{
                     die('Error: invalid key type $get_key accept only - api_key|api_secret ');; 
                 }
