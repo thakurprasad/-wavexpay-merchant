@@ -101,6 +101,7 @@ class InvoiceController extends Controller
         $breadcrumbs = [
             ['link' => "newinvoice", 'name' => "New Invoice"]
         ];
+        
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
         $merchant_id =  session()->get('merchant');
@@ -177,8 +178,8 @@ class InvoiceController extends Controller
         $api_secret = session('merchant_secret');
 
 
-        //$api = new Api(Helper::api_key(), Helper::api_secret());
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $itemidArray['item_id'] = array();
         foreach($request['tableitem'] as $items){
             $itemidArray['item_id'] = $items;

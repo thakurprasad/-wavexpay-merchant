@@ -35,7 +35,8 @@ class CustomerController extends Controller
         ];
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true];
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
         $options = ['count'=>50, 'skip'=>0];
         //$all_customers = $api->customer->all($options);
         $all_customers = Customer::all();
@@ -48,7 +49,8 @@ class CustomerController extends Controller
             'email'         => 'required',
             'customer_contact' => 'required',
         ]);
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
 
         $response = $api->customer->create(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact));
 
@@ -83,7 +85,8 @@ class CustomerController extends Controller
             'email'         => 'required',
             'contact' => 'required',
         ]);
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
         $api->customer->fetch($request->id)->edit(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->contact));
 
         DB::table('customers')->where('customer_id',$request->id)->update(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->contact,'gstin'=>$request->gst,"updated_at"=>NOW()));
