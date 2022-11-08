@@ -1,4 +1,6 @@
 <?php
+#https://laracasts.com/discuss/channels/laravel/how-to-automaticly-update-updated-by-created-by-fields-using-eloquent 
+
 
 namespace App\Http\Controllers;
 
@@ -29,7 +31,13 @@ class CustomerController extends Controller
     }
 
     public function index(Request $request){
-        
+ 
+        /*#use for testing
+       \DB::enableQueryLog(); // Enable query log
+        return $q =   Customer::all();
+         Customer::create(['name'=>'Thakur Prasad', 'email'=>'tps@gmail.com' ]);
+        dd(\DB::getQueryLog()); // Show results of log*/
+       
         //echo $this->token;exit;
         $breadcrumbs = [
             ['link' => "customer", 'name' => "Customer"]

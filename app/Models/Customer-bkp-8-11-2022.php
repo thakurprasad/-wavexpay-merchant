@@ -29,18 +29,34 @@ class Customer extends Model
        parent::boot();
        static::creating(function($model)
        {
-            $model->merchant_id = session()->get('merchant'); # merchant id 
-            $model->transaction_mode = session()->get('mode'); #test|live           
-            $model->created_at = date('Y-m-d H:i:s'); 
-           # $model->created_by = session()->get('merchant'); # merchant id 
 
+           if($model->merchant_id){ 
+                $model->merchant_id = session()->get('merchant'); # merchant id 
+           }
+
+           if($model->transaction_mode){
+                $model->transaction_mode = session()->get('mode'); # test|live
+           }
+
+           if($model->created_at){
+                $model->created_at = date('Y-m-d H:i:s'); 
+           }
+
+            if($model->created_by){
+                $model->created_by = session()->get('merchant'); # merchant id 
+            }
+           
        }); 
 
        static::updating(function($model)
        {
-            $model->updated_at = date('Y-m-d H:i:s');  
-           # $model->updated_at = session()->get('merchant'); #merchant id 
-           
+            if($model->updated_at){
+                $model->updated_at = date('Y-m-d H:i:s');    
+            }
+            
+            if($model->updated_at){
+                $model->updated_at = session()->get('merchant'); #merchant id 
+            }
        }); 
    }
 

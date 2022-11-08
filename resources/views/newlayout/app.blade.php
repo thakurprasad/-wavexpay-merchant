@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Wavexpay - Dashboard</title>
+  <title>Wavexpay - Dashboard 11</title>
 
   <!-- Custom fonts for this template-->
   <link href="{{ asset('newdesign/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
