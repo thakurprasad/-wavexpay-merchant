@@ -117,6 +117,11 @@
                                             <div class="form-group">
                                                 <input type="password" id="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" required autocomplete="current-password">
                                             </div>
+                                            <div class="form-group text-center">
+                                                <label>Join As </label><br>
+                                                <input type="radio" id="mode" name="mode" value="test">Test &nbsp;&nbsp;OR &nbsp;&nbsp;
+                                                <input type="radio" id="mode" name="mode" value="live">Live 
+                                            </div>
                                             <div class="form-group row col-md-12">
                                                 <div class="col-md-6">
                                                     <label> 
