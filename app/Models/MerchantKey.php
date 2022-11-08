@@ -19,6 +19,6 @@ class MerchantKey extends Model
      * @var array
      */
     protected $fillable = [
-       'merchnat_id', 'api_title', 'test_api_key', 'test_api_secret', 'live_api_key', 'live_api_secret','created_at', 'updated_at'
+       'merchnat_id', 'api_title', 'api_key', 'api_secret', 'created_at', 'updated_at'
     ];
 }

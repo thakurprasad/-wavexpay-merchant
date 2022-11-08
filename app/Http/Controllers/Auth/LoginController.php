@@ -73,45 +73,40 @@ class LoginController extends Controller
         $merchant_salt = $merchants->access_salt;
         try {
             //dd(__LINE__);
-            //$client = new Client(['base_uri' => env('API_BASE_URL')]);          
+          //  $client = new Client(['base_uri' => env('API_BASE_URL')]);          
             $client = new Client(['base_uri' => 'http://localhost:8000']);          
             $api_end_point = 'api/merchants/login';
             $response = $client->request('POST',$api_end_point,[
                 'form_params' => [
                     'email' => $request->input('email'),
                     'password' => $request->input('password'),
-                    'merchant_salt' => $merchant_salt,
-                    'mode' => ($request->input('mode') ? $request->input('mode') : 'test')
+                    'merchant_salt' => $merchant_salt
                 ]
             ]);
+
+
             $status_code = $response->getStatusCode();
             // 200
             $header = $response->getHeader('content-type');
             // 'application/json; charset=utf8'
             $res  =  json_decode($response->getBody(),true);
+
             //print_r($res);exit;
+
             if($status_code==200){
                 if($res['status']=='success'){
                     //dd($res);
                     $access_token = $res['access_token'];
                     session()->put('token', $access_token);
                     session()->put('merchant', $res['merchant']['merchant_id']);
-                    if($request->input('mode') && $request->input('mode')=='test'){
-                        session()->put('mode', 'test'); 
-                        session()->put('merchant_key', $res['api_keys'][0]['test_api_key']);
-                        session()->put('merchant_secret', $res['api_keys'][0]['test_api_secret']);
-                    }else{
-                        session()->put('mode', 'live');  
-                        session()->put('merchant_key', $res['api_keys'][0]['live_api_key']);
-                        session()->put('merchant_secret', $res['api_keys'][0]['live_api_secret']);
-                    }
-                    
+                    session()->put('merchant_key', $res['api_keys'][0]['api_key']);
+                    session()->put('merchant_secret', $res['api_keys'][0]['api_secret']);
+
                     $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                     if($get_merchant_details->is_partner=='yes')
                     {
                         return redirect('/partner-dashboard');
                     }
-                    //print_r($res);
                     return redirect('/');
                 }else{
                     return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
