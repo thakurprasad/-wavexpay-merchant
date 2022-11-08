@@ -25,7 +25,7 @@ class Merchant extends Model
 
     public function addresses()
     { 
-         return $this->hasMany(MerchantAddress::class);
+         return $this->hasMany(MerchantAddress::class)->count();
     }  
 
 }
