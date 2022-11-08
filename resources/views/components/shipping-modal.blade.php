@@ -3,7 +3,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Shipping Address</h4>
+        <h4 class="modal-title">Shipping Address &nbsp;&nbsp;<a onclick="get_existing_address('shipping')" data-toggle="modal" data-target="#existingshippingmodal" class="btn btn-sm btn-primary" style="color:#ffffff;">Existing Address</a></h4>
       </div>
     <div class="modal-body">
        <span id="change_s_address"></span>
@@ -53,3 +53,5 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
 </div>
+
+<x-existing-shipping-modal/>

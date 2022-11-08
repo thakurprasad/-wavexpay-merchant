@@ -109,6 +109,7 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('addnewitemrow',  [InvoiceController::class, 'addNewItemRow'])->name('addnewitemrow');
     Route::post('createinvoice',  [InvoiceController::class, 'createInvoice'])->name('createinvoice');
     Route::post('editinvoice',  [InvoiceController::class, 'editInvoice'])->name('editinvoice');
+    Route::post('get-customer-existing-address',  [CustomerController::class, 'getCustomerExistingAddress'])->name('get-customer-existing-address');
 
     //Settings routes
     Route::get('settings',  [SettingsController::class, 'index'] );

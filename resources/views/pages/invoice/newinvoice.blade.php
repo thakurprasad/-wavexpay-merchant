@@ -80,6 +80,7 @@
                                 <h6>Billing Address</h6>
                                 <p id="billing_address"></p>
                                 <div class="row" id="billing_address_container" style="display:none;">
+                                    <input type="hidden" id="billing_address_id" />
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" class="form-control" id="c_bil_add1" readonly>
@@ -115,6 +116,7 @@
                                 <h6>Shipping Address</h6>
                                 <p id="shipping_address"></p>
                                 <div class="row" id="shipping_address_container" style="display:none;">
+                                    <input type="hidden" id="shipping_address_id" />
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <input type="text" class="form-control" id="c_shi_add1" readonly>
@@ -243,17 +245,17 @@
 </div>
 
 
-
-
-
-
-
-
 <x-add-customer-modal/>
 
 <x-billing-modal/>
 
 <x-shipping-modal/>
+
+
+
+<x-existing-shipping-modal/>
+
+
 @endsection
 
 
@@ -413,6 +415,7 @@ function save_invoice()
     $("#loading_div").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });
+    var billing_address_id = $("#billing_address_id").val();
     var billing_address1 = $("#c_bil_add1").val();
     var billing_address2 = $("#c_bil_add2").val();
     var billing_state = $("#c_bil_state").val();
@@ -420,6 +423,7 @@ function save_invoice()
     var billing_country = $("#c_bil_country").val();
     var billing_zip = $("#c_bil_zip").val();
 
+    var shipping_address_id = $("#shipping_address_id").val();
     var shipping_address1 = $("#c_shi_add1").val();
     var shipping_address2 = $("#c_shi_add2").val();
     var shipping_state = $("#c_shi_state").val();
@@ -428,7 +432,7 @@ function save_invoice()
     var shipping_zip = $("#c_shi_zip").val();
     $.ajax({
         url: '{{url("createinvoice")}}',
-        data: $("#form-create-invoice").serialize()+"&billing_address1="+billing_address1+"&billing_address2="+billing_address2+"&billing_state="+billing_state+"&billing_city="+billing_city+"&billing_country="+billing_country+"&billing_zip="+billing_zip+"&shipping_address1="+shipping_address1+"&shipping_address2="+shipping_address2+"&shipping_state="+shipping_state+"&shipping_city="+shipping_city+"&shipping_country="+shipping_country+"&shipping_zip="+shipping_zip,
+        data: $("#form-create-invoice").serialize()+"&billing_address_id="+billing_address_id+"&billing_address1="+billing_address1+"&billing_address2="+billing_address2+"&billing_state="+billing_state+"&billing_city="+billing_city+"&billing_country="+billing_country+"&billing_zip="+billing_zip+"&shipping_address_id="+shipping_address_id+"&shipping_address1="+shipping_address1+"&shipping_address2="+shipping_address2+"&shipping_state="+shipping_state+"&shipping_city="+shipping_city+"&shipping_country="+shipping_country+"&shipping_zip="+shipping_zip,
         type: "POST",
         headers: {
             'X-CSRF-Token': '{{ csrf_token() }}',
@@ -439,7 +443,7 @@ function save_invoice()
                 alert('Invoice Saved');
                 window.location.href = "{{ url('invoices')}}";
             }else{
-                alert('Oops!something error happened');
+                alert(data.error);
             } 
         }
     });
@@ -483,6 +487,37 @@ function create_customer() {
             }
         }
     });
+}
+
+
+
+function get_existing_address(type)
+{
+    var selected_customer = $("#customer").val();
+    $.ajax({
+        url: '{{url("get-customer-existing-address")}}',
+        data: {'type':type,'customer':selected_customer},
+        type: "POST",
+        headers: {
+            'X-CSRF-Token': '{{ csrf_token() }}',
+        },
+        success: function(data){
+            $("#existing_"+type+"_address_container").html(data.html);
+        }
+    });
+}
+
+
+function set_address(type,id,line_1,line_2,state,city,country,zip)
+{
+    $("#"+type+"_address_id").val(id);
+    $("#"+type+"_address1").val(line_1);
+    $("#"+type+"_address2").val(line_2);
+    $("#"+type+"_state").val(state);
+    $("#"+type+"_city").val(city);
+    $("#"+type+"_country").val(country);
+    $("#"+type+"_zip").val(zip);
+    $("#existing"+type+"modal").modal('hide');
 }
 </script>
 @endsection
