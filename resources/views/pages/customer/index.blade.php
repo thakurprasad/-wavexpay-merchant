@@ -174,8 +174,14 @@ function create_customer() {
             'X-CSRF-Token': '{{ csrf_token() }}',
         },
         success: function(data){
-            $("#load_msg").html('<span style="color:green;">'+data.msg+'</span>');
-            location.reload();
+            if(data.success==1){
+                $("#load_msg").html('<span style="color:green;">'+data.msg+'</span>');
+                location.reload();
+            }else{
+                $("#load_msg").html('<span style="color:red;">'+data.msg+'</span>');
+                return false;
+            }
+            
         },
         error: function(response){
             $("#load_msg").hide();

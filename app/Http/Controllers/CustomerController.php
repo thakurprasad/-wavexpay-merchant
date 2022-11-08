@@ -8,6 +8,7 @@ use Razorpay\Api\Api;
 use DB;
 use App\Models\Customer;
 use App\Models\CustomerAddress;
+use Helper;
 
 class CustomerController extends Controller
 {
@@ -52,7 +53,12 @@ class CustomerController extends Controller
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $api = new Api(Helper::api_key(), Helper::api_secret());
 
-        $response = $api->customer->create(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact));
+        try {
+            $response = $api->customer->create(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact));
+        } catch (\Exception $e) {
+            return response()->json(array('success'=>0,'msg'=>$e->getMessage()));
+        }
+
 
         $customer = Customer::create(array('customer_id'=> $response->id, 'merchant_id'=>session('merchant'), 'name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact,'gstin'=>$request->gstin,"created_at"=>NOW()));
 
@@ -74,7 +80,7 @@ class CustomerController extends Controller
         }
         else 
         {
-            return response()->json(array('msg'=>'Customer Created'));
+            return response()->json(array('success'=>1,'msg'=>'Customer Created'));
         }
         
     }
