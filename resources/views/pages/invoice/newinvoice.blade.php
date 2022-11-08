@@ -57,7 +57,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="first_name">Description</label>
-                                <input placeholder="Enter Description" name="desscription" id="desscription" type="text" class="form-control" required>
+                                <input placeholder="Enter Description" name="description" id="desscription" type="text" class="form-control" required>
                             </div>
                         </div>
 
