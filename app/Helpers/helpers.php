@@ -300,15 +300,15 @@ class Helper
 
         $api_key = session('merchant_key');
         $api_secret = session('merchant_secret');
-       
 
         $merchant = MerchantKey::select('merchants.wavexpay_api_key_id')
         ->join('merchants', 'merchants.id', '=', 'merchant_keys.merchnat_id')
-        ->where([
+        ->where('merchants.id', session('merchant'))
+        /*->where([
                 'merchant_keys.api_key'=> $api_key,
                 'merchant_keys.api_secret' => $api_secret
-            ])->first();
-        
+            ]) */
+        ->first();
         
 
         if($merchant){
@@ -387,10 +387,10 @@ class Helper
         if(in_array($string, ['draft'])){
             $class = 'info';
         }
-        if(in_array($string, ['failed', 'error', 'pending','expired','cancelled','deleted'])){
+        if(in_array($string, ['test', 'failed', 'error', 'pending','expired','cancelled','deleted'])){
              $class = 'danger';
         }
-        if(in_array($string, ['captured', 'success', 'completed', 'paid','processed'])){
+        if(in_array($string, ['live', 'captured', 'success', 'completed', 'paid','processed'])){
             $class = 'success';
         }
 
