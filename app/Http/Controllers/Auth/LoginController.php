@@ -76,12 +76,20 @@ class LoginController extends Controller
           //  $client = new Client(['base_uri' => env('API_BASE_URL')]);          
             $client = new Client(['base_uri' => 'http://localhost:8000']);          
             $api_end_point = 'api/merchants/login';
+
+            if(isset($request->mode) && $request->mode!=''){
+                $mode = $request->mode;
+            }
+            else{
+                $mode = 'test';
+            }
+
             $response = $client->request('POST',$api_end_point,[
                 'form_params' => [
                     'email' => $request->input('email'),
                     'password' => $request->input('password'),
                     'merchant_salt' => $merchant_salt,
-                    'mode' => ($request->mode) ? $request->mode : 'test'
+                    'mode' => $mode
                 ]
             ]);
 
@@ -96,12 +104,11 @@ class LoginController extends Controller
 
             if($status_code==200){
                 if($res['status']=='success'){
-                    //dd($res);
                     $access_token = $res['access_token'];
                     session()->put('token', $access_token);
                     session()->put('merchant', $res['merchant']['merchant_id']);
-
-                    if($request->mode=='test'){
+                    
+                    if($mode=='test'){
                         session()->put('mode', 'test');
                         session()->put('merchant_key', $res['api_keys'][0]['test_api_key']);
                         session()->put('merchant_secret', $res['api_keys'][0]['test_api_secret']);
@@ -110,7 +117,7 @@ class LoginController extends Controller
                         session()->put('merchant_key', $res['api_keys'][0]['live_api_key']);
                         session()->put('merchant_secret', $res['api_keys'][0]['live_api_secret']);
                     }
-
+                    //dd($res);
                     $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                     if($get_merchant_details->is_partner=='yes')
                     {

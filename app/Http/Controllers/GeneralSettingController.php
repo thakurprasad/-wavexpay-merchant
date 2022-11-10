@@ -9,6 +9,8 @@ use App\Models\GeneralSetting;
 use App\Models\MerchantKey;
 use App\Models\MerchantUser;
 use App\Models\Merchant;
+use App\Models\WavexpayApiKey;
+use Helper;
 
 
 class GeneralSettingController extends Controller
@@ -19,7 +21,8 @@ class GeneralSettingController extends Controller
         $key_details = MerchantKey::where('merchnat_id',$merchant_id)->first();
         $merchant_details = Merchant::select('merchants.*','merchant_users.*')->join('merchant_users', 'merchant_users.merchant_id', '=', 'merchants.id')->where('merchants.id',$merchant_id)->get();
         $merchant_details=$merchant_details[0];
-        return view('pages.settings.index', compact('general_settings','key_details','merchant_details'));
+        $mode = session('mode');
+        return view('pages.settings.index', compact('general_settings','key_details','merchant_details','mode'));
     }
 
     public function getGeneralSetting(Request $request)
@@ -140,6 +143,37 @@ class GeneralSettingController extends Controller
             GeneralSetting::insert(array('merchant_id'=>$merchant_id,'payment_link_reminder'=>$payment_link_reminder));
         }
         return response()->json(array('success'=>1));
+    }
+
+    public function generateApiKey(Request $request)
+    {
+        $merchant_id =  session()->get('merchant');
+        $key = $request->key;
+
+        if(session('mode')=='test'){
+            MerchantKey::where('merchnat_id',$merchant_id)->update(array('test_api_key'=>'wxp_test_'.Helper::rand_string(14)));
+        }else{
+            $new_key = 'wxp_live_'.Helper::rand_string(14);
+            MerchantKey::where('merchnat_id',$merchant_id)->update(array('live_api_key'=>'wxp_live_'.Helper::rand_string(14)));
+        }
+
+        $html = '';
+        $key_details = MerchantKey::where('merchnat_id',$merchant_id)->first();
+        if(session('mode')=='test') 
+        { 
+            $key = $key_details->test_api_key; 
+        } 
+        else 
+        { 
+            $key = $key_details->live_api_key; 
+        } 
+
+        $html.='<td>'.$key.'</td>
+        <td>'.date("d F,Y",strtotime($key_details->created_at)).'</td>
+        <td>Never</td>
+        <td>';if($key!='') { $html.='<button type="button" onclick="generate_api_key(\''.$key.'\')" class="btn btn-xs btn-info">Regenerate API key</button>'; }else { $html.='<button type="button"  onclick="generate_api_key(\''.$key.'\')" class="btn btn-xs btn-info">Generate API key</button>'; } $html.='</td>';
+
+        return response()->json(array('success'=>1,'html'=>$html));
     }
 
 }

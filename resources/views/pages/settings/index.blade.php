@@ -252,6 +252,8 @@
             <div class="col-md-9 offset-md-1" style="padding-top:20px;">
               <div class="card shadow mb-4">
                 <div class="card-body">
+					<x-notification title="Update details about your website/app" description="Terms & Conditions, Privacy Policy, Contact Us, Cancellation & Refund Policy, and Shipping and Delivery Policy pages & required as per RBI guidelines." />
+					<x-notification title="Your Feedback Matters" description="Hello, Developer! Would you like to take a few seconds to help us improve your experience with Razorpay?" />
 					<table class="table table-striped"> 
 						<thead>
 							<tr>
@@ -262,11 +264,23 @@
                         	</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>{{ $key_details->api_key }}</td>
+							<tr id="key_tr">
+								<td>@php 
+									if($mode=='test') 
+									{ 
+										echo $key_details->test_api_key; 
+										$key = $key_details->test_api_key; 
+									} 
+									else 
+									{ 
+										echo $key_details->live_api_key; 
+										$key = $key_details->live_api_key; 
+									} 
+									@endphp
+								</td>
 								<td>{{ date('d F,Y',strtotime($key_details->created_at)) }}</td>
 								<td>Never</td>
-								<td><button type="button" class="btn btn-xs btn-info">Regenerate API key</button></td>
+								<td>@if($key!='')<button type="button" onclick="generate_api_key('{{$key}}')" class="btn btn-xs btn-info">Regenerate API key</button>@else <button type="button"  onclick="generate_api_key('{{$key}}')" class="btn btn-xs btn-info">Generate API key</button>@endif</td>
 							</tr>
 						</tbody>
 					</table>
@@ -473,6 +487,7 @@ a:active {
 
 @section('page-script')
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
 $(document).ready(function() {
     $("#gsettingclick").click();
@@ -736,7 +751,33 @@ $(function() {
 		}
 	});
 
-
 });
+
+
+function generate_api_key(key)
+{
+	if(confirm('Are you sure?')){
+		$("#key_tr").LoadingOverlay("show", {
+			background  : "rgba(165, 190, 100, 0.5)"
+		});
+		$.ajax({
+			type: "post",
+			dataType: "json",
+			url: "{{ url('generateapikey') }}",
+			data: {'key': key},
+			headers: {
+				'X-CSRF-Token': '{{ csrf_token() }}',
+			},
+			success: function(data){
+				if(data.success==1)
+				{
+					alert('Key Geneated Successfully!!');
+					$("#key_tr").LoadingOverlay("hide", true);
+					$("#key_tr").html(data.html);
+				}				
+			}
+		});
+	}
+}
 </script>
 @endsection
