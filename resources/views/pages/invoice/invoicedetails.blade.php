@@ -14,6 +14,7 @@
     </ul>
 </div>
 @endif
+<?php //print_r($invoice_details);exit; ?>
     <div class="card" style="padding:15px;">
         <div class="card-body">
             <div class="row">
@@ -31,7 +32,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="first_name">Description</label>
-                                <input placeholder="Enter Description" name="desscription" id="desscription" type="text" class="form-control" required value="{{$invoice_details->description}}">
+                                <input placeholder="Enter Description" name="description" id="desscription" type="text" class="form-control" required value="{{$invoice_details->description}}">
                             </div>
                         </div>
 
@@ -39,7 +40,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <h6>BILLING TO</h6>
-                                <select class="form-control" name="customer" id="customer">
+                                <select class="form-control" name="customer" id="customer" disabled>
                                     <option value="" disabled>Select A Customer</option>
                                     @if(!empty($all_customers))
                                     @foreach($all_customers as $customer)
@@ -320,150 +321,6 @@
             </div>
         </div>
     </div>
-
-
-<!-- Modal Structure -->
-<div id="billingmodal" class="modal modal-fixed-footer" style="width:500px;">
-    <div class="modal-content">
-      <h4 id="modal_heading">Billing Address&nbsp;</h4>
-        <span id="change_b_address"></span>
-        <form id="form-create-billing-address" method="post">
-            <div class="row">
-                <div class="input-field col s12">
-                    <textarea placeholder="Enter Billing Address 1" name="billing_address1" id="billing_address1" class="validate" required></textarea>
-                    <span class="text-danger" id="emailError"></span>
-                </div>
-                <div class="input-field col s12">
-                    <textarea placeholder="Enter Billing Address 2" name="billing_address2" id="billing_address2" class="validate" required></textarea>
-                    <span class="text-danger" id="emailError"></span>
-                </div>
-                <div class="col s6">
-                    <input placeholder="State" name="billing_state" id="billing_state" type="text" class="validate" required>
-                </div>
-                <div class="col s6">
-                    <input placeholder="City" name="billing_city" id="billing_city" type="text" class="validate" required>
-                </div>
-                <div class="col s6">
-                    <input placeholder="Country" name="billing_country" id="billing_country" type="text" class="validate" required>
-                </div>
-                <div class="col s6">
-                    <input placeholder="Zip" name="billing_zip" id="billing_zip" type="text" class="validate" required>
-                </div>
-            </div>
-
-            <div class="input-field col s3" id="customer_button">                          
-                <button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action" onclick="add_billing_address()">+ Add Billing Address
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-      <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-</div>
-
-
-<div id="shippingmodal" class="modal modal-fixed-footer" style="width:500px;">
-    <div class="modal-content">
-      <h4 id="modal_heading">Shipping Address&nbsp;<span id="change_s_address"></span></h4>
-        <form id="form-create-shipping-address" method="post">
-            <div class="row">
-                <div class="input-field col s12">
-                    <textarea placeholder="Enter Shipping Address 1" name="shipping_address1" id="shipping_address1" class="validate" required></textarea>
-                    <span class="text-danger" id="emailError"></span>
-                </div>
-                <div class="input-field col s12">
-                    <textarea placeholder="Enter Shipping Address 2" name="shipping_address2" id="shipping_address2" class="validate" required></textarea>
-                    <span class="text-danger" id="emailError"></span>
-                </div>
-                <div class="col s6">
-                    <input placeholder="State" name="shipping_state" id="shipping_state" type="text" class="validate" required>
-                </div>
-                <div class="col s6">
-                    <input placeholder="City" name="shipping_city" id="shipping_city" type="text" class="validate" required>
-                </div>
-                <div class="col s6">
-                    <input placeholder="Country" name="shipping_country" id="shipping_country" type="text" class="validate" required>
-                </div>
-                <div class="col s6">
-                    <input placeholder="Zip" name="shipping_zip" id="shipping_zip" type="text" class="validate" required>
-                </div>
-            </div>
-
-            <div class="input-field col s3" id="customer_button">                          
-                <button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action" onclick="add_shipping_address()">+ Add Shipping Address
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-      <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-</div>
-
-
-
-<div id="createitemmodal" class="modal modal-fixed-footer" style="width:600px;">
-    <div class="modal-content">
-      <h4 id="modal_heading">New Item</h4>
-        <form id="form-create-item" method="post">
-            <input type="hidden" id="row_no">
-            <div class="row">
-                <div class="col s6">
-                    <label for="first_name">Name</label>
-                    <input placeholder="Name" name="modal_item_name" id="modal_item_name" type="text" class="validate" required>
-                </div>
-                <div class="col s6">
-                    <label for="first_name">Rate</label>
-                    <input placeholder="Rate" name="modal_item_rate" id="modal_item_rate" type="text" class="validate" required>   
-                </div>
-                <div class="col s6">
-                    <label for="first_name">Tax Rate</label>
-                    <select name="modal_item_tax_rate" id="tableitemtaxrate">
-                        <option value="" disabled selected>Select Tax Rate</option>
-                        <option value=".1"><strong>0.1%</option>
-                        <option value=".25"><strong>0.25%</option>
-                        <option value="3"><strong>3%</option>
-                        <option value="5"><strong>5%</option>
-                        <option value="12"><strong>12%</option>
-                        <option value="18"><strong>18%</option>
-                        <option value="25"><strong>25%</option>
-                    </select>
-                </div>
-                <div class="col s6">
-                    <label for="first_name">HSN/SAC Code</label>
-                    <input placeholder="HSN/SAC Code" name="modal_code" id="modal_code" type="text" class="validate" required>
-                </div>
-                <div class="col s6">
-                    <span id="tax_type_container" style="display:none;">
-                        <label for="first_name">Tax Type</label>
-                        <select name="tax_type" id="tax_type">
-                            <option value="tax_inclusive"><strong>Tax Inclusive</option>
-                            <option value="tax_exclusive"><strong>Tax Exclusive</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="col s6">
-                    <label for="first_name">Add Cess</label>
-                    <input placeholder="Cess" type="number" name="cess" id="cess"  class="validate">
-                </div>
-                <div class="input-field col s12">
-                    <span class="text-danger" id="emailError"></span>
-                    <textarea placeholder="Enter Description" row="10" name="modal_item_description" id="modal_item_description" class="validate" required></textarea>
-                </div>
-            </div>
-
-            <div class="input-field col s12" id="customer_button">                          
-                <button class="btn waves-effect waves-light" id="create_customer_btn" type="button" name="action" onclick="add_new_item()">+ Add
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-      <a href="javascript:void(0)" class="modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-</div>
-
 
 @endsection
 

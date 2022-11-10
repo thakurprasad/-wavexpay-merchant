@@ -80,7 +80,8 @@ class LoginController extends Controller
                 'form_params' => [
                     'email' => $request->input('email'),
                     'password' => $request->input('password'),
-                    'merchant_salt' => $merchant_salt
+                    'merchant_salt' => $merchant_salt,
+                    'mode' => ($request->mode) ? $request->mode : 'test'
                 ]
             ]);
 
@@ -96,11 +97,12 @@ class LoginController extends Controller
             if($status_code==200){
                 if($res['status']=='success'){
                     //dd($res);
-                    $access_token = $res['access_token'];
-                    session()->put('token', $access_token);
-                    session()->put('merchant', $res['merchant']['merchant_id']);
-                    session()->put('merchant_key', $res['api_keys'][0]['api_key']);
-                    session()->put('merchant_secret', $res['api_keys'][0]['api_secret']);
+$access_token = $res['access_token'];
+session()->put('token', $access_token);
+session()->put('merchant', $res['merchant']['merchant_id']);
+session()->put('mode', $request->mode);
+session()->put('merchant_key', $res['api_key']);
+session()->put('merchant_secret', $res['api_secret']);
 
                     $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                     if($get_merchant_details->is_partner=='yes')
@@ -111,7 +113,7 @@ class LoginController extends Controller
                 }else{
                     return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
                 }
-            }else{
+            }else{ 
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
 
