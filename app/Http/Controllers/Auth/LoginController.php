@@ -111,7 +111,7 @@ class LoginController extends Controller
                 }else{
                     return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
                 }
-            }else{
+            }else{ 
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
 

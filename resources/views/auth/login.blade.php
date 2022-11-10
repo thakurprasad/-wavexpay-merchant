@@ -133,7 +133,7 @@
                                             <a class="small" href="{{url('register')}}">Create Account</a>
                                         </div>
                                     </div>
-                                    </div>
+                                    </div> 
                                 </div>
                             </div>
                         </div>
