@@ -22,8 +22,7 @@ class Customer extends Model
 
 
 /* Auto append transaction_mode column on Model::Create    */
-  
-    
+
     public static function boot()
     {
        parent::boot();
