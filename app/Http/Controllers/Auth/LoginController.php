@@ -80,7 +80,8 @@ class LoginController extends Controller
                 'form_params' => [
                     'email' => $request->input('email'),
                     'password' => $request->input('password'),
-                    'merchant_salt' => $merchant_salt
+                    'merchant_salt' => $merchant_salt,
+                    'mode' => ($request->mode) ? $request->mode : 'test'
                 ]
             ]);
 
@@ -99,8 +100,16 @@ class LoginController extends Controller
                     $access_token = $res['access_token'];
                     session()->put('token', $access_token);
                     session()->put('merchant', $res['merchant']['merchant_id']);
-                    session()->put('merchant_key', $res['api_keys'][0]['api_key']);
-                    session()->put('merchant_secret', $res['api_keys'][0]['api_secret']);
+
+                    if($request->mode=='test'){
+                        session()->put('mode', 'test');
+                        session()->put('merchant_key', $res['api_keys'][0]['test_api_key']);
+                        session()->put('merchant_secret', $res['api_keys'][0]['test_api_secret']);
+                    }else{
+                        session()->put('mode', 'live');
+                        session()->put('merchant_key', $res['api_keys'][0]['live_api_key']);
+                        session()->put('merchant_secret', $res['api_keys'][0]['live_api_secret']);
+                    }
 
                     $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                     if($get_merchant_details->is_partner=='yes')
