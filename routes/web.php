@@ -145,6 +145,7 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('changesmsnotification',  [GeneralSettingController::class, 'changeSmsNotification'])->name('changesmsnotification');
     Route::post('changeskipmandate',  [GeneralSettingController::class, 'changeSkipMandate'])->name('changeSkipMandate');
     Route::post('changereminder',  [GeneralSettingController::class, 'changeReminder'])->name('changereminder');
+    Route::post('generateapikey', [GeneralSettingController::class, 'generateApiKey'])->name('generateapikey');
     
 
     //Payment Pages routes
@@ -191,6 +192,8 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('cashfreepayments/thankyou', [App\Http\Controllers\CashfreePaymentController::class, 'success']);
 
     Route::get('set-gateway-mode/{mode}', [App\Http\Controllers\SetGatwayController::class, 'setGatwayMode']);
+
+    
 
 });
 

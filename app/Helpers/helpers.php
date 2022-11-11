@@ -397,6 +397,17 @@ class Helper
           return "<span class='badge badge-".$class."'>$string</span>";
     }
 
+    public static function rand_string($digits=null) {
+        $alphanum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz";
 
+        // generate the random string
+        if($digits != null){
+            $rand = substr(str_shuffle($alphanum), 0, $digits);
+        }else{
+            $rand = '';
+        }
+        $val =$rand;
+        return $val;
+    }
 
 }

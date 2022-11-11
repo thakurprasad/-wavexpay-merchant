@@ -14,7 +14,7 @@
     </ul>
 </div>
 @endif
-<?php //print_r($invoice_details);exit; ?>
+
     <div class="card" style="padding:15px;">
         <div class="card-body">
             <div class="row">
