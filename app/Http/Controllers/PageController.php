@@ -8,6 +8,8 @@ use App\Models\Merchant;
 use App\Models\MerchantUser;
 use App\Models\Payment;
 use App\Models\Order;
+use App\Models\Dispute;
+use App\Models\Refund;
 use App\Models\Settlement;
 use DB;
 use Illuminate\Support\Facades\Crypt;
@@ -36,11 +38,11 @@ class PageController extends Controller
         $is_kyc_completed = $merchant_details->is_kyc_completed;
         $dashboard_header = DB::table('dashboardheader')->first();
 
-        $payments = Payment::where('merchant_id',$merchant_id)->get();
-        $orders = Order::where('merchant_id',$merchant_id)->get();
-        $settlements = Settlement::where('merchant_id',$merchant_id)->get();
-        $disputes = DB::table('disputes')->get();
-        $refunds = DB::table('refunds')->get();
+        $payments = Payment::all();
+        $orders = Order::all();
+        $settlements = Settlement::all();
+        $disputes = Dispute::all();
+        $refunds = Refund::all();
         $users = DB::table('users')->get();
 
         

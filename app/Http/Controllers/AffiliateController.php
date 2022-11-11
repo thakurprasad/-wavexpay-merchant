@@ -8,6 +8,7 @@ use DateTime;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 use Helper;
+use App\Models\Merchant;
 
 class AffiliateController extends Controller
 {
@@ -16,10 +17,7 @@ class AffiliateController extends Controller
         $merchant_details = DB::table('merchants')->where('id',$merchant_id)->first();
         $link_text = $merchant_details->referral_link_text;
 
-        $referred_merchant = DB::table('merchants')
-        ->leftJoin('merchant_users','merchants.id','=','merchant_users.merchant_id')
-        ->where('referral_id',$link_text)
-        ->get();
+        $referred_merchant = Merchant::select('merchants.*','merchant_users.*')->join('merchant_users', 'merchant_users.merchant_id', '=', 'merchants.id')->whereNotNull('merchants.referral_id')->where('referral_id',$link_text)->get();
 
         //print_r($referred_merchant);exit;
 

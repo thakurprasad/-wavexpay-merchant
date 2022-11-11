@@ -42,7 +42,7 @@
             <div class="col-md-12">
               <form method="post" id="step_two_form" action="{{ url('/sign-up-merchant-step-two') }}">
                 @csrf
-                <input type="hidden" value="<?php if(isset($action)) { echo $action; } ?>" name="action">
+                    <input type="hidden" value="<?php if(isset($action)) { echo $action; } ?>" name="action">
                     <div >
                     <!--<div class="card border-0 shadow-lg my-5">-->
                         <div class="card-body p-0">
