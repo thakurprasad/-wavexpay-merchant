@@ -2,6 +2,7 @@
     @if(!empty($label))
         <label>{{$label}}</label>
     @endif
+    
     <div id="{{$daterangepicker_id}}">&nbsp;
         <group>
         <i class="fa fa-calendar"></i>&nbsp;
@@ -9,6 +10,7 @@
         <i class="fa fa-caret-down"></i> &nbsp;
         </group>
         <span class="selected_date"></span> 
+        <input type="text" name="{{$daterangepicker_id}}" id="_{{$daterangepicker_id}}" style="display: none;">
     </div>
 </div>
 
@@ -16,10 +18,20 @@
 $(function() {
     var start = moment();
     var end = moment();
-    var ranges = 'Today' ;
+    var ranges = 'None';
 
     function cb(start, end, ranges) {
-        $('#{{$daterangepicker_id}} span.selected_date').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+        if(ranges == 'None'){
+            $('#{{$daterangepicker_id}} span.selected_date').html('');    
+
+            $('#_{{$daterangepicker_id}}').val('');
+        }else{
+            $('#{{$daterangepicker_id}} span.selected_date').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));    
+
+        $('#_{{$daterangepicker_id}}').val(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+        }
+        
+
         $('#{{$daterangepicker_id}} .selected_filter').html(ranges);    
        // console.log(ranges) ;
     }
@@ -27,7 +39,9 @@ $(function() {
     $('#{{$daterangepicker_id}}').daterangepicker({
         startDate: start,
         endDate: end,
+        autoUpdateInput:false,
         ranges: {
+           'None': [],
            'Today': [moment(), moment()],
            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
            'Last 7 Days': [moment().subtract(6, 'days'), moment()],

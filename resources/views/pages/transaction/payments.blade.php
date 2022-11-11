@@ -112,9 +112,21 @@ function search_data(){
     $("#table_container").LoadingOverlay("show", {
         background  : "rgba(165, 190, 100, 0.5)"
     });
+    
+
 
     var start_date = $('#daterangepicker').data('daterangepicker').startDate.format('YYYY-MM-DD');
     var end_date = $('#daterangepicker').data('daterangepicker').endDate.format('YYYY-MM-DD');
+    /*
+    var start_date1 = $('#_daterangepicker').data('daterangepicker').startDate.format('YYYY-MM-DD');
+    alert(start_date1);
+
+    if($("#_daterangepicker").val() == ''){
+        start_date = '';
+        end_date = '';
+    } */
+
+
     $.ajax({
         url: '{{url("searchpayment")}}',
         data: $("#search_form").serialize()+'&start_date='+start_date+'&end_date='+end_date,
