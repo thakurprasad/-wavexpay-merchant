@@ -220,6 +220,7 @@ class GeneralSettingController extends Controller
         header('Content-Length: ' . filesize($file));
         header("Content-Type: text/plain");
         readfile($file);
+        unlink($file);
 
         //return redirect()->back();
 
