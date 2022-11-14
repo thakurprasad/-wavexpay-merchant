@@ -96,7 +96,7 @@ class RegisterController extends Controller
         DB::beginTransaction();
         try{
 
-            $input = $request->all();
+             $input = $request->all();
             $action = '';
             $register_session_array = array();
             $register_session_array['business_type'] = $input['business_type'];
@@ -109,24 +109,23 @@ class RegisterController extends Controller
             else if(isset($request->action) && $request->action=='reference')
             {
                 $ref_no = $request->ref_no;
-                $get_merchant_details = DB::table('merchants')->where('referral_link_text',$ref_no)->first();
+              return  $get_merchant_details = DB::table('merchants')->where('referral_link_text',$ref_no)->first();
                 $referred_by = $get_merchant_details->id;
                 $referral_id = $ref_no;
                 $register_session_array['referral_id'] = $referral_id;
                 $register_session_array['referred_by'] = $referred_by;
                 $action = 'referral';
             }
-            Session::put('register_session_array',$register_session_array);
+            //dd("line no: ".__LINE__);
+            session::put('register_session_array',$register_session_array);
+            //return session()->all();            
+            DB::commit();
             return view('auth.register2',compact('action'));
 
-            DB::commit();
-        }catch(Exception $ex){
+        }catch(\Exception $ex){
             DB::rollback();
             return redirect()->back()->withErrors(['error'=>$ex->getMessage()]);
         }
-
-       
-
 
     }
 
@@ -173,20 +172,19 @@ class RegisterController extends Controller
             $merchant_keys = DB::table('merchant_keys')->insert(array('merchnat_id'=>$merchant_id,'api_title'=>'Razorpay','test_api_key'=>'wavexpay_test_'.$this->generateRandomString(14),'test_api_secret'=>$this->generateRandomString(20),'created_at'=>date('Y-m-d H:i:s')));
 
 
-            $merchant_salt = $access_salt;
-        // dd(env('API_BASE_URL'));
-            $client = new Client(['base_uri' => env('API_BASE_URL')]);
-            $api_end_point = '/api/merchants/login';
-            $response = $client->request('POST',$api_end_point,[
-                'form_params' => [
-                    'email' => $request->input('email'),
-                    'password' => 'password',
-                    'merchant_salt' => $merchant_salt,
-                    'mode' => 'test'
-                ]
-            ]);
+        $merchant_salt = $access_salt; 
+        $client = new Client(['base_uri' => env('API_BASE_URL')]);
+        $api_end_point = '/api/merchants/login';
+        $response = $client->request('POST',$api_end_point,[
+            'form_params' => [
+                'email' => $request->input('email'),
+                'password' => 'password',
+                'merchant_salt' => $merchant_salt,
+                'mode' => 'test'
+            ]
+        ]);
 
-        # dd($response);
+    // dd($response);
 
             $status_code = $response->getStatusCode();
             // 200
@@ -194,35 +192,40 @@ class RegisterController extends Controller
             // 'application/json; charset=utf8'
             $res  =  json_decode($response->getBody(),true);
 
-            //print_r($res);exit;
+        print_r($res);exit;
 
-            if($status_code==200){
-                if($res['status']=='success'){
-                    //dd($res);
-                    $access_token = $res['access_token'];
-                    session()->put('token', $access_token);
-                    session()->put('merchant', $res['merchant']['merchant_id']);
-                    session()->put('merchant_key', $res['api_key']);
-                    session()->put('merchant_secret', $res['api_secret']);
+        if($status_code==200){
+            if($res['status']=='success'){
+                //dd($res);
+                $access_token = $res['access_token'];
+                session()->put('token', $access_token);
+                session()->put('merchant', $res['merchant']['merchant_id']);
+                session()->put('merchant_key', $res['api_key']);
+                session()->put('merchant_secret', $res['api_secret']);
 
-                    $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
-                    if($get_merchant_details->is_partner=='yes')
-                    {
-                        DB::commit();
-                        return redirect('/partner-dashboard');
-                    }
-                    //return redirect('/complete-sign-up');
-                    return redirect('/');
-                }else{
-                    DB::rollback();
-                    return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
+
+                $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
+                if($get_merchant_details->is_partner=='yes')
+                {
+                    DB::commit();
+                    return redirect('/partner-dashboard');
                 }
+                    DB::commit();
+                //return redirect('/complete-sign-up');
+                return redirect('/');
             }else{
                 DB::rollback();
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
-        }catch(Exception $ex){
+              DB::commit();
+        }else{
             DB::rollback();
+            return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
+        }
+       
+         
+        }catch(\Exception $ex){
+            #DB::rollback();
             return redirect()->back()->withErrors(['error'=>$ex->getMessage()]);
         }
     }
