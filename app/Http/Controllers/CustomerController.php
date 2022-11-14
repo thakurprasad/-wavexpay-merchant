@@ -67,8 +67,13 @@ class CustomerController extends Controller
             return response()->json(array('success'=>0,'msg'=>$e->getMessage()));
         }
 
-
-        $customer = Customer::create(array('customer_id'=> $response->id, 'merchant_id'=>session('merchant'), 'name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact,'gstin'=>$request->gstin,"created_at"=>NOW()));
+        DB::beginTransaction();
+        try{ 
+            $customer = Customer::create(array('customer_id'=> $response->id, 'merchant_id'=>session('merchant'), 'name' => $request->name, 'email' => $request->email,'contact'=>$request->customer_contact,'gstin'=>$request->gstin,"created_at"=>NOW()));
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->back()->withErrors(['error'=>$ex->getMessage()]);
+        }
 
         if(isset($request->action) && $request->action=='invoice')
         {
@@ -102,9 +107,13 @@ class CustomerController extends Controller
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $api = new Api(Helper::api_key(), Helper::api_secret());
         $api->customer->fetch($request->id)->edit(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->contact));
-
-        DB::table('customers')->where('customer_id',$request->id)->update(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->contact,'gstin'=>$request->gst,"updated_at"=>NOW()));
-
+        DB::beginTransaction();
+        try{ 
+            DB::table('customers')->where('customer_id',$request->id)->update(array('name' => $request->name, 'email' => $request->email,'contact'=>$request->contact,'gstin'=>$request->gst,"updated_at"=>NOW()));
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->back()->withErrors(['error'=>$ex->getMessage()]);
+        }
         return response()->json(array('msg'=>'Customer Updated'));
     }
 

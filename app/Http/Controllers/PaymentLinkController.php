@@ -145,9 +145,15 @@ class PaymentLinkController extends Controller
         $merchant_id = session()->get('merchant');
         $link_text = substr(Crypt::encryptString($merchant_id.'/'.date('Y-m-d H:i:s').rand(10000,99999)),5,10);
 
-        PaymentLink::create(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>$db_accept_partial,'description' => $response->description, 'customer_email' => $db_customer_email, 'customer_contact' => $db_customer_contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'link_text'=>$link_text, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
-
-        return response()->json(array("success" => 1));  
+        DB::beginTransaction();
+        try{
+            PaymentLink::create(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>$db_accept_partial,'description' => $response->description, 'customer_email' => $db_customer_email, 'customer_contact' => $db_customer_contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'link_text'=>$link_text, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
+            DB::commit();
+            return response()->json(array("success" => 1));  
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->back()->withErrors(['error'=>$ex->getMessage()]);
+        }
         
     }
 

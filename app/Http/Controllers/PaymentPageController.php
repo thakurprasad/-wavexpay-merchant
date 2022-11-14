@@ -161,8 +161,13 @@ class PaymentPageController extends Controller
         $save_array['merchant_id'] = session('merchant');
         $save_array['page_url'] = $page_url;
         $save_array['unique_id'] = $unique_id;
-        PaymentPage::create($save_array);
-        
+        DB::beginTransaction();
+        try{
+            PaymentPage::create($save_array);
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->back()->withErrors(['error'=>$ex->getMessage()]);
+        }
         //$status_code = $response->getStatusCode();
         return response()->json(array('success'=>1));
     }
