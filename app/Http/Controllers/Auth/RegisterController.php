@@ -160,7 +160,8 @@ class RegisterController extends Controller
             'form_params' => [
                 'email' => $request->input('email'),
                 'password' => 'password',
-                'merchant_salt' => $merchant_salt
+                'merchant_salt' => $merchant_salt,
+                'mode' => 'test'
             ]
         ]);
 
@@ -180,8 +181,8 @@ class RegisterController extends Controller
                 $access_token = $res['access_token'];
                 session()->put('token', $access_token);
                 session()->put('merchant', $res['merchant']['merchant_id']);
-                session()->put('merchant_key', $res['api_keys'][0]['api_key']);
-                session()->put('merchant_secret', $res['api_keys'][0]['api_secret']);
+                session()->put('merchant_key', $res['api_key']);
+                session()->put('merchant_secret', $res['api_secret']);
 
                 $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                 if($get_merchant_details->is_partner=='yes')

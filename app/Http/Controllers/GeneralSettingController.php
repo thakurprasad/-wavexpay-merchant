@@ -151,10 +151,20 @@ class GeneralSettingController extends Controller
         $key = $request->key;
 
         if(session('mode')=='test'){
-            MerchantKey::where('merchnat_id',$merchant_id)->update(array('test_api_key'=>'wxp_test_'.Helper::rand_string(14)));
+            MerchantKey::where('merchnat_id',$merchant_id)
+            ->update(array(
+                'test_api_key'=>'wxp_test_'.Helper::rand_string(14),
+                'test_api_secret'=>Helper::rand_string(24)
+            ));
+        }else if(session('mode') == 'live'){
+           // $new_key = 'wxp_live_'.Helper::rand_string(14);
+            MerchantKey::where('merchnat_id',$merchant_id)
+            ->update(array(
+                'live_api_key'=>'wxp_live_'.Helper::rand_string(14),
+                'live_api_secret'=>Helper::rand_string(24)
+            ));
         }else{
-            $new_key = 'wxp_live_'.Helper::rand_string(14);
-            MerchantKey::where('merchnat_id',$merchant_id)->update(array('live_api_key'=>'wxp_live_'.Helper::rand_string(14)));
+            // 
         }
 
         $html = '';
@@ -167,13 +177,52 @@ class GeneralSettingController extends Controller
         { 
             $key = $key_details->live_api_key; 
         } 
+        $download_link = url('general-settings/download/api-key');
+        $download = '<a href="'.$download_link.'" class="btn btn-sm btn-default" title="Download api_key and api_secret"><i class="fas fa-fw fa-download"></i></a>';
 
         $html.='<td>'.$key.'</td>
         <td>'.date("d F,Y",strtotime($key_details->created_at)).'</td>
         <td>Never</td>
-        <td>';if($key!='') { $html.='<button type="button" onclick="generate_api_key(\''.$key.'\')" class="btn btn-xs btn-info">Regenerate API key</button>'; }else { $html.='<button type="button"  onclick="generate_api_key(\''.$key.'\')" class="btn btn-xs btn-info">Generate API key</button>'; } $html.='</td>';
+        <td>';if($key!='') { 
+            $html.='<button type="button" onclick="generate_api_key(\''.$key.'\')" class="btn btn-xs btn-info">Regenerate API key</button>' . $download;
+             }else { 
+                $html.='<button type="button"  onclick="generate_api_key(\''.$key.'\')" class="btn btn-xs btn-info">Generate API key</button>'; 
+            } 
+            $html.='</td>';
 
         return response()->json(array('success'=>1,'html'=>$html));
+    }
+
+    public function downlaodApiKeys(){
+       $row = MerchantKey::where('merchnat_id', session('merchant'))->first();
+      
+       $text = "/* ------- ". ucfirst(session('mode')) . " Credentials Details ------- */ \n";
+       if(session('mode') == 'live'){
+        $text .= "\n Api Key : " . $row->live_api_key.
+                "\n Api Secret : " . $row->live_api_secret;
+       }else if(session('mode') == 'test'){
+        $text .= "\nApi Key : ". $row->test_api_key.
+                "\n Api Secret : " . $row->test_api_secret;
+       }else{
+
+       }
+
+        $file = "waveXpay-api-credentials-".date('d-m-y-h-i-s').".txt";
+        $txt = fopen($file, "w") or die("Unable to open file!");
+        fwrite($txt, $text);
+        fclose($txt);
+
+        header('Content-Description: File Transfer');
+        header('Content-Disposition: attachment; filename='.basename($file));
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file));
+        header("Content-Type: text/plain");
+        readfile($file);
+
+        //return redirect()->back();
+
     }
 
 }
