@@ -261,7 +261,7 @@
 								<th>Created At</th>
 								<th>Expiry</th>
 								<th>Action</th>
-                        	</tr>
+              </tr>
 						</thead>
 						<tbody>
 							<tr id="key_tr">
@@ -280,7 +280,14 @@
 								</td>
 								<td>{{ date('d F,Y',strtotime($key_details->created_at)) }}</td>
 								<td>Never</td>
-								<td>@if($key!='')<button type="button" onclick="generate_api_key('{{$key}}')" class="btn btn-xs btn-info">Regenerate API key</button>@else <button type="button"  onclick="generate_api_key('{{$key}}')" class="btn btn-xs btn-info">Generate API key</button>@endif</td>
+								<td>
+									@if($key!='')
+									<button type="button" onclick="generate_api_key('{{$key}}')" class="btn btn-xs btn-info">Regenerate API key</button>
+									<a href="{{url('general-settings/download/api-key')}}" class="btn btn-sm btn-default" title="Download api_key and api_secret">
+										<i class="fas fa-fw fa-download"></i></a>
+									@else 
+									<button type="button"  onclick="generate_api_key('{{$key}}')" class="btn btn-xs btn-info">Generate API key</button>
+								@endif</td>
 							</tr>
 						</tbody>
 					</table>

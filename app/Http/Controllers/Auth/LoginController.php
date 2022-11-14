@@ -89,7 +89,7 @@ class LoginController extends Controller
                     'email' => $request->input('email'),
                     'password' => $request->input('password'),
                     'merchant_salt' => $merchant_salt,
-                    'mode' => ($request->mode) ? $request->mode : 'test'
+                    'mode' => 'test'
                 ]
             ]);
 
@@ -108,7 +108,7 @@ class LoginController extends Controller
                 $access_token = $res['access_token'];
                 session()->put('token', $access_token);
                 session()->put('merchant', $res['merchant']['merchant_id']);
-                session()->put('mode', $request->mode);
+                session()->put('mode', $mode);
                 if($mode=='test'){
                     session()->put('merchant_key', $res['api_keys'][0]['test_api_key']);
                     session()->put('merchant_secret', $res['api_keys'][0]['test_api_secret']);

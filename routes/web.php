@@ -147,6 +147,8 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::post('changereminder',  [GeneralSettingController::class, 'changeReminder'])->name('changereminder');
     Route::post('generateapikey', [GeneralSettingController::class, 'generateApiKey'])->name('generateapikey');
     
+    Route::get('general-settings/download/api-key', [GeneralSettingController::class, 'downlaodApiKeys'])->name('dwonlaod');
+    
 
     //Payment Pages routes
     Route::get('payment-pages',  [PaymentPageController::class, 'index'] )->name('payment-pages');
