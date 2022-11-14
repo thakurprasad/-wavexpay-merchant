@@ -92,6 +92,8 @@
                                 </div>
                                 <div class="col-lg-6" style="padding-top: 8.5%;">
                                     <div class="row">
+                                        <input type="hidden" name="action" value="{{$action}}">
+                                        <input type="hidden" name="ref_no" value="{{$ref_no}}">
                                     <div class="col-md-8 offset-2">
                                         <div class="text-center">
                                             <h1 class="h4 text-gray-900 mb-4">Sign Up</h1>

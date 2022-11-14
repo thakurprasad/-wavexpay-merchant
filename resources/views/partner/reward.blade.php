@@ -50,7 +50,6 @@
         <div class="card-body">
             <table class="table table-bordered table-responsive-sm" id="myTable">
                 <thead>
-                    <tr><label for="first_name" style="color:#00008B;"><strong>My Total Earning : </label><span style="color:#4e73df;"> ₹{{ count($all_merchants)*($merchant_details->reward_value) }}</span></strong></tr>
                     <tr>
                         <th scope="col">Account Name</th>
                         <th scope="col">Total Earning</th>
@@ -60,11 +59,13 @@
                     </tr>
                 </thead>
                 <tbody id="table_container">                    
+                    @php 
+                    $total_transaction_amount = 0;
+                    @endphp
                     @if(!empty($all_merchants))
                     @foreach($all_merchants as $merchant)
-
                     @php 
-                    $ids = Helper::getIdArray($merchant->referral_link_text);
+                    /*$ids = Helper::getIdArray($merchant->referral_link_text);
                     $id_array = [];
                     $count = 0;
                     if(count($ids)>0)
@@ -74,31 +75,32 @@
                             $id_array[$count] = $key;
                             $count++;
                         }
-                    }
-                    $total_earning = $count*$merchant->reward_value;
-
+                    }*/
                     $get_payment_data = Helper::get_payment_details_by_merchant($merchant->id);
-
                     if($get_payment_data[0]->transactionamount!='')
                     {
                         $transactionamount = $get_payment_data[0]->transactionamount;
+                        $total_transaction_amount+=$transactionamount;
                     }
                     else 
                     {
                         $transactionamount = 0.00;
                     }
-
+                    $earning = $transactionamount*$merchant_details->reward_value/100;
                     @endphp
-
                     <tr>
                         <td scope="col">{{$merchant->merchant_name}}</td>
-                        <td scope="col">₹{{$total_earning}}</td>
+                        <td scope="col">₹{{$earning}}</td>
                         <td scope="col">₹{{$transactionamount}}</td>
-                        <!--<td scope="col">&nbsp;</td>-->
                         <td scope="col">{{$get_payment_data[0]->total_count}}</td>
                     </tr>
                     @endforeach
                     @endif
+
+                    @php 
+                    $total_earning = $total_transaction_amount*$merchant_details->reward_value/100;
+                    @endphp
+                    <tr><td colspan="4">Total Earning : ₹{{$total_earning }}</td></tr>
                 </tbody>
             </table>
         </div>

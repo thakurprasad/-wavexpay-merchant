@@ -13,7 +13,9 @@ use DB;
 use Helper;
 use Session;
 use GuzzleHttp\Client;
+use App\Models\Merchant;
 use App\Models\MerchantUser;
+use App\Models\MerchantKey;
 
 
 
@@ -152,7 +154,11 @@ class RegisterController extends Controller
         }
         $insertarray['created_at'] = date('Y-m-d H:i:s');
 
-        $merchant_id = DB::table('merchants')->insertGetId($insertarray);
+        //print_r($insertarray);exit;
+
+        $insert_merchant = Merchant::create($insertarray);
+        $merchant_id = $insert_merchant->id;
+        //$merchant_id = DB::table('merchants')->insertGetId($insertarray);
 
         $merchantuserinsertarray['merchant_id'] = $merchant_id;
         $merchantuserinsertarray['name'] = $input['name'];
@@ -163,7 +169,7 @@ class RegisterController extends Controller
 
         $merchant_user = DB::table('merchant_users')->insertGetId($merchantuserinsertarray);
 
-        $merchant_keys = DB::table('merchant_keys')->insert(array('merchnat_id'=>$merchant_id,'api_title'=>'Razorpay','api_key'=>'rzp_live_'.$this->generateRandomString(14),'api_secret'=>$this->generateRandomString(20),'created_at'=>date('Y-m-d H:i:s')));
+        $merchant_keys = DB::table('merchant_keys')->insert(array('merchnat_id'=>$merchant_id,'api_title'=>'Razorpay','test_api_key'=>'wavexpay_test_'.$this->generateRandomString(14),'test_api_secret'=>$this->generateRandomString(20),'created_at'=>date('Y-m-d H:i:s')));
 
 
         $merchant_salt = $access_salt; 
@@ -196,6 +202,7 @@ class RegisterController extends Controller
                 session()->put('merchant', $res['merchant']['merchant_id']);
                 session()->put('merchant_key', $res['api_key']);
                 session()->put('merchant_secret', $res['api_secret']);
+
 
                 $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                 if($get_merchant_details->is_partner=='yes')

@@ -75,8 +75,8 @@ class PaymentLinkController extends Controller
     }
 
     public function createPaymentLink(Request $request){
-        //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $api = new Api(Helper::api_key(), Helper::api_secret());
+        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        //$api = new Api(Helper::api_key(), Helper::api_secret());
         $accept_partial = false;
         $db_accept_partial = 0;
         $email = false;

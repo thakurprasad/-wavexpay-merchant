@@ -109,8 +109,14 @@ class LoginController extends Controller
                 session()->put('token', $access_token);
                 session()->put('merchant', $res['merchant']['merchant_id']);
                 session()->put('mode', $request->mode);
-                session()->put('merchant_key', $res['api_key']);
-                session()->put('merchant_secret', $res['api_secret']);
+                if($mode=='test'){
+                    session()->put('merchant_key', $res['api_keys'][0]['test_api_key']);
+                    session()->put('merchant_secret', $res['api_keys'][0]['test_api_secret']);
+                }
+                else{
+                    session()->put('merchant_key', $res['api_keys'][0]['live_api_key']);
+                    session()->put('merchant_secret', $res['api_keys'][0]['live_api_secret']);
+                }
 
                     $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                     if($get_merchant_details->is_partner=='yes')
