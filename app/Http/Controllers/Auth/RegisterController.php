@@ -131,7 +131,7 @@ class RegisterController extends Controller
 
     public function SignUpMerchantStepTwo(Request $request)
     {
-        #DB::beginTransaction();
+        DB::beginTransaction();
         try{
         $input = $request->all();
         $register_session_array = Session::get('register_session_array');
@@ -192,7 +192,7 @@ class RegisterController extends Controller
         // 'application/json; charset=utf8'
         $res  =  json_decode($response->getBody(),true);
 
-        //print_r($res);exit;
+        print_r($res);exit;
 
         if($status_code==200){
             if($res['status']=='success'){
@@ -207,19 +207,19 @@ class RegisterController extends Controller
                 $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                 if($get_merchant_details->is_partner=='yes')
                 {
-                    # DB::commit();
+                    DB::commit();
                     return redirect('/partner-dashboard');
                 }
-                    #DB::commit();
+                    DB::commit();
                 //return redirect('/complete-sign-up');
                 return redirect('/');
             }else{
-                #DB::rollback();
+                DB::rollback();
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
-              #DB::commit();
+              DB::commit();
         }else{
-            #DB::rollback();
+            DB::rollback();
             return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
         }
        

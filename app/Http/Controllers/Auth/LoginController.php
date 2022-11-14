@@ -73,8 +73,8 @@ class LoginController extends Controller
         $merchant_salt = $merchants->access_salt;
         try {
             //dd(__LINE__);
-          //  $client = new Client(['base_uri' => env('API_BASE_URL')]);          
-            $client = new Client(['base_uri' => 'http://localhost:8000']);          
+           $client = new Client(['base_uri' => env('API_BASE_URL')]);          
+          #  $client = new Client(['base_uri' => 'http://localhost:8000']);          
             $api_end_point = 'api/merchants/login';
 
             if(isset($request->mode) && $request->mode!=''){
@@ -93,6 +93,7 @@ class LoginController extends Controller
                 ]
             ]);
 
+            #dd($response);
 
             $status_code = $response->getStatusCode();
             // 200
@@ -100,23 +101,19 @@ class LoginController extends Controller
             // 'application/json; charset=utf8'
             $res  =  json_decode($response->getBody(),true);
 
-            //print_r($res);exit;
+            #print_r($res);exit;
 
             if($status_code==200){
                 if($res['status']=='success'){
-                    
+                $mode =  ($request->mode) ? $request->mode : 'test';    
                 $access_token = $res['access_token'];
                 session()->put('token', $access_token);
                 session()->put('merchant', $res['merchant']['merchant_id']);
-                session()->put('mode', $request->mode);
-                if($mode=='test'){
-                    session()->put('merchant_key', $res['api_keys'][0]['test_api_key']);
-                    session()->put('merchant_secret', $res['api_keys'][0]['test_api_secret']);
-                }
-                else{
-                    session()->put('merchant_key', $res['api_keys'][0]['live_api_key']);
-                    session()->put('merchant_secret', $res['api_keys'][0]['live_api_secret']);
-                }
+                session()->put('mode', $mode);
+                session()->put('merchant_key', $res['api_key']);
+                session()->put('merchant_secret', $res['api_secret']);
+
+           
 
                     $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                     if($get_merchant_details->is_partner=='yes')
