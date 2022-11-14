@@ -93,32 +93,47 @@ class RegisterController extends Controller
 
     public function SignUpMerchantStepOne(Request $request)
     {
-        $input = $request->all();
-        $action = '';
-        $register_session_array = array();
-        $register_session_array['business_type'] = $input['business_type'];
-        $register_session_array['business_category'] = $input['business_category'];
-        if(isset($request->action) && $request->action=='become_a_partner')
-        {
-            $register_session_array['action'] = $request->action;
-            $action = $request->action;
+        DB::beginTransaction();
+        try{
+
+            $input = $request->all();
+            $action = '';
+            $register_session_array = array();
+            $register_session_array['business_type'] = $input['business_type'];
+            $register_session_array['business_category'] = $input['business_category'];
+            if(isset($request->action) && $request->action=='become_a_partner')
+            {
+                $register_session_array['action'] = $request->action;
+                $action = $request->action;
+            }
+            else if(isset($request->action) && $request->action=='reference')
+            {
+                $ref_no = $request->ref_no;
+                $get_merchant_details = DB::table('merchants')->where('referral_link_text',$ref_no)->first();
+                $referred_by = $get_merchant_details->id;
+                $referral_id = $ref_no;
+                $register_session_array['referral_id'] = $referral_id;
+                $register_session_array['referred_by'] = $referred_by;
+                $action = 'referral';
+            }
+            Session::put('register_session_array',$register_session_array);
+            return view('auth.register2',compact('action'));
+
+            DB::commit();
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->back()->withErrors(['error'=>$ex->getMessage()]);
         }
-        else if(isset($request->action) && $request->action=='reference')
-        {
-            $ref_no = $request->ref_no;
-            $get_merchant_details = DB::table('merchants')->where('referral_link_text',$ref_no)->first();
-            $referred_by = $get_merchant_details->id;
-            $referral_id = $ref_no;
-            $register_session_array['referral_id'] = $referral_id;
-            $register_session_array['referred_by'] = $referred_by;
-            $action = 'referral';
-        }
-        Session::put('register_session_array',$register_session_array);
-        return view('auth.register2',compact('action'));
+
+       
+
+
     }
 
     public function SignUpMerchantStepTwo(Request $request)
     {
+         DB::beginTransaction();
+        try{
         $input = $request->all();
         $register_session_array = Session::get('register_session_array');
         $access_salt = 'Merchant_'.$this->generateRandomString(20);
@@ -159,7 +174,7 @@ class RegisterController extends Controller
 
 
         $merchant_salt = $access_salt;
-        
+       // dd(env('API_BASE_URL'));
         $client = new Client(['base_uri' => env('API_BASE_URL')]);
         $api_end_point = '/api/merchants/login';
         $response = $client->request('POST',$api_end_point,[
@@ -171,7 +186,7 @@ class RegisterController extends Controller
             ]
         ]);
 
-        //dd($response);
+       # dd($response);
 
         $status_code = $response->getStatusCode();
         // 200
@@ -193,17 +208,25 @@ class RegisterController extends Controller
                 $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
                 if($get_merchant_details->is_partner=='yes')
                 {
+                     DB::commit();
                     return redirect('/partner-dashboard');
                 }
                 //return redirect('/complete-sign-up');
                 return redirect('/');
             }else{
+                DB::rollback();
                 return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
             }
         }else{
+            DB::rollback();
             return redirect()->back()->withErrors(['credentials'=>'Invalid Email or Password']);
         }
        
+         
+        }catch(Exception $ex){
+            DB::rollback();
+            return redirect()->back()->withErrors(['error'=>$ex->getMessage()]);
+        }
 
        
     }
