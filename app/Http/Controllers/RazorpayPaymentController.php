@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use App\Models\CheckoutPaymentsRazorpay;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 use Session;
@@ -85,7 +86,7 @@ class RazorpayPaymentController extends Controller
                 'created_at' => date('Y-m-d H:i:s')
             );
 
-            DB::table('payments')->insert($payment_table_array);
+            Payment::create($payment_table_array);
 
         } catch (Exception $e) {
             return $e->getMessage();

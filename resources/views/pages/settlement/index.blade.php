@@ -38,7 +38,7 @@
                             <th scope="row">{{$settlement->settlement_id}}</th>
                             <td>{{number_format($settlement->fees,2)}}</td>
                             <td>{{number_format($settlement->tax,2)}}</td></td>
-                            <td>{{date('Y-m-d',$settlement->created_at)}}</td>
+                            <td>{{date('Y-m-d',strtotime($settlement->created_at))}}</td>
                             <td>
                                 <a class="waves-effect waves-light btn-small">{!! Helper::badge($settlement['status']) !!}</a>
                             </td>

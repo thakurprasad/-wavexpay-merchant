@@ -110,16 +110,16 @@ class LoginController extends Controller
                 session()->put('token', $access_token);
                 session()->put('merchant', $res['merchant']['merchant_id']);
                 session()->put('mode', $mode);
-                /*if($mode=='test'){
+                if($mode=='test'){
                     session()->put('merchant_key', $res['api_keys'][0]['test_api_key']);
                     session()->put('merchant_secret', $res['api_keys'][0]['test_api_secret']);
                 }
                 else{
                     session()->put('merchant_key', $res['api_keys'][0]['live_api_key']);
                     session()->put('merchant_secret', $res['api_keys'][0]['live_api_secret']);
-                }*/
-                session()->put('merchant_key', $res['api_key']);
-                session()->put('merchant_secret', $res['api_secret']);
+                }
+                /*session()->put('merchant_key', $res['api_key']);
+                session()->put('merchant_secret', $res['api_secret']);*/
 
            
 
