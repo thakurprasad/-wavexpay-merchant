@@ -22,7 +22,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
   <script src="{{ asset('newdesign/vendor/jquery/jquery.min.js') }}"></script>
-<link href="{{ asset('css/global-custom.css') }}" rel="stylesheet">
+<link href="{{ asset('css/global-custom.css?v1=2') }}" rel="stylesheet">
   @yield('page-style')
 
 </head>
@@ -121,18 +121,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
-
-
-
-
   @yield('page-script')
-
-
-<script>
-
-
-</script>
-
 
 </body>
 
