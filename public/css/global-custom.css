@@ -209,3 +209,46 @@ img.close-icon {
     background: #030550e0 !important;
     color: white  !important;
 }
+
+/*hide data-table search input and rows selecter*/
+div#dataTable_length, div#dataTable_filter {
+    display: none;
+}
+
+form#search_form {
+    margin-bottom: 10px;
+}
+
+
+.test-mode-dashboard{
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    color: white;
+    font-weight: bold;
+    background: red;
+    padding: 0px 21px;
+    border-radius: 0px 0px 5px 5px;
+    transform: translateX(-50%);
+}
+
+.live-mode-dashboard{
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    color: white;
+    font-weight: bold;
+    background: green;
+    padding: 0px 21px;
+    border-radius: 0px 0px 5px 5px;
+    transform: translateX(-50%);
+}
+
+@media only screen and (max-width: 600px) {
+    .test-mode-dashboard, .live-mode-dashboard {
+        top: 66px;
+        right: 10%;
+        padding: 0px 10px;
+        transform: translateX(-50%);
+    }
+}

@@ -9,7 +9,7 @@
         <span class="selected_filter"></span>&nbsp; 
         <i class="fa fa-caret-down"></i> &nbsp;
         </group>
-        <span class="selected_date"></span> 
+        <span class="selected_date"></span>
         <input type="text" name="{{$daterangepicker_id}}" id="_{{$daterangepicker_id}}" style="display: none;">
     </div>
 </div>

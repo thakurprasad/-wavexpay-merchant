@@ -411,4 +411,9 @@ class InvoiceController extends Controller
         return response()->json(array("success" => 1));    
         
     }
+
+    public function InvoiceTemplates(){
+        return view('pages.invoice.invoice-templates');
+    }
+
 }

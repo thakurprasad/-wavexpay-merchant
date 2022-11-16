@@ -101,6 +101,7 @@ Route::group(['middleware' => ['token.check']], function() {
 
     //invoice routes
     Route::get('invoices',  [InvoiceController::class, 'index'] )->name('invoices');
+    Route::get('invoices/templates',  [InvoiceController::class, 'InvoiceTemplates'] )->name('InvoiceTemplates');
     Route::get('invoice/{id}',  [InvoiceController::class, 'showInvoice'] );
     Route::get('newinvoice',  [InvoiceController::class, 'newInvoice']);
     Route::post('searchinvoice',  [InvoiceController::class, 'searchInvoice'])->name('searchinvoice');

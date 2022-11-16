@@ -5,11 +5,11 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    
+<?php $m= (session('mode') ? session('mode') : 'test'); ?>
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
-
+        <span class="{{ $m }}-mode-dashboard">You're In {{ ucfirst($m) }} Mode</span>
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none">
             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
