@@ -41,6 +41,7 @@ class DisputeController extends Controller
         $status = $request->status;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $daterangepicker = $request->daterangepicker;
 
 
         $merchant_id =  session()->get('merchant');
@@ -51,7 +52,7 @@ class DisputeController extends Controller
             $query->where('payment_id',$payment_id);
         }if($status!=''){
             $query->where('status',$status);
-        }if($start_date!='' && $end_date!=''){
+        }if($daterangepicker!='' && $start_date!='' && $end_date!=''){
             $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         }
         $all_disputes = $query->get();

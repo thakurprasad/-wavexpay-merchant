@@ -32,6 +32,7 @@ class OrderController extends Controller
         $notes = $request->notes;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $daterangepicker = $request->daterangepicker;
         $html = '';
         
         /*$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
@@ -44,7 +45,7 @@ class OrderController extends Controller
             $query->where('receipt',$reciept);
         }if($status!=''){
             $query->where('status',$status);
-        }if($start_date!='' && $end_date!=''){
+        }if($daterangepicker!='' && $start_date!='' && $end_date!=''){
             $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         }
         $all_orders = $query->get();

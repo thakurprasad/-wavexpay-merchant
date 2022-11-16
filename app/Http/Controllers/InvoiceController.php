@@ -43,6 +43,7 @@ class InvoiceController extends Controller
         $status = $request->status;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $daterangepicker = $request->daterangepicker;
 
         $query = DB::table('invoices');
         if($invoice_id!=''){
@@ -55,7 +56,7 @@ class InvoiceController extends Controller
             $query->where('customer_email',$customer_email);
         }if($status!=''){
             $query->where('status',$status);
-        }if($start_date!='' && $end_date!=''){
+        }if($daterangepicker!='' && $start_date!='' && $end_date!=''){
             $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         }
         $result = $query->get();
@@ -118,7 +119,22 @@ class InvoiceController extends Controller
 
         $response = $api->Item->create(array("name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR"));
 
-        Item::create(array("item_id"=>$response->id,"name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR","created_at"=>NOW()));
+        $created_item = Item::create(array("item_id"=>$response->id,"name" => $request->modal_item_name,"description" => $request->modal_item_description,"amount" => $request->modal_item_rate,"currency" => "INR","created_at"=>NOW()));
+
+        if(isset($request->action) && $request->action=='invoice'){
+            $html='';
+            $all_items = Item::all();
+            if(!empty($all_items)){
+                foreach($all_items as $titem){
+                    $html.='<option value="'.$titem->item_id.'"';
+                    if($created_item->item_id==$titem->item_id){
+                        $html.=' selected="selected"';
+                    }
+                    $html.='><strong>'.$titem->name.'</option>';
+                }
+            }  
+            return response()->json(array("html" => $html));
+        }
 
         return response()->json(array('success'=>1,'msg'=>'Item Created SUccessfully!!'));
     }

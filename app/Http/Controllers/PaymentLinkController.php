@@ -30,6 +30,7 @@ class PaymentLinkController extends Controller
         $status = $request->status;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $daterangepicker = $request->daterangepicker;
 
         $merchant_id =  session()->get('merchant');
         $query = PaymentLink::where('merchant_id',$merchant_id);
@@ -43,7 +44,7 @@ class PaymentLinkController extends Controller
             $query->where('status',$status);
         }if($payment_link_id!=''){
             $query->where('payment_link_id',$payment_link_id);
-        }if($start_date!='' && $end_date!=''){
+        }if($daterangepicker!='' && $start_date!='' && $end_date!=''){
             $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         }
         $result = $query->get();

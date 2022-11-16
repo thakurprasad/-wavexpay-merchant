@@ -26,6 +26,7 @@ class SettlementController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $settlement_id = $request->settlement_id;
+        $daterangepicker = $request->daterangepicker;
         /*$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         $all_settlements = $api->settlement->all();*/
         $merchant_id =  session()->get('merchant');
@@ -34,7 +35,7 @@ class SettlementController extends Controller
             $query->where('settlement_id',$settlement_id);
         }if($status!=''){
             $query->where('status',$status);
-        }if($start_date!='' && $end_date!=''){
+        }if($daterangepicker!='' && $start_date!='' && $end_date!=''){
             $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         }
         $all_settlements = $query->get();
