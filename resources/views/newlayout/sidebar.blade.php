@@ -127,18 +127,18 @@
     <!-- Divider -->
     
     <li class="nav-item">
-    <a class="nav-link {{ in_array(Request::segment(1),array('reports')) ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="{{ in_array(Request::segment(1),array('reports')) ? '' : 'collapsed' }}" aria-controls="collapseFive">
+    <a class="nav-link {{ in_array(Request::segment(1),array('reports')) ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="{{ in_array(Request::segment(1),array('transaction-report','settlement-report','refund-report','chargeback-dispute-report')) ? '' : 'collapsed' }}" aria-controls="collapseFive">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-display" viewBox="0 0 16 16">
           <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75c.167-.333.25-.833.25-1.5H2s-2 0-2-2V4zm1.398-.855a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145z"/>
         </svg> 
-        <span style="color:{{ in_array(Request::segment(1),array('reports')) ? '#FFFFFF;' : '' }}">Reports</span>
+        <span style="color:{{ in_array(Request::segment(1),array('transaction-report')) ? '#FFFFFF;' : '' }}">Reports</span>
     </a>
-    <div id="collapseFive" class="collapse {{ in_array(Request::segment(1),array('reports')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+    <div id="collapseFive" class="collapse {{ in_array(Request::segment(1),array('transaction-report','settlement-report','refund-report','chargeback-dispute-report')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportA' ? 'active' : null }}" href="#">Transaction Report</a>
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportB' ? 'active' : null }}" href="#">Settlement Report</a>
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportC' ? 'active' : null }}" href="#">Refund Report</a>
-        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'reportD' ? 'active' : null }}" href="#">Chargeback & <br>Dispute Report</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'transaction-report' ? 'active' : null }}" href="{{route('transaction-report')}}">Transaction Report</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'settlement-report' ? 'active' : null }}" href="{{route('settlement-report')}}">Settlement Report</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'refund-report' ? 'active' : null }}" href="{{route('refund-report')}}">Refund Report</a>
+        <a style="color:#00008B;" class="collapse-item {{ Request::segment(1) === 'chargeback-dispute-report' ? 'active' : null }}" href="{{route('chargeback-dispute-report')}}">Chargeback & <br>Dispute Report</a>
         </div>
     </div>
     </li>

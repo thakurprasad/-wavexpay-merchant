@@ -168,6 +168,11 @@ Route::group(['middleware' => ['token.check']], function() {
     Route::get('chargeback',  [ChargeBackController::class, 'index'] );
     Route::get('reports',  [ReportController::class, 'index'] );
 
+    Route::get('transaction-report',  [ReportController::class, 'transactionReport'] )->name('transaction-report');
+    Route::get('settlement-report',  [ReportController::class, 'settlementReport'] )->name('settlement-report');
+    Route::get('refund-report',  [ReportController::class, 'refundReport'] )->name('refund-report');
+    Route::get('chargeback-dispute-report',  [ReportController::class, 'chargebackDisputeReport'] )->name('chargeback-dispute-report');
+
 
     Route::post('getsuccesstransactiongraphdata',[PageController::class, 'getSuccessTransactionGraphData'] );
     Route::post('getsuccessrategraphdata',[PageController::class, 'getSuccessRateGraphData'] );
