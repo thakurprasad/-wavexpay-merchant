@@ -7,6 +7,8 @@
             <h6 class="m-0 font-weight-bold text-primary">All Invoices Template
         </div>
         <div class="card-body"> 
+
+            {!! $data !!}
             <x-invoice />                 
         </div>
     </div>
