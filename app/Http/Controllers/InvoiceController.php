@@ -12,6 +12,7 @@ use App\Models\Customer;
 use App\Models\CustomerAddress;
 use App\Models\MerchantAddress;
 use App\Models\WavexpayApiKey;
+use App\Models\InvoiceItem;
 
 class InvoiceController extends Controller
 {
@@ -147,7 +148,7 @@ class InvoiceController extends Controller
         //$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
         //$item_details = $api->Item->fetch($item_id);
         $item_details = Item::where('item_id',$item_id)->first();
-        return response()->json(array("amount" => $item_details->amount));
+        return response()->json(array("amount" => $item_details->amount,"name"=>$item_details->name,"description"=>$item_details->description));
     }
 
     public function addNewItemRow(Request $request){
@@ -190,31 +191,12 @@ class InvoiceController extends Controller
 
     public function createInvoice(Request $request){
         $api = new Api(Helper::api_key(), Helper::api_secret());
-        $itemidArray['item_id'] = array();
-        foreach($request['tableitem'] as $items){
-            $itemidArray['item_id'] = $items;
-        }
-
-        $item_id = '';
-        $item_qty = '';
-
         
-        foreach($request['tableitem'] as $items){
-            $item_id.=$items.',';
-        }
-        $item_id = rtrim($item_id,',');
-
-
-        foreach($request['item_qty'] as $itemsqty){
-            $item_qty.=$itemsqty.',';
-        }
-        $item_qty = rtrim($item_qty,',');
-
-
         $item_array = array();
         $item_array_count = 0;
-        for($i=0;$i<count($request['tableitem']);$i++)
+        /*for($i=0;$i<count($request['item']);$i++)
         {
+            print_r($request->item);exit;
             $get_item_details = DB::table('items')->where('item_id',$request['tableitem'][$i])->first();
             $item_array[$item_array_count]['name'] = $get_item_details->name;
             $item_array[$item_array_count]['description'] = $get_item_details->description;
@@ -222,10 +204,22 @@ class InvoiceController extends Controller
             $item_array[$item_array_count]['currency'] = "INR";
             $item_array[$item_array_count]['quantity'] = $request['item_qty'][$i];
             $item_array_count++;
-        }
+        }*/
 
         /*$item_array = json_encode($item_array,true);
         print_r($item_array);exit;*/
+
+        $items = array_filter($request->items);
+        print_r($items);exit;
+        InvoiceItem::create($request->items);
+        exit;
+
+
+        foreach($request->item as $items){
+            print_r($items['item_id']);exit;
+        }
+
+
 
         $get_customer_details = Customer::where('customer_id',$request['customer'])->first();
 

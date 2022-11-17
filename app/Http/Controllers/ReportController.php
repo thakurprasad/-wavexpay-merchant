@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use App\Models\Order;
 
 class ReportController extends Controller
 {
@@ -61,6 +62,9 @@ class ReportController extends Controller
         $merchant_id =  session()->get('merchant');
         if($filter_on=='payment'){
             $query = Payment::where('merchant_id',$merchant_id);
+        }
+        if($filter_on=='order'){
+            $query = Order::where('merchant_id',$merchant_id);
         }
         $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         $result = $query->get();
