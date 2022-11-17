@@ -195,13 +195,12 @@
                                 </tr>
                                 <tbody>
                                     <?php 
-                                    for($i=1;$i<=10;$i++)
+                                    for($i=0;$i<=10;$i++)
                                     {
                                     ?>
-                                    <tr id="item_row_id{{$i}}" <?php if($i>1) { echo 'style="display:none;"'; } ?>>
+                                    <tr id="item_row_id{{$i}}" <?php if($i>0) { echo 'style="display:none;"'; } ?>>
                                         <td>
-                                            
-                                            <select class="form-control" name="tableitem[]" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
+                                            <select class="form-control" name="items[{{$i}}]['item_id']" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
                                                 <option value="">Select An Item</option>
                                                 @if(!empty($all_items))
                                                 @foreach($all_items as $titem)
@@ -210,14 +209,16 @@
                                                 @endif
                                             </select>
                                             <span id="itd{{$i}}">
+                                            <input type="hidden" name="items[{{$i}}]['item_name']" id="itmnm{{$i}}">
+                                            <input type="hidden" name="items[{{$i}}]['description']" id="itmdesc{{$i}}">
                                             </span>
                                             <a class="modal-trigger" data-toggle="modal" data-target="#createitemmodal" onclick="item_row('{{$i}}')">+ Create New Item</a>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="item_rate[]" id="item_rate{{$i}}" class="validate sum" required>
+                                            <input type="text" class="form-control" name="items[{{$i}}]['rate']" id="item_rate{{$i}}" class="validate sum" required>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control" min="1" name="item_qty[]" id="item_qty{{$i}}" class="validate" onclick="change_sub_amount('{{$i}}')" required>
+                                            <input type="number" class="form-control" min="1" name="items[{{$i}}]['qty']" id="item_qty{{$i}}" class="validate" onclick="change_sub_amount('{{$i}}')" required>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" name="item_total[]" id="item_total{{$i}}" class="validate" required>
@@ -452,6 +453,8 @@ function select_item(rowno){
             $("#item_rate"+rowno).val(data.amount);
             $("#item_qty"+rowno).val(1);
             $("#item_total"+rowno).val(data.amount);
+            $("#itmnm"+rowno).val(data.name);
+            $("#itmdesc"+rowno).val(data.description);
             get_total_amount();
         }
     });
@@ -472,7 +475,7 @@ function get_total_amount(){
     $('#total_amt').val(total);
 }
 
-var count = 2;
+var count = 1;
 /*function add_line_item(){
     $.ajax({
         url: '{{url("addnewitemrow")}}',
