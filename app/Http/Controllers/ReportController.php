@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Models\Order;
+use App\Models\Refund;
+use App\Models\Settlement;
+use App\Models\Dispute;
+
 
 class ReportController extends Controller
 {
@@ -43,6 +47,7 @@ class ReportController extends Controller
         return view('pages.report.transaction-report', compact('type'));
     }
 
+
     public function downloadReport(Request $request){
         $request->validate([
             'daterangepicker' => 'required',
@@ -62,10 +67,16 @@ class ReportController extends Controller
         $merchant_id =  session()->get('merchant');
         if($filter_on=='payment'){
             $query = Payment::where('merchant_id',$merchant_id);
-        }
-        if($filter_on=='order'){
+        }else if($filter_on=='order'){
             $query = Order::where('merchant_id',$merchant_id);
+        }else if($filter_on=='refund'){
+            $query = Refund::where('merchant_id',$merchant_id);
+        }else if($filter_on=='settlement'){
+            $query = Settlement::where('merchant_id',$merchant_id);
+        }else if($filter_on=='dispute'){
+            $query = Dispute::where('merchant_id',$merchant_id);
         }
+
         $query->whereBetween('created_at', [$start_date." 00:00:00", $end_date." 23:59:59"]);
         $result = $query->get();
 
@@ -79,13 +90,35 @@ class ReportController extends Controller
             "Expires"             => "0"
         );
 
-        $columns = array('Payment Id', 'Amount', 'Email', 'Contact', 'Payment Method', 'Status');
 
-        $callback = function() use($result, $columns) {
+        if($filter_on=='payment'){
+            $columns = array('Payment Id', 'Amount', 'Email', 'Contact', 'Payment Method', 'Status');
+        }else if($filter_on=='order'){
+            $columns = array('Order Id', 'Amount', 'Reciept', 'Status');
+        }else if($filter_on=='refund'){
+            $columns = array('Refund Id', 'Amount', 'Reciept', 'Status');
+        }else if($filter_on=='settlement'){
+            $columns = array('Settlement Id', 'Entity', 'Amount', 'Status', 'Fees', 'Tax', 'UTR');
+        }else if($filter_on=='dispute'){
+            $columns = array('Dispute Id', 'Payment Id', 'Amount', 'Reason Code', 'Respond By', 'Status');
+        }
+
+
+        $callback = function() use($result, $columns,$filter_on) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
             foreach ($result as $details) {
-                fputcsv($file, array($details->payment_id, $details->amount, $details->email, $details->contact, $details->payment_method, $details->status));
+                if($filter_on=='payment'){
+                    fputcsv($file, array($details->payment_id, $details->amount, $details->email, $details->contact, $details->payment_method, $details->status));
+                }else if($filter_on=='order'){
+                    fputcsv($file, array($details->order_id, $details->amount, $details->receipt, $details->status));
+                }else if($filter_on=='refund'){
+                    fputcsv($file, array($details->refund_id, $details->amount, $details->receipt, $details->status));
+                }else if($filter_on=='settlement'){
+                    fputcsv($file, array($details->settlement_id, $details->entity, $details->amount, $details->status, $details->fees, $details->tax, $details->utr));
+                }else if($filter_on=='dispute'){
+                    fputcsv($file, array($details->dispute_id, $details->payment_id, $details->amount, $details->reason_code, $details->respond_by, $details->status));
+                }
             }
             fclose($file);
         };
