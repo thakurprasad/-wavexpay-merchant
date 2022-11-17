@@ -413,7 +413,8 @@ class InvoiceController extends Controller
     }
 
     public function InvoiceTemplates(){
-        return view('pages.invoice.invoice-templates');
+         $invoice = Invoice::where( 'invoice_id', 'inv_KcHx7BZYkVaS6H')->first();
+        return view('pages.invoice.invoice-templates', ['data'=> $invoice]);
     }
 
 }
