@@ -201,6 +201,9 @@ Route::group(['middleware' => ['token.check']], function() {
 
     Route::get('set-gateway-mode/{mode}', [App\Http\Controllers\SetGatwayController::class, 'setGatwayMode']);
 
+
+
+    Route::post('download-report', [App\Http\Controllers\ReportController::class, 'downloadReport'])->name('download-report');
     
 
 });

@@ -8,6 +8,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Transaction Report</h6>
         </div>
+        @include('alerts.message')
         <div class="card-body"> 
             <x-report-filter-component form_id="search_form" action="download-report" method="POST" type={{$type}}> 
                 @section('advance_filters')
