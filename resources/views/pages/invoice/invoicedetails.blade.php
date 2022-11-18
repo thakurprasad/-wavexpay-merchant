@@ -15,6 +15,11 @@
 </div>
 @endif
 
+
+<section class="invoice-view-wrapper section">
+  <div class="row">
+    <div class="col xl9 m8 s12">
+
     <div class="card" style="padding:15px;">
         <div class="card-body">
             <div class="row">
@@ -242,7 +247,7 @@
                                                     echo 'selected="selected"';
                                                 }
                                                 ?>
-                                                ><strong>{{$titem->name}}</option>
+                                                >{{$titem->name}}</option>
                                                 @endforeach
                                                 @endif
                                             </select>
@@ -276,7 +281,7 @@
                                                 <option value="" disabled selected>Select An Item</option>
                                                 @if(!empty($all_items))
                                                 @foreach($all_items as $titem)
-                                                <option value="{{$titem->item_id}}"><strong>{{$titem->name}}</option>
+                                                <option value="{{$titem->item_id}}">{{$titem->name}}</option>
                                                 @endforeach
                                                 @endif
                                             </select>
@@ -314,7 +319,10 @@
             </div>
         </div>
     </div>
+</div>
+</div>
 
+</section>
 @endsection
 
 

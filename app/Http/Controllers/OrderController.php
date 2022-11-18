@@ -18,7 +18,8 @@ class OrderController extends Controller
 
         $merchant_id =  session()->get('merchant');
 
-        $api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        #$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
         $options = ['count'=>50, 'skip'=>0];
         //$all_orders = $api->order->all($options);
         $all_orders = Order::where('merchant_id',$merchant_id)->get();

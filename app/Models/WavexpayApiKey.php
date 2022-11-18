@@ -19,6 +19,4 @@ class WavexpayApiKey extends Model
         'live_api_secret'
     ];
 
-    
-
 }
