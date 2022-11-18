@@ -50,6 +50,7 @@
                             <th scope="col">Customer</th>
                             <th scope="col">Payment Links</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody id="table_container">
@@ -79,6 +80,7 @@
                             <td>{{ $customer_details }}</td>
                             <td>{{$invoice->short_url}}</td>
                             <td>{!! Helper::badge($invoice->status) !!}</td>
+                            <td><a class="btn btn-sm btn-info" href="invoices/templates/{{$invoice->invoice_id}}">Pay</a></td>
                         </tr>
                         @endforeach
                         @endif

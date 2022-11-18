@@ -11,9 +11,9 @@ class Invoice extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id)
     {
-        //
+        $this->invoice_id = $id;
     }
 
     /**
@@ -23,6 +23,7 @@ class Invoice extends Component
      */
     public function render()
     {
-        return view('components.invoice');
+        echo $this->invoice_id;exit;
+        return view('components.invoice',compact('invoice_details'));
     }
 }

@@ -319,7 +319,8 @@ class InvoiceController extends Controller
         ];
         
         $pageConfigs = ['pageHeader' => true];
-        $invoice_details = Invoice::where('invoice_id',$invoiceId)->first();
+        $invoice_details = Invoice::with('invoice_items')->where('invoices.invoice_id',$invoiceId)->first();
+        
         $all_customers = Customer::all();
         $all_items = Item::all();
 
@@ -328,15 +329,11 @@ class InvoiceController extends Controller
 
     public function editInvoice(Request $request){
         $invoiceId = $request->edit_id;
-
         $invoice_no = $request->invoice_no;
+        $item_array = array();
+        $item_array_count = 0;
 
-        $itemidArray['item_id'] = array();
-        foreach($request['tableitem'] as $items){
-            $itemidArray['item_id'] = $items;
-        }
-
-        $customer_array = array(
+        /*$customer_array = array(
             'billing_address'=> array(
                 "line1" => $request->billing_address1,
                 "line2" => $request->billing_address2,
@@ -353,7 +350,7 @@ class InvoiceController extends Controller
                 "state" => $request->shipping_state,
                 "country" => $request->shipping_country
             )
-        );
+        );*/
 
         $customer_name = '';
         $customer_email = '';
@@ -366,58 +363,47 @@ class InvoiceController extends Controller
             $customer_contact = $get_customer_details->contact;
         }
 
-
-        $item_id = '';
-        $item_qty = '';
-        foreach($request['tableitem'] as $items){
-            $item_id.=$items.',';
-        }
-        $item_id = rtrim($item_id,',');
-
-
-        foreach($request['item_qty'] as $itemsqty){
-            $item_qty.=$itemsqty.',';
-        }
-        $item_qty = rtrim($item_qty,',');
-
-
-
-        $item_array = array();
-        $item_array_count = 0;
-        for($i=0;$i<count($request['tableitem']);$i++)
-        {
-            $get_item_details = DB::table('items')->where('item_id',$request['tableitem'][$i])->first();
-            $item_array[$item_array_count]['name'] = $get_item_details->name;
-            $item_array[$item_array_count]['description'] = $get_item_details->description;
-            $item_array[$item_array_count]['amount'] = $request['item_rate'][$i];
-            $item_array[$item_array_count]['currency'] = "INR";
-            $item_array[$item_array_count]['quantity'] = $request['item_qty'][$i];
-            $item_array_count++;
-        }
-
+        $item_array = $request->items; // for razorpay api
+        foreach ($item_array as $key => $item) {
+            $item_array[$key]['currency'] = 'INR';  
+            if(empty($item['name'])) { unset($item_array[$key]); }
+        } 
 
         $invoice_update_array = array (
             'type' => 'invoice',
             'description' => $request['description'], 
             'date' => strtotime(date('Y-m-d H:i:s')), 
             'customer_id'=> $request['customer'],  
-            'line_items'=>array($itemidArray),
-            'customer'=> $customer_array
+            'line_items'=>(object)$item_array,
         );
 
         $api_key = session('merchant_key');
         $api_secret = session('merchant_secret');
 
 
-        Invoice::where('id',$invoiceId)->update(array('type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'item_id'=>$item_id, 'item_qty' => $item_qty, 'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s'),'issue_date'=>$request['issue_date'],'expiry_date'=>$request['expiry_date'],'place_of_supply'=>$request['place_of_supply'],'customer_notes'=>$request->customer_notes,'description'=>$request->desscription));
+        Invoice::where('invoice_id',$invoiceId)->update(array('type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s'),'issue_date'=>$request['issue_date'],'expiry_date'=>$request['expiry_date'],'place_of_supply'=>$request['place_of_supply'],'customer_notes'=>$request->customer_notes,'description'=>$request->desscription));
+
+        $check_item = InvoiceItem::where('invoice_id',$invoiceId)->get();
+        if(isset($check_item) && count($check_item)>0){
+            InvoiceItem::where('invoice_id',$invoiceId)->delete();
+        }
+
+        $invoice_items = $request->items; // for insert                 
+        foreach ($invoice_items as $key => $item) {                
+            $invoice_items[$key]['currency'] = 'INR';
+            $invoice_items[$key]['invoice_id'] = $request->i_id;
+            if(empty($item['name'])) { unset($invoice_items[$key]); }
+        }
+
+        InvoiceItem::insert($invoice_items);
         
         return response()->json(array("success" => 1));    
         
     }
 
-    public function InvoiceTemplates(){
-         $invoice = Invoice::where( 'invoice_id', 'inv_KcHx7BZYkVaS6H')->first();
-        return view('pages.invoice.invoice-templates', ['data'=> $invoice]);
+    public function InvoiceTemplates($invoice_id){
+        $invoice = Invoice::where( 'invoice_id', $invoice_id)->first();
+        return view('pages.invoice.invoice-templates', ['invoice_id'=> $invoice->invoice_id]);
     }
 
 }

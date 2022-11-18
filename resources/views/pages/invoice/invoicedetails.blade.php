@@ -24,7 +24,8 @@
         <div class="card-body">
             <div class="row">
                 <form id="form-edit-invoice" method="post">
-                    <input type="hidden" id="edit_id" value="{{$invoice_details->id}}">
+                    <input type="hidden" id="edit_id" value="{{$invoice_details->invoice_id}}">
+                    <input type="hidden" name="i_id" value="{{$invoice_details->id}}">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -230,27 +231,18 @@
                                     <th class="text-right lineItem__total">TOTAL</th>
                                 </tr>
                                 <tbody>
-                                    @php 
-                                    $count=0;
-                                    $total_price=0;
-                                    $qty = explode(",",$invoice_details->item_qty);
-                                    @endphp
-                                    @if(!empty($invoice_details->item_id))
-                                    @foreach(explode(",",$invoice_details->item_id) as $singleitem)
-                                    <?php 
-                                     
-                                    $item = DB::table('items')->where('item_id',$singleitem)->first();
-                                    $total_price+=$item->amount*$qty[$count];
-                                    ?>
+                                    @php $i=0; @endphp
+                                    @if(!empty($invoice_details->invoice_items))
+                                    @foreach($invoice_details->invoice_items as $items)
                                     <tr>
                                         <td>
-                                            <select name="tableitem[]" class="form-control" id="tableitem{{$item->id}}" onchange="select_item('{{$item->id}}')">
+                                            <select  name="items[{{$i}}][item_id]" class="form-control" id="tableitem{{$items->item_id}}" onchange="select_item('{{$items->item_id}}')">
                                                 <option value="" disabled selected>Select An Item</option>
                                                 @if(!empty($all_items))
                                                 @foreach($all_items as $titem)
                                                 <option value="{{$titem->item_id}}" 
                                                 <?php 
-                                                if($titem->name==$item->name)
+                                                if($titem->item_id==$items->item_id)
                                                 {
                                                     echo 'selected="selected"';
                                                 }
@@ -259,34 +251,33 @@
                                                 @endforeach
                                                 @endif
                                             </select>
-                                            <span id="itd{{$item->id}}">
+                                            <span id="itd{{$items->item_id}}">
                                             </span>
-                                            
+                                            <input type="hidden" name="items[{{$i}}][name]" id="itmnm{{$i}}" value="{{ $items->item_name }}">
+                                            <input type="hidden" name="items[{{$i}}][description]" id="itmdesc{{$i}}" value="{{ $items->description }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="item_rate[]" id="item_rate{{$item->id}}" class="validate sum" required value="{{ $item->amount }}">
+                                            <input type="text" class="form-control" name="items[{{$i}}][amount]" id="item_rate{{$items->item_id}}" class="validate sum" required value="{{ $items->amount }}">
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control" min="1" name="item_qty[]" id="item_qty{{$item->id}}" class="validate" onclick="change_sub_amount('{{$item->id}}')" required value="{{$qty[$count]}}">
+                                            <input type="number" class="form-control" min="1" name="items[{{$i}}][quantity]" id="item_qty{{$items->item_id}}" class="validate" onclick="change_sub_amount('{{$items->item_id}}')" required value="{{$items->quantity}}">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="item_total[]" id="item_total{{$item->id}}" class="validate" required value="{{ $item->amount*$qty[$count] }}">
+                                            <input type="text" class="form-control" name="item_total[]" id="item_total{{$items->item_id}}" class="validate" required value="{{ $items->quantity*$items->amount }}">
                                         </td>
                                     </tr>
-                                    <?php 
-                                    $count++;
-                                    ?>
+                                    @php $i++; @endphp
                                     @endforeach
                                     @endif
 
                                     <?php 
-                                    for($i=1;$i<=10;$i++)
+                                    for($c=$i;$c<=20;$c++)
                                     {
                                     ?>
-                                    <tr id="item_row_id{{$i}}" style="display:none;">
+                                    <tr id="item_row_id{{$c}}" style="display:none;">
                                         <td>
                                             
-                                            <select name="tableitem[]" class="form-control" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
+                                            <select name="items[{{$c}}][item_id]" class="form-control" id="tableitem{{$c}}" onchange="select_item('{{$c}}')">
                                                 <option value="" disabled selected>Select An Item</option>
                                                 @if(!empty($all_items))
                                                 @foreach($all_items as $titem)
@@ -294,18 +285,20 @@
                                                 @endforeach
                                                 @endif
                                             </select>
-                                            <span id="itd{{$i}}">
+                                            <span id="itd{{$c}}">
                                             </span>
+                                            <input type="hidden" name="items[{{$c}}][name]" id="itmnm{{$c}}">
+                                            <input type="hidden" name="items[{{$c}}][description]" id="itmdesc{{$c}}">
                                             <!--<a class="modal-trigger" href="#createitemmodal" onclick="item_row('{{$i}}')">+ Create New Item</a>-->
                                         </td>
                                         <td>
-                                            <input type="text" name="item_rate[]" id="item_rate{{$i}}" class="form-control sum" required>
+                                            <input type="text" name="items[{{$c}}][amount]" id="item_rate{{$c}}" class="form-control sum" required>
                                         </td>
                                         <td>
-                                            <input type="number" min="1" name="item_qty[]" id="item_qty{{$i}}" class="form-control" onclick="change_sub_amount('{{$i}}')" required>
+                                            <input type="number" min="1" name="items[{{$c}}][quantity]" id="item_qty{{$c}}" class="form-control" onclick="change_sub_amount('{{$c}}')" required>
                                         </td>
                                         <td>
-                                            <input type="text" name="item_total[]" id="item_total{{$i}}" class="form-control" required>
+                                            <input type="text" name="item_total[]" id="item_total{{$c}}" class="form-control" required>
                                         </td>
                                     </tr>
                                     <?php 
@@ -317,7 +310,7 @@
                         <div class="input-field col s12">
                             <a class="btn btn-md btn-info" href="javascript:void(0)" onclick="add_line_item()">+ Add Line Item</a>
                         </div>
-                        <table class="table table-responsive-sm"><tr><td style="width: 195px;"></td><td style="width: 290px;"></td><td style="width: 290px; padding-left:230px;">Total : </td><td><input type="text" style="float:right;" class="form-control" id="total_amt" disabled value="{{$total_price}}"></td></tr></table>
+                        <table class="table table-responsive-sm"><tr><td style="width: 195px;"></td><td style="width: 290px;"></td><td style="width: 290px; padding-left:230px;">Total : </td><td><input type="text" style="float:right;" class="form-control" id="total_amt" disabled value=""></td></tr></table>
                         <div class="col-sm-2">                          
                             <a class="btn btn-md btn-primary" href="javascript:void(0)" onclick="save_invoice()">Save</a>
                         </div>
@@ -438,6 +431,8 @@ function select_item(rowno){
             $("#item_rate"+rowno).val(data.amount);
             $("#item_qty"+rowno).val(1);
             $("#item_total"+rowno).val(data.amount);
+            $("#itmnm"+rowno).val(data.name);
+            $("#itmdesc"+rowno).val(data.description);
             get_total_amount();
         }
     });
