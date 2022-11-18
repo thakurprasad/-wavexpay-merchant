@@ -1,5 +1,5 @@
 <div class="invoice-contener">
-
+    <?php print_r($invoice_details); exit; ?>
     <table class="table-invoice-header-details">
         <thead>
             <tr>
@@ -9,7 +9,7 @@
             </tr>
             <tr>
                <th colspan="2" class="right px-10 invoice-no">
-                   <h3><b>Invoice No.:</b> #IN-099182</h3>
+                   <h3><b>Invoice No.:</b> #{{$invoice_details->invoice_id}}</h3>
                    <h5><b>Date:</b> 25 Nav 2022</h5>
                </th> 
             </tr>
