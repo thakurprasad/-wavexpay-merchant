@@ -280,7 +280,7 @@ class InvoiceController extends Controller
         try {
             $response = $api->invoice->create($invoice_create_array);
         } catch (\Exception $e) {
-            return response()->json(array('success'=>0,'error'=>$e->getMessage()));
+            return response()->json(array('success'=>0,'error'=>$e->getMessage(), 'line_no'=> __LINE__));
         }
 
 
@@ -296,7 +296,7 @@ class InvoiceController extends Controller
             $invoice = Invoice::create(array('invoice_id'=>$response->id,'reciept'=>$reciept,'short_url'=>$response->short_url,'type' => 'invoice','description' => $request['description'],'date' => date('Y-m-d H:i:s'),'customer_id'=> $request['customer'],'customer_name'=>$customer_name,'customer_email'=>$customer_email,'customer_contact'=>$customer_contact,'item_id'=>$item_id, 'item_qty' => $item_qty, 'customer_billing_address1'=>$request->billing_address1,'customer_billing_address2'=>$request->billing_address2,'customer_billing_zip'=>$request->billing_zip,'customer_billing_city'=>$request->billing_city,'customer_billing_state'=>$request->billing_state,'customer_billing_country'=>$request->billing_country,'customer_shipping_address1'=>$request->shipping_address1,'customer_shipping_address2'=>$request->shipping_address2,'customer_shipping_zip'=>$request->shipping_zip,'customer_shipping_city'=>$request->shipping_city,'customer_shipping_state'=>$request->shipping_state,'customer_shipping_country'=>$request->shipping_country,'merchant_id'=>session('merchant'),'status'=>$response->status,'created_at'=>date('Y-m-d H:i:s'),'issue_date'=>$request['isssue_date'],'expiry_date'=>$request['expiry_date'],'place_of_supply'=>$request['place_of_supply'],'customer_notes'=>$request->customer_notes,'terms_condition'=>$request['terms_condition'],'description'=>$request->description));
 
 
-               // var_dump($invoice);
+                #var_dump($invoice);
                 $invoice_items = $request->items; // for insert                 
                 foreach ($invoice_items as $key => $item) {                
                     $invoice_items[$key]['currency'] = 'INR';
@@ -308,7 +308,7 @@ class InvoiceController extends Controller
             return response()->json(array("success" => 1));   
         } 
         catch (\Exception $e) {
-            return response()->json(array('success'=>0,'error'=>$e->getMessage()));
+            return response()->json(array('success'=>0,'error'=>$e->getMessage(),'line_no'=> __LINE__));
         }
 
     }

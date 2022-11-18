@@ -118,16 +118,47 @@ class PaymentLinkController extends Controller
         }
         
 
-        
+        $callback_url = url('/payment/successful');
+        $amount =  ((float)$request['amount'])*100;
         if($request['show_hide_status']=='hide'){
             try {
-                $response = $api->paymentLink->create(array('amount'=>(float)$request['amount'], 'reference_id' => $request['reference_id'], 'currency'=>'INR','accept_partial'=>$accept_partial, 'description' => $request['payment_description'], 'notify'=>array('sms'=>$sms, 'email'=>$email) , 'reminder_enable'=>true ,'notes'=>$note_array,'callback_url' => 'https://example-callback-url.com/','callback_method'=>'get'));
+                $response = $api->paymentLink->create(
+                array(
+                    'amount'=> $amount, #(float)$request['amount'], 
+                    'reference_id' => $request['reference_id'], 
+                    'currency'=>'INR',
+                    'accept_partial'=>$accept_partial, 
+                    'description' => $request['payment_description'], 
+                    'notify'=> array('sms'=>$sms, 'email'=>$email) , 
+                    'reminder_enable'=>true ,
+                    'notes'=>$note_array,
+                    'callback_url' => $callback_url, #'https://example-callback-url.com/',
+                    'callback_method'=>'get')
+                );
             } catch (\Exception $e) {
                 return response()->json(array('success'=>0,'error'=>$e->getMessage()));
             }
         }else if($request['show_hide_status']=='show'){
             try {
-                $response = $api->paymentLink->create(array('amount'=>(float)$request['amount'], 'reference_id' => $request['reference_id'], 'currency'=>'INR','accept_partial'=>$accept_partial, 'description' => $request['payment_description'], 'customer' => array('name'=>$request['customer_name'],'email' => $request['customer_email'], 'contact'=>$request['customer_contact']), 'notify'=>array('sms'=>$sms, 'email'=>$email) , 'reminder_enable'=>true ,'notes'=>$note_array,'callback_url' => 'https://example-callback-url.com/','callback_method'=>'get'));
+                $response = $api->paymentLink->create(
+                    array(
+                        'amount'=> $amount, #(float)$request['amount'], 
+                        'reference_id' => $request['reference_id'], 
+                        'currency'=>'INR',
+                        'accept_partial'=>$accept_partial, 
+                        'description' => $request['payment_description'], 
+                        'customer' => array(
+                                    'name'=>$request['customer_name'],
+                                    'email' => $request['customer_email'], 
+                                    'contact'=>$request['customer_contact']
+                                    ), 
+                        'notify'=>array('sms'=>$sms, 'email'=>$email) , 
+                        'reminder_enable'=>true ,
+                        'notes'=>$note_array,
+                        'callback_url' => $callback_url, #'https://example-callback-url.com/',
+                        'callback_method'=>'get'
+                        )
+                    );
             } catch (\Exception $e) {
                 return response()->json(array('success'=>0,'error'=>$e->getMessage()));
             }
@@ -148,7 +179,27 @@ class PaymentLinkController extends Controller
 
         DB::beginTransaction();
         try{
-            PaymentLink::create(array('amount'=>(float)$response->amount,'reference_id' => $response->reference_id, 'currency'=>'INR','accept_partial'=>$db_accept_partial,'description' => $response->description, 'customer_email' => $db_customer_email, 'customer_contact' => $db_customer_contact, 'notify_email'=> $response->notify->email,'payment_link_id'=>$response->id, 'link_text'=>$link_text, 'short_url'=>$response->short_url, 'notify_sms'=> $response->notify->sms, 'reminder_enable'=>'true','callback_url' => 'https://example-callback-url.com/','callback_method'=>'get','merchant_id'=>session('merchant'),'created_at'=>date('Y-m-d H:i:s')));
+            PaymentLink::create(
+                array(
+                        'amount'=> (float)$response->amount/100,
+                        'reference_id' => $response->reference_id, 
+                        'currency'=>'INR',
+                        'accept_partial'=>$db_accept_partial,
+                        'description' => $response->description, 
+                        'customer_email' => $db_customer_email, 
+                        'customer_contact' => $db_customer_contact,
+                        'notify_email'=> $response->notify->email,
+                        'payment_link_id'=>$response->id, 
+                        'link_text'=>$link_text, 
+                        'short_url'=>$response->short_url, 
+                        'notify_sms'=> $response->notify->sms, 
+                        'reminder_enable'=>'true',
+                        'callback_url' => $callback_url, #'https://example-callback-url.com/',
+                        'callback_method'=>'get',
+                        'merchant_id'=>session('merchant'),
+                        'created_at'=>date('Y-m-d H:i:s')
+                    )
+                );
             DB::commit();
             return response()->json(array("success" => 1));  
         }catch(Exception $ex){
