@@ -20,8 +20,7 @@
             <select class="form-control" name="filter_on" id="filter_on">
                 <option value="">Select</option>
                 <option value="payment">Payment</option>
-                <option value="dispute">dispute</option>
-                <option value="dispute">order</option>
+                <option value="order">Order</option>
             </select>
         </div>
         @elseif($type=='settlement') 
@@ -43,7 +42,6 @@
             <label>Filter Type</label>
             <select class="form-control" name="filter_on" id="filter_on">
                 <option value="">Select</option>
-                <option value="chargeback">Chargeback</option>
                 <option value="dispute">Dispute</option>
             </select>
         </div>
