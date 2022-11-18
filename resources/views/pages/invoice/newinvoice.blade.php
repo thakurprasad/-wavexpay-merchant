@@ -200,7 +200,7 @@
                                     ?>
                                     <tr id="item_row_id{{$i}}" <?php if($i>0) { echo 'style="display:none;"'; } ?>>
                                         <td>
-                                            <select class="form-control" name="items[{{$i}}]['item_id']" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
+                                            <select class="form-control" name="items[{{$i}}][item_id]" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
                                                 <option value="">Select An Item</option>
                                                 @if(!empty($all_items))
                                                 @foreach($all_items as $titem)
@@ -209,16 +209,16 @@
                                                 @endif
                                             </select>
                                             <span id="itd{{$i}}">
-                                            <input type="hidden" name="items[{{$i}}]['item_name']" id="itmnm{{$i}}">
-                                            <input type="hidden" name="items[{{$i}}]['description']" id="itmdesc{{$i}}">
+                                            <input type="hidden" name="items[{{$i}}][name]" id="itmnm{{$i}}">
+                                            <input type="hidden" name="items[{{$i}}][description]" id="itmdesc{{$i}}">
                                             </span>
                                             <a class="modal-trigger" data-toggle="modal" data-target="#createitemmodal" onclick="item_row('{{$i}}')">+ Create New Item</a>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="items[{{$i}}]['rate']" id="item_rate{{$i}}" class="validate sum" required>
+                                            <input type="text" class="form-control" name="items[{{$i}}][amount]" id="item_rate{{$i}}" class="validate sum" required>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control" min="1" name="items[{{$i}}]['qty']" id="item_qty{{$i}}" class="validate" onclick="change_sub_amount('{{$i}}')" required>
+                                            <input type="number" class="form-control" min="1" name="items[{{$i}}][quantity]" id="item_qty{{$i}}" class="validate" onclick="change_sub_amount('{{$i}}')" required>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" name="item_total[]" id="item_total{{$i}}" class="validate" required>

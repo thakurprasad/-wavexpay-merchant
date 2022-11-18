@@ -55,32 +55,35 @@
                     <tbody id="table_container">
                         @if(!empty($all_invoices))
                         @foreach($all_invoices as $invoice)
-                        @php 
-                            $qty = explode(',',$invoice->item_qty);
-                            $customer_details = Helper::get_customer_details($invoice->customer_id);  
-                            $items = explode(',',$invoice->item_id);
-                            $amount = 0;
-                            $count = 0;
-                            foreach($items as $iid){
-                                $item_details = Helper::get_item_details($iid);
-                                
-                                
-                                $amount+=($item_details->amount)*$qty[$count];
-                                $count++;
-                            } 
+                        <?php
 
+                            if(count($invoice->invoice_items)>0 ) {
+                                 $amount = $invoice->invoice_items->sum('amount');
+                            }else{
+                                $amount = 0;
+                            }
+                            
                             if(isset($invoice->receipt) && $invoice->receipt!=''){
                                 $reciept = $invoice->receipt;
                             }else{
                                 $reciept = '';
                             }
-                        @endphp
+
+                            
+                            if($invoice->customer){
+                                $c = $invoice->customer;
+                                $customer_details = $c->name .' | ' . $c->contact . ' | ' . $c->email;
+                            }else{
+                                $customer_details = '';
+                            }
+
+                        ?>
                         <tr>
                             <td><a style="color: blue;" href="{{ url('/invoice',$invoice->invoice_id) }}">{{ $invoice->invoice_id }}</a></td>
                             <td>{{ number_format($amount,2) }}</td>
                             <td>{{ $reciept }}</td>
                             <td>{{ $invoice->created_at }}</td>
-                            <td>{{ $customer_details->name}} ({{$customer_details->contact}} / {{$customer_details->email}})	</td>
+                            <td>{{ $customer_details }}</td>
                             <td>{{$invoice->short_url}}</td>
                             <td>{!! Helper::badge($invoice->status) !!}</td>
                         </tr>

@@ -27,6 +27,12 @@ class Invoice extends Model
         return $this->hasMany(InvoiceItem::class);
     }
 
+    public function customer()
+    {
+        return $this->hasOne(Customer::class, 'customer_id', 'customer_id');
+    }
+
+
 
     public static function boot()
     {
