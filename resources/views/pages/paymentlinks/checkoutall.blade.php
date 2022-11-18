@@ -37,8 +37,10 @@
                 if (data.data.order_id) {
                     order_id = data.data.order_id;
                 }
+
                 var options = {
-                    "key": "rzp_test_YRAqXZOYgy9uyf",
+                    //"key": "rzp_test_YRAqXZOYgy9uyf",
+                    "key": "{{ Helper::api_key() }}",
                     "amount": amount,
                     "currency": "INR",
                     "name": "{{ config('app.account_name') }}",

@@ -17,10 +17,6 @@ class PaymentController extends Controller
 
 
         $merchant_id =  session()->get('merchant');
-
-        #$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        #echo Helper::api_key();exit;
-      #  echo Helper::api_key();exit;
         $api = new Api(Helper::api_key(), Helper::api_secret());
 
         $all_payments = $api->payment->all();

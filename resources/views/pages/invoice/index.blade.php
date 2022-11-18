@@ -62,14 +62,7 @@
                             }else{
                                 $amount = 0;
                             }
-                            
-                            if(isset($invoice->receipt) && $invoice->receipt!=''){
-                                $reciept = $invoice->receipt;
-                            }else{
-                                $reciept = '';
-                            }
-
-                            
+                                                        
                             if($invoice->customer){
                                 $c = $invoice->customer;
                                 $customer_details = $c->name .' | ' . $c->contact . ' | ' . $c->email;
@@ -81,7 +74,7 @@
                         <tr>
                             <td><a style="color: blue;" href="{{ url('/invoice',$invoice->invoice_id) }}">{{ $invoice->invoice_id }}</a></td>
                             <td>{{ number_format($amount,2) }}</td>
-                            <td>{{ $reciept }}</td>
+                            <td>{{ $invoice->reciept }}</td>
                             <td>{{ $invoice->created_at }}</td>
                             <td>{{ $customer_details }}</td>
                             <td>{{$invoice->short_url}}</td>

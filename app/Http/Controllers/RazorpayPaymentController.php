@@ -17,14 +17,18 @@ class RazorpayPaymentController extends Controller
         $link_text = substr(Crypt::encryptString($merchant_id.'/'.date('Y-m-d H:i:s').rand(10000,99999)),5,10);
 		$payment_link_id = $request->payment_link_id;
         Session::put('payment_link_id', $payment_link_id);
-		$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+
+		#$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
+
         $order = $api->order->create(array('receipt' => 'order_rcptid'.$link_text, 'amount' => $request->input('price') * 100, 'currency' => 'INR')); // Creates order
         //return response()->json(['order_id' => $order['id']]);
         return $this->sendResponse(['order_id' => $order['id']], 'Data retrieved successfully.');
 	}
 
     public function storePayment(Request $request){
-		$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+		#$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+        $api = new Api(Helper::api_key(), Helper::api_secret());
         //Fetch payment information by razorpay_payment_id
         $payment = $api->payment->fetch($request->input('razorpay_payment_id'));        
         //print_r($payment);exit;
