@@ -12,20 +12,18 @@
 */ ?>
 
 
-<div class="col s12 m12">
+<div class="col s12 m12 my-1">
 
 @if ($errors->any())
-      <div class="card-alert card gradient-45deg-red-pink">
-        <div class="card-content white-text">
-          <p><i class="material-icons">error</i> <strong>Whoops! </strong> There were some problems with your input.</p> 
-             <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">×</span>
+      <div class="card alert alert-danger alert-dismissible fade show" role="alert">
+      <p> <strong>Error! </strong> There were some problems with your input.</p>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
 @endif

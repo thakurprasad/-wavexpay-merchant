@@ -16,6 +16,24 @@ class Item extends Model
      * @var array
      */
     protected $fillable = [
-        'item_id', 'name',  'description', 'amount', 'currency', 'created_at', 'updated_at'
+        'item_id', 'name',  'description', 'amount', 'currency', 'created_at', 
+        'updated_at',
+        'merchant_id',
+        'transaction_mode',
+        'wavexpay_api_key_id'
     ];
+
+
+    public static function boot()
+    {
+       parent::boot();
+       static::creating(function($model)
+       {
+            $model->merchant_id = session()->get('merchant'); # merchant id 
+            $model->transaction_mode = session()->get('mode'); #test|live           
+            $model->wavexpay_api_key_id =  \App\Models\Merchant::find(session('merchant'))->wavexpay_api_key_id;
+
+       }); 
+    }
+
 }

@@ -16,7 +16,7 @@ class PaymentLink extends Model
      * @var array
      */
     protected $fillable = [
-        'merchant_id', 'reference_id',  'amount', 'currency', 'accept_partial', 'description', 'customer_email', 'customer_contact', 'notify_email', 'payment_link_id', 'short_url', 'link_text', 'notify_sms', 'reminder_enable', 'callback_url', 'callback_method', 'created_at', 'updated_at', 'deleted_at', 'transaction_mode'
+        'merchant_id', 'reference_id',  'amount', 'currency', 'accept_partial', 'description', 'customer_email', 'customer_contact', 'notify_email', 'payment_link_id', 'short_url', 'link_text', 'notify_sms', 'reminder_enable', 'callback_url', 'callback_method', 'created_at', 'updated_at', 'deleted_at', 'transaction_mode', 'wavexpay_api_key_id'
     ];
 
 
@@ -31,6 +31,7 @@ class PaymentLink extends Model
             $model->merchant_id = session()->get('merchant'); # merchant id 
             $model->transaction_mode = session()->get('mode'); #test|live           
             $model->created_at = date('Y-m-d H:i:s'); 
+            $model->wavexpay_api_key_id =  \App\Models\Merchant::find(session('merchant'))->wavexpay_api_key_id;
            # $model->created_by = session()->get('merchant'); # merchant id 
 
        }); 
