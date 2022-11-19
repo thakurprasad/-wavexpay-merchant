@@ -1,5 +1,4 @@
 <div class="invoice-contener">
-    <?php print_r($invoice_details); exit; ?>
     <table class="table-invoice-header-details">
         <thead>
             <tr>
@@ -9,8 +8,8 @@
             </tr>
             <tr>
                <th colspan="2" class="right px-10 invoice-no">
-                   <h3><b>Invoice No.:</b> #{{$invoice_details->invoice_id}}</h3>
-                   <h5><b>Date:</b> 25 Nav 2022</h5>
+                   <h3><b>Invoice No :</b> #{{$invoice_details->invoice_id}}</h3>
+                   <h5><b>Date:</b> {{date('j F,Y',strtotime($invoice_details->created_at))}}</h5>
                </th> 
             </tr>
         </thead>
@@ -19,8 +18,8 @@
                 <td>
                     <div class="invoice-customer-content">
                         <h4>Bill To</h4>
-                        <h5>WaveXpay Payment Gateway Pvt. LTD.</h5>
-                        <p>153, New Ashok Nagar, Delhi, 201201, India </p>
+                        <h5>{{$invoice_details->customer_billing_address1}}.</h5>
+                        <p>{{$invoice_details->customer_billing_address2}}, {{$invoice_details->customer_billing_city}}, {{$invoice_details->customer_billing_zip}}, {{$invoice_details->customer_billing_country}} </p>
                     </div>
                 </td>
                 <td>
@@ -46,33 +45,27 @@
             </tr>
         </thead>
         <tbody>
-
+            @php $total_amount = 0; $count = 1; @endphp
+            @if(!empty($invoice_item_details))
+            @foreach($invoice_item_details as $item_details)
+            @php 
+            $total_amount+=$item_details->quantity*$item_details->amount;
+            @endphp
             <tr>
-                <th>1</th>
-                <td>Mobile</td>
-                <td>2,000</td>
-                <td>2</td>
-                <td>4,000</td>
+                <th>{{$count}}</th>
+                <td>{{$item_details->name}}</td>
+                <td>{{$item_details->amount}}</td>
+                <td>{{$item_details->quantity}}</td>
+                <td>{{$item_details->quantity*$item_details->amount}}</td>
             </tr>
-            <tr>
-                <th>2</th>
-                <td>Mobile</td>
-                <td>2,000</td>
-                <td>2</td>
-                <td>4,000</td>
-            </tr>
-            <tr>
-                <th>3</th>
-                <td>Mobile</td>
-                <td>2,000</td>
-                <td>2</td>
-                <td>4,000</td>
-            </tr>
+            @php $count++; @endphp
+            @endforeach
+            @endif
         </tbody>
         <thead>
             <tr>
                 <th colspan="4" class="center">Total</th>
-                <th>12,000</th>
+                <th>{{$total_amount}}</th>
             </tr>
         </thead>
     </table>
