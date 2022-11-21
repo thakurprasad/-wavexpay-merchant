@@ -36,4 +36,16 @@ class Item extends Model
        }); 
     }
 
+
+
+/*  include extra where condication in every select query    */
+    public function newQuery($auth = true) {
+        return parent::newQuery($auth)->where([
+                'merchant_id' => session()->get('merchant'), 
+                'transaction_mode'=> session()->get('mode'),
+                'wavexpay_api_key_id'=>  \App\Models\Merchant::find(session('merchant'))->wavexpay_api_key_id
+            ]);
+    }
+
+
 }

@@ -403,7 +403,7 @@ class InvoiceController extends Controller
 
     public function InvoiceTemplates($invoice_id){
         $invoice = Invoice::where( 'invoice_id', $invoice_id)->first();
-        return view('pages.invoice.invoice-templates', ['invoice_id'=> $invoice->invoice_id]);
+        return view('pages.invoice.invoice-templates', ['invoice_id'=> $invoice->id]);
     }
 
 }
