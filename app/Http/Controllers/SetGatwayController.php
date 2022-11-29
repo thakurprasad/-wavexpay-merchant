@@ -11,7 +11,7 @@ class SetGatwayController extends Controller
         try{
             session()->put('mode', $mode); 
             $merchent_id = session()->get('merchant');            
-            $row = MerchantKey::where('merchnat_id', $merchent_id)->first();
+            $row = MerchantKey::where('merchant_id', $merchent_id)->first();
             if($mode == 'test'){
                 session()->put('merchant_key', $row->test_api_key);
                 session()->put('merchant_secret',$row->test_api_secret);

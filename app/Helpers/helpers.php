@@ -302,7 +302,7 @@ class Helper
         $api_secret = session('merchant_secret');
 
         $merchant = MerchantKey::select('merchants.wavexpay_api_key_id')
-        ->join('merchants', 'merchants.id', '=', 'merchant_keys.merchnat_id')
+        ->join('merchants', 'merchants.id', '=', 'merchant_keys.merchant_id')
         ->where('merchants.id', session('merchant'))
         /*->where([
                 'merchant_keys.api_key'=> $api_key,

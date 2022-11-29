@@ -107,7 +107,6 @@
                                             <h1 class="h4 text-gray-900 mb-4">Sign Up (Step 2)</h1>
                                         </div>
                                         <span id="existerror" style="color: red; dislay:none;"></span>
-                                        <form class="user">
                                             <div class="form-group">
                                               <label for="exampleInputName1">Your name</label>
                                               <input type="text" class="form-control name-wave" name="name" id="name"  placeholder="Enter Name" required>
@@ -123,7 +122,6 @@
                                             <button type="button" id="submit_button" onclick="submit_form()" class="btn btn-lg btn-primary btn-user btn-block">
                                                 Complete Sign Up
                                             </button>
-                                        </form>
                                         
                                     </div>
                                     </div>

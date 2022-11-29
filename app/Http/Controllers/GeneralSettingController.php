@@ -18,7 +18,7 @@ class GeneralSettingController extends Controller
     public function index(Request $request){
         $merchant_id =  session()->get('merchant');
         $general_settings = GeneralSetting::where('merchant_id',$merchant_id)->first();
-        $key_details = MerchantKey::where('merchnat_id',$merchant_id)->first();
+        $key_details = MerchantKey::where('merchant_id',$merchant_id)->first();
         $merchant_details = Merchant::select('merchants.*','merchant_users.*')->join('merchant_users', 'merchant_users.merchant_id', '=', 'merchants.id')->where('merchants.id',$merchant_id)->get();
         $merchant_details=$merchant_details[0];
         $mode = session('mode');
@@ -151,14 +151,14 @@ class GeneralSettingController extends Controller
         $key = $request->key;
 
         if(session('mode')=='test'){
-            MerchantKey::where('merchnat_id',$merchant_id)
+            MerchantKey::where('merchant_id',$merchant_id)
             ->update(array(
                 'test_api_key'=>'wxp_test_'.Helper::rand_string(14),
                 'test_api_secret'=>Helper::rand_string(24)
             ));
         }else if(session('mode') == 'live'){
            // $new_key = 'wxp_live_'.Helper::rand_string(14);
-            MerchantKey::where('merchnat_id',$merchant_id)
+            MerchantKey::where('merchant_id',$merchant_id)
             ->update(array(
                 'live_api_key'=>'wxp_live_'.Helper::rand_string(14),
                 'live_api_secret'=>Helper::rand_string(24)
@@ -168,7 +168,7 @@ class GeneralSettingController extends Controller
         }
 
         $html = '';
-        $key_details = MerchantKey::where('merchnat_id',$merchant_id)->first();
+        $key_details = MerchantKey::where('merchant_id',$merchant_id)->first();
         if(session('mode')=='test') 
         { 
             $key = $key_details->test_api_key; 
@@ -194,7 +194,7 @@ class GeneralSettingController extends Controller
     }
 
     public function downlaodApiKeys(){
-       $row = MerchantKey::where('merchnat_id', session('merchant'))->first();
+       $row = MerchantKey::where('merchant_id', session('merchant'))->first();
       
        $text = "/* ------- ". ucfirst(session('mode')) . " Credentials Details ------- */ \n";
        if(session('mode') == 'live'){
