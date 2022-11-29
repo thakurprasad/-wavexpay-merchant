@@ -184,13 +184,16 @@ class RegisterController extends Controller
             $header = $response->getHeader('content-type');
             $res  =  json_decode($response->getBody(),true);
 
-            if($status_code==200){
-                if($res['status']=='success'){
-                    $access_token = $res['access_token'];
-                    session()->put('token', $access_token);
-                    session()->put('merchant', $res['merchant']['merchant_id']);
-                    session()->put('merchant_key', $res['api_key']);
-                    session()->put('merchant_secret', $res['api_secret']);
+      #  print_r($res);exit;
+
+        if($status_code==200){
+            if($res['status']=='success'){
+                //dd($res);
+                $access_token = $res['access_token'];
+                session()->put('token', $access_token);
+                session()->put('merchant', $res['merchant']['merchant_id']);
+                session()->put('merchant_key', $res['api_key']);
+                session()->put('merchant_secret', $res['api_secret']);
 
 
                     $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);

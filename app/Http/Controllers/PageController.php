@@ -80,7 +80,7 @@ class PageController extends Controller
         ->whereYear('payment_created_at', date('Y'))
         ->get(['amount','payment_created_at']);
 
-        //print_r($payment_current_month_data);exit;
+       // return $payment_current_month_data;
 
         $paymentmaxValue = Payment::where('merchant_id',$merchant_id)->orderBy('amount', 'desc')->value('amount');
         $paymentminValue = Payment::where('merchant_id',$merchant_id)->orderBy('amount', 'asc')->value('amount');

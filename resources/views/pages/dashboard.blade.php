@@ -54,6 +54,7 @@ if(!empty($payments))
 
     <!-- Content Row -->
 
+<x-heigh-cart-component from_date='2022-11-01' from_date='2022-11-30' />
     <div class="row" style="margin-top:20px;">
 
     <!-- Area Chart -->
