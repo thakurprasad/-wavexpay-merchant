@@ -244,6 +244,10 @@ form#search_form {
     transform: translateX(-50%);
 }
 
+.pointer{
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 600px) {
     .test-mode-dashboard, .live-mode-dashboard {
         top: 66px;

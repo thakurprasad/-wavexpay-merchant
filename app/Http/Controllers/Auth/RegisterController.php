@@ -192,7 +192,7 @@ class RegisterController extends Controller
             // 'application/json; charset=utf8'
             $res  =  json_decode($response->getBody(),true);
 
-        print_r($res);exit;
+      #  print_r($res);exit;
 
         if($status_code==200){
             if($res['status']=='success'){

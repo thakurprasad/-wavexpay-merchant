@@ -138,7 +138,7 @@ class CustomerController extends Controller
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <input type="radio" style="float:right;" name="billing_address_id" onclick="set_address(\''.$type.'\',\''.$adresss->id.'\',\''.$adresss->line_1.'\',\''.$adresss->line_2.'\',\''.$adresss->state.'\',\''.$adresss->city.'\',\''.$adresss->country.'\',\''.$adresss->zip.'\')" value="'.$adresss->id.'" />
+                                   <input type="radio" style="float:right;" name="billing_address_id" onclick="set_address(\''.$type.'\',\''.$adresss->id.'\',\''.$adresss->line_1.'\',\''.$adresss->line_2.'\',\''.$adresss->state.'\',\''.$adresss->city.'\',\''.$adresss->country.'\',\''.$adresss->zip.'\')" value="'.$adresss->id.'" />
                                 </div>
                             </div>
                             <div class="col-sm-6">

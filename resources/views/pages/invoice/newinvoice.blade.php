@@ -64,7 +64,7 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <h6>BILLING TO <a style="color:#ffffff; cursor:pointer;" class="btn btn-sm btn-primary modal-trigger" data-toggle="modal" data-target="#customeraddmodal">+ Add </a></h6>
+                                <h6>BILLING TO <a style="color:#ffffff; cursor:pointer;" class="btn btn-sm btn-primary modal-trigger" data-toggle="modal" data-target="#customeraddmodal"><i class="fa fa-plus" aria-hidden="true" style="color: white;"></i> Add </a></h6>
                                 <select class="form-control" name="customer" id="customer">
                                     <option value="" disabled selected>Select A Customer</option>
                                     @if(!empty($all_customers))
@@ -200,7 +200,7 @@
                                     ?>
                                     <tr id="item_row_id{{$i}}" <?php if($i>0) { echo 'style="display:none;"'; } ?>>
                                         <td>
-                                            <select class="form-control" name="items[{{$i}}][item_id]" id="tableitem{{$i}}" onchange="select_item('{{$i}}')">
+                                            <select class="form-control" name="items[{{$i}}][item_id]" id="tableitem{{$i}}" onchange="select_item('{{$i}}')" style="width: 85%;float: right;">
                                                 <option value="">Select An Item</option>
                                                 @if(!empty($all_items))
                                                 @foreach($all_items as $titem)
@@ -208,11 +208,12 @@
                                                 @endforeach
                                                 @endif
                                             </select>
+                                            <button title="Add new item master" class="btn btn-success btn-sm modal-trigger" data-toggle="modal" data-target="#createitemmodal" onclick="item_row('{{$i}}')"><i class="fa fa-plus" aria-hidden="true" style="color: white;"></i></button>
                                             <span id="itd{{$i}}">
                                             <input type="hidden" name="items[{{$i}}][name]" id="itmnm{{$i}}">
                                             <input type="hidden" name="items[{{$i}}][description]" id="itmdesc{{$i}}">
                                             </span>
-                                            <a class="modal-trigger" data-toggle="modal" data-target="#createitemmodal" onclick="item_row('{{$i}}')">+ Create New Item</a>
+                                            
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" name="items[{{$i}}][amount]" id="item_rate{{$i}}" class="validate sum" required>
@@ -231,7 +232,7 @@
                             </table>
                         </div>
                         <div class="col-sm-12">
-                            <a class="btn btn-md btn-info" href="javascript:void(0)" onclick="add_line_item()">+ Add Line Item</a>
+                            <a class="btn btn-md btn-info" href="javascript:void(0)" onclick="add_line_item()"><i class="fa fa-plus" aria-hidden="true" style="color: white;"></i> Add Line Item</a>
                         </div>
                         <table><tr style="background-color:#ffffff;"><td style="width: 350px;"></td><td style="width: 350px;"></td><td>Total Amount : <input type="text" clas="form-control" id="total_amt" disabled></td></tr></table>
                         <div class="col-sm-12" id="loading_div"></div>
