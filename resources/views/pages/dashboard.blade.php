@@ -13,6 +13,7 @@
 <div class="container-fluid">
   
     <x-notification/>
+<form method="get" id="search_form">
     <div class="row" style="margin:30px 0px;border: 1px solid #ccc;padding: 18px 0;box-shadow: 0px 0 22px -8px;margin-top: 30px;background-color: white;">
         <div class="col-md-5 col-lg-4 col-sm-12">
             <div id="reportrange" style="cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; ">
@@ -30,7 +31,7 @@
                 <option value="all">All</option>
             </select>
         </div>
-
+</form>    
 
    <div class="col-12" > &nbsp;</div>
 
@@ -54,7 +55,8 @@ if(!empty($payments))
 
     <!-- Content Row -->
 
-<x-heigh-cart-component from_date='2022-11-01' from_date='2022-11-30' />
+<x-heigh-cart-component id="222" fromDate="2022-01-01" toDate="2022-11-30" />
+
     <div class="row" style="margin-top:20px;">
 
     <!-- Area Chart -->
@@ -633,6 +635,7 @@ $(function() {
 
     function cb(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      
     }
 
     $('#reportrange').daterangepicker({

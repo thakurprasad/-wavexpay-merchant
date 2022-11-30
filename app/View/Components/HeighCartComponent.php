@@ -5,6 +5,8 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
+use  Carbon\Carbon;
+
 
 class HeighCartComponent extends Component
 {
@@ -15,10 +17,11 @@ class HeighCartComponent extends Component
      */
     public $from_date;
     public $to_date;
-    public function __construct( $from_date = null, $to_date = null)
+    public function __construct( $fromDate = '' , $toDate = '')
     {
-        $this->from_date = $from_date;
-        $this->to_date = $to_date;
+       
+        $this->from_date = $fromDate;
+        $this->to_date = $toDate;
     }
 
     /**
@@ -28,7 +31,7 @@ class HeighCartComponent extends Component
      */
     public function render()
     {
-        
+       
         $data = Payment::select(
             DB::raw('group_concat(amount) as Amounts'),
             DB::raw("group_concat(DATE_FORMAT(payment_created_at, '%d-%b')) as Dates")
@@ -36,9 +39,11 @@ class HeighCartComponent extends Component
          
          /*$data = $data->whereMonth('payment_created_at', date('m'));*/
 
-        $data = $data->whereYear('payment_created_at', date('Y'));
+        
         if($this->from_date && $this->to_date){
             $data = $data->whereBetween('payment_created_at', [$this->from_date, $this->to_date]);
+        }else{
+            $data = $data->whereYear('payment_created_at', date('Y'));    
         }
         $data = $data->first();
 
