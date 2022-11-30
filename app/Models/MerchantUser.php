@@ -19,7 +19,7 @@ class MerchantUser extends Model
      * @var array
      */
     protected $fillable = [
-        'merchant_id', 'name',  'email',  'status', 'created_at', 'updated_at'
+        'merchant_id', 'name',  'email', 'password',  'status', 'created_at', 'updated_at'
     ];
 
     protected $hidden = [

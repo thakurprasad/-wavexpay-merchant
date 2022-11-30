@@ -3,7 +3,6 @@
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PaymentController;
@@ -31,6 +30,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 Route::get('testing', function(){ return view('pages.testing');}  );
 Auth::routes(['verify' => true]);
 
+Route::get('register', [RegisterController::class, 'showRegistrationForm']);
+
 Route::get('change-password', [ChangePasswordController::class, 'index']);
 Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
 
@@ -39,11 +40,11 @@ Route::post('completesignupprocess', [PageController::class, 'completeSignUpProc
 Route::get('welcome_to_wavexpay', [PageController::class, 'welcomeToWavexpay'])->name('welcome_to_wavexpay');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
-Route::post('sign-up-merchant-step-one',  [RegisterController::class, 'SignUpMerchantStepOne'])->name('sign-up-merchant-step-one');
+Route::post('sign-up-merchant-step-one',  [RegisterController::class, 'SignUpMerchantStepOne']);
+Route::post('sign-up-merchant-step-two',  [RegisterController::class, 'SignUpMerchantStepTwo']);
 
 
 Route::post('checkemailexistence', [RegisterController::class, 'checkEmailExistence'])->name('checkemailexistence');
-Route::post('sign-up-merchant-step-two',  [RegisterController::class, 'SignUpMerchantStepTwo'])->name('sign-up-merchant-step-two');
 
 Route::get('register-as-partner', [RegisterController::class, 'RegisterAsPartner'])->name('register-as-partner');
 

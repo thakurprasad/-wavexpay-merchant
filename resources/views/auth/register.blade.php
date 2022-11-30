@@ -40,7 +40,7 @@
         <div class="row_">
 
             <div class="col-md-12">
-                <form method="post" id="step_one_form" action="{{ url('/sign-up-merchant-step-one') }}">
+                <form method="POST" id="step_one_form" action="{{ url('/sign-up-merchant-step-one') }}">
                 @csrf
                     <div >
                     <!--<div class="card border-0 shadow-lg my-5">-->
@@ -92,13 +92,13 @@
                                 </div>
                                 <div class="col-lg-6" style="padding-top: 8.5%;">
                                     <div class="row">
-                                        <input type="hidden" name="action" value="{{$_action}}">
+                                        <input type="hidden" name="action" value="{{$action}}">
                                         <input type="hidden" name="ref_no" value="{{$ref_no}}">
                                     <div class="col-md-8 offset-2">
                                         <div class="text-center">
                                             <h1 class="h4 text-gray-900 mb-4">Sign Up</h1>
                                         </div>
-                                        <form class="user">
+                                        
                                             <div class="form-group">
                                                 <label for="exampleInputbusiness1">Business Type</label>
                                                 <select class="form-control" name="business_type" id="exampleInputBusiness1" required>
@@ -122,7 +122,7 @@
                                             <button type="button" id="submit_button" onclick="submit_form()" class="btn btn-lg btn-primary btn-user btn-block">
                                                 Register
                                             </button>
-                                        </form>
+                                        
                                         <div class="text-center" style="padding-top: 20px;">
                                             I have an account?
                                             <a class="small" href="{{url('login')}}">Login</a>
