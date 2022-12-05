@@ -3,7 +3,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center" href="{{ url('/home') }}">
       <div class="sidebar-brand-icon rotate-n-0">
-        <img src="<?php echo url('/') ?>/images/logo/logo-2.png" width="100%;">
+        <img src="{{ asset('images/logo/logo-2.png') }}" width="100%;">
       </div>
     </a>
     @php 

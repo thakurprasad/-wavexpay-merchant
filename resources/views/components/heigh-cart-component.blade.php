@@ -65,4 +65,17 @@ function stringToInt(item, index, arr) {
     let yAxis_1 = [15.2, 15.7, 18.7, 13.9, 18.2, 21.4, 25.0, 22.8, 17.5, 12.1, 7.6];
     let yAxis_2 = [4.6, 13.3, 5.9, 100.5, 13.5, 14.5, 14.4, 11.5, 8.7, 4.7, 2.6]; */
 </script>
-<script type="text/javascript" src="{{ url('newdesign/heigh-charts/js/heigh-charts-1.js') }}"></script>
+<script type="text/javascript" src="{{ asset('newdesign/heigh-charts/js/heigh-charts-1.js') }}"></script>
+<style type="text/css">
+    table#highcharts-data-table-0 {
+        width: 50%;
+        border: 1px solid #ccc;
+    }
+    table#highcharts-data-table-0 th, table#highcharts-data-table-0 td {
+        padding: 5px 20px;
+        border: 1px solid #ccc;
+    }
+    text.highcharts-credits {
+    display: none;
+}
+</style>

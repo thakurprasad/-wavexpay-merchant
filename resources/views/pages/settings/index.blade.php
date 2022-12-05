@@ -109,15 +109,15 @@
 													if(isset($general_settings->theme_color) && $general_settings->theme_color!='') { echo $general_settings->theme_color; } else { echo 'background-color: rgb(82, 143, 240)'; } @endphp; padding: 10px;">
 									<div class="col-md-6" style="padding-top:10px;">
 										@if(isset($general_settings->logo) && $general_settings->logo!='')
-										<img id="blah" src="<?php echo url('/') ?>/images/logo/{{$general_settings->logo}}" width="99%">
+										<img id="blah" src="{{ asset('/images/logo/'.$general_settings->logo) }}" width="99%">
 										@else 
-										<img id="blah" src="<?php echo url('/') ?>/images/logo/wave_x_pay.png" width="99%">
+										<img id="blah" src="{{ asset('/images/logo/wave_x_pay.png') }}" width="99%">
 										@endif
 									</div>
 									<div class="col-md-6" style="text-align: center;margin: auto;padding: 10px;color: #ffffff;">Manoj Verma<br>Order Id<br>₹1</div>
 								</div>
 								<div class="row" style="border: 1px solid #cccccc78;">
-										<img src="{{ url('newdesign/img/payment-style.png') }}" style="width: 100%;">
+										<img src="{{ asset('newdesign/img/payment-style.png') }}" style="width: 100%;">
 								</div>
 								<?php /*
 								<div class="row">
@@ -339,11 +339,11 @@
 								<div class="card-body">
 									Domestic Cards<br clear="all"><br clear="all">
 									<table class="table table-striped">
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/visa.jpg" width="50px;"></td><td><strong>Visa Cards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/mastercard.png" width="50px;"></td><td><strong>Mastercards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/rupay.jpg" width="50px;"></td><td><strong>Rupaycards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/maestro.jpg" width="50px;"></td><td><strong>Maestro</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/AmexCard.png" width="50px;"></td><td><strong>Amexcards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/visa.jpg') }}" width="50px;"></td><td><strong>Visa Cards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/mastercard.png') }}" width="50px;"></td><td><strong>Mastercards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/rupay.jpg') }}" width="50px;"></td><td><strong>Rupaycards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/maestro.jpg') }}" width="50px;"></td><td><strong>Maestro</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/AmexCard.png') }}" width="50px;"></td><td><strong>Amexcards</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
 									</table>
 								</div>
 							</div>
@@ -355,7 +355,7 @@
 								<div class="card-body">
 									UPI<br clear="all"><br clear="all">
 									<table class="table table-striped">
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/upi.png" width="50px;"></td><td><strong>UPI</strong><br>Gpay,Phonepay,Paytm&more..</td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/upi.png') }}" width="50px;"></td><td><strong>UPI</strong><br>Gpay,Phonepay,Paytm&more..</td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
 									</table>
 								</div>
 							</div>
@@ -370,7 +370,7 @@
 								<div class="card-body">
 									Debit Card EMI<br clear="all"><br clear="all">
 									<table class="table table-striped">
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/hdfc.png" width="50px;"></td><td><strong>HDFC BANK</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/hdfc.png') }}" width="50px;"></td><td><strong>HDFC BANK</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
 									</table>
 
 									Credit Card EMI<br clear="all">
@@ -380,10 +380,10 @@
 
 									Cardless EMI<br clear="all">
 									<table class="table table-striped">
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/zest.jpg" width="50px;"></td><td><strong>Zestmoney</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/es.png" width="50px;"></td><td><strong>Early Salary</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/InstaCred.png" width="50px;"></td><td><strong>Instacred</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/axio.png" width="50px;"></td><td><strong>Axio</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/zest.jpg') }}" width="50px;"></td><td><strong>Zestmoney</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/es.png') }}" width="50px;"></td><td><strong>Early Salary</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/InstaCred.png') }}" width="50px;"></td><td><strong>Instacred</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/axio.png') }}" width="50px;"></td><td><strong>Axio</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
 									</table>
 								</div>
 							</div>
@@ -394,15 +394,15 @@
 								<div class="card-body">
 									Wallet<br clear="all"><br clear="all">
 									<table class="table table-striped">
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/amazonpay.png" width="50px;"></td><td><strong>Amazon Pay</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/paytm.png" width="50px;"></td><td><strong>Paytm</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/phonepe.png" width="50px;"></td><td><strong>Phonepe</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/airtelmoney.png" width="50px;"></td><td><strong>Airtel Money</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/freecharge.png" width="50px;"></td><td><strong>Freecharge</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/jiomoney.png" width="50px;"></td><td><strong>Jiomoney</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/olamoney.png" width="50px;"></td><td><strong>Olamoney</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/payzapp.png" width="50px;"></td><td><strong>Payzapp</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/mobikwik.png" width="50px;"></td><td><strong>Mobikwik</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/amazonpay.png') }}" width="50px;"></td><td><strong>Amazon Pay</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/paytm.png') }}" width="50px;"></td><td><strong>Paytm</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/phonepe.png') }}" width="50px;"></td><td><strong>Phonepe</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/airtelmoney.png') }}" width="50px;"></td><td><strong>Airtel Money</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/freecharge.png') }}" width="50px;"></td><td><strong>Freecharge</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/jiomoney.png') }}" width="50px;"></td><td><strong>Jiomoney</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/olamoney.png') }}" width="50px;"></td><td><strong>Olamoney</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/payzapp.png') }}" width="50px;"></td><td><strong>Payzapp</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/mobikwik.png') }}" width="50px;"></td><td><strong>Mobikwik</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
 									</table>
 								</div>
 							</div>
@@ -413,9 +413,9 @@
 								<div class="card-body">
 									Paylater<br clear="all"><br clear="all">
 									<table class="table table-striped">
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/flexipay.png" width="50px;"></td><td><strong>Flexi Pay</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/icici.jpg" width="50px;"></td><td><strong>Icici</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
-										<tr><td><img src="<?php echo url('/') ?>/images/icon/simpl.png" width="50px;"></td><td><strong>Simpl</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/flexipay.png') }}" width="50px;"></td><td><strong>Flexi Pay</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/icici.jpg') }}" width="50px;"></td><td><strong>Icici</strong></td><td><button class="btn btn-sm btn-success">Activated</button></td></tr>
+										<tr><td><img src="{{ asset('images/icon/simpl.png') }}" width="50px;"></td><td><strong>Simpl</strong></td><td><button class="btn btn-sm btn-info">REQUEST</button></td></tr>
 									</table>
 								</div>
 							</div>

@@ -10,8 +10,7 @@ Highcharts.chart('container', {
         text: 'Subtitle...'
     },
     xAxis: {
-        categories: xAxis1,  /* ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], */
+        categories: xAxis1,  /* ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], */
         accessibility: {
             description: 'Months of the year'
         }

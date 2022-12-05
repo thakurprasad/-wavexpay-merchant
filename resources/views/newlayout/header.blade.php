@@ -108,7 +108,7 @@
 
                   <div class="row col-12">
                     <div class="col-3 rounded-circle" style="border:1px solid #ccc;">
-                        <img src="{{ url('images/logo/wave_x_pay.png') }}" width="100%">
+                        <img src="{{ asset('images/logo/wave_x_pay.png') }}" width="100%">
                     </div>
                     <div class="col-9">
                         <b>{{$get_merchant_details->merchant_name}}</b><br>

@@ -1,8 +1,8 @@
 @extends('newlayout.app')
 @section('page-style')
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<link href="{{ url('/') }}/dashboard-signup/css/style.css" rel="stylesheet" type="text/css"/>
-<link href="{{ url('/css/my-card.css') }}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('/dashboard-signup/css/style.css') }}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('/css/my-card.css') }}" rel="stylesheet" type="text/css"/>
 <style>
 .modal {
     overflow-y: auto;
