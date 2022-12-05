@@ -120,10 +120,10 @@
 
   @yield('page-script')
 
-
-<script>
-
-
+<script type="text/javascript">
+  $('#change_mode').on('change', function() {
+    location.href = "<?= url('/set-gateway-mode') ?>/"+$(this).val();
+  });
 </script>
 
 

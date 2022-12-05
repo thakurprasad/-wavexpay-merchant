@@ -6,10 +6,16 @@
     </button>
 
 <?php $m= (session('mode') ? session('mode') : 'test'); ?>
-
+ 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
-        <span class="{{ $m }}-mode-dashboard">You're In {{ ucfirst($m) }} Mode</span>
+        <div class="{{ $m }}-mode-dashboard">You're In 
+ <select id="change_mode" class="btn btn-sm btn-<?= ($m == 'test' ? 'danger' : 'success') ?>" style="font-weight: bold;">    
+    <option value="test" <?= ($m == 'test' ? 'selected' : '') ?>>Test</option>
+    <option value="live" <?= ($m == 'live' ? 'selected' : '') ?>>Live</option>
+  </select>
+
+         Mode</div>
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none">
             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
@@ -170,4 +176,3 @@
     </ul>
 
 </nav>
-
