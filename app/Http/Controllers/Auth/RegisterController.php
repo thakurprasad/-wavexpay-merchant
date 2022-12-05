@@ -164,10 +164,18 @@ class RegisterController extends Controller
 
             $merchant_user = MerchantUser::create($merchantuserinsertarray);
 
-            $merchant_keys = MerchantKey::create(array('merchant_id'=>$merchant_id,'api_title'=>'Razorpay','test_api_key'=>'wavexpay_test_'.$this->generateRandomString(14),'test_api_secret'=>$this->generateRandomString(20),'created_at'=>date('Y-m-d H:i:s')));
+            $merchant_keys = MerchantKey::create(
+                array(
+                    'merchant_id'=>$merchant_id,
+                    'api_title'=>'Razorpay',
+                    'test_api_key'=>'wavexpay_test_'.$this->generateRandomString(14),
+                    'test_api_secret'=>$this->generateRandomString(20),
+                    'created_at'=>date('Y-m-d H:i:s')
+                )
+            );
 
             DB::commit();
-            $merchant_salt = $access_salt; 
+            $merchant_salt = $access_salt;             
             $client = new Client(['base_uri' => env('API_BASE_URL')]);
             $api_end_point = '/api/merchants/login';
             $response = $client->request('POST',$api_end_point,[
