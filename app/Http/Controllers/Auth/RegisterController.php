@@ -177,7 +177,7 @@ class RegisterController extends Controller
             DB::commit();
             $merchant_salt = $access_salt;             
             $client = new Client(['base_uri' => env('API_BASE_URL')]);
-            $api_end_point = '/api/merchants/login';
+            $api_end_point = 'api/merchants/login';
             $response = $client->request('POST',$api_end_point,[
                 'form_params' => [
                     'email' => $request->input('email'),
