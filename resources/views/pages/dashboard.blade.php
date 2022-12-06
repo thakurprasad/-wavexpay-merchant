@@ -11,8 +11,6 @@
 @endsection
 @section('content')
 <div class="container-fluid">
-  
-    <x-notification/>
 <form method="get" id="search_form">
     <div class="row" style="margin:30px 0px;border: 1px solid #ccc;padding: 18px 0;box-shadow: 0px 0 22px -8px;margin-top: 30px;background-color: white;">
         <div class="col-md-5 col-lg-4 col-sm-12">

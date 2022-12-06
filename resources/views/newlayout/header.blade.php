@@ -176,3 +176,8 @@
     </ul>
 
 </nav>
+<div class="container-fluid">
+    <x-notification title="test" description="test,...."/>
+</div>
+
+<!-- You are in Test Mode, so only test data is shown. Activate your account to start making live transactions. -->

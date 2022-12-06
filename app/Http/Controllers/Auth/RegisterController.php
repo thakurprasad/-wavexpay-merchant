@@ -16,7 +16,7 @@ use GuzzleHttp\Client;
 use App\Models\Merchant;
 use App\Models\MerchantUser;
 use App\Models\MerchantKey;
-
+use Mail; 
 
 
 class RegisterController extends Controller
@@ -93,10 +93,10 @@ class RegisterController extends Controller
 
     public function SignUpMerchantStepOne(Request $request)
     {
-        DB::beginTransaction();
+
         try{
 
-             $input = $request->all();
+            $input = $request->all();
             $action = '';
             $register_session_array = array();
             $register_session_array['business_type'] = $input['business_type'];
@@ -109,19 +109,16 @@ class RegisterController extends Controller
             else if(isset($request->action) && $request->action=='reference')
             {
                 $ref_no = $request->ref_no;
-              return  $get_merchant_details = DB::table('merchants')->where('referral_link_text',$ref_no)->first();
+                $get_merchant_details = DB::table('merchants')->where('referral_link_text',$ref_no)->first();
                 $referred_by = $get_merchant_details->id;
                 $referral_id = $ref_no;
                 $register_session_array['referral_id'] = $referral_id;
                 $register_session_array['referred_by'] = $referred_by;
                 $action = 'referral';
             }
-            session::put('register_session_array',$register_session_array);
-            DB::commit();
+            session::put('register_session_array',$register_session_array);           
             return view('auth.register2',compact('action'));
-
-        }catch(\Exception $ex){
-            DB::rollback();
+        }catch(\Exception $ex){          
             return redirect()->back()->withErrors(['error'=>$ex->getMessage()]);
         }
 
@@ -129,7 +126,7 @@ class RegisterController extends Controller
 
     public function SignUpMerchantStepTwo(Request $request)
     {
-        //DB::beginTransaction();
+        DB::beginTransaction();
         /*try{*/
             $input = $request->all();
             $register_session_array = Session::get('register_session_array');
@@ -169,7 +166,7 @@ class RegisterController extends Controller
                     'merchant_id'=>$merchant_id,
                     'api_title'=>'Razorpay',
                     'test_api_key'=>'wavexpay_test_'.$this->generateRandomString(14),
-                    'test_api_secret'=>$this->generateRandomString(20),
+                    'test_api_secret'=> $this->generateRandomString(20),
                     'created_at'=>date('Y-m-d H:i:s')
                 )
             );
@@ -178,10 +175,11 @@ class RegisterController extends Controller
             $merchant_salt = $access_salt;             
             $client = new Client(['base_uri' => env('API_BASE_URL')]);
             $api_end_point = 'api/merchants/login';
+            $password =  $this->generateRandomString(10) ;
             $response = $client->request('POST',$api_end_point,[
                 'form_params' => [
                     'email' => $request->input('email'),
-                    'password' => 'password',
+                    'password' => $password, //'password',
                     'merchant_salt' => $merchant_salt,
                     'mode' => 'test'
                 ]
@@ -202,6 +200,14 @@ class RegisterController extends Controller
                 session()->put('merchant', $res['merchant']['merchant_id']);
                 session()->put('merchant_key', $res['api_key']);
                 session()->put('merchant_secret', $res['api_secret']);
+/*
+                 Mail::send('emails.registration', 
+                    ['name'=> $input['name'] , 'username' => $input['email'],'password'=> $password ], 
+                function($message) use($request){            
+                            $message->to( $request->input('email') );
+                            $message->subject('Thank you for Registering on WaveXpay as Merchant');
+                        });*/
+            
 
 
                     $get_merchant_details = Helper::get_merchant_details($res['merchant']['merchant_id']);
