@@ -126,10 +126,10 @@
                                                 </button>
                                                 <div class="form-group row col-md-12">
                                                     <div class="col-md-6">
-                                                        <a class="small" href="{{route('login')}}">Have an account? Login</a>
+                                                        <a class="small" href="{{url('login')}}">Have an account? Login</a>
                                                     </div>
                                                     <div class="col-md-6 text-right"> 
-                                                        <a class="small" href="{{route('register')}}">Don’t have an account? Create</a>
+                                                        <a class="small" href="{{url('register')}}">Don’t have an account? Create</a>
                                                     </div>
                                                 </div>
                                             </form>                                            
