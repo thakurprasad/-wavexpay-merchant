@@ -87,7 +87,7 @@ if(!empty($payments))
 
     <!-- Pie Chart -->
     <div class="col-xl-6 col-lg-6">
-        <div class="card shadow mb-4" style="min-height:510px;">
+        <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold" style="color: #00008B;">Order Overview</h6>
@@ -113,21 +113,31 @@ if(!empty($payments))
         </div>
     </div>
 
-    <x-payment-method-chart />
-<!-- 
+
     <div class="col-xl-6 col-lg-6">
       <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold" style="color: #00008B;">Payment Overview</h6>
-            
+            <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Dropdown Header:</div>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="chart-area">
-               <canvas id="mymethodChart" style="display:none;"></canvas> 
+                <canvas id="mymethodChart"></canvas>
             </div>
         </div>
         </div>
-    </div> -->
+    </div>
 
 
     <!-- Pie Chart -->
@@ -876,7 +886,7 @@ function create_ajax_order_chart(oxValues,oyValues){
 
 }
 
-/*
+
 function create_ajax_method_chart(pxValues,pyValues){
   console.log(pxValues);
 	var canv = document.createElement("canvas");
@@ -972,7 +982,7 @@ function create_ajax_method_chart(pxValues,pyValues){
 
 		}
 	}
-}*/
+}
 </script>
 
 

@@ -183,7 +183,7 @@ class PageController extends Controller
             DB::raw("MAX(amount) as max_amount")
         )
         ->whereYear('payment_created_at', date('Y'))
-        ->get();
+        ->get();    
         if(!empty($payment_min_max_data))
         {
             $min_max_transacion='['.$payment_min_max_data[0]->min_amount.','.$payment_min_max_data[0]->max_amount.']';

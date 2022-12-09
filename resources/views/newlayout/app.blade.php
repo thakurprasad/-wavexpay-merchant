@@ -19,6 +19,7 @@
   <link href="{{ asset('newdesign/css/sb-admin-2.min.css') }}" rel="stylesheet">
   <link href="{{ asset('newdesign/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/global-custom.css') }}" rel="stylesheet">
+<script src="{{ asset('newdesign/vendor/jquery/jquery.min.js') }}"></script>
   @yield('page-style')
 
 </head>
@@ -93,7 +94,7 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="{{ asset('newdesign/vendor/jquery/jquery.min.js') }}"></script>
+  <!-- <script src="{{ asset('newdesign/vendor/jquery/jquery.min.js') }}"></script> -->
   <script src="{{ asset('newdesign/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
   <!-- Core plugin JavaScript-->
