@@ -11,6 +11,7 @@
 @endsection
 @section('content')
 <div class="container-fluid">
+@include('alerts.message')
 <form method="get" id="search_form">
     <div class="row" style="margin:30px 0px;border: 1px solid #ccc;padding: 18px 0;box-shadow: 0px 0 22px -8px;margin-top: 30px;background-color: white;">
         <div class="col-md-5 col-lg-4 col-sm-12">
@@ -47,7 +48,7 @@ if(!empty($payments))
         <x-my-card type="1" title="New Order" value="{{count($orders)}}" icon="calendar" />
         <x-my-card type="2" title="Total Payments Amount" value="{{number_format($total_amount,2)}}" icon="rupee-sign" />
 
-        <x-my-card type="4" title="Total Transactions" value="1008" icon="chart-area" />
+        <x-my-card type="4" title="Total Transactions" value="{{number_format($total_transaction,0)}}" icon="chart-area" />
         <x-my-card type="3" title="Success Rate" value="{{$success_perc}}%" icon="clipboard-list" />
     </div>
 

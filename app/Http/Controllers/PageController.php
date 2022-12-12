@@ -194,9 +194,8 @@ class PageController extends Controller
         }
 
 
-
-        
-        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action','min_max_transacion','settlements','paymentmethodxvalue','paymentmethodyvalue','is_kyc_completed','merchant_id'));
+        $total_transaction = Payment::where('status', 'captured')->count();
+        return view('pages.dashboard', compact('payments','orders','disputes','refunds','users','success_perc','paymentxvalue1','paymentyvalue1','paymentmaxValue','paymentminValue','ordermaxValue','orderminValue','orderxvalue1','orderyvalue1','new_pie_chart_volume_data','xValue','yValue','dashboard_header','action','min_max_transacion','settlements','paymentmethodxvalue','paymentmethodyvalue','is_kyc_completed','merchant_id', 'total_transaction'));
     }
 
 

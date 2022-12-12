@@ -297,7 +297,12 @@ class Helper
 
      * */
     public static function weveXpay($get_key){
-
+        # return redirect()->away('https://www.google.com')->send();
+        $merchant_no_approved =Merchant::where(['id'=> session()->get('merchant')])
+        ->whereNull('wavexpay_api_key_id')->first();
+        if($merchant_no_approved){
+            return redirect()->back()->with(['warning'=>'Your account is currently not approved from Admin side. Please wait approveal'])->send();
+        }
         $api_key = session('merchant_key');
         $api_secret = session('merchant_secret');
 
@@ -346,7 +351,7 @@ class Helper
             }else{
                 die('Invalid API mode or getway');
             }
-
+ 
         }else{
             die("Invalid api key or api secret");
         }
@@ -356,10 +361,10 @@ class Helper
      * return Helper::api_key();
         return Helper::api_secret();
      * */
-    public static function api_key(){
+    public static function api_key(){              
         return Helper::weveXpay('api_key');
     }
-    public static function api_secret(){
+    public static function api_secret(){      
         return Helper::weveXpay('api_secret');
     }
 

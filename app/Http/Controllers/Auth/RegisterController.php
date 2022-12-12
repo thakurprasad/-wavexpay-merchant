@@ -126,6 +126,7 @@ class RegisterController extends Controller
 
     public function SignUpMerchantStepTwo(Request $request)
     {
+        #dd($request->input());
         DB::beginTransaction();
         /*try{*/
             $input = $request->all();
@@ -156,7 +157,8 @@ class RegisterController extends Controller
             $merchantuserinsertarray['name'] = $input['name'];
             $merchantuserinsertarray['email'] = $input['email'];
             $merchantuserinsertarray['email_verified_at'] = date('Y-m-d H:i:s');
-            $merchantuserinsertarray['password'] = Hash::make('password');
+            $password =  $this->generateRandomString(10);
+            $merchantuserinsertarray['password'] = Hash::make($password);
             $merchantuserinsertarray['created_at'] = date('Y-m-d H:i:s');
 
             $merchant_user = MerchantUser::create($merchantuserinsertarray);
@@ -172,10 +174,11 @@ class RegisterController extends Controller
             );
 
             DB::commit();
-            $merchant_salt = $access_salt;             
+            $merchant_salt = $access_salt;    
+            #dd($merchant_salt);      
             $client = new Client(['base_uri' => env('API_BASE_URL')]);
             $api_end_point = 'api/merchants/login';
-            $password =  $this->generateRandomString(10) ;
+           
             $response = $client->request('POST',$api_end_point,[
                 'form_params' => [
                     'email' => $request->input('email'),
@@ -185,7 +188,7 @@ class RegisterController extends Controller
                 ]
             ]);
 
-
+            /*dd($response);*/
             $status_code = $response->getStatusCode();
             $header = $response->getHeader('content-type');
             $res  =  json_decode($response->getBody(),true);
@@ -200,13 +203,13 @@ class RegisterController extends Controller
                 session()->put('merchant', $res['merchant']['merchant_id']);
                 session()->put('merchant_key', $res['api_key']);
                 session()->put('merchant_secret', $res['api_secret']);
-/*
+
                  Mail::send('emails.registration', 
                     ['name'=> $input['name'] , 'username' => $input['email'],'password'=> $password ], 
-                function($message) use($request){            
+                        function($message) use($request){            
                             $message->to( $request->input('email') );
                             $message->subject('Thank you for Registering on WaveXpay as Merchant');
-                        });*/
+                        });
             
 
 

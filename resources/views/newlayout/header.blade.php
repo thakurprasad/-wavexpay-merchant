@@ -5,7 +5,26 @@
         <i class="fa fa-bars"></i>
     </button>
 
-<?php $m= (session('mode') ? session('mode') : 'test'); ?>
+<?php $m = (session('mode') ? session('mode') : 'test');
+$alert_centers = [];
+//SELECT * FROM `wxp_payments` WHERE status = 'captured' AND merchant_id = 89;
+$payments = App\Models\Payment::where('status' , 'captured')->orderBy('payment_created_at', 'DESC')->take(10)->get();
+foreach ($payments as $key => $row) {
+    
+    $data['alert_date'] =  \Carbon\Carbon::parse($row->payment_created_at)->format('d F Y H:i A');
+    
+    $alert_message = "Payment receved <b>Rs. ". $row->amount ."</b> 
+                        from ".$row->email . " to payment_id=".$row->payment_id;
+    
+    $data['alert_message'] =  $alert_message;
+
+    $data['url'] =  url('transactions/payments');
+
+    $alert_centers[] = $data;
+}
+
+
+?>
  
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
@@ -46,7 +65,7 @@
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
+                <span class="badge badge-danger badge-counter">{{ count($alert_centers) }}+</span>
             </a>
             <!-- Dropdown - Alerts -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -54,7 +73,22 @@
                 <h6 class="dropdown-header">
                     Alerts Center
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+            @if(count($alert_centers)>0)
+                @foreach($alert_centers as $key => $val)
+                <a class="dropdown-item d-flex align-items-center" href="{{ ($val['url'] ? $val['url'] : '') }}">
+                    <div class="mr-3">
+                        <div class="icon-circle bg-success">
+                            <i class="fas fa-donate text-white"></i>
+                        </div>
+                    </div>
+                    <div>                        
+                        {!! $val['alert_message'] !!}
+                        <div class="small text-gray-500" style="text-align: right;">{!! $val['alert_date'] !!}</div>
+                    </div>
+                </a>
+                @endforeach
+            @endif    
+          <!--       <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="mr-3">
                         <div class="icon-circle bg-primary">
                             <i class="fas fa-file-alt text-white"></i>
@@ -65,17 +99,7 @@
                         <span class="font-weight-bold">A new monthly report is ready to download!</span>
                     </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-success">
-                            <i class="fas fa-donate text-white"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="small text-gray-500">December 7, 2019</div>
-                        $290.29 has been deposited into your account!
-                    </div>
-                </a>
+              
                 <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="mr-3">
                         <div class="icon-circle bg-warning">
@@ -86,8 +110,8 @@
                         <div class="small text-gray-500">December 2, 2019</div>
                         Spending Alert: We've noticed unusually high spending for your account.
                     </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                </a>  --> 
+                <a class="dropdown-item text-center small text-gray-500" href="{{ url('transactions/payments') }}">Show All Alerts</a>
             </div>
         </li>
 
@@ -177,6 +201,30 @@
 
 </nav>
 <div class="container-fluid">
+<?php 
+
+    $mode = session()->get('mode');
+    $row = App\Models\MerchantKey::where(['merchant_id'=> session()->get('merchant')])
+    ->whereNull( $mode . '_api_secret')->WhereNull($mode . '_api_key')
+    ->first();
+
+    // if find row then not approved or assigned razorpay account form admin side 
+    $merchant_no_approved = App\Models\Merchant::where(['id'=> session()->get('merchant')])
+    ->whereNull('wavexpay_api_key_id')->first();
+
+    $link = "<a href='".url('/general-settings')."'>Generate api key</a>";
+?>
+    @if($row && $mode == 'live')        
+        <x-notification title="API Key" description="You can only use WaveXpay in test mode until your account is not activated for live. Please generate live api key to access live mode. {!! $link !!} "/>
+    @endif
+
+     @if($merchant_no_approved)
+     
+<!-- You can only use Razorpay in test mode until your account is activated.
+Please fill and submit the Activation Form to access live mode. -->
+
+        <x-notification title="Account Status" description="your account is currently not approved from Admin side. Please wait approveal"/>
+    @endif
     <x-notification title="test" description="test,...."/>
 </div>
 

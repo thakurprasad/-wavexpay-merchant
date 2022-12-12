@@ -29,7 +29,7 @@ class ForgotPasswordController extends Controller
 
     public function showForgetPasswordForm()
     {
-       return view('auth.passwords.forgetPassword');
+        return view('auth.passwords.forgetPassword');
     }
 
 
@@ -68,6 +68,7 @@ class ForgotPasswordController extends Controller
             $message->to($request->email);
             $message->subject('Reset Password');
         });
+
         return back()->with('message', 'We have e-mailed your password reset link!');
     }
 

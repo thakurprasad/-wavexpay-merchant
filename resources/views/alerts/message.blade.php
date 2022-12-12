@@ -15,6 +15,7 @@
 <div class="col s12 m12 my-1">
 
 @if ($errors->any())
+
       <div class="card alert alert-danger alert-dismissible fade show" role="alert">
       <p> <strong>Error! </strong> There were some problems with your input.</p>
         <ul>
@@ -30,57 +31,49 @@
 
 
       @if(session()->has('news'))
-        <div class="card-alert card gradient-45deg-purple-deep-orange">
-          <div class="card-content white-text">
-            <p><i class="material-icons">notifications</i> <strong>NEWS : </strong> {{ session()->get('news') }}</p>
+
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong>News: </strong> {{ session()->get('news') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
+
       @endif
 
       @if(session()->has('info'))
-      <div class="card-alert card gradient-45deg-light-blue-cyan">
-        <div class="card-content white-text">
-          <p>
-            <i class="material-icons">info_outline</i> <strong>INFO : </strong> {{ session()->get('info') }}</p>
-        </div>
-        <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
+
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong>Info: </strong> {{ session()->get('info') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
       @endif
 
       @if(session()->has('success'))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>SUCCESS!</strong> {{ session()->get('success') }}.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success:</strong> {{ session()->get('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
       @endif
 
       @if(session()->has('error'))
-      <div class="card-alert card gradient-45deg-red-pink">
-        <div class="card-content white-text">
-          <p>
-            <i class="material-icons">error</i> <strong>DANGER :</strong> {{ session()->get('error') }}</p>
-        </div>
-        <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      @endif
 
-    @if(session()->has('warning'))
-      <div class="card-alert card gradient-45deg-amber-amber">
-        <div class="card-content white-text">
-          <p>
-            <i class="material-icons">warning</i> <strong>WARNING :</strong> {{ session()->get('warning') }}</p>
-        </div>
-        <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">×</span>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error:</strong> {{ session()->get('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+      @endif
+    @if(session()->get('warning'))
+     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Warning:</strong> {{ session()->get('warning') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
     @endif  
