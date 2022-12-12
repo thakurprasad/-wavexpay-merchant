@@ -5,7 +5,8 @@
         <i class="fa fa-bars"></i>
     </button>
 
-<?php $m = (session('mode') ? session('mode') : 'test');
+<?php 
+$m = (session('mode') ? session('mode') : 'test');
 $alert_centers = [];
 //SELECT * FROM `wxp_payments` WHERE status = 'captured' AND merchant_id = 89;
 $payments = App\Models\Payment::where('status' , 'captured')->orderBy('payment_created_at', 'DESC')->take(10)->get();
