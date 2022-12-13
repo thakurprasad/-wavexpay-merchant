@@ -9,7 +9,7 @@
 $m = (session('mode') ? session('mode') : 'test');
 $alert_centers = [];
 //SELECT * FROM `wxp_payments` WHERE status = 'captured' AND merchant_id = 89;
-$payments = App\Models\Payment::where('status' , 'captured')->orderBy('payment_created_at', 'DESC')->take(10)->get();
+$payments = App\Models\Payment::where('status' , 'captured')->orderBy('payment_created_at', 'DESC')->take(5)->get();
 foreach ($payments as $key => $row) {
     
     $data['alert_date'] =  \Carbon\Carbon::parse($row->payment_created_at)->format('d F Y H:i A');
