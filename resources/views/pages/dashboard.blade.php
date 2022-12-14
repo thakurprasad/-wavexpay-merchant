@@ -292,6 +292,7 @@ if(!empty($payments))
 
 <!--Open modal after signup-->
 <!-- Trigger/Open The Modal -->
+
 <button id="myBtn" style="display:none;">Open Modal</button>
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -1341,10 +1342,14 @@ function openCity(evt, cityName) {
 
 
 
-
 <script>
     // Get the modal
     var modal = document.getElementById("myModal");
+    <?php 
+     $flag =  Helper::merchant_profile_update_popup_flag(); 
+    if($flag){ ?>
+      modal.style.display = "block";
+    <?php } ?>
     // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
     // Get the <span> element that closes the modal

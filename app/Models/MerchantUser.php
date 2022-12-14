@@ -35,4 +35,12 @@ class MerchantUser extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /*  include extra where condication in every select query    */
+    public function newQuery($auth = true) {
+        return parent::newQuery($auth)->where([
+                'merchant_id' => session()->get('merchant'), 
+            ]);
+    }
+
 }

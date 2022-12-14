@@ -8,6 +8,7 @@
 #/public/fonts
 #/public/vendors
 #/public/json 
+public/DocumentationImage
 materialize-shell-scripts
 .env
 .env.backup

@@ -14,7 +14,7 @@
 
 <div class="col s12 m12 my-1">
 
-@if ($errors->any())
+@if($errors->any())
 
       <div class="card alert alert-danger alert-dismissible fade show" role="alert">
       <p> <strong>Error! </strong> There were some problems with your input.</p>

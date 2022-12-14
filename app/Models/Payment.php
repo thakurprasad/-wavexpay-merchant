@@ -16,7 +16,7 @@ class Payment extends Model
      * @var array
      */
     protected $fillable = [
-        'merchant_id', 'payment_id',  'amount', 'email', 'contact', 'payment_created_at', 'status', 'payment_method', 'created_at', 'updated_at', 'transaction_mode'
+        'merchant_id', 'payment_id',  'amount', 'email', 'contact', 'payment_created_at', 'status', 'payment_method', 'created_at', 'updated_at', 'transaction_mode', 'wavexpay_api_key_id'
     ];
 
 
@@ -46,9 +46,10 @@ class Payment extends Model
     
 /*  include extra where condication in every select query    */
     public function newQuery($auth = true) {
+
         return parent::newQuery($auth)->where([
                 'merchant_id' => session()->get('merchant'), 
-                'transaction_mode'=> session()->get('mode') 
+                'transaction_mode'=> session()->get('mode')
             ]);
     }
 

@@ -28,4 +28,12 @@ class Merchant extends Model
          return $this->hasMany(MerchantAddress::class)->count();
     }  
 
+    /*  include extra where condication in every select query    */
+    public function newQuery($auth = true) {
+        return parent::newQuery($auth)->where([
+                'merchants.id' => session()->get('merchant')
+            ]);
+    }
+
+
 }

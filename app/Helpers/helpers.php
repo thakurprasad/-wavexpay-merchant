@@ -7,6 +7,7 @@ use Config;
 use DB;
 use Razorpay\Api\Api;
 use App\Models\MerchantKey;
+use App\Models\MerchantUser;
 use App\Models\WavexpayApiKey;
 
 class Helper
@@ -413,6 +414,24 @@ class Helper
         }
         $val =$rand;
         return $val;
+    }
+
+    public static function merchant_profile_update_popup_flag(){
+        
+        $merchant = MerchantUser::select('beneficiary_name','ifsc_code','account_number','pan_holder_name')
+                                ->orWhereNull('beneficiary_name')
+                                ->orWhereNull('ifsc_code')
+                                ->orWhereNull('account_number')
+                                ->orWhereNull('pan_holder_name')
+                                ->first();
+                                echo "line no :4444";
+      //  print_r($merchant);
+        if($merchant){
+            return true;
+        }else{
+            return false;
+        }
+        
     }
 
 }
