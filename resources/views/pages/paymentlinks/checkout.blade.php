@@ -34,7 +34,7 @@
             <div class="col-md-4 borderwv">
                <div class="row ">
                   <div class="col-md-4 mob-logo blue-box-checkout-page">
-                     <div class="logo"><img src="{{asset('/payments/images/logo.png')}}" class="whatsapp img-responsive"></div>
+                     <div class="logo"><img alt="LOGO" src="{{ ( $general_settings->logo ) ? $general_settings->logo : ''   }}" class="whatsapp img-responsive"></div>
                   </div>
                   <div class="col-md-8 mob-text blue-box-checkout-page">
                      <div class="blue-box-checkout">
@@ -90,5 +90,23 @@
             <div class="col-md-4"></div>
          </div>
       </div>
+<?php $theme_color = $general_settings->theme_color;
+$theme_color = (!empty($theme_color) ? $theme_color : '#2e4cea');
+ ?>
+<style type="text/css">
+.blue-box-checkout-page {
+    background: <?= $theme_color ?>;
+}
+
+.wv3-btn {
+    background: <?= $theme_color ?>;
+ }
+ .blue-box-checkout{
+    background: <?= $theme_color ?>;
+ }
+ .darkwv{
+   background: <?= $theme_color ?>; 
+ }
+</style>      
    </body>
 </html>

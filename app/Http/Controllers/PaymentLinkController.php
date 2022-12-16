@@ -8,6 +8,7 @@ use DB;
 use App\Models\PaymentLink;
 use App\Models\Merchant;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\GeneralSetting;
 use Helper;
 use Mail;
 
@@ -469,7 +470,9 @@ class PaymentLinkController extends Controller
 
 
     public function openPaymentLinkPage(Request $request)
-    {
+    {  
+        $general_settings = GeneralSetting::first();
+
         $link_text = request()->segment(count(request()->segments()));
         $get_payment_link_details_by_text = DB::table('payment_link')->where('link_text',$link_text)->first();
 
@@ -478,7 +481,7 @@ class PaymentLinkController extends Controller
         $display_name = $merchant_users_details->display_name;
 
 
-        return view('pages.paymentlinks.checkout',compact('get_payment_link_details_by_text','display_name','link_text'));
+        return view('pages.paymentlinks.checkout',compact('get_payment_link_details_by_text','display_name','link_text', 'general_settings'));
         //return view('pages.paymentlinks.checkoutall',compact('get_payment_link_details_by_text','display_name'));
     }
 
@@ -493,7 +496,7 @@ class PaymentLinkController extends Controller
         $merchant_id =  session()->get('merchant');
         $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
         $display_name = $merchant_users_details->display_name;
-
-        return view('pages.paymentlinks.checkoutall',compact('phone','email','display_name','get_payment_link_details_by_text'));
+        $general_settings = GeneralSetting::first();
+        return view('pages.paymentlinks.checkoutall',compact('phone','email','display_name','get_payment_link_details_by_text', 'general_settings'));
     }
 }

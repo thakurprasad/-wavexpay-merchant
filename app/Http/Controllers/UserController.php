@@ -225,7 +225,8 @@ class UserController extends Controller
             $uploadedImage = 'logo_'.date('YmdHis') . "." . $files->getClientOriginalExtension();
             $files->move($destinationPath, $uploadedImage);
         }
-        GeneralSetting::where('id',$merchant_id)->update(array('logo'=>$uploadedImage));
+        $url = asset('/images/logo/'.$uploadedImage);
+        GeneralSetting::where('id',$merchant_id)->update(array('logo'=>$url));
         return response()->json(array('success'=>1));
     }
 

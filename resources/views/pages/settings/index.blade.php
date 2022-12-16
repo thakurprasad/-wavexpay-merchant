@@ -109,7 +109,7 @@
 													if(isset($general_settings->theme_color) && $general_settings->theme_color!='') { echo $general_settings->theme_color; } else { echo 'background-color: rgb(82, 143, 240)'; } @endphp; padding: 10px;">
 									<div class="col-md-6" style="padding-top:10px;">
 										@if(isset($general_settings->logo) && $general_settings->logo!='')
-										<img id="blah" src="{{ asset('/images/logo/'.$general_settings->logo) }}" width="99%">
+										<img id="blah" src="{{ $general_settings->logo }}" width="99%">
 										@else 
 										<img id="blah" src="{{ asset('/images/logo/wave_x_pay.png') }}" width="99%">
 										@endif

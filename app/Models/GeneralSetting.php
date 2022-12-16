@@ -21,4 +21,13 @@ class GeneralSetting extends Model
     protected $fillable = [
         'theme_color', 'logo', 'language', 'merchant_id', 'created_at', 'updated_at'
     ];
+
+
+/*  include extra where condication in every select query    */
+    public function newQuery($auth = true) {
+        return parent::newQuery($auth)->where([
+                'merchant_id' => session()->get('merchant')
+            ]);
+    }
+
 }
