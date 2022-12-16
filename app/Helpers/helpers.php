@@ -435,7 +435,7 @@ class Helper
     }
 
 
-    public function mailFlag($mail_type){
+    public static function mailFlag($mail_type){
         if($mail_type == 'forgot_password'){
             return true;
         }
