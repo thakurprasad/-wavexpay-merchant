@@ -220,12 +220,12 @@ class UserController extends Controller
         $merchant_id =  session()->get('merchant');
         if ($files = $request->file('theme_logo')) {
             // Define upload path
-            $destinationPath = public_path('/images/logo/'); // upload path
+            $destinationPath = public_path('/uploads/logo/'); // upload path
             // Upload Orginal Image
             $uploadedImage = 'logo_'.date('YmdHis') . "." . $files->getClientOriginalExtension();
             $files->move($destinationPath, $uploadedImage);
         }
-        $url = asset('/images/logo/'.$uploadedImage);
+        $url = asset('/uploads/logo/'.$uploadedImage);
         GeneralSetting::where('id',$merchant_id)->update(array('logo'=>$url));
         return response()->json(array('success'=>1));
     }

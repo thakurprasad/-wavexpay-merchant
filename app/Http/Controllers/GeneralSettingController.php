@@ -28,7 +28,7 @@ class GeneralSettingController extends Controller
     public function getGeneralSetting(Request $request)
     {
         $id = $request->id;
-        $general_settings = DB::table('general_settings')->where('id',$id)->first();
+        $general_settings = GeneralSetting::where('id',$id)->first();
         return view('pages.settings.edit', compact('general_settings'));
     }
 
@@ -41,13 +41,14 @@ class GeneralSettingController extends Controller
         unset($input['_token']);
         if ($files = $request->file('logo')) {
             // Define upload path
-            $destinationPath = public_path('/images/logo/'); // upload path
+            $destinationPath = public_path('/uploads/logo/'); // upload path
             // Upload Orginal Image
             $uploadedImage = 'logo_'.date('YmdHis') . "." . $files->getClientOriginalExtension();
             $files->move($destinationPath, $uploadedImage);
-            $input['logo'] = $uploadedImage;
+
+            $input['logo'] = asset('/uploads/logo/'. $uploadedImage );
         }
-        DB::table('general_settings')->where('id',$id)->update($input);
+        GeneralSetting::where('id',$id)->update($input);
         return redirect()->route('general-settings')
                         ->with('success','Updated successfully');
     }
