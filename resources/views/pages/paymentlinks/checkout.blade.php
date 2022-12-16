@@ -21,10 +21,10 @@
                   var phone = $("#phone").val();
                   var email = $("#email").val();
                   var link_text = $("#link_text").val();
-                  location.href= '{{ url("/") }}/paylink-checkout?link_text='+link_text+'&phone='+phone+'&email='+email;
+                  location.href= '{{ url("/paylink-checkout") }}?link_text='+link_text+'&phone='+phone+'&email='+email;
                }
            </script>
-      <link href="{{url('/')}}/payments/style.css" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('payments/style.css')}}" rel="stylesheet" type="text/css"/>
    </head>
    <body>
       <div class="container">
@@ -34,7 +34,7 @@
             <div class="col-md-4 borderwv">
                <div class="row ">
                   <div class="col-md-4 mob-logo blue-box-checkout-page">
-                     <div class="logo"><img src="{{url('/')}}/payments/images/logo.png" class="whatsapp img-responsive"></div>
+                     <div class="logo"><img src="{{asset('/payments/images/logo.png')}}" class="whatsapp img-responsive"></div>
                   </div>
                   <div class="col-md-8 mob-text blue-box-checkout-page">
                      <div class="blue-box-checkout">

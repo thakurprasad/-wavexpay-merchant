@@ -90,7 +90,7 @@
       }
          
       </script>
-      <link href="{{url('/')}}/payments/style.css" rel="stylesheet" type="text/css"/>
+      <link href="{{asset('/payments/style.css')}}" rel="stylesheet" type="text/css"/>
    </head>
    <body>
       <div class="container">
@@ -109,7 +109,7 @@
                <div class="col-md-4 borderwv-checkout">
                   <div class="row ">
                      <div class="col-md-4 mob-logo blue-box-checkout-page">
-                        <div class="logo"><img src="{{url('/')}}/payments/images/logo.png" class="whatsapp img-responsive"></div>
+                        <div class="logo"><img src="{{asset('/payments/images/logo.png')}}" class="whatsapp img-responsive"></div>
                      </div>
                      <div class="col-md-8 mob-text blue-box-checkout-page">
                         <div class="blue-box-checkout">
@@ -127,7 +127,7 @@
                      <div class="boxwv-2">
                         <div class="boxwv-2inner">
                         <div class="img-wv2">
-                           <img src="{{url('/')}}/payments/images/upi.jpg" class="whatsapp img-responsive">
+                           <img src="{{asset('/payments/images/upi.jpg')}}" class="whatsapp img-responsive">
                         </div>
                         <div class="wv2-text">
                            <p>UPI</p>
@@ -137,19 +137,19 @@
                      </div>
                         <div class="upiwv">
                               <div class="upiwv-inner1">
-                                 <img src="{{url('/')}}/payments/images/gpay.jpg" class="whatsapp img-responsive">
+                                 <img src="{{asset('payments/images/gpay.jpg')}}" class="whatsapp img-responsive">
                                  <span>Google Pay</span>
                               </div>
                               <div class="upiwv-inner1">
-                                 <img src="{{url('/')}}/payments/images/phone.jpg" class="whatsapp img-responsive">
+                                 <img src="{{asset('/payments/images/phone.jpg')}}" class="whatsapp img-responsive">
                                  <span>PhonePe</span>
                               </div>
                               <div class="upiwv-inner1">
-                                 <img src="{{url('/')}}/payments/images/paytm.jpg" class="whatsapp img-responsive">
+                                 <img src="{{asset('/payments/images/paytm.jpg')}}" class="whatsapp img-responsive">
                                  <span>PayTM</span>
                               </div>
                               <div class="upiwv-inner1">
-                                 <img src="{{url('/')}}/payments/images/other.jpg" class="whatsapp img-responsive">
+                                 <img src="{{asset('/payments/images/other.jpg')}}" class="whatsapp img-responsive">
                                  <span>Others</span>
                               </div>
                            </div>
@@ -162,7 +162,7 @@
                      
                      <div class="boxwv-3">
                         <div class="img-wv2">
-                           <img src="{{url('/')}}/payments/images/net.jpg" class="whatsapp img-responsive">
+                           <img src="{{asset('/payments/images/net.jpg')}}" class="whatsapp img-responsive">
                         </div>
                         <div class="wv2-text">
                            <p>Netbanking</p>
@@ -175,7 +175,7 @@
                      
                      <div class="boxwv-4">
                         <div class="img-wv2">
-                           <img src="{{url('/')}}/payments/images/wallet.jpg" class="whatsapp img-responsive">
+                           <img src="{{asset('/payments/images/wallet.jpg')}}" class="whatsapp img-responsive">
                         </div>
                         <div class="wv2-text">
                            <p>Wallet</p>
