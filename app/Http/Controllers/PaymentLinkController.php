@@ -227,8 +227,8 @@ class PaymentLinkController extends Controller
                 );
 
                 if($email && Helper::mailFlag('create_payment_link')){    
-
-                        $MAIL_DATA['payment_link']     = $response->short_url;
+                        $payment_link =  url('/i/pl/'.$link_text);
+                        $MAIL_DATA['payment_link']     = $payment_link;
                         $MAIL_DATA['payment_id']       = $response->id;
                         $MAIL_DATA['issued_to_name']   = $request['customer_name'];
                         $MAIL_DATA['issued_to_mobile'] = $request['customer_contact'];
