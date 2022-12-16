@@ -35,5 +35,10 @@ class Merchant extends Model
             ]);
     }
 
+  /*  public function getFullNameAttribute()
+    {
+       return $name =  ucwords("{$this->first_name} {$this->last_name}");
+    }*/
+
 
 }

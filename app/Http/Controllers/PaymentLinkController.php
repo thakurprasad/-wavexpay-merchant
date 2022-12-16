@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use DB;
 use App\Models\PaymentLink;
+use App\Models\Merchant;
 use Illuminate\Support\Facades\Crypt;
 use Helper;
+use Mail;
 
 class PaymentLinkController extends Controller
 {
+   
     public function index(Request $request){
+
         $breadcrumbs = [
             ['link' => "payment-links", 'name' => "Payment Links"]
         ];
@@ -76,7 +80,8 @@ class PaymentLinkController extends Controller
     }
 
     public function createPaymentLink(Request $request){
-        #$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
+
+
         $api = new Api(Helper::api_key(), Helper::api_secret());
         $accept_partial = false;
         $db_accept_partial = 0;
@@ -85,6 +90,25 @@ class PaymentLinkController extends Controller
         $reference_id = rand(10000,99999);
         $customer_contact = rand(1000000000,20000000000);
         $customer_email = 'testcustomer'.rand(1000,2000).'@wavexpay.com';
+
+        /**
+         * data for mail
+         * 
+         * */
+     
+  $merchant_data = Merchant::select('merchants.id', 'merchants.merchant_name', 'merchants.merchant_logo', 'merchant_users.name', 'merchant_users.display_name', 'merchant_users.email')
+        ->join('merchant_users', 'merchant_users.merchant_id', '=', 'merchants.id')->first();
+   
+      
+
+        $MAIL_DATA['merchant_display_name'] = $merchant_data->merchant_name;
+        $MAIL_DATA['merchant_address']      = "Delhi 110041";
+        $MAIL_DATA['logo']                  = $merchant_data->merchant_logo;
+
+
+        /**
+         * end param lists
+         * */
 
         if(isset($request['partial_paymet']) && $request['partial_paymet']=='yes'){
             $accept_partial = true;
@@ -129,7 +153,7 @@ class PaymentLinkController extends Controller
                     'currency'=>'INR',
                     'accept_partial'=>$accept_partial, 
                     'description' => $request['payment_description'], 
-                    'notify'=> array('sms'=>$sms, 'email'=>$email) , 
+                    'notify'=> array('sms'=>$sms, 'email'=>$email), 
                     'reminder_enable'=>true ,
                     'notes'=>$note_array,
                     'callback_url' => $callback_url, #'https://example-callback-url.com/',
@@ -179,9 +203,10 @@ class PaymentLinkController extends Controller
 
         DB::beginTransaction();
         try{
+            $amount = (float)$response->amount/100;
             PaymentLink::create(
                 array(
-                        'amount'=> (float)$response->amount/100,
+                        'amount'=> $amount,
                         'reference_id' => $response->reference_id, 
                         'currency'=>'INR',
                         'accept_partial'=>$db_accept_partial,
@@ -200,6 +225,23 @@ class PaymentLinkController extends Controller
                         'created_at'=>date('Y-m-d H:i:s')
                     )
                 );
+
+                if($email && Helper::mailFlag('create_payment_link')){    
+
+                        $MAIL_DATA['payment_link']     = $response->short_url;
+                        $MAIL_DATA['payment_id']       = $response->id;
+                        $MAIL_DATA['issued_to_name']   = $request['customer_name'];
+                        $MAIL_DATA['issued_to_mobile'] = $request['customer_contact'];
+                        $MAIL_DATA['issued_to_email']  = $request['customer_email'];
+                        $MAIL_DATA['amount_payable']   = number_format($amount);
+                    Mail::send('emails.payment-link', $MAIL_DATA ,
+                        function($message) use($request){   
+                            $message->to( $request->input('customer_email') );
+                            $message->subject('Thank you for Registering on WaveXpay as Merchant');
+                        });
+            
+                }
+
             DB::commit();
             return response()->json(array("success" => 1));  
         }catch(Exception $ex){

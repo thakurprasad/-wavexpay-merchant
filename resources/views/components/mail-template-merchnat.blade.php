@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="color-scheme" content="light dark" />
     <meta name="supported-color-schemes" content="light dark" />
-    <title>WeveXpay Payment Gateway</title>
+    <title>WeveXpay Payment Gateway :: Merchnat</title>
     <style type="text/css" rel="stylesheet" media="all">
     /* Base ------------------------------ */
     
@@ -459,9 +459,7 @@
           <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
             <tr>
               <td class="email-masthead">
-                <a href="https://wavexpay.com" class="f-fallback email-masthead_name">
-                <img src="https://wavexpay.com/assets/images/logo/logo2.png">
-              </a>
+                
               </td>
             </tr>
             <!-- Email Body -->
@@ -477,11 +475,15 @@
                 <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
                   <tr>
                     <td class="content-cell" align="center">
+                     <a href="https://wavexpay.com" class="f-fallback email-masthead_name">
+                        <img src="https://wavexpay.com/assets/images/logo/logo2.png">
+                      </a>
                       <p class="f-fallback sub align-center">
                         Wevexpay Payment Gateway Pvt. Ltd.
                         <br>New Ashok Nagar
-                        <br>New Delhi 110096
+                        <br>New Delhi 110096                        
                       </p>
+                      <p class="text-right" style="font-size: 11px;">Sign up with <a style="color:#ff6136" href="https://wavexpay.com">WaveXpay</a> to accept payments via links for your business.</p>
                     </td>
                   </tr>
                 </table>

@@ -434,4 +434,24 @@ class Helper
         
     }
 
+
+    public function mailFlag($mail_type){
+        if($mail_type == 'forgot_password'){
+            return true;
+        }
+        if($mail_type == 'sign_up' || $mail_type == 'register'){
+            return true;
+        }
+        if($mail_type == 'create_payment_link'){
+            return true;
+        }
+        if($mail_type == 'payment_link_after_pay'){
+            return false;
+        }
+        if($mail_type == 'invoice'){
+            return false;
+        }
+        return false;
+    }
+
 }

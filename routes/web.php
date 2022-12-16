@@ -27,7 +27,7 @@ use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
-Route::get('testing', function(){ return view('pages.testing');}  );
+Route::get('testing', function(){ return view('emails.payment-link');}  );
 Auth::routes(['verify' => true]);
 
 Route::get('register', [RegisterController::class, 'showRegistrationForm']);
