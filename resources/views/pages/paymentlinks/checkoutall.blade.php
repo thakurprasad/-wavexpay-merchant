@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html>
    <head>
       <!-- Meta -->
       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-      <title>wavexpay</title>
+      <title>WaveXpay</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- Styles -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -40,7 +41,7 @@
 
                 var options = {
                     //"key": "rzp_test_YRAqXZOYgy9uyf",
-                    "key": "{{ Helper::api_key() }}",
+                    "key": "{{ $api_key }}",
                     "amount": amount,
                     "currency": "INR",
                     "name": "{{ config('app.account_name') }}",
@@ -92,6 +93,7 @@
       </script>
       <link href="{{asset('/payments/style.css')}}" rel="stylesheet" type="text/css"/>
    </head>
+
    <body>
       <div class="container">
          <div class="space-height"></div>

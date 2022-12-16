@@ -9,6 +9,7 @@ use App\Models\PaymentLink;
 use App\Models\Merchant;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\GeneralSetting;
+use App\Models\WavexpayApiKey;
 use Helper;
 use Mail;
 
@@ -471,32 +472,41 @@ class PaymentLinkController extends Controller
 
     public function openPaymentLinkPage(Request $request)
     {  
-        $general_settings = GeneralSetting::first();
+        
 
         $link_text = request()->segment(count(request()->segments()));
+
         $get_payment_link_details_by_text = DB::table('payment_link')->where('link_text',$link_text)->first();
 
-        $merchant_id =  session()->get('merchant');
+        $merchant_id =  $get_payment_link_details_by_text->merchant_id;
         $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
         $display_name = $merchant_users_details->display_name;
 
+        $general_settings = GeneralSetting::where('merchant_id', $merchant_id)->first();
 
         return view('pages.paymentlinks.checkout',compact('get_payment_link_details_by_text','display_name','link_text', 'general_settings'));
+
         //return view('pages.paymentlinks.checkoutall',compact('get_payment_link_details_by_text','display_name'));
     }
 
     public function paylinkCheckout(Request $request)
     {
+        #\DB::enableQueryLog(); 
         $phone = $request->phone;
         $email = $request->email;
 
         $link_text = $request->link_text;
         $get_payment_link_details_by_text = DB::table('payment_link')->where('link_text',$link_text)->first();
 
-        $merchant_id =  session()->get('merchant');
+        $merchant_id = $get_payment_link_details_by_text->merchant_id;
         $merchant_users_details = DB::table('merchant_users')->where('merchant_id',$merchant_id)->first();
         $display_name = $merchant_users_details->display_name;
-        $general_settings = GeneralSetting::first();
-        return view('pages.paymentlinks.checkoutall',compact('phone','email','display_name','get_payment_link_details_by_text', 'general_settings'));
+        $general_settings = GeneralSetting::where('merchant_id', $merchant_id)->first();
+       # dd(\DB::getQueryLog()); // Show
+        $mode = $get_payment_link_details_by_text->transaction_mode;
+         $WavexpayApiKey = WavexpayApiKey::select($mode.'_api_key as api_key')
+        ->where('id', $get_payment_link_details_by_text->wavexpay_api_key_id)->first();
+        $api_key = $WavexpayApiKey->api_key;
+        return view('pages.paymentlinks.checkoutall', compact('phone','email','display_name','get_payment_link_details_by_text', 'general_settings', 'api_key'));
     }
 }

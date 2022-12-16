@@ -28,6 +28,12 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
 Route::get('testing', function(){ return view('emails.payment-link');}  );
+
+Route::get('/i/pl/{link}', [PaymentLinkController::class, 'openPaymentLinkPage']);
+Route::get('paylink-checkout',  [PaymentLinkController::class, 'paylinkCheckout'] );
+Route::post('/orderid-generate', [App\Http\Controllers\RazorpayPaymentController::class, 'orderIdGenerate']);
+
+
 Auth::routes(['verify' => true]);
 
 Route::get('register', [RegisterController::class, 'showRegistrationForm']);
@@ -134,7 +140,7 @@ Route::group(['middleware' => ['token.check']], function() {
 
     Route::get('create-payment-links',  [PaymentLinkController::class, 'openPaymentLink'] );
     Route::get('create-standard-payment-links',  [PaymentLinkController::class, 'openStandardPaymentLink'] );
-    Route::get('/i/pl/{link}', [PaymentLinkController::class, 'openPaymentLinkPage']);
+    
 
 
     Route::get('general-settings',  [GeneralSettingController::class, 'index'] )->name('general-settings');
@@ -189,11 +195,11 @@ Route::group(['middleware' => ['token.check']], function() {
 
     Route::get('rewards',  [AffiliateController::class, 'rewards'] );
 
-    Route::get('paylink-checkout',  [PaymentLinkController::class, 'paylinkCheckout'] );
+    
 
 
 
-    Route::post('/orderid-generate', [App\Http\Controllers\RazorpayPaymentController::class, 'orderIdGenerate']);
+   
     Route::post('/razorpaypayment', [App\Http\Controllers\RazorpayPaymentController::class, 'storePayment']);
 
 

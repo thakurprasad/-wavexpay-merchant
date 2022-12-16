@@ -24,10 +24,14 @@ class GeneralSetting extends Model
 
 
 /*  include extra where condication in every select query    */
-    public function newQuery($auth = true) {
+   /* public function newQuery($auth = true) {
+        if(session()->get('merchant')){
         return parent::newQuery($auth)->where([
                 'merchant_id' => session()->get('merchant')
             ]);
-    }
+        }else{
+            // 
+        }
+    }*/
 
 }

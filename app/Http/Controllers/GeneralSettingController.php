@@ -15,7 +15,7 @@ use Helper;
 
 class GeneralSettingController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request){             
         $merchant_id =  session()->get('merchant');
         $general_settings = GeneralSetting::where('merchant_id',$merchant_id)->first();
         $key_details = MerchantKey::where('merchant_id',$merchant_id)->first();
@@ -27,6 +27,7 @@ class GeneralSettingController extends Controller
 
     public function getGeneralSetting(Request $request)
     {
+
         $id = $request->id;
         $general_settings = GeneralSetting::where('id',$id)->first();
         return view('pages.settings.edit', compact('general_settings'));
@@ -48,21 +49,32 @@ class GeneralSettingController extends Controller
 
             $input['logo'] = asset('/uploads/logo/'. $uploadedImage );
         }
-        GeneralSetting::where('id',$id)->update($input);
+        //GeneralSetting::where('id',$id)->update($input);
+
+        $input['merchant_id'] = session()->get('merchant');
+        GeneralSetting::updateOrCreate(['merchant_id' => session()->get('merchant')], $input);
+
+
         return redirect()->route('general-settings')
                         ->with('success','Updated successfully');
     }
 
     public function changeFlashCheckout(Request $request)
     {
-        $merchant_id =  session()->get('merchant');
+       // $merchant_id =  session()->get('merchant');
         $flash_checkout = $request->status;
-        $get_data=GeneralSetting::where('merchant_id',$merchant_id)->first();
-        if(!empty($get_data)){
+        //$get_data=GeneralSetting::where('merchant_id',$merchant_id)->first();
+       
+       /* if(!empty($get_data)){
             GeneralSetting::where('merchant_id',$merchant_id)->update(array('falsh_checkout'=>$flash_checkout));
         }else{
             GeneralSetting::insert(array('merchant_id'=>$merchant_id,'falsh_checkout'=>$flash_checkout));
-        }
+        } */
+        
+        $input['merchant_id'] = session()->get('merchant');
+        $input['falsh_checkout'] = $flash_checkout;
+        GeneralSetting::updateOrCreate(['merchant_id' => session()->get('merchant')], $input);
+
         return response()->json(array('flash_checkout'=>$flash_checkout));
     }
 

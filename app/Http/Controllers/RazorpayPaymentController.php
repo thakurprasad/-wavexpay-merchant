@@ -14,15 +14,24 @@ use Helper;
 class RazorpayPaymentController extends Controller
 {
     public function orderIdGenerate(Request $request){
-        $merchant_id = session()->get('merchant');
+         $payment_link_id = $request->payment_link_id;
+         $row = DB::select("SELECT 
+                    pl.merchant_id, 
+                    pl.amount,
+                    if(pl.transaction_mode = 'live', w.live_api_key, w.test_api_key) as api_key,
+                    if(pl.transaction_mode = 'live', w.live_api_secret, w.live_api_secret) as api_secret
+                    FROM `wxp_payment_link` as pl 
+                    JOIN wxp_wavexpay_api_keys w ON w.id = pl.wavexpay_api_key_id
+                    WHERE pl.payment_link_id = '".$payment_link_id."' ");  
+        $row = $row[0];
+        $merchant_id = $row->merchant_id;
         $link_text = substr(Crypt::encryptString($merchant_id.'/'.date('Y-m-d H:i:s').rand(10000,99999)),5,10);
-		$payment_link_id = $request->payment_link_id;
+		
         Session::put('payment_link_id', $payment_link_id);
 
-		#$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $api = new Api(Helper::api_key(), Helper::api_secret());
+        $api = new Api($row->api_key, $row->api_secret);
 
-        $order = $api->order->create(array('receipt' => 'order_rcptid'.$link_text, 'amount' => $request->input('price') * 100, 'currency' => 'INR')); // Creates order
+        $order = $api->order->create(array('receipt' => 'order_rcptid'.$link_text, 'amount' => $row->amount * 100, 'currency' => 'INR')); // Creates order
         //return response()->json(['order_id' => $order['id']]);
         return $this->sendResponse(['order_id' => $order['id']], 'Data retrieved successfully.');
 	}
