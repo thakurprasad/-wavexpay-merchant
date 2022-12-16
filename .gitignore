@@ -9,7 +9,7 @@
 #/public/vendors
 #/public/json 
 public/DocumentationImage
-public/images/uploads
+public/uploads
 materialize-shell-scripts
 .env
 .env.backup
