@@ -299,7 +299,7 @@ class Helper
      * */
     public static function weveXpay($get_key){
         # return redirect()->away('https://www.google.com')->send();
-        $merchant_no_approved =Merchant::where(['id'=> session()->get('merchant')])
+        $merchant_no_approved = Merchant::where(['id'=> session()->get('merchant')])
         ->whereNull('wavexpay_api_key_id')->first();
         if($merchant_no_approved){
             return redirect()->back()->with(['warning'=>'Your account is currently not approved from Admin side. Please wait approveal'])->send();

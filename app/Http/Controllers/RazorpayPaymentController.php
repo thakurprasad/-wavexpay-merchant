@@ -13,6 +13,23 @@ use Helper;
 
 class RazorpayPaymentController extends Controller
 {
+
+    public function getWaveXpay_Key($payment_link_id){     
+    #dd($payment_link_idv);
+       $row = DB::select("SELECT 
+                    w.id as wavexpay_api_key_id,
+                    pl.wavexpay_api_key_id as wavexpay_api_key_id_,
+                    pl.merchant_id, 
+                    pl.amount,
+                    if(pl.transaction_mode = 'live', w.live_api_key, w.test_api_key) as api_key,
+                    if(pl.transaction_mode = 'live', w.live_api_secret, w.live_api_secret) as api_secret
+                    FROM `wxp_payment_link` as pl 
+                    JOIN wxp_wavexpay_api_keys w ON w.id = pl.wavexpay_api_key_id
+                    WHERE pl.payment_link_id = '".$payment_link_id."' ");  
+        
+        return $row = $row[0];
+    }
+
     public function orderIdGenerate(Request $request){
          $payment_link_id = $request->payment_link_id;
          $row = DB::select("SELECT 
@@ -37,8 +54,15 @@ class RazorpayPaymentController extends Controller
 	}
 
     public function storePayment(Request $request){
-		#$api = new Api('rzp_test_YRAqXZOYgy9uyf', 'uSaaMQw3jHK0MPtOnXCSSg51');
-        $api = new Api(Helper::api_key(), Helper::api_secret());
+        ///return $request->input();
+       $key =  $this->getWaveXpay_Key($request->input('payment_link_id'));
+
+        if(!$key){
+            die('Invalid payment_id');
+        }
+        $wavexpay_api_key_id = $key->wavexpay_api_key_id;
+
+        $api = new Api($key->api_key, $key->api_secret);
         //Fetch payment information by razorpay_payment_id
         $payment = $api->payment->fetch($request->input('razorpay_payment_id'));        
         //print_r($payment);exit;
@@ -97,7 +121,8 @@ class RazorpayPaymentController extends Controller
                 'payment_created_at' => date('Y-m-d H:i:s'),
                 'status' => $status,
                 'payment_method' => $method,
-                'created_at' => date('Y-m-d H:i:s')
+                'created_at' => date('Y-m-d H:i:s'),
+                'wavexpay_api_key_id' => $wavexpay_api_key_id,
             );
 
             Payment::create($payment_table_array);

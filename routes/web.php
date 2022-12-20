@@ -34,6 +34,9 @@ Route::get('paylink-checkout',  [PaymentLinkController::class, 'paylinkCheckout'
 Route::post('/orderid-generate', [App\Http\Controllers\RazorpayPaymentController::class, 'orderIdGenerate']);
 
 
+Route::post('/razorpaypayment', [App\Http\Controllers\RazorpayPaymentController::class, 'storePayment']);
+
+
 Auth::routes(['verify' => true]);
 
 Route::get('register', [RegisterController::class, 'showRegistrationForm']);
@@ -199,8 +202,6 @@ Route::group(['middleware' => ['token.check']], function() {
 
 
 
-   
-    Route::post('/razorpaypayment', [App\Http\Controllers\RazorpayPaymentController::class, 'storePayment']);
 
 
     Route::post('cashfreeorder', [App\Http\Controllers\CashfreeOrderController::class, 'create']);
