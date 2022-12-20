@@ -226,7 +226,7 @@ class UserController extends Controller
             $files->move($destinationPath, $uploadedImage);
         }
         $url = asset('/uploads/logo/'.$uploadedImage);
-        GeneralSetting::where('id',$merchant_id)->update(array('logo'=>$url));
+         GeneralSetting::where('merchant_id',$merchant_id)->update(array('logo'=>$url));
         return response()->json(array('success'=>1));
     }
 

@@ -9,6 +9,8 @@ use Razorpay\Api\Api;
 use App\Models\MerchantKey;
 use App\Models\MerchantUser;
 use App\Models\WavexpayApiKey;
+use App\Models\GeneralSetting;
+
 
 class Helper
 {
@@ -452,6 +454,10 @@ class Helper
             return false;
         }
         return false;
+    }
+
+    public static function get_general_setting($merchant_id){
+        return GeneralSetting::where('merchant_id', $merchant_id)->first();
     }
 
 }

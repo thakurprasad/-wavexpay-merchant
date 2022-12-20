@@ -155,10 +155,12 @@ class PaymentLinkController extends Controller
                     'currency'=>'INR',
                     'accept_partial'=>$accept_partial, 
                     'description' => $request['payment_description'], 
-                    'notify'=> array('sms'=>$sms, 'email'=>$email), 
+                    #'notify'=> array('sms'=>$sms, 'email'=>$email), 
+                    'notify'=> array('sms'=>false, 'email'=>false), 
                     'reminder_enable'=>true ,
                     'notes'=>$note_array,
-                    'callback_url' => $callback_url, #'https://example-callback-url.com/',
+                    'callback_url' => $callback_url, 
+                    #'https://example-callback-url.com/',
                     'callback_method'=>'get')
                 );
             } catch (\Exception $e) {
@@ -236,10 +238,13 @@ class PaymentLinkController extends Controller
                         $MAIL_DATA['issued_to_mobile'] = $request['customer_contact'];
                         $MAIL_DATA['issued_to_email']  = $request['customer_email'];
                         $MAIL_DATA['amount_payable']   = number_format($amount);
+                        
+                        $general_setting = Helper::get_general_setting(session('merchant') );
+                        $MAIL_DATA['logo'] = $general_setting->logo;
                     Mail::send('emails.payment-link', $MAIL_DATA ,
-                        function($message) use($request){   
+                        function($message) use($request, $amount){   
                             $message->to( $request->input('customer_email') );
-                            $message->subject('Thank you for Registering on WaveXpay as Merchant');
+                            $message->subject('Requesting payment of INR '. number_format($amount).' (via WaveXpay)');
                         });
             
                 }

@@ -15,9 +15,16 @@ use Helper;
 
 class GeneralSettingController extends Controller
 {
-    public function index(Request $request){             
+    public function index(Request $request){      
+
         $merchant_id =  session()->get('merchant');
+        
         $general_settings = GeneralSetting::where('merchant_id',$merchant_id)->first();
+        if(!$general_settings){
+           $general_settings =  GeneralSetting::create([
+                'merchant_id' => $merchant_id
+            ]);
+        }
         $key_details = MerchantKey::where('merchant_id',$merchant_id)->first();
         $merchant_details = Merchant::select('merchants.*','merchant_users.*')->join('merchant_users', 'merchant_users.merchant_id', '=', 'merchants.id')->where('merchants.id',$merchant_id)->get();
         $merchant_details=$merchant_details[0];
